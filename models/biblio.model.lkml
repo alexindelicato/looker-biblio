@@ -17,3 +17,11 @@ explore: sf_accounts {
   fields: [ALL_FIELDS*]
   sql_always_where: ${sf_accounts.is_deleted}= FALSE;;
 }
+
+explore: sf_opportunity {
+  label: "Salesforce Opportunity"
+  group_label: "Project Biblio"
+  view_label: "Salesforce Opportunity"
+  fields: [ALL_FIELDS*]
+  sql_always_where: ${sf_opportunity.is_deleted}= FALSE;;
+}
