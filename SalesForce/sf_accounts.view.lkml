@@ -1,4 +1,4 @@
-view: sf_account {
+view: sf_accounts {
   sql_table_name: new_salesforce.account ;;
   drill_fields: [salesforce_account_id_c]
 
