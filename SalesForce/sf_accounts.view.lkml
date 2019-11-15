@@ -86,14 +86,27 @@ view: sf_accounts {
     sql: ${TABLE}.account_status_c ;;
   }
 
+  dimension: product_name {
+    label: "Product Name"
+    type:  string
+    sql:  case when ${TABLE}.account_status_c = 'Client - OvationTix' THEN "OvationTix"
+          WHEN ${TABLE}.account_status_c = "Client - AudienceView" THEN "AudienceView"
+          WHEN ${TABLE}.account_status_c = "Client - Vendini" THEN "Vendini"
+          WHEN ${TABLE}.account_status_c = "Live Mode" THEN "Vendini"
+          WHEN ${TABLE}.account_status_c = "Client - CrowdTorch" THEN "CrowdTorch"
+          WHEN ${TABLE}.account_status_c = "Client - UTix" THEN "UTix"
+          WHEN ${TABLE}.account_status_c = "Client - UGrad" THEN "UGrad"
+          ELSE "Research" END;;
+  }
+
   dimension: market_solution {
     label: "Market Solution"
-    sql:  sql:  case when ${TABLE}.account_status_c = 'Client - OvationTix' THEN "MidMarket"
-    WHEN ${TABLE}.account_status_c = "Live Mode" THEN "MidMarket"
-    WHEN ${TABLE}.account_status_c = "Client - CrowdTorch" THEN "MidMarket"
-    WHEN ${TABLE}.account_status_c = "Client - Vendini" THEN "MidMarket"
-    WHEN ${TABLE}.account_status_c = "Client - AudienceView" THEN "Enterprise"
-    ELSE "Research" END;;
+    sql:case when ${TABLE}.account_status_c = 'Client - OvationTix' THEN 'MidMarket'
+    WHEN ${TABLE}.account_status_c = 'Live Mode' THEN 'MidMarket'
+    WHEN ${TABLE}.account_status_c = 'Client - CrowdTorch' THEN 'MidMarket'
+    WHEN ${TABLE}.account_status_c = 'Client - Vendini' THEN 'MidMarket'
+    WHEN ${TABLE}.account_status_c = 'Client - AudienceView' THEN 'Enterprise'
+    ELSE 'Research' END;;
   }
 
 
@@ -2204,6 +2217,16 @@ view: sf_accounts {
   dimension: record_type_id {
     type: string
     sql: ${TABLE}.record_type_id ;;
+  }
+
+  dimension: record_type {
+    label: "Record Type"
+    sql:case when ${TABLE}.record_type_id =   '0124T000000UCh9QAG' THEN 'AudienceView'
+          WHEN ${TABLE}.record_type_id = '0124T000000UChJQAW' THEN 'Vendini'
+          WHEN ${TABLE}.record_type_id = '0124T000000UChEQAW' THEN 'OvationTix'
+          WHEN ${TABLE}.record_type_id = '0124T000000UD5pQAG' THEN 'Partner'
+          WHEN ${TABLE}.record_type_id = '0124T000000UCiqQAG' THEN 'Prospect'
+          ELSE 'Research' END;;
   }
 
   dimension: reference_information_c {
