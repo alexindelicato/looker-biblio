@@ -1,5 +1,6 @@
 connection: "fivetran-bigquery"
 
+# include all views from all folders
 include: "/*/*.view"
 
 datagroup: biblio_default_datagroup {
@@ -18,6 +19,7 @@ explore: sf_accounts {
   sql_always_where: ${sf_accounts.is_deleted}= FALSE;;
 }
 
+# salesforce opportunity explore as primary table
 explore: sf_opportunity {
   label: "Salesforce Opportunity"
   group_label: "Project Biblio"
