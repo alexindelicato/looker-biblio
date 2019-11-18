@@ -3,7 +3,6 @@ view: sf_user {
   drill_fields: [deskscmt_desk_user_id_c]
 
   dimension: deskscmt_desk_user_id_c {
-    primary_key: yes
     type: string
     sql: ${TABLE}.deskscmt_desk_user_id_c ;;
   }
@@ -209,6 +208,7 @@ view: sf_user {
 
   dimension: id {
     type: string
+    primary_key: yes
     sql: ${TABLE}.id ;;
   }
 

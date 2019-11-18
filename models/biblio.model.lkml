@@ -29,7 +29,7 @@ explore: sf_accounts {
     view_label: "Salesforce Users"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sf_user.deskscmt_desk_user_id_c}=${sf_accounts.owner_id};;
+    sql_on: ${sf_user.id}=${sf_accounts.owner_id};;
   }
 }
 
