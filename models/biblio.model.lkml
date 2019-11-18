@@ -25,6 +25,13 @@ explore: sf_accounts {
     sql_on: ${sf_accounts.id}=${sf_opportunity.account_id} AND  ${sf_opportunity.is_deleted}= FALSE;;
   }
 
+  join: sf_case {
+    view_label: "Salesforce Support Cases"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_case.account_id};;
+  }
+
   join: sf_user {
     view_label: "Salesforce Users"
     type: left_outer
