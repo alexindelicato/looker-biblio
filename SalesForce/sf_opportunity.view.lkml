@@ -1,6 +1,5 @@
 view: sf_opportunity {
   sql_table_name: new_salesforce.opportunity ;;
-  drill_fields: [id]
 
   dimension: id {
     primary_key: yes
