@@ -1,6 +1,6 @@
 view: sf_accounts {
   sql_table_name: new_salesforce.account ;;
-  drill_fields: [salesforce_account_id_c]
+  drill_fields: [id]
 
   dimension: salesforce_account_id_c {
     type: string
@@ -2996,6 +2996,6 @@ view: sf_accounts {
 
   measure: count {
     type: count
-    drill_fields: [salesforce_account_id_c, name]
+    drill_fields: [id, name]
   }
 }
