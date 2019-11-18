@@ -17,6 +17,20 @@ explore: sf_accounts {
   view_label: "Salesforce Accounts"
   fields: [ALL_FIELDS*]
   sql_always_where: ${sf_accounts.is_deleted}= FALSE;;
+
+  join: sf_opportunity {
+    view_label: "Salesforce Opportunitiy"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_opportunity.account_id} AND  ${sf_opportunity.is_deleted}= FALSE;;
+  }
+
+  join: sf_user {
+    view_label: "Salesforce Users"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_user.id}=${sf_accounts.owner_id};;
+  }
 }
 
 # salesforce opportunity explore as primary table
