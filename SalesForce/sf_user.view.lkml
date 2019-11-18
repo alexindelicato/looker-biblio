@@ -1,30 +1,30 @@
 view: sf_user {
   sql_table_name: new_salesforce.user ;;
-  drill_fields: [deskscmt_desk_user_id_c]
 
-  dimension: deskscmt_desk_user_id_c {
-    type: string
-    sql: ${TABLE}.deskscmt_desk_user_id_c ;;
-  }
 
-  dimension: _fivetran_deleted {
-    type: yesno
-    sql: ${TABLE}._fivetran_deleted ;;
-  }
+#   dimension: deskscmt_desk_user_id_c {
+#     type: string
+#     sql: ${TABLE}.deskscmt_desk_user_id_c ;;
+#   }
+#
+#   dimension: _fivetran_deleted {
+#     type: yesno
+#     sql: ${TABLE}._fivetran_deleted ;;
+#   }
 
-  dimension_group: _fivetran_synced {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}._fivetran_synced ;;
-  }
+#   dimension_group: _fivetran_synced {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}._fivetran_synced ;;
+#   }
 
   dimension: about_me {
     type: string
@@ -978,7 +978,7 @@ view: sf_user {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      deskscmt_desk_user_id_c,
+      id,
       community_nickname,
       company_name,
       last_name,

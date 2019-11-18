@@ -1,25 +1,25 @@
 view: sf_accounts {
   sql_table_name: new_salesforce.account ;;
-  drill_fields: [id]
+
 
   dimension: salesforce_account_id_c {
     type: string
     sql: ${TABLE}.salesforce_account_id_c ;;
   }
 
-  dimension_group: _fivetran_synced {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}._fivetran_synced ;;
-  }
+#   dimension_group: _fivetran_synced {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}._fivetran_synced ;;
+#   }
 
   dimension: account_acquisition_source_c {
     type: string
