@@ -4,7 +4,7 @@ view: sf_user {
 
   dimension: deskscmt_desk_user_id_c {
     primary_key: yes
-    type: number
+    type: string
     sql: ${TABLE}.deskscmt_desk_user_id_c ;;
   }
 
@@ -363,6 +363,7 @@ view: sf_user {
   }
 
   dimension: name {
+    label: "Account Rep"
     type: string
     sql: ${TABLE}.name ;;
   }
