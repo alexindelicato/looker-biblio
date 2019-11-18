@@ -3,7 +3,6 @@ view: sf_accounts {
   drill_fields: [salesforce_account_id_c]
 
   dimension: salesforce_account_id_c {
-    primary_key: yes
     type: string
     sql: ${TABLE}.salesforce_account_id_c ;;
   }
@@ -1308,6 +1307,7 @@ view: sf_accounts {
 
   dimension: id {
     type: string
+    primary_key: yes
     sql: ${TABLE}.id ;;
   }
 
