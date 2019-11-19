@@ -431,6 +431,7 @@ view: sf_accounts {
   }
 
   dimension_group: bp_go_live_date_c {
+    label: "BookingProtect Go Live Date"
     type: time
     timeframes: [
       raw,
