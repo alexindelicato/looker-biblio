@@ -200,11 +200,13 @@ view: sf_accounts {
 
   dimension: annual_recurring_fees_c {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.annual_recurring_fees_c ;;
   }
 
   dimension: annual_revenue {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.annual_revenue ;;
   }
 
@@ -216,6 +218,7 @@ view: sf_accounts {
 
   dimension: annual_support_c {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.annual_support_c ;;
   }
 
@@ -226,6 +229,7 @@ view: sf_accounts {
 
   dimension: annual_transaction_fee_c {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.annual_transaction_fee_c ;;
   }
 
@@ -1691,6 +1695,7 @@ view: sf_accounts {
   }
 
   dimension: name {
+    label: "Account Name"
     type: string
     sql: ${TABLE}.name ;;
   }
