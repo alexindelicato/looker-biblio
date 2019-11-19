@@ -1,4 +1,4 @@
-view: payment_segment {
+view: ot_payment_segment {
   sql_table_name: trs_trs.payment_segment ;;
   drill_fields: [id]
 

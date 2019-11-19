@@ -1,4 +1,4 @@
-view: performance {
+view: ot_performance {
   sql_table_name: trs_trs.performance ;;
   drill_fields: [id]
 

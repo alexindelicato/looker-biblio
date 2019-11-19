@@ -1,4 +1,4 @@
-view: report_crm {
+view: ot_report_crm {
   sql_table_name: trs_trs.report_crm ;;
   drill_fields: [id]
 

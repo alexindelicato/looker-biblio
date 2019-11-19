@@ -1,4 +1,4 @@
-view: production {
+view: ot_production {
   sql_table_name: trs_trs.production ;;
   drill_fields: [production_id]
 
