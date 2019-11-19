@@ -179,6 +179,7 @@ view: sf_accounts {
 
   dimension: annual_contract_value_c {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.annual_contract_value_c ;;
   }
 
