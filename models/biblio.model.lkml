@@ -10,6 +10,7 @@ datagroup: biblio_default_datagroup {
 
 persist_with: biblio_default_datagroup
 
+#--SALESFORCE JOINS--
 # salesforce account explore as primary table
 explore: sf_accounts {
   label: "Salesforce Accounts"
@@ -51,7 +52,7 @@ explore: sf_opportunity {
 
 
 #--OVATIONTIX JOINS--
-# OvationTix Ordrs as primary table
+# OvationTix Orders as primary table
 
 # salesforce opportunity explore as primary table
 explore: ot_orders {
