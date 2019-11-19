@@ -1,4 +1,4 @@
-view: client_fee_structure {
+view: ot_client_fee_structure {
   sql_table_name: trs_trs.client_fee_structure ;;
 
   dimension: _fivetran_deleted {

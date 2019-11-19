@@ -1,4 +1,4 @@
-view: client_enabled_feature {
+view: ot_client_enabled_feature {
   sql_table_name: trs_trs.client_enabled_feature ;;
 
   dimension: _fivetran_deleted {

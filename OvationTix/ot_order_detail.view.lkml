@@ -1,9 +1,16 @@
-view: order_detail {
+view: ot_order_detail {
   sql_table_name: trs_trs.order_detail ;;
 
   dimension: _fivetran_deleted {
     type: yesno
     sql: ${TABLE}._fivetran_deleted ;;
+  }
+
+  measure: total_fees {
+    label: "Total Fees"
+    type: number
+    value_format_name: usd_0
+    sql:  ${ot_service_fee_total}+${processing_fee_total} ;;
   }
 
   dimension_group: _fivetran_synced {
@@ -20,9 +27,22 @@ view: order_detail {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
+  measure: count_ticket_id {
+    label: "Total # of Tickets"
+    type: count_distinct
+    sql: ${TABLE}.ticket_id ;;
+    drill_fields: [ot_client.client_id,ot_client.client.client_name,ot_orders.customer_sum_total]
+  }
+
   dimension: consumer_fee {
     type: number
     sql: ${TABLE}.consumer_fee ;;
+  }
+
+  measure: sum_consumer_fee {
+    type: sum
+    sql: ${TABLE}.consumer_fee ;;
+    value_format_name: usd
   }
 
   dimension: consumer_pac_id {
@@ -66,11 +86,11 @@ view: order_detail {
 
   dimension: order_id {
     type: number
-    # hidden: yes
     sql: ${TABLE}.order_id ;;
   }
 
   dimension: orderdetail_id {
+    primary_key: yes
     type: number
     sql: ${TABLE}.orderdetail_id ;;
   }
@@ -87,13 +107,34 @@ view: order_detail {
 
   dimension: performance_id {
     type: number
-    # hidden: yes
     sql: ${TABLE}.performance_id ;;
   }
 
   dimension: price {
     type: number
+    value_format: "$#,##0.00"
     sql: ${TABLE}.price ;;
+    drill_fields: [ot_client.client_id,ot_client.client_name,ot_orders.order_id,ganalytics_ot.date_date,sum_donations]
+  }
+
+  measure: avg_price {
+    type:  average
+    value_format: "$#,##0.00"
+    sql: ${TABLE}.price ;;
+  }
+
+  measure: sum_price{
+    type: sum
+    value_format_name:usd
+    sql: ${TABLE}.price ;;
+    drill_fields: [detail*]
+  }
+
+  measure: sum_donations{
+    type: sum_distinct
+    value_format_name:usd
+    sql: ${TABLE}.price ;;
+    drill_fields: [ot_client.client_id,ot_client.client_name,ot_orders.order_id,ganalytics_ot.date_date,sum_donations]
   }
 
   dimension: price_level_id {
@@ -156,8 +197,118 @@ view: order_detail {
     sql: ${TABLE}.type ;;
   }
 
+  dimension: order_type{
+    type:  string
+    sql: CASE WHEN  ${type} = 'DLV' THEN 'Delivery Method'
+        WHEN  ${type} = 'DNT' THEN 'Donation'
+        WHEN  ${type} = 'PRD' THEN 'Product'
+        WHEN  ${type} = 'GC' THEN 'Gift Card'
+        WHEN  ${type} = 'INS' THEN 'Insurance'
+        WHEN  ${type} = 'PAP' THEN 'Package'
+        WHEN  ${type} = 'PKT' Then 'Package'
+        WHEN  ${type} = 'PHF' THEN 'Phone Order Charge'
+        WHEN  ${type} = 'PMT' THEN 'Redeemed Ticket'
+        WHEN  ${type} = 'TCK' THEN 'Tickets'
+      ELSE 'Research' END ;;
+  }
+
+  dimension: isTicket {
+    type: yesno
+    sql: ${type} IN ('TCK', 'PMT', 'PKT');;
+  }
+
+  dimension: isPhoneOrderFee {
+    type: yesno
+    sql: ${type} IN ('PHF') ;;
+  }
+
   measure: count {
-    type: count
-    drill_fields: [promotion_name, name, performance.id, orders.order_id]
+    type: count_distinct
+    sql:  ${orderdetail_id} ;;
+    drill_fields: [promotion_name, name]
+  }
+
+  measure: ot_service_fee_total {
+    type: sum
+    sql:  ${service_fee};;
+    value_format_name: usd_0
+  }
+
+  measure: ACV_service_fee_total {
+    type: sum
+#     sql: if(${acv_is_sale}, ${service_fee}, 0) ;;
+    sql:  ${service_fee};;
+    value_format_name: usd_0
+    hidden: yes
+    filters: {
+      field: time
+      value: "12 months ago for 12 months" }
+  }
+
+
+  measure: processing_fee_total {
+    type: sum
+    sql:  ${processing_fee};;
+    value_format_name: usd_0
+  }
+
+  measure: ACV_processing_fee_total {
+    type: sum
+    #sql: if(${acv_is_sale}, ${processing_fee}, 0) ;;
+    sql:  ${processing_fee};;
+    value_format_name: usd_0
+    hidden: yes
+    filters: {
+      field: time
+      value: "12 months ago for 12 months" }
+  }
+
+  measure: OT_ACV{
+    label:"OT ARR"
+    type: number
+    sql: ${ACV_service_fee_total}+${ACV_processing_fee_total} ;;
+    value_format_name: usd_0
+    drill_fields: [sf_accounts.name,sf_accounts.contract_expiration_c_date,OT_ACV]
+  }
+
+  dimension: acv_is_sale {
+    type: yesno
+    sql: ${ot_client_account.is_sale} = 1;;
+    hidden: yes
+  }
+
+#   dimension: tx {
+#     type: date_month
+#     sql: (${ot_client_account.tx_raw});;
+#   }
+
+  dimension: time {
+    type: date_month
+    sql: ${ot_orders.time_raw} ;;
+  }
+
+  measure: gross_earnings_total {
+    type: sum
+    sql:  ${service_fee} + ${processing_fee};;
+    value_format_name: usd_0
+  }
+# ----- Sets of fields for drilling ------
+  set: detail {
+    fields: [
+      ot_order.id,
+      ot_client.client_id,
+      ot_client.client_name,
+      ot_orders.order_id,
+      ot_production.prod_name,
+      ot_client.merchant_name,
+      ot_client.lastname,
+      ot_client.perspective_name,
+      ot_client.firstname,
+      ot_client.client_name,
+      ot_client.verisign_username,
+      ot_time.date,
+      ot_orders.sum_total,
+      ot_order_detail.count_ticket_id
+    ]
   }
 }

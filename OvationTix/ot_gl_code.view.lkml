@@ -1,4 +1,4 @@
-view: gl_code {
+view: ot_gl_code {
   sql_table_name: trs_trs.gl_code ;;
   drill_fields: [gl_code_id]
 

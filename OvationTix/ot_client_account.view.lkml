@@ -1,4 +1,4 @@
-view: client_account {
+view: ot_client_account {
   sql_table_name: trs_trs.client_account ;;
   drill_fields: [id]
 

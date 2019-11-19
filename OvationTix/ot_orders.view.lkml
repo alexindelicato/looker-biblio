@@ -11,6 +11,7 @@ view: orders {
   dimension: _fivetran_deleted {
     type: yesno
     sql: ${TABLE}._fivetran_deleted ;;
+    hidden: yes
   }
 
   dimension_group: _fivetran_synced {
@@ -25,6 +26,7 @@ view: orders {
       year
     ]
     sql: ${TABLE}._fivetran_synced ;;
+    hidden: yes
   }
 
   dimension: amount_tendered {
@@ -44,11 +46,6 @@ view: orders {
       year
     ]
     sql: ${TABLE}.balance_due_date ;;
-  }
-
-  dimension: checkout_option {
-    type: number
-    sql: ${TABLE}.checkout_option ;;
   }
 
   dimension: client_id {
@@ -91,19 +88,9 @@ view: orders {
     sql: ${TABLE}.imported_date ;;
   }
 
-  dimension: is_guest_checkout {
-    type: number
-    sql: ${TABLE}.is_guest_checkout ;;
-  }
-
   dimension: is_held_by_client {
     type: number
     sql: ${TABLE}.is_held_by_client ;;
-  }
-
-  dimension: is_mobile_checkout {
-    type: number
-    sql: ${TABLE}.is_mobile_checkout ;;
   }
 
   dimension: is_test_mode {
@@ -125,9 +112,14 @@ view: orders {
     sql: ${TABLE}.last_tx_date ;;
   }
 
-  dimension: message_id {
+  dimension: name_on_ticket_first {
     type: string
-    sql: ${TABLE}.message_id ;;
+    sql: ${TABLE}.name_on_ticket_first ;;
+  }
+
+  dimension: name_on_ticket_last {
+    type: string
+    sql: ${TABLE}.name_on_ticket_last ;;
   }
 
   dimension: order_taker_id {
@@ -138,11 +130,6 @@ view: orders {
   dimension: paid_amount {
     type: number
     sql: ${TABLE}.paid_amount ;;
-  }
-
-  dimension: payment_type_custom_id {
-    type: string
-    sql: ${TABLE}.payment_type_custom_id ;;
   }
 
   dimension: payment_type_id {
@@ -160,9 +147,19 @@ view: orders {
     sql: ${TABLE}.processing_fee_total ;;
   }
 
+  dimension: security_id {
+    type: string
+    sql: ${TABLE}.security_id ;;
+  }
+
   dimension: service_fee_total {
     type: number
     sql: ${TABLE}.service_fee_total ;;
+  }
+
+  dimension: shipping_address_id {
+    type: number
+    sql: ${TABLE}.shipping_address_id ;;
   }
 
   dimension: shipping_method_id {
@@ -183,10 +180,38 @@ view: orders {
       date,
       week,
       month,
+      month_name,
       quarter,
+      quarter_of_year,
       year
     ]
     sql: ${TABLE}.time ;;
+  }
+
+  dimension: month_formatted {
+    group_label: "Created"  label: "Month Format"
+    sql: ${time_month} ;;
+    html: {{ rendered_value | append: "-01" |  date: "%B" }};;
+  }
+
+#   measure: max_order_date {
+#     type: date
+#     sql: cast(max(${time_date}) as timestamp) ;;
+#   }
+
+  measure: max_order_date {
+    type: date
+    sql: MAX(${time_raw}) ;;
+  }
+
+#   measure: min_order_date {
+#     type: date
+#     sql: cast(min(${time_date}) as timestamp) ;;
+#   }
+
+  measure: min_order_date {
+    type: date
+    sql: MIN(${time_raw}) ;;
   }
 
   dimension: to_be_printed {
@@ -197,11 +222,63 @@ view: orders {
   dimension: total {
     type: number
     sql: ${TABLE}.total ;;
+    value_format: "$#,##0.00"
   }
 
   dimension: type {
     type: string
     sql: ${TABLE}.type ;;
+  }
+
+  dimension: payment_type_custom_id {
+    type: string
+    sql: ${TABLE}.payment_type_custom_id ;;
+  }
+
+  dimension: is_guest_checkout {
+    type: yesno
+    sql: ${TABLE}.is_guest_checkout ;;
+  }
+
+  dimension: is_mobile_checkout {
+    type: number
+    sql: ${TABLE}.is_mobile_checkout ;;
+  }
+
+  dimension: checkout_option {
+    type: string
+    sql: case when ${TABLE}.checkout_option = 0 then 'Regular'
+              when ${TABLE}.checkout_option = 1 then 'MasterPass'
+              else 'Unknown' end ;;
+  }
+
+  dimension: order_location_mobile {
+    type: number
+    sql: CASE ${is_mobile_checkout} WHEN 0 THEN 0 WHEN 1 THEN 1 WHEN 2 THEN 0 WHEN 3 THEN 1 ELSE 0 END ;;
+  }
+
+  dimension: order_location_responsive {
+    type:  string
+    sql: CASE ${is_mobile_checkout} WHEN 0 THEN 'Legacy CI' WHEN 1 THEN 'Legacy Mobile' WHEN 2 THEN 'Responsive CI Desktop' WHEN 3 THEN 'Responsive CI Mobile' ELSE 'Legacy CI' END ;;
+  }
+
+  dimension: order_location {
+    type: string
+    sql: CASE WHEN ${originator} = 'WEB' AND ${order_location_mobile} = 0 THEN 'WEB-DESKTOP'
+              WHEN ${originator} = 'WEB' AND ${order_location_mobile} = 1 THEN 'WEB-MOBILE'
+              WHEN ${originator} = 'OTPHONE' THEN 'OTPHONE'
+              WHEN ${originator} = 'BOPHONE' THEN 'BOPHONE'
+              WHEN ${originator} = 'TKTS' THEN 'TKTS'
+              WHEN ${originator} = 'BO' THEN 'BO'
+              ELSE 'WEB-DESKTOP' End;;
+  }
+
+  dimension: order_location_web_or_backoffice {
+    label: "Web Or Backoffice Location"
+    type: string
+    sql: CASE WHEN ${originator} = 'WEB'THEN 'ONLINE'
+              WHEN ${originator} = 'BO' THEN 'BOX OFFICE'
+              ELSE 'OTHER' END;;
   }
 
   dimension: version {
@@ -214,21 +291,65 @@ view: orders {
     drill_fields: [detail*]
   }
 
+  measure: count_orders {
+    type: count_distinct
+    sql:  ${ot_orders.order_id} ;;
+    drill_fields: [ot_client.client_id,ot_client.client.client_name,ot_orders.customer_sum_total]
+  }
+
+  measure: sum_total {
+    label: "Total Order Amount"
+    type: sum
+    sql: ${total} ;;
+    value_format: "$#,##0.00"
+    drill_fields: [detail*]
+  }
+
+  measure: sum_total_distinct {
+    label: "Total Order Amount Distinct"
+    type: sum_distinct
+    sql: ${total} ;;
+    value_format: "$#,##0.00"
+    drill_fields: [detail*]
+  }
+
+  measure: average_price {
+    type: average
+    sql: ${total} ;;
+    value_format: "$#,##0.00"
+    drill_fields: [detail*]
+  }
+
+  dimension: is_credit_card {
+    type:  yesno
+    sql:  ${payment_type_id} IN (1, 2, 3) ;;
+  }
+
+  dimension: card_present {
+    type:  yesno
+    sql: ${type} IN ('pcl', 'wcc', 'bo', 'tkt') ;;
+  }
+
+  dimension: originator {
+    type: string
+    sql: CASE ${type} WHEN 'web' THEN 'WEB' WHEN 'ptm' THEN 'OTPHONE' WHEN 'pcl' THEN 'BOPHONE' WHEN 'tkt' THEN 'TKTS' ELSE 'BO' END ;;
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
       order_id,
-      client.client_id,
-      client.client_display_name,
-      client.merchant_name,
-      client.lastname,
-      client.perspective_name,
-      client.firstname,
-      client.client_name,
-      client.verisign_username,
-      payment_segment.count,
-      order_detail.count,
-      client_account.count
+      ot_client.client_id,
+      ot_client.client_name,
+      ot_client.merchant_name,
+      ot_client.lastname,
+      ot_client.perspective_name,
+      ot_client.firstname,
+      ot_client.client_name,
+      ot_client.verisign_username,
+      time_date,
+      sum_total,
+      ot_order_detail.count_ticket_id
     ]
   }
 }

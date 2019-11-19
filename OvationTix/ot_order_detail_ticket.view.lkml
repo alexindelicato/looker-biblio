@@ -1,4 +1,4 @@
-view: order_detail_ticket {
+view: ot_order_detail_ticket {
   sql_table_name: trs_trs.order_detail_ticket ;;
 
   dimension: _fivetran_deleted {
