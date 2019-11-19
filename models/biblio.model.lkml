@@ -62,6 +62,7 @@ explore: ot_orders {
   sql_always_where: ${ot_client.demo}=0 and ${ot_client.testing_mode}=0 and ${imported}=0 and ${is_test_mode}=0 and ${status_id} != 11;;
 
   join: ot_client {
+    view_label: "OT Client"
     type:left_outer
     relationship: many_to_one
     sql_on: ${ot_orders.client_id}=${ot_client.client_id} ;;
