@@ -57,7 +57,7 @@ explore: sf_opportunity {
 explore: ot_orders {
   label: "OT Orders"
   group_label: "Project Biblio"
-  view_label: "OvationTix Orders"
+  view_label: "OT Orders"
   fields: [ALL_FIELDS*]
   sql_always_where: ${ot_client.demo}=0 and ${ot_client.testing_mode}=0 and ${imported}=0 and ${is_test_mode}=0 and ${status_id} != 11;;
 
