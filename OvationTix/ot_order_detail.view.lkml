@@ -263,12 +263,12 @@ view: ot_order_detail {
       value: "12 months ago for 12 months" }
   }
 
-  measure: OT_ACV{
+  measure: OT_ARR{
     label:"OT ARR"
     type: number
     sql: ${ACV_service_fee_total}+${ACV_processing_fee_total} ;;
     value_format_name: usd_0
-    drill_fields: [sf_accounts.name,sf_accounts.contract_expiration_c_date,OT_ACV]
+    drill_fields: [sf_accounts.name,sf_accounts.contract_expiration_c_date,OT_ARR]
   }
 
   dimension: acv_is_sale {
