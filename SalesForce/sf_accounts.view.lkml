@@ -36,10 +36,11 @@ view: sf_accounts {
     sql: ${TABLE}.account_legal_name_c ;;
   }
 
-  dimension: account_name_source_c {
-    type: string
-    sql: ${TABLE}.account_name_source_c ;;
-  }
+# not in use
+# dimension: account_name_source_c {
+#     type: string
+#     sql: ${TABLE}.account_name_source_c ;;
+#   }
 
   dimension: account_number {
     type: string
