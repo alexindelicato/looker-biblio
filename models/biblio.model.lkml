@@ -48,3 +48,77 @@ explore: sf_opportunity {
   fields: [ALL_FIELDS*]
   sql_always_where: ${sf_opportunity.is_deleted}= FALSE;;
 }
+
+
+#--OVATIONTIX JOINS--
+# OvationTix Ordrs as primary table
+
+# salesforce opportunity explore as primary table
+explore: ot_orders {
+  label: "OT Orders"
+  group_label: "Project Biblio"
+  view_label: "OvationTix Orders"
+  fields: [ALL_FIELDS*]
+  sql_always_where: ${ot_client.demo}=0 and ${ot_client.testing_mode}=0 and ${imported}=0 and ${is_test_mode}=0 and ${status_id} != 11;;
+
+  join: ot_client {
+    type:left_outer
+    relationship: many_to_one
+    sql_on: ${ot_orders.client_id}=${ot_client.client_id} ;;
+  }
+  join: ot_client_fee_structure {
+    view_label: "OT Client Fee Structure"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${ot_client_fee_structure.client_id}=${ot_client.client_id} ;;
+  }
+  join: ot_client_enabled_feature {
+    view_label: "OT Client Features"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${ot_client_enabled_feature.client_id}=${ot_client.client_id} ;;
+  }
+  join: ot_order_detail {
+    view_label: "OT Orders Detail"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ot_orders.order_id}=${ot_order_detail.order_id} ;;
+  }
+  join: ot_client_account {
+    view_label: "OT Client Account"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_client.client_id}=${ot_client_account.client_id};;
+  }
+  join: ot_performance {
+    view_label: "OT Performance"
+    type: inner
+    relationship: one_to_one
+    sql_on: ${ot_performance.id}=${ot_order_detail.performance_id} ;;
+  }
+  join: ot_production {
+    view_label: "OT Production"
+    type: inner
+    relationship: one_to_one
+    sql_on: ${ot_production.production_id}=${ot_performance.production_id} ;;
+  }
+
+  join: ot_payment_segment {
+    view_label: "OT Payment"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ot_payment_segment.order_id}=${ot_orders.order_id};;
+  }
+  join: ot_report_crm {
+    view_label: "OT Report CRM"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_report_crm.id}= ${ot_client.report_crm_id} AND ${ot_client.demo}=0 AND  ${ot_client.testing_mode}=0;;
+  }
+  join: sf_accounts {
+    view_label: "SF Account"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.salesforce_account_id_c} = ${ot_report_crm.crm_id} AND ${sf_accounts.is_deleted}= FALSE;;
+  }
+}

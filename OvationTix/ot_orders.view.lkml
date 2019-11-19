@@ -1,4 +1,4 @@
-view: orders {
+view: ot_orders {
   sql_table_name: trs_trs.orders ;;
   drill_fields: [order_id]
 

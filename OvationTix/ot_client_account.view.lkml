@@ -8,6 +8,16 @@ view: ot_client_account {
     sql: ${TABLE}.id ;;
   }
 
+  dimension: is_sale {
+    type:  number
+    sql: CASE WHEN ${flags} & 1 <> 0 AND ${flags} & 2048 = 0 THEN 1 ELSE 0 END;;
+  }
+
+  dimension: is_refund {
+    type: number
+    sql: CASE WHEN ${flags} & 8 <> 0 AND ${flags} & 2048 = 0 THEN 1 ELSE 0 END;;
+  }
+
   dimension: _fivetran_deleted {
     type: yesno
     sql: ${TABLE}._fivetran_deleted ;;
