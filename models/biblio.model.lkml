@@ -53,8 +53,6 @@ explore: sf_opportunity {
 
 #--OVATIONTIX JOINS--
 # OvationTix Orders as primary table
-
-# salesforce opportunity explore as primary table
 explore: ot_orders {
   label: "OT Orders"
   group_label: "Project Biblio"
