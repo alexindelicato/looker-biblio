@@ -209,6 +209,7 @@ view: sf_accounts {
 
   dimension: annual_subscription_fee_c {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.annual_subscription_fee_c ;;
   }
 
@@ -784,10 +785,13 @@ view: sf_accounts {
     sql: ${TABLE}.currency_iso_code ;;
   }
 
-  dimension: current_acv_c {
-    type: number
-    sql: ${TABLE}.current_acv_c ;;
-  }
+#   no longer being used - moving to annual contract value
+#   dimension: current_acv_c {
+#     type: number
+#     hidden: yes
+#     value_format_name: usd
+#     sql: ${TABLE}.current_acv_c ;;
+#   }
 
   dimension: current_printer_c {
     type: string
