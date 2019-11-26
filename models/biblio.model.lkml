@@ -84,12 +84,31 @@ explore: ot_orders {
     relationship: one_to_many
     sql_on: ${ot_orders.order_id}=${ot_order_detail.order_id} ;;
   }
+  join: ot_order_detail_ticket {
+    view_label: "OT Order Detail Tickets"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_order_detail_ticket.orderdetail_id}=${ot_order_detail.orderdetail_id} ;;
+  }
   join: ot_client_account {
     view_label: "OT Client Account"
     type: left_outer
     relationship: one_to_one
     sql_on: ${ot_client.client_id}=${ot_client_account.client_id};;
   }
+  join: ot_client_account_sale_refund {
+    view_label: "OT Clent Sale/Refund"
+    type: inner
+    sql_on: ${ot_order_detail.orderdetail_id}=${ot_client_account_sale_refund.orderdetail_id} ;;
+    relationship: many_to_many
+  }
+  join: ot_accounting_client_daily_sales {
+    view_label: "OT Client Accounting"
+    type: inner
+    relationship: many_to_many
+    sql_on: ${ot_accounting_client_daily_sales.orderdetail_id}=${ot_client_account_sale_refund.orderdetail_id} ;;
+  }
+
   join: ot_performance {
     view_label: "OT Performance"
     type: inner
@@ -122,3 +141,9 @@ explore: ot_orders {
     sql_on: ${sf_accounts.salesforce_account_id_c} = ${ot_report_crm.crm_id} AND ${sf_accounts.is_deleted}= FALSE;;
   }
 }
+
+explore: ot_accounting_client_daily_sales {
+  label: "Alex Test"
+  group_label: "Project Biblio"
+  view_label: "Salesforce Accounts"
+  }
