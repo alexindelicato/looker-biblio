@@ -204,15 +204,41 @@ view: ot_accounting_client_daily_sales {
     value_format_name: usd_0
   }
 
+# Calculating ARR
+ measure: arr_credit_card_fees {
+   type:  sum
+  sql: if(${is_sale}, if(${is_phone_order_fee}, 0, ${item_credit_card_fee}), 0) ;;
+ hidden: yes
+  filters: {
+    field: tx_month
+    value: "12 months ago for 12 months" }
+}
 
-#   measure: acv_credit_card_fees {
-#     type: sum
-#     sql: if(${is_sale}, if(${is_phone_order_fee}, 0, ${item_credit_card_fee}), 0) ;;
-#     value_format_name: usd_0
-#     filters: {
-#       field: tx_month
-#       value: "12 months ago for 12 months" }
-#   }
+
+measure: arr_ovationtix_service_fees {
+  type:  sum
+  sql: if(${is_sale}, ${item_ovationtix_fee}, 0) ;;
+ hidden: yes
+  filters: {
+    field: tx_month
+    value: "12 months ago for 12 months" }
+}
+
+measure: arr_ovationtix_phone_room_fees {
+  type:  sum
+  sql: if(${is_sale}, if(${is_phone_order_fee}, ${item_credit_card_fee}, 0), 0) ;;
+ hidden: yes
+  filters: {
+    field: tx_month
+    value: "12 months ago for 12 months" }
+}
+
+measure: annual_recurring_revenue {
+  label: "ARR"
+  type: number
+  value_format_name: usd_0
+  sql: ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees} ;;
+}
 
   measure: Total_fees {
     type: number
@@ -232,14 +258,6 @@ view: ot_accounting_client_daily_sales {
     value_format_name: usd_0
   }
 
-#   measure: acv_ovationtix_service_fees {
-#     type: sum
-#     sql: if(${is_sale}, ${item_ovationtix_fee}, 0) ;;
-#     value_format_name: usd_0
-#     filters: {
-#       field: tx_month
-#       value: "12 months ago for 12 months" }
-#   }
 
   measure: refund_count_ticket {
     type: sum
