@@ -240,6 +240,8 @@ measure: annual_recurring_revenue {
   sql: ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees} ;;
 }
 
+# ---------------------------------------------------------------------------------------------------
+
   measure: Total_fees {
     type: number
     sql:   ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees};;
