@@ -216,7 +216,7 @@ view: ot_accounting_client_daily_sales {
 
   measure: Total_fees {
     type: number
-    sql:   ${credit_card_fees}+${ovationtix_service_fees};;
+    sql:   ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees};;
     value_format_name: usd_0
   }
 
