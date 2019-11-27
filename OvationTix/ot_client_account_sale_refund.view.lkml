@@ -17,31 +17,37 @@ view: ot_client_account_sale_refund {
 
   dimension: id {
     type: number
+    hidden: yes
     sql: ${TABLE}.id ;;
   }
 
   dimension: orderdetail_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.orderdetail_id ;;
   }
 
   dimension: client_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.client_id ;;
   }
 
   dimension: is_sale {
     type:  number
+    hidden: yes
     sql: ${TABLE}.is_sale ;;
   }
 
   dimension: is_refund {
     type:  number
+    hidden: yes
     sql: ${TABLE}.is_refund ;;
   }
 
   dimension: tx_date {
     type:  date_raw
+    hidden: yes
     sql: cast(${TABLE}.tx_date as TIMESTAMP) ;;
   }
 
