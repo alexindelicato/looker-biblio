@@ -97,10 +97,10 @@ explore: ot_orders {
     sql_on: ${ot_client.client_id}=${ot_client_account.client_id};;
   }
   join: ot_client_account_sale_refund {
-    view_label: "OT Clent Sale Refund"
+    view_label: "OT Client Sale & Refund"
     type: inner
-    sql_on: ${ot_order_detail.orderdetail_id}=${ot_client_account_sale_refund.orderdetail_id} ;;
     relationship: many_to_many
+    sql_on: ${ot_order_detail.orderdetail_id}=${ot_client_account_sale_refund.orderdetail_id} ;;
   }
   join: ot_accounting_client_daily_sales {
     view_label: "OT Client Accounting"
