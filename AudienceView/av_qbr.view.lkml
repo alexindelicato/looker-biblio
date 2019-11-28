@@ -67,7 +67,7 @@ view: av_qbr {
       -- ORDER BY client_metric_time
            ;;
 
-      sql_trigger_value: select max(client_metric_time) from `fivetran-ovation-tix-warehouse.gcs.audienceview.qbr_data`;;
+      sql_trigger_value: select max(client_metric_date_time) from `fivetran-ovation-tix-warehouse.audienceview.qbr_data`;;
     }
 
 
@@ -87,6 +87,7 @@ view: av_qbr {
       type: string
       sql: ${TABLE}.uuid ;;
     }
+
 
     # DATETIME data type breaks filters, CAST to TIMESTAMP
 
