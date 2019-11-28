@@ -19,7 +19,7 @@ view: av_qbr {
           else 'USD'
         end as client_currency_code,
         cast(client_metric_date_time as STRING) as client_metric_full_date_time,
-        cast(client_metric_date_time as TIMESTAMP) as client_metric_time,
+        cast(concat(replace(client_metric_date_time, '.', '-'), ':00') as TIMESTAMP) as client_metric_time,
         year,
         quarter,
         userrole_name,
