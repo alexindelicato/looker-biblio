@@ -142,8 +142,10 @@ explore: ot_orders {
   }
 }
 
+# AudienceView QBR-------
 explore: av_qbr {
-  label: "Alex Test"
+  label: "AudienceView QBR"
   group_label: "Project Biblio"
-  view_label: "Alex Test"
+  view_label: "AudienceView QBR"
   }
+  #--------------------------
