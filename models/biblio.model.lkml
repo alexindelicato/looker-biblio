@@ -142,8 +142,8 @@ explore: ot_orders {
   }
 }
 
-explore: ot_accounting_client_daily_sales {
+explore: av_qbr {
   label: "Alex Test"
   group_label: "Project Biblio"
-  view_label: "Salesforce Accounts"
+  view_label: "Alex Test"
   }
