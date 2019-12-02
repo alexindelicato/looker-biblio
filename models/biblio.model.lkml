@@ -151,7 +151,7 @@ explore: ot_orders {
     view_label: "OT Report CRM"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${ot_report_crm.id}= ${ot_client.report_crm_id} AND ${ot_client.demo}=0 AND  ${ot_client.testing_mode}=0;;
+    sql_on: ${ot_report_crm.id}= ${ot_client.report_crm_id};;
   }
   join: sf_accounts {
     view_label: "SF Account"
@@ -166,5 +166,12 @@ explore: av_qbr {
   label: "AudienceView QBR"
   group_label: "Project Biblio"
   view_label: "AudienceView QBR"
+
+  join: sf_accounts {
+    view_label: "SF Accounts"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${av_qbr.sf_client_id}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
   }
   #--------------------------
