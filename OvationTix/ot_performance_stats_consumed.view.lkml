@@ -53,4 +53,9 @@ view: ot_performance_stats_consumed {
     sql: ${TABLE}.ticket_status ;;
   }
 
+  measure: looker_count {
+    type: count
+    drill_fields: [performance_stats_consumed_id, price_level.price_level_id, price_level.name]
+  }
+
 }
