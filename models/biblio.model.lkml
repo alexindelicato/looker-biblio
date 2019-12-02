@@ -111,15 +111,34 @@ explore: ot_orders {
 
   join: ot_performance {
     view_label: "OT Performance"
-    type: inner
-    relationship: one_to_one
+    type: left_outer
+    relationship: one_to_many
     sql_on: ${ot_performance.id}=${ot_order_detail.performance_id} ;;
   }
   join: ot_production {
     view_label: "OT Production"
-    type: inner
-    relationship: one_to_one
+    type: left_outer
+    relationship: one_to_many
     sql_on: ${ot_production.production_id}=${ot_performance.production_id} ;;
+  }
+  join: ot_performance_stats_total {
+    view_label: "OT Performance Seat Manifest"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_performance.id}=${ot_performance_stats_total.performance_id} ;;
+  }
+  join: ot_performance_stats_consumed {
+    view_label: "OT Performance Sold Seat Manifest"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_performance.id}=${ot_performance_stats_consumed.performance_id} ;;
+  }
+
+  join: ot_price_level {
+    view_label: "OT Performance Price Levels"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_performance_stats_total.price_level_id}=${ot_price_level.price_level_id} ;;
   }
 
   join: ot_payment_segment {
