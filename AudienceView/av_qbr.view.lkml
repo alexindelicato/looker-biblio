@@ -11,11 +11,12 @@ view: av_qbr {
         client_region,
         -- Need a better way to get the Box Office Currency (Not SF Billing Currency)
         case
-          when client_region = 'Canada' THEN 'CDN'
-          when client_region = 'EMEA' THEN 'GBP'
-          when client_region = 'Philippines' THEN 'PHP'
-          when client_region = 'United Kingdom' THEN 'GBP'
-          when client_region = 'United States' THEN 'USD'
+          when billing_country = 'Canada' THEN 'CDN'
+          when billing_country = 'EMEA' THEN 'GBP'
+          when billing_country = 'Philippines' THEN 'PHP'
+          when billing_country = 'United Kingdom' THEN 'GBP'
+          when billing_country = 'United States' THEN 'USD'
+          when billing_country = 'Colombia' THEN 'COP'
           else 'USD'
         end as client_currency_code,
         cast(client_metric_date_time as STRING) as client_metric_full_date_time,
@@ -61,6 +62,7 @@ view: av_qbr {
         'both', 'combined', 'normal'
         )  then client_metric_value else null end) as correspondence_sent_volume
       FROM audienceview.qbr_data
+      LEFT JOIN `fivetran-ovation-tix-warehouse.new_salesforce.account` AS sf_accounts on sf_accounts.name = sf_client_name
       WHERE client_metric_value != 0
       GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 
