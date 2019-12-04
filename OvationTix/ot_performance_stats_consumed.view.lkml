@@ -32,6 +32,15 @@ view: ot_performance_stats_consumed {
     sql: ${TABLE}.count ;;
   }
 
+  measure: total_sold_seats {
+    type: sum_distinct
+    sql: ${TABLE}.count ;;
+
+    filters: {
+        field: ticket_status
+        value: "SOLD" }
+    }
+
   dimension: performance_id {
     type: number
     sql: ${TABLE}.performance_id ;;
