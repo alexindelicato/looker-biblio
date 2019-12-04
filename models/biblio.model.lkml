@@ -111,15 +111,34 @@ explore: ot_orders {
 
   join: ot_performance {
     view_label: "OT Performance"
-    type: inner
-    relationship: one_to_one
+    type: left_outer
+    relationship: one_to_many
     sql_on: ${ot_performance.id}=${ot_order_detail.performance_id} ;;
   }
   join: ot_production {
     view_label: "OT Production"
-    type: inner
-    relationship: one_to_one
+    type: left_outer
+    relationship: one_to_many
     sql_on: ${ot_production.production_id}=${ot_performance.production_id} ;;
+  }
+  join: ot_performance_stats_total {
+    view_label: "OT Performance Seat Manifest"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_performance.id}=${ot_performance_stats_total.performance_id} AND ${ot_performance_stats_total._fivetran_deleted} = false ;;
+  }
+  join: ot_performance_stats_consumed {
+    view_label: "OT Performance Sold Seat Manifest"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_performance.id}=${ot_performance_stats_consumed.performance_id} AND ${ot_performance_stats_consumed._fivetran_deleted} = false ;;
+  }
+
+  join: ot_price_level {
+    view_label: "OT Performance Price Levels"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_performance_stats_total.price_level_id}=${ot_price_level.price_level_id} and ${ot_price_level._fivetran_deleted} = false;;
   }
 
   join: ot_payment_segment {
@@ -132,7 +151,7 @@ explore: ot_orders {
     view_label: "OT Report CRM"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${ot_report_crm.id}= ${ot_client.report_crm_id} AND ${ot_client.demo}=0 AND  ${ot_client.testing_mode}=0;;
+    sql_on: ${ot_report_crm.id}= ${ot_client.report_crm_id};;
   }
   join: sf_accounts {
     view_label: "SF Account"
@@ -147,5 +166,12 @@ explore: av_qbr {
   label: "AudienceView QBR"
   group_label: "Project Biblio"
   view_label: "AudienceView QBR"
+
+  join: sf_accounts {
+    view_label: "SF Accounts"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${av_qbr.sf_client_id}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
   }
   #--------------------------

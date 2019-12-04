@@ -246,6 +246,7 @@ measure: annual_recurring_revenue {
     type: number
     sql:   ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees};;
     value_format_name: usd_0
+    drill_fields: [ot_orders.order_id,Total_fees]
   }
 
   measure: ovationtix_phone_room_fees {

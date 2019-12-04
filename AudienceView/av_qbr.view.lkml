@@ -230,6 +230,11 @@ view: av_qbr {
     measure:total_online_new_customer_volume { type: sum sql: ${TABLE}.online_new_customer_volume ;; }
     measure:total_correspondence_sent_volume { type: sum sql: ${TABLE}.correspondence_sent_volume ;; }
 
+    measure: total_ticket_amount {
+      label: "Total Ticket Amount"
+      type: number
+      sql: ${total_bundle_admission_amount}+${total_single_admission_amount} ;;
+    }
 
     measure: total_order_item_amounts {
       type: sum
