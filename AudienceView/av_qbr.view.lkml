@@ -73,6 +73,35 @@ view: av_qbr {
     }
 
 
+#      when ${client_currency_code} = "USD" THEN ${client_metric_value} * ${bq_forex_historical_real.usd_cad}
+#      when ${client_currency_code} = "GBP" THEN ${client_metric_value} * ${bq_forex_historical_real.gbp_cad}
+  dimension: CDN_client_metric_value {
+    type:  number
+    value_format_name: usd
+    sql:
+    case
+      when ${client_currency_code} = "USD" THEN ${client_metric_value} * 1.32
+      when ${client_currency_code} = "GBP" THEN ${client_metric_value} * 1.73
+      when ${client_currency_code} = "PHP" THEN ${client_metric_value} * 0.030
+      when ${client_currency_code} = "EUR" THEN ${client_metric_value} * 1.50
+      when ${client_currency_code} = "COP" THEN ${client_metric_value} * 0.00038
+    else ${client_metric_value} end;;
+  }
+
+  measure: total_CDN_client_metric_value {
+    type:  sum
+    value_format_name: usd
+    label: "Total Value (CAD)"
+    sql:
+    case
+      when ${client_currency_code} = "USD" THEN (${TABLE}.client_metric_value * 1.32)
+      when ${client_currency_code} = "GBP" THEN (${TABLE}.client_metric_value * 1.73)
+      when ${client_currency_code} = "PHP" THEN (${TABLE}.client_metric_value * 0.030)
+      when ${client_currency_code} = "EUR" THEN (${TABLE}.client_metric_value * 1.50)
+      when ${client_currency_code} = "COP" THEN (${TABLE}.client_metric_value * 0.00038)
+    else ${TABLE}.client_metric_value
+    end;;
+  }
 
     measure: total_client_metric_value {
       type:  sum
