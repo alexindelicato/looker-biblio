@@ -1700,7 +1700,20 @@ view: sf_accounts {
     label: "Account Name"
     type: string
     sql: ${TABLE}.name ;;
+    html:
+    {% if sf_accounts.product_name._value == 'Vendini' %}
+<a href="/dashboards/33?Name={{ value }}"> {{value}}</a>
+{% elsif sf_accounts.product_name._value == 'OvationTix' %}
+<a href="/dashboards/34?Name={{ value }}">{{value }}</a>
+{% elsif sf_accounts.product_name._value == 'AudienceView' %}
+<a href="/dashboards/34?Name={{ value }}">{{value }}</a>
+{% elsif sf_accounts.product_name._value == 'UTix' %}
+<a href="/dashboards/34?Name={{ value }}">{{value }}</a>
+{% elsif sf_accounts.product_name._value == 'UGrad' %}
+<a href="/dashboards/34?Name={{ value }}">{{value }}</a>
+{% endif %};;
   }
+
 
   dimension: named_account_c {
     type: yesno
@@ -3008,6 +3021,6 @@ view: sf_accounts {
 
   measure: count {
     type: count
-    drill_fields: [id, name]
+    drill_fields: [name, product_name]
   }
 }
