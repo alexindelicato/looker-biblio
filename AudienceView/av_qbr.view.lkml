@@ -9,6 +9,7 @@ view: av_qbr {
         client_time_zone,
         client_vertical,
         client_region,
+        billing_country,
         -- Need a better way to get the Box Office Currency (Not SF Billing Currency)
         case
           when billing_country = 'Canada' THEN 'CDN'
@@ -65,7 +66,7 @@ view: av_qbr {
       LEFT JOIN `fivetran-ovation-tix-warehouse.new_salesforce.account` AS sf_accounts on sf_accounts.name = sf_client_name
       WHERE client_metric_value != 0
       and client_metric != 'Extract Date'
-      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
 
       -- ORDER BY client_metric_time
            ;;
@@ -98,7 +99,7 @@ view: av_qbr {
     sql:
     case
       when ${client_currency_code} = "USD" THEN ${client_metric_value} * 1.00
-      when ${client_currency_code} = "CAD" THEN ${client_metric_value} * 0.76
+      when ${client_currency_code} = "CDN" THEN ${client_metric_value} * 0.76
       when ${client_currency_code} = "GBP" THEN ${client_metric_value} * 1.32
       when ${client_currency_code} = "PHP" THEN ${client_metric_value} * 0.020
       when ${client_currency_code} = "EUR" THEN ${client_metric_value} * 1.11
@@ -215,6 +216,11 @@ view: av_qbr {
       type: string
       sql: ${TABLE}.client_region ;;
     }
+
+  dimension: billing_country {
+    type: string
+    sql: ${TABLE}.billing_country ;;
+  }
 
     dimension: year {
       type: number
