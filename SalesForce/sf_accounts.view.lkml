@@ -1712,6 +1712,16 @@ view: sf_accounts {
 {% elsif sf_accounts.product_name._value == 'UGrad' %}
 <a href="/dashboards/34?Name={{ value }}">{{value }}</a>
 {% endif %};;
+    link: {
+      label: "Client Overview"
+      url: "/dashboards/34?Name={{ value }}"
+      icon_url: "https://www.pngfind.com/pngs/m/383-3836953_overview-icon-wp-overview-icon-hd-png-download.png"
+    }
+    link: {
+      label: "Insights"
+      url: "/dashboards/46?Product={{sf_accounts.product_name._value }}"
+      icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
+    }
   }
 
 
