@@ -31,8 +31,8 @@ view: av_qbr {
         'both', 'combined', 'normal'
         )  then 'Correspondence Sent' else client_metric end as client_metric,
         client_metric_value,
-        sum(case when client_metric='Bundle Admission Amount' then client_metric_value else null end) as  bundle_admission_amount,
-        sum(case when client_metric='Bundle Admission Volume' then client_metric_value else null end) as  bundle_admission_volume,
+        sum(case when client_metric='Bundle Admission Amount' then client_metric_value else null end) as bundle_admission_amount,
+        sum(case when client_metric='Bundle Admission Volume' then client_metric_value else null end) as bundle_admission_volume,
         sum(case when client_metric='Bundle Amount' then client_metric_value else null end) as  bundle_amount,
         sum(case when client_metric='Bundle Volume' then client_metric_value else null end) as  bundle_volume,
         sum(case when client_metric='Customer Pass Volume' then client_metric_value else null end) as  customer_pass_volume,
@@ -64,6 +64,7 @@ view: av_qbr {
       FROM audienceview.qbr_data
       LEFT JOIN `fivetran-ovation-tix-warehouse.new_salesforce.account` AS sf_accounts on sf_accounts.name = sf_client_name
       WHERE client_metric_value != 0
+      and client_metric != 'Extract Date'
       GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 
       -- ORDER BY client_metric_time
@@ -75,38 +76,41 @@ view: av_qbr {
 
 #      when ${client_currency_code} = "USD" THEN ${client_metric_value} * ${bq_forex_historical_real.usd_cad}
 #      when ${client_currency_code} = "GBP" THEN ${client_metric_value} * ${bq_forex_historical_real.gbp_cad}
-  dimension: CDN_client_metric_value {
-    type:  number
-    value_format_name: usd
-    sql:
-    case
-      when ${client_currency_code} = "USD" THEN ${client_metric_value} * 1.32
-      when ${client_currency_code} = "GBP" THEN ${client_metric_value} * 1.73
-      when ${client_currency_code} = "PHP" THEN ${client_metric_value} * 0.030
-      when ${client_currency_code} = "EUR" THEN ${client_metric_value} * 1.50
-      when ${client_currency_code} = "COP" THEN ${client_metric_value} * 0.00038
-    else ${client_metric_value} end;;
-  }
+#
+# dimension: US_client_metric_value {
+#    type:  number
+#    value_format_name: usd
+#    sql:
+#    case
+#      when ${client_currency_code} = "USD" THEN ${client_metric_value} * 1.00
+#      when ${client_currency_code} = "CAD" THEN ${client_metric_value} * 0.76
+#      when ${client_currency_code} = "GBP" THEN ${client_metric_value} * 1.32
+#      when ${client_currency_code} = "PHP" THEN ${client_metric_value} * 0.020
+#      when ${client_currency_code} = "EUR" THEN ${client_metric_value} * 1.11
+#      when ${client_currency_code} = "COP" THEN ${client_metric_value} * 0.00029
+#    else ${client_metric_value} end;;
+#  }
 
-  measure: total_CDN_client_metric_value {
+  measure: total_USD_client_metric_value {
     type:  sum
     value_format_name: usd
-    label: "Total Value (CAD)"
+    label: "Total Value (USD)"
     sql:
     case
-      when ${client_currency_code} = "USD" THEN (${TABLE}.client_metric_value * 1.32)
-      when ${client_currency_code} = "GBP" THEN (${TABLE}.client_metric_value * 1.73)
-      when ${client_currency_code} = "PHP" THEN (${TABLE}.client_metric_value * 0.030)
-      when ${client_currency_code} = "EUR" THEN (${TABLE}.client_metric_value * 1.50)
-      when ${client_currency_code} = "COP" THEN (${TABLE}.client_metric_value * 0.00038)
+      when ${client_currency_code} = "USD" THEN ${client_metric_value} * 1.00
+      when ${client_currency_code} = "CAD" THEN ${client_metric_value} * 0.76
+      when ${client_currency_code} = "GBP" THEN ${client_metric_value} * 1.32
+      when ${client_currency_code} = "PHP" THEN ${client_metric_value} * 0.020
+      when ${client_currency_code} = "EUR" THEN ${client_metric_value} * 1.11
+      when ${client_currency_code} = "COP" THEN ${client_metric_value} * 0.00029
     else ${TABLE}.client_metric_value
     end;;
   }
 
     measure: total_client_metric_value {
       type:  sum
-      value_format_name: decimal_0
-      label: "Total Volume"
+      value_format_name: usd
+      label: "Total Value"
       sql: ${TABLE}.client_metric_value ;;
     }
 
