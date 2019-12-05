@@ -201,7 +201,7 @@ view: ot_accounting_client_daily_sales {
   measure: credit_card_fees {
     type: sum
     sql: if(${is_sale}, if(${is_phone_order_fee}, 0, ${item_credit_card_fee}), 0) ;;
-    value_format_name: usd_0
+    value_format_name: usd
   }
 
 # Calculating ARR
@@ -252,13 +252,13 @@ measure: annual_recurring_revenue {
   measure: ovationtix_phone_room_fees {
     type: sum
     sql: if(${is_sale}, if(${is_phone_order_fee}, ${item_credit_card_fee}, 0), 0) ;;
-    value_format_name: usd_0
+    value_format_name: usd
   }
 
   measure: ovationtix_service_fees {
     type: sum
     sql: if(${is_sale}, ${item_ovationtix_fee}, 0) ;;
-    value_format_name: usd_0
+    value_format_name: usd
   }
 
 
