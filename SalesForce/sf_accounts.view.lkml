@@ -793,12 +793,12 @@ view: sf_accounts {
   }
 
 #   no longer being used - moving to annual contract value
-#   dimension: current_acv_c {
-#     type: number
-#     hidden: yes
-#     value_format_name: usd
-#     sql: ${TABLE}.current_acv_c ;;
-#   }
+  dimension: current_acv_c {
+    type: number
+    hidden: no
+    value_format_name: usd
+    sql: ${TABLE}.current_acv_c ;;
+  }
 
   dimension: current_printer_c {
     type: string
