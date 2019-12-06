@@ -159,6 +159,12 @@ explore: ot_orders {
     relationship: one_to_many
     sql_on: ${sf_accounts.salesforce_account_id_c} = ${ot_report_crm.crm_id} AND ${sf_accounts.is_deleted}= FALSE;;
   }
+  join: ganalytics_ot {
+    view_label: "GA Orders"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ganalytics_ot.ot_transaction_id}=${ot_orders.order_id};;
+  }
 }
 
 # AudienceView QBR-------

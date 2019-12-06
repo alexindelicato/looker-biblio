@@ -31,8 +31,33 @@ view: ot_order_detail {
     label: "Total # of Tickets"
     type: count_distinct
     sql: ${TABLE}.ticket_id ;;
-    drill_fields: [ot_client.client_id,ot_client.client.client_name,ot_orders.customer_sum_total]
+    drill_fields: [ot_orders.order_id,ot_client.client_id,ot_client.client_name,count_ticket_id,price]
   }
+
+  measure: tickets_refunded {
+    label: "Total Tickets Refunded"
+    type: number
+    hidden: yes
+    sql: ${ot_order_detail.count_ticket_id} - ${ot_performance_stats_consumed.total_sold_seats} ;;
+  }
+
+  measure: tickets_sold {
+    label: "Total Tickets Sold (Minus Refunds)"
+    type: number
+    sql: ${ot_order_detail.count_ticket_id} - ${ot_order_detail.tickets_refunded} ;;
+  }
+
+  measure: tm_tickets_sold {
+    label: "Total Tickets Sold By TM"
+    type: count_distinct
+    sql: ${TABLE}.ticket_id ;;
+    drill_fields: [ot_orders.order_id,ot_client.client_id,ot_client.client_name,count_ticket_id,price]
+
+    filters: {
+      field: ganalytics_ot.segment
+      value: "Source contains Theatermania" }
+    }
+
 
   dimension: consumer_fee {
     type: number
