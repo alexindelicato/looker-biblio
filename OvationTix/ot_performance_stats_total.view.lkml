@@ -48,6 +48,11 @@ view: ot_performance_stats_total {
     sql: ${TABLE}.total_seat_count ;;
   }
 
+  measure: measure_total_seat_count {
+    type: median
+    sql: ${TABLE}.total_seat_count ;;
+  }
+
   measure: total_venue_capacity {
     type: sum_distinct
     sql: ${TABLE}.total_seat_count ;;
