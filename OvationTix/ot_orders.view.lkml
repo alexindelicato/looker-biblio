@@ -64,6 +64,11 @@ view: ot_orders {
     sql: ${TABLE}.consumer_id ;;
   }
 
+  measure: count_cusumer {
+  type: count_distinct
+  sql: ${TABLE}.consumer_id ;;
+  }
+
   dimension: credit_card_gateway {
     type: string
     sql: ${TABLE}.credit_card_gateway ;;
