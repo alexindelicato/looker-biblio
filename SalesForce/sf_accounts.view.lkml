@@ -1723,7 +1723,11 @@ view: sf_accounts {
     }
     link: {
       label: "Client Insights"
-      url: "/dashboards/46?Product={{sf_accounts.product_name._value }}"
+      url:  "{% if sf_accounts.product_name._value == 'Vendini' %}/dashboards/46?Product={{sf_accounts.product_name._value }}
+            {% elsif sf_accounts.product_name._value == 'OvationTix' %}/dashboards/34?Product={{sf_accounts.product_name._value }} }
+            {% elsif sf_accounts.product_name._value == 'AudienceView' %}/dashboards/33?Product={{sf_accounts.product_name._value }} }
+            {% elsif sf_accounts.product_name._value == 'UTix' %}/dashboards/34?Product={{sf_accounts.product_name._value }} }
+            {% elsif sf_accounts.product_name._value == 'UGrad' %}/dashboards/34?Product={{sf_accounts.product_name._value }} }{% endif %}"
       icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
     }
   }
