@@ -1714,7 +1714,11 @@ view: sf_accounts {
 # {% endif %};;
     link: {
       label: "Client Overview"
-      url: "/dashboards/34?Name={{ value }}"
+      url: "{% if sf_accounts.product_name._value == 'Vendini' %}/dashboards/46?Product={{sf_accounts.product_name._value }}
+            {% elsif sf_accounts.product_name._value == 'OvationTix' %}/dashboards/34?Product={{sf_accounts.product_name._value }} }
+            {% elsif sf_accounts.product_name._value == 'AudienceView' %}/dashboards/33?Product={{sf_accounts.product_name._value }} }
+            {% elsif sf_accounts.product_name._value == 'UTix' %}/dashboards/34?Product={{sf_accounts.product_name._value }} }
+            {% elsif sf_accounts.product_name._value == 'UGrad' %}/dashboards/34?Product={{sf_accounts.product_name._value }} }{% endif %}"
       icon_url: "https://www.pngfind.com/pngs/m/383-3836953_overview-icon-wp-overview-icon-hd-png-download.png"
     }
     link: {
