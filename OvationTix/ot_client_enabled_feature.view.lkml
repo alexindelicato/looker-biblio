@@ -33,6 +33,7 @@ view: ot_client_enabled_feature {
   dimension: client_id {
     type: number
     # hidden: yes
+    primary_key: yes
     sql: ${TABLE}.client_id ;;
   }
 
