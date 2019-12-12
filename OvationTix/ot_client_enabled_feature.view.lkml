@@ -178,8 +178,8 @@ view: ot_client_enabled_feature {
   }
 
   dimension: enabled_new_ci {
-    type: number
-    sql: ${TABLE}.enabled_new_ci ;;
+    type: yesno
+    sql: ${TABLE}.enabled_new_ci = 1 ;;
   }
 
   dimension: enabled_new_ci_pk {
