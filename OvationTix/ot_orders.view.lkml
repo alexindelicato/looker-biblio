@@ -267,6 +267,16 @@ view: ot_orders {
     sql: CASE ${is_mobile_checkout} WHEN 0 THEN 'Legacy CI' WHEN 1 THEN 'Legacy Mobile' WHEN 2 THEN 'Responsive CI Desktop' WHEN 3 THEN 'Responsive CI Mobile' ELSE 'Legacy CI' END ;;
   }
 
+  dimension: legacy_or_responsive {
+    type: string
+    sql:  case when ${order_location_responsive} = 'Legacy CI' then  'Legacy'
+          when ${order_location_responsive} = 'Legacy Mobile' then  'Legacy'
+          when ${order_location_responsive} = 'Legacy CI' then  'Legacy'
+          when ${order_location_responsive} = 'Responsive CI Desktop' then 'Responsive'
+          when ${order_location_responsive} = 'Responsive CI Mobile' then 'Responsive'
+          End ;;
+  }
+
   dimension: order_location {
     type: string
     sql: CASE WHEN ${originator} = 'WEB' AND ${order_location_mobile} = 0 THEN 'WEB-DESKTOP'
