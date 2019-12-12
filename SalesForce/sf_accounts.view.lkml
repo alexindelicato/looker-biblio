@@ -1714,7 +1714,7 @@ view: sf_accounts {
 # {% endif %};;
     link: {
       label: "Client Overview"
-      url: "{% if sf_accounts.product_name._value == 'Vendini' %}/dashboards/46?Product={{sf_accounts.product_name._value }}&Account Name={{sf_accounts.name._value}}
+      url: "{% if sf_accounts.product_name._value == 'Vendini' %}/dashboards/49?Account Name={{sf_accounts.name._value}}
             {% elsif sf_accounts.product_name._value == 'OvationTix' %}/dashboards/47?Account Name={{sf_accounts.name._value }}
             {% elsif sf_accounts.product_name._value == 'AudienceView' %}/dashboards/33?Product={{sf_accounts.product_name._value }}
             {% elsif sf_accounts.product_name._value == 'UTix' %}/dashboards/34?Product={{sf_accounts.product_name._value }}
@@ -1723,7 +1723,7 @@ view: sf_accounts {
     }
     link: {
       label: "Client Insights"
-      url:  "{% if sf_accounts.product_name._value == 'Vendini' %}/dashboards/46?Product={{sf_accounts.product_name._value }}
+      url:  "{% if sf_accounts.product_name._value == 'Vendini' %}/dashboards/46?Product={{sf_accounts.product_name._value }}&Account Name={{sf_accounts.name._value}}
             {% elsif sf_accounts.product_name._value == 'OvationTix' %}/dashboards/48?Account Name={{sf_accounts.name._value }}
             {% elsif sf_accounts.product_name._value == 'AudienceView' %}/dashboards/33?Product={{sf_accounts.product_name._value }}
             {% elsif sf_accounts.product_name._value == 'UTix' %}/dashboards/34?Product={{sf_accounts.product_name._value }}
