@@ -354,6 +354,7 @@ view: ot_orders {
   set: detail {
     fields: [
       order_id,
+      sf_accounts.name,
       ot_client.client_id,
       ot_client.client_name,
       ot_client.merchant_name,
