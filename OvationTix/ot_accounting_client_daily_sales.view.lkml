@@ -36,6 +36,11 @@ view: ot_accounting_client_daily_sales {
     sql: ${TABLE}.orderdetail_id ;;
   }
 
+  measure: count_orderdetail{
+  type: count_distinct
+  sql: ${TABLE}.orderdetail_id ;;
+  }
+
   dimension: private_merchant_account {
     type: yesno
     sql: ${TABLE}.private_merchant_account = 1;;

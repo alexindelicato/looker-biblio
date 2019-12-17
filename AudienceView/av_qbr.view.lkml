@@ -269,7 +269,23 @@ view: av_qbr {
     measure:total_online_new_customer_volume { type: sum sql: ${TABLE}.online_new_customer_volume ;; }
     measure:total_correspondence_sent_volume { type: sum sql: ${TABLE}.correspondence_sent_volume ;; }
 
-    measure: total_ticket_amount {
+  measure: total_order_amount_USD {
+    label: "Total Order Total Amount (USD)"
+    type:  number
+    value_format_name: usd
+    required_fields: [client_currency_code]
+    sql:   case
+      when ${client_currency_code} = "USD" THEN ${total_order_total_amount} * 1.00
+      when ${client_currency_code} = "CDN" THEN ${total_order_total_amount} * 0.76
+      when ${client_currency_code} = "GBP" THEN ${total_order_total_amount} * 1.32
+      when ${client_currency_code} = "PHP" THEN ${total_order_total_amount} * 0.020
+      when ${client_currency_code} = "EUR" THEN ${total_order_total_amount} * 1.11
+      when ${client_currency_code} = "COP" THEN ${total_order_total_amount} * 0.00029
+    else ${total_order_total_amount}
+    end;;
+  }
+
+   measure: total_ticket_amount {
       label: "Total Ticket Amount"
       type: number
       sql: ${total_bundle_admission_amount}+${total_single_admission_amount} ;;
