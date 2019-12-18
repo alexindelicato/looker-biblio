@@ -1745,6 +1745,11 @@ view: sf_accounts {
             {% elsif sf_accounts.product_name._value == 'UGrad' %}/dashboards/34?Product={{sf_accounts.product_name._value }} {% endif %}"
       icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
     }
+    link: {
+      label: "Return to Mid Market Client Listing"
+      url:  "/dashboards/45"
+      icon_url: "https://banner2.cleanpng.com/20180810/hae/kisspng-market-research-digital-marketing-market-analysis-audit-fgms-5b6d379e26d579.4000885615338843181591.jpg"
+    }
   }
 
 
