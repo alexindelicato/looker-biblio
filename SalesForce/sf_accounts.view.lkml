@@ -800,6 +800,21 @@ view: sf_accounts {
     sql: ${TABLE}.current_acv_c ;;
   }
 
+  dimension: converted_acv {
+    type:  number
+    value_format_name: usd
+    label: "Current ACV (USD)"
+    sql: case
+      when ${currency_iso_code} = "USD" THEN ${current_acv_c} * 1.00
+      when ${currency_iso_code} = "CAD" THEN ${current_acv_c} * 0.76
+      when ${currency_iso_code} = "GBP" THEN ${current_acv_c} * 1.32
+      when ${currency_iso_code} = "PHP" THEN ${current_acv_c} * 0.020
+      when ${currency_iso_code} = "EUR" THEN ${current_acv_c} * 1.11
+      when ${currency_iso_code} = "COP" THEN ${current_acv_c} * 0.00029
+    else ${TABLE}.current_acv_c
+    end;;
+}
+
   dimension: current_printer_c {
     type: string
     sql: ${TABLE}.current_printer_c ;;
