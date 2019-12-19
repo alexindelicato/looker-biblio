@@ -177,6 +177,15 @@ view: ot_orders {
     sql: ${TABLE}.status_id ;;
   }
 
+  dimension: order_status {
+    type: string
+    sql:case when cast(${status_id} as string) = '1' then 'Complete'
+         when cast(${status_id} as string) = '4' then 'Void'
+         when cast(${status_id} as string) = '5' then 'Refund'
+        when cast(${status_id} as string) = '11' then 'Pending'
+        Else cast(${status_id} as string) end;;
+  }
+
   dimension_group: time {
     type: time
     timeframes: [
