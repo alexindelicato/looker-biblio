@@ -282,6 +282,7 @@ view: av_qbr {
               when ${TABLE}.userrole_name LIKE '%Migration%' Then 'Migration'
               when ${TABLE}.userrole_name LIKE 'AV Data Loader' Then 'Migration'
               when ${TABLE}.userrole_name = 'Migration System Management' Then 'Migration'
+              when ${TABLE}.userrole_name = 'X MIGRATION' Then 'Migration'
               when ${TABLE}.userrole_name LIKE '%Sched%' Then 'Migration'
               when ${TABLE}.userrole_name = 'Sesame' Then 'Sesame'
               when ${TABLE}.userrole_name = 'Access Control' Then 'Sesame'
