@@ -280,6 +280,7 @@ view: av_qbr {
               when ${TABLE}.userrole_name LIKE 'Inventory Partner' Then 'API'
               when ${TABLE}.userrole_name LIKE '%API%' Then 'API'
               when ${TABLE}.userrole_name LIKE '%Migration%' Then 'Migration'
+              when ${TABLE}.userrole_name LIKE 'Migration' Then 'Migration'
               when ${TABLE}.userrole_name LIKE 'AV Data Loader' Then 'Migration'
               when ${TABLE}.userrole_name = 'Migration System Management' Then 'Migration'
               when ${TABLE}.userrole_name = 'X MIGRATION' Then 'Migration'
