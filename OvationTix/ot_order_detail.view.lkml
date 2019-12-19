@@ -202,6 +202,17 @@ view: ot_order_detail {
     sql: ${TABLE}.status_id ;;
   }
 
+  dimension: order_status {
+    type: string
+    sql:case when cast(${status_id} as string) = '1' then 'Complete'
+             when cast(${status_id} as string) = '2' then 'As Order'
+             when cast(${status_id} as string) = '4' then 'Void'
+             when cast(${status_id} as string) = '5' then 'Refund'
+             when cast(${status_id} as string) = '9' then 'Scanned'
+             when cast(${status_id} as string) = '11' then 'Pending'
+        Else cast(${status_id} as string) end;;
+  }
+
   dimension: tax {
     type: number
     sql: ${TABLE}.tax ;;
