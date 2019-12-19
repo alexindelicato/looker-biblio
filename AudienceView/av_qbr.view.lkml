@@ -237,6 +237,62 @@ view: av_qbr {
       sql: ${TABLE}.userrole_name ;;
     }
 
+  dimension: userrole{
+    type: string
+    sql: case when ${TABLE}.userrole_name LIKE '%Internet%' Then 'Internet'
+              when ${TABLE}.userrole_name LIKE '%internet%' Then 'Internet'
+              when ${TABLE}.userrole_name LIKE '%Mobile%' Then 'Internet'
+              when ${TABLE}.userrole_name = 'MoblieSUN' Then 'Internet'
+              when ${TABLE}.userrole_name LIKE '%BO%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%Box Office%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%System%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%Admin%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%Group%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%Sales%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%Event%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%Super%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%Manager%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%Cleve%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%office%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%zzz%' Then 'Box Office'
+              when ${TABLE}.userrole_name LIKE '%Window%' Then 'Window Sales'
+              when ${TABLE}.userrole_name LIKE 'Window Sales' Then 'Window Sales'
+              when ${TABLE}.userrole_name LIKE '%Box Office Window%' Then 'Window Sales'
+              when ${TABLE}.userrole_name LIKE '%Walkup%' Then 'Window Sales'
+              when ${TABLE}.userrole_name = 'Walk Up Sales' Then 'Window Sales'
+              when ${TABLE}.userrole_name = 'Ticket Manager - Window Sales' Then 'Window Sales'
+              when ${TABLE}.userrole_name = 'Box Office Supervisor - WINDOW SALE' Then 'Window Sales'
+              when ${TABLE}.userrole_name LIKE '%Counter%' Then 'Window Sales'
+              when ${TABLE}.userrole_name = 'GA - Counter Sales' Then 'Window Sales'
+               when ${TABLE}.userrole_name = '  GF - Counter Sales' Then 'Window Sales'
+              when ${TABLE}.userrole_name LIKE '%Call%' Then 'Phone Room'
+              when ${TABLE}.userrole_name LIKE '%Phone%' Then 'Phone Room'
+              when ${TABLE}.userrole_name = 'Phone Box Office Manager' Then 'Phone Room'
+              when ${TABLE}.userrole_name = 'Phone Box Office Manager' Then 'Phone Room'
+              when ${TABLE}.userrole_name = 'Phone Room' Then 'Phone Room'
+              when ${TABLE}.userrole_name = 'Phone Sales' Then 'Phone Room'
+              when ${TABLE}.userrole_name = 'Phone Sales - Admin' Then 'Phone Room'
+              when ${TABLE}.userrole_name = 'Telemarketing' Then 'Phone Room'
+              when ${TABLE}.userrole_name LIKE 'Phone Sales' Then 'Phone Room'
+              when ${TABLE}.userrole_name = 'Internet - Goldstar' Then 'API'
+              when ${TABLE}.userrole_name LIKE '%TodayTix%' Then 'API'
+              when ${TABLE}.userrole_name LIKE '%StubHub%' Then 'API'
+              when ${TABLE}.userrole_name LIKE 'Inventory Partner' Then 'API'
+              when ${TABLE}.userrole_name LIKE '%API%' Then 'API'
+              when ${TABLE}.userrole_name LIKE '%Migration%' Then 'Migration'
+              when ${TABLE}.userrole_name LIKE 'AV Data Loader' Then 'Migration'
+              when ${TABLE}.userrole_name = 'Migration System Management' Then 'Migration'
+              when ${TABLE}.userrole_name LIKE '%Sched%' Then 'Migration'
+              when ${TABLE}.userrole_name = 'Sesame' Then 'Sesame'
+              when ${TABLE}.userrole_name = 'Access Control' Then 'Sesame'
+              when ${TABLE}.userrole_name LIKE '%Access Control%' Then 'Sesame'
+              when ${TABLE}.userrole_name LIKE '%Kiosk%' Then 'Kiosk'
+              when ${TABLE}.userrole_name LIKE 'FT-KIOSK%' Then 'Kiosk'
+              when ${TABLE}.userrole_name LIKE '%Tiki%' Then 'AV Tiki'
+              when ${TABLE}.userrole_name LIKE '%POS%' Then 'Point of Sale'
+        ELSE 'Box Office' END;;
+  }
+
     dimension: userrole_group {
       type: string
       sql: ${TABLE}.userrole_group ;;
