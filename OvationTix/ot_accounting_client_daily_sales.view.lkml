@@ -79,6 +79,7 @@ view: ot_accounting_client_daily_sales {
       date,
       week,
       month,
+      month_name,
       quarter,
       year
     ]
