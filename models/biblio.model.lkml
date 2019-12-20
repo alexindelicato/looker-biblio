@@ -32,6 +32,12 @@ explore: sf_accounts {
     relationship: one_to_many
     sql_on: ${sf_accounts.id}=${sf_case.account_id};;
   }
+  join: sf_task {
+    view_label: "Salesforce Tasks"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_task.account_id};;
+  }
 
   join: sf_user {
     view_label: "Salesforce Users"

@@ -24,7 +24,7 @@ view: sf_task {
   dimension: account_id {
     type: string
     sql: ${TABLE}.account_id ;;
-  }
+}
 
   dimension_group: activity {
     type: time
