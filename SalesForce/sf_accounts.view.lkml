@@ -1712,7 +1712,7 @@ view: sf_accounts {
   }
 
   dimension: name {
-    label: "Account Name"
+    label: "Client Name"
     type: string
     sql: ${TABLE}.name ;;
 #     html:
