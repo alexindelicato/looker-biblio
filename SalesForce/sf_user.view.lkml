@@ -363,7 +363,7 @@ view: sf_user {
   }
 
   dimension: name {
-    label: "Account Rep"
+    label: "Client Rep"
     type: string
     sql: ${TABLE}.name ;;
   }
