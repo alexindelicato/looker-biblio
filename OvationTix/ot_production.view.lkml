@@ -293,6 +293,7 @@ view: ot_production {
   }
 
   dimension: venue_address_zipcode {
+    map_layer_name: us_zipcode_tabulation_areas
     type: string
     sql: ${TABLE}.venue_address_zipcode ;;
   }
