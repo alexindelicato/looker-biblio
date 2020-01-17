@@ -171,6 +171,12 @@ explore: ot_orders {
     relationship: one_to_one
     sql_on: ${ganalytics_ot.ot_transaction_id}=${ot_orders.order_id};;
   }
+  join: ot_credit_card_transactions {
+    view_label: "OT Credit Card Transactions"
+    type:  left_outer
+    relationship: one_to_many
+    sql_on: ${ot_orders.order_id}=${ot_credit_card_transactions.order_id} ;;
+  }
 }
 
 # AudienceView QBR-------

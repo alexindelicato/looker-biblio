@@ -12,7 +12,6 @@ view: ot_credit_card_transactions {
               JOIN trs_trs.payment_segment ps ON o.order_id = ps.order_id
               WHERE o.is_test_mode = 0 AND o.payment_type_id IN (999, 1000)
                ;;
-      datagroup_trigger: caching_policy
     }
 
     measure: count {
