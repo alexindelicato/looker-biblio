@@ -95,6 +95,11 @@ view: ot_performance {
     sql: ${TABLE}.perf_start ;;
   }
 
+  dimension: on_sale_time {
+      type: yesno
+      sql: ${perf_start_raw} >= ${ot_production.hidden_until_raw} ;;
+      }
+
   dimension: phone_available {
     type: string
     sql: ${TABLE}.phone_available ;;

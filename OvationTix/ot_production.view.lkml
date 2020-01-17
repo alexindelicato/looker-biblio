@@ -84,6 +84,7 @@ view: ot_production {
   }
 
   dimension_group: hidden_until {
+    label: "On Sale Time"
     type: time
     timeframes: [
       raw,
