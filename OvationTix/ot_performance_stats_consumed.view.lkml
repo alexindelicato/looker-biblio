@@ -41,6 +41,11 @@ view: ot_performance_stats_consumed {
         value: "SOLD" }
     }
 
+measure: total_unsold_capcity_percent {
+  type: number
+  value_format_name: percent_2
+  sql: (${ot_performance_stats_consumed.total_sold_seats}/${ot_performance_stats_total.total_venue_capacity})*1 ;;
+}
   dimension: performance_id {
     type: number
     sql: ${TABLE}.performance_id ;;
