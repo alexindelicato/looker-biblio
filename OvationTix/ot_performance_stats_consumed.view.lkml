@@ -47,8 +47,14 @@ measure: total_sold_capacity_percent {
   value_format_name: percent_2
   sql: case when ${ot_performance_stats_consumed.total_sold_seats} > 0 then (${ot_performance_stats_consumed.total_sold_seats}/${ot_performance_stats_total.total_venue_capacity})*1
        else 0 End;;
+  html:  {% if value <= 0.25 %}
+  <b><p style="color: black; background-color: #00ff00; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+  {% elsif value <= 0.26 and value <=0.79 %}
+  <b><p style="color: black; background-color: #e9b404; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+  {% elsif value <= 0.80 %}
+  <b><p style="color: black; background-color: #dc7350; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+  {% endif %};;
 }
-
 
   dimension: performance_id {
     type: number
