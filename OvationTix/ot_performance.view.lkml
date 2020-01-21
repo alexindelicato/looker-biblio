@@ -143,7 +143,8 @@ view: ot_performance {
     label: "Consumed On-Sale"
     type: number
     value_format_name: percent_2
-    sql:(${days_left_performance}/${sale_period_length})*1;;
+    sql:case when ${days_left_performance} > 0 and ${sale_period_length}> 0 then (${days_left_performance}/${sale_period_length})*1
+        Else 0 End;;
   }
 
   measure: sales_guidance {
