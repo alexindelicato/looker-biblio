@@ -145,6 +145,13 @@ view: ot_performance {
     value_format_name: percent_2
     sql:case when ${days_left_performance} > 0 and ${sale_period_length}> 0 then (${days_since_onsale}/${sale_period_length})*1
         Else 1 End;;
+    html:  {% if value >= 100 %}
+    <b><p style="color: black; background-color: #dc7350; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% elsif value < 100 %}
+    <b><p style="color: black; background-color: #e9b404; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% else %}
+    <b><p style="color: black; background-color: #49cec1; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% endif %};;
   }
 
   measure: consumed_on_sale_max {
@@ -161,7 +168,15 @@ view: ot_performance {
     type:  number
     value_format_name: percent_2
     sql:${consumed_on_sale_max}-${ot_performance_stats_consumed.total_sold_capacity_percent} ;;
+    html:  {% if value >= 100 %}
+    <b><p style="color: black; background-color: #dc7350; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% elsif value < 100 %}
+    <b><p style="color: black; background-color: #e9b404; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% else %}
+    <b><p style="color: black; background-color: #49cec1; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% endif %};;
   }
+
 
 
   dimension: phone_available {
