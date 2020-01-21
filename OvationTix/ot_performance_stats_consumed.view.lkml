@@ -41,12 +41,15 @@ view: ot_performance_stats_consumed {
         value: "SOLD" }
     }
 
-measure: total_unsold_capcity_percent {
+measure: total_sold_capacity_percent {
+  label: "Sold Capacity"
   type: number
   value_format_name: percent_2
   sql: case when ${ot_performance_stats_consumed.total_sold_seats} > 0 then (${ot_performance_stats_consumed.total_sold_seats}/${ot_performance_stats_total.total_venue_capacity})*1
        else 0 End;;
 }
+
+
   dimension: performance_id {
     type: number
     sql: ${TABLE}.performance_id ;;
