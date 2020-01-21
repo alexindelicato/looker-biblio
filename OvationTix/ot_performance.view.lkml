@@ -144,7 +144,7 @@ view: ot_performance {
     type: number
     value_format_name: percent_2
     sql:case when ${days_left_performance} > 0 and ${sale_period_length}> 0 then (${days_left_performance}/${sale_period_length})*1
-        Else 100 End;;
+        Else 1 End;;
   }
 
   measure: sales_guidance {
