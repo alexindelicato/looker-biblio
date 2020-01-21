@@ -168,9 +168,9 @@ view: ot_performance {
     type:  number
     value_format_name: percent_2
     sql:${consumed_on_sale_max}-${ot_performance_stats_consumed.total_sold_capacity_percent} ;;
-    html:  {% if value >= 100 %}
+    html:  {% if value >= 50 %}
     <b><p style="color: black; background-color: #dc7350; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
-    {% elsif value < 100 %}
+    {% elsif value < 50 %}
     <b><p style="color: black; background-color: #e9b404; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
     {% else %}
     <b><p style="color: black; background-color: #49cec1; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
