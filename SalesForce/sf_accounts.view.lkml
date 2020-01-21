@@ -89,13 +89,13 @@ view: sf_accounts {
   dimension: product_name {
     label: "Product Name"
     type:  string
-    sql:  case when ${TABLE}.account_status_c = 'Client - OvationTix' THEN "OvationTix"
-          WHEN ${TABLE}.account_status_c = "Client - AudienceView" THEN "AudienceView"
-          WHEN ${TABLE}.account_status_c = "Client - Vendini" THEN "Vendini"
-          WHEN ${TABLE}.account_status_c = "Live Mode" THEN "Vendini"
+    sql:  case when ${TABLE}.account_status_c = 'Client - OvationTix' THEN "AudienceView Professional"
+          WHEN ${TABLE}.account_status_c = "Client - AudienceView" THEN "AudienceView Unlimited"
+          WHEN ${TABLE}.account_status_c = "Client - Vendini" THEN "AudienceView Select"
+          WHEN ${TABLE}.account_status_c = "Live Mode" THEN "AudienceView Select"
           WHEN ${TABLE}.account_status_c = "Client - CrowdTorch" THEN "CrowdTorch"
-          WHEN ${TABLE}.account_status_c = "Client - UTix" THEN "UTix"
-          WHEN ${TABLE}.account_status_c = "Client - UGrad" THEN "UGrad"
+          WHEN ${TABLE}.account_status_c = "Client - UTix" THEN "AudienceView Campus"
+          WHEN ${TABLE}.account_status_c = "Client - UGrad" THEN "AudienceView Grad"
           ELSE "Research" END;;
   }
 
