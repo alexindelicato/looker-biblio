@@ -89,13 +89,13 @@ view: sf_accounts {
   dimension: product_name {
     label: "Product Name"
     type:  string
-    sql:  case when ${TABLE}.account_status_c = 'Client - OvationTix' THEN "OvationTix"
-          WHEN ${TABLE}.account_status_c = "Client - AudienceView" THEN "AudienceView"
-          WHEN ${TABLE}.account_status_c = "Client - Vendini" THEN "Vendini"
-          WHEN ${TABLE}.account_status_c = "Live Mode" THEN "Vendini"
+    sql:  case when ${TABLE}.account_status_c = 'Client - OvationTix' THEN "AudienceView Professional"
+          WHEN ${TABLE}.account_status_c = "Client - AudienceView" THEN "AudienceView Unlimited"
+          WHEN ${TABLE}.account_status_c = "Client - Vendini" THEN "AudienceView Select"
+          WHEN ${TABLE}.account_status_c = "Live Mode" THEN "AudienceView Select"
           WHEN ${TABLE}.account_status_c = "Client - CrowdTorch" THEN "CrowdTorch"
-          WHEN ${TABLE}.account_status_c = "Client - UTix" THEN "UTix"
-          WHEN ${TABLE}.account_status_c = "Client - UGrad" THEN "UGrad"
+          WHEN ${TABLE}.account_status_c = "Client - UTix" THEN "AudienceView Campus"
+          WHEN ${TABLE}.account_status_c = "Client - UGrad" THEN "AudienceView Grad"
           ELSE "Research" END;;
   }
 
@@ -1729,20 +1729,20 @@ view: sf_accounts {
 # {% endif %};;
     link: {
       label: "Client Overview"
-      url: "{% if sf_accounts.product_name._value == 'Vendini' %}/dashboards/49?Client Name={{sf_accounts.name._value}}
-            {% elsif sf_accounts.product_name._value == 'OvationTix' %}/dashboards/47?Client Name={{sf_accounts.name._value }}
-            {% elsif sf_accounts.product_name._value == 'AudienceView' %}/dashboards/33?Product={{sf_accounts.product_name._value }}
-            {% elsif sf_accounts.product_name._value == 'UTix' %}/dashboards/34?Product={{sf_accounts.product_name._value }}
-            {% elsif sf_accounts.product_name._value == 'UGrad' %}/dashboards/34?Product={{sf_accounts.product_name._value }} {% endif %}"
+      url: "{% if sf_accounts.product_name._value == 'AudienceView Select' %}/dashboards/49?Client Name={{sf_accounts.name._value}}
+            {% elsif sf_accounts.product_name._value == 'AudienceView Professional' %}/dashboards/47?Client Name={{sf_accounts.name._value }}
+            {% elsif sf_accounts.product_name._value == 'AudienceView Unlimited' %}/dashboards/33?Product={{sf_accounts.product_name._value }}
+            {% elsif sf_accounts.product_name._value == 'AudienceView Campus' %}/dashboards/34?Product={{sf_accounts.product_name._value }}
+            {% elsif sf_accounts.product_name._value == 'AudienceView Grad' %}/dashboards/34?Product={{sf_accounts.product_name._value }} {% endif %}"
       icon_url: "https://www.pngfind.com/pngs/m/383-3836953_overview-icon-wp-overview-icon-hd-png-download.png"
     }
     link: {
       label: "Client Insights"
-      url:  "{% if sf_accounts.product_name._value == 'Vendini' %}/dashboards/46?Product={{sf_accounts.product_name._value }}&Client Name={{sf_accounts.name._value}}
-            {% elsif sf_accounts.product_name._value == 'OvationTix' %}/dashboards/48?Client Name={{sf_accounts.name._value }}
-            {% elsif sf_accounts.product_name._value == 'AudienceView' %}/dashboards/33?Product={{sf_accounts.product_name._value }}
-            {% elsif sf_accounts.product_name._value == 'UTix' %}/dashboards/34?Product={{sf_accounts.product_name._value }}
-            {% elsif sf_accounts.product_name._value == 'UGrad' %}/dashboards/34?Product={{sf_accounts.product_name._value }} {% endif %}"
+      url:  "{% if sf_accounts.product_name._value == 'AudienceView Select' %}/dashboards/46?Product={{sf_accounts.product_name._value }}&Client Name={{sf_accounts.name._value}}
+            {% elsif sf_accounts.product_name._value == 'AudienceView Professional' %}/dashboards/48?Client Name={{sf_accounts.name._value }}
+            {% elsif sf_accounts.product_name._value == 'AudienceView Unlimited' %}/dashboards/33?Product={{sf_accounts.product_name._value }}
+            {% elsif sf_accounts.product_name._value == 'AudienceView Campus' %}/dashboards/34?Product={{sf_accounts.product_name._value }}
+            {% elsif sf_accounts.product_name._value == 'AudienceView Grad' %}/dashboards/34?Product={{sf_accounts.product_name._value }} {% endif %}"
       icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
     }
     link: {

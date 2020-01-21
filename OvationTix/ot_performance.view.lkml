@@ -100,6 +100,85 @@ view: ot_performance {
       sql: ${perf_start_raw} >= ${ot_production.hidden_until_raw} ;;
       }
 
+   dimension: sale_period_length {
+    label: "Sale Period Length"
+     type: number
+    sql:date_diff(${perf_start_date},${ot_production.hidden_until_date}, day);;
+    html:  {% if value >= 100 %}
+    <b><p style="color: black; background-color: #dc7350; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b>
+    {% elsif value < 100 %}
+    <b><p style="color: black; background-color: #e9b404; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b>
+    {% else %}
+    <b><p style="color: black; background-color: #49cec1; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b>
+    {% endif %};;
+   }
+
+  dimension: days_since_onsale {
+    label: "Days Since On-Sale"
+    type: number
+    sql:date_diff(current_date,${ot_production.hidden_until_date}, day);;
+    html:  {% if value >= 100 %}
+    <b><p style="color: black; background-color: #dc7350; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b>
+    {% elsif value < 100 %}
+    <b><p style="color: black; background-color: #e9b404; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b>
+    {% else %}
+    <b><p style="color: black; background-color: #49cec1; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b>
+    {% endif %};;
+  }
+
+  dimension: days_left_performance {
+    label: "Days Left For Performance"
+    type: number
+    sql:date_diff(${perf_start_date}, current_date, day);;
+    html:  {% if value >= 31 %}
+          <b><p style="color: black; background-color: #e9b404; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b>
+          {% elsif value <= 30 %}
+          <b><p style="color: black; background-color: #dc7350; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b>
+          {% elsif value >= 100 %}
+          <b><p style="color: black; background-color: #49cec1; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b>
+          {% endif %};;
+  }
+
+  dimension: consumed_on_sale {
+    label: "Consumed On-Sale"
+    type: number
+    value_format_name: percent_2
+    sql:case when ${days_left_performance} > 0 and ${sale_period_length}> 0 then (${days_since_onsale}/${sale_period_length})*1
+        Else 1 End;;
+    html:  {% if value >= 0.100 %}
+    <b><p style="color: black; background-color: #dc7350; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% elsif value < 0.100 %}
+    <b><p style="color: black; background-color: #e9b404; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% else %}
+    <b><p style="color: black; background-color: #49cec1; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% endif %};;
+  }
+
+  measure: consumed_on_sale_max {
+    label: "Consumed On-Sale Max"
+    type: max
+    hidden: yes
+    value_format_name: percent_2
+    sql:case when ${days_left_performance} > 0 and ${sale_period_length}> 0 then (${days_since_onsale}/${sale_period_length})*1
+      Else 1 End;;
+  }
+
+  measure: sales_guidance {
+    label: "Sale guidance (linear) Compares Sold Cap with Consumed Time"
+    type:  number
+    value_format_name: percent_2
+    sql:${consumed_on_sale_max}-${ot_performance_stats_consumed.total_sold_capacity_percent} ;;
+    html:  {% if value >= 0.50 %}
+    <b><p style="color: black; background-color: #dc7350; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% elsif value < 0.50 %}
+    <b><p style="color: black; background-color: #e9b404; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% else %}
+    <b><p style="color: black; background-color: #49cec1; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
+    {% endif %};;
+  }
+
+
+
   dimension: phone_available {
     type: string
     sql: ${TABLE}.phone_available ;;
