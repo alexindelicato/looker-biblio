@@ -147,10 +147,20 @@ view: ot_performance {
         Else 1 End;;
   }
 
+  measure: consumed_on_sale_max {
+    label: "Consumed On-Sale Max"
+    type: max
+    hidden: yes
+    value_format_name: percent_2
+    sql:case when ${days_left_performance} > 0 and ${sale_period_length}> 0 then (${days_since_onsale}/${sale_period_length})*1
+      Else 1 End;;
+  }
+
   measure: sales_guidance {
     label: "Sale guidance (linear) Compares Sold Cap with Consumed Time"
     type:  number
-    sql:${consumed_on_sale}-${ot_performance_stats_consumed.total_sold_capacity_percent} ;;
+    value_format_name: percent_2
+    sql:${consumed_on_sale_max}-${ot_performance_stats_consumed.total_sold_capacity_percent} ;;
   }
 
 
