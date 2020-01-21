@@ -63,8 +63,10 @@ view: av_qbr {
         'both', 'combined', 'normal'
         )  then client_metric_value else null end) as correspondence_sent_volume
       FROM audienceview.qbr_data
-      LEFT JOIN `fivetran-ovation-tix-warehouse.new_salesforce.account` AS sf_accounts on sf_accounts.name = sf_client_name
+      LEFT JOIN `fivetran-ovation-tix-warehouse.new_salesforce.account` AS sf_accounts on sf_accounts.id = sf_client_id
       WHERE client_metric_value != 0
+      and userrole_name not like '%Migration%'
+      and userrole_name not like '%Data Loader%'
       and client_metric != 'Extract Date'
       GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
 
