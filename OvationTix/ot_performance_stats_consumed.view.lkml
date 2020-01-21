@@ -51,7 +51,7 @@ measure: total_sold_capacity_percent {
   <b><p style="color: black; background-color: #00ff00; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
   {% elsif value <= 0.26 or value <=0.79 %}
   <b><p style="color: black; background-color: #e9b404; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
-  {% elsif value <= 0.80 %}
+  {% elsif value >= 0.80  %}
   <b><p style="color: black; background-color: #dc7350; margin: 0; border-radius: 5px; text-align:center">{{ rendered_value }}</p></b>
   {% endif %};;
 }
