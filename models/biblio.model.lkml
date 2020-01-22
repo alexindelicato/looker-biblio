@@ -225,9 +225,9 @@ explore: ot_client {
 
 # AudienceView QBR-------
 explore: av_qbr {
-  label: "AudienceView Unlimited QBR"
+  label: "AV Unlimited QBR"
   group_label: "Project Biblio"
-  view_label: "AudienceView Unlimited QBR"
+  view_label: "AV Unlimited QBR"
 
   join: sf_accounts {
     view_label: "SF Accounts"
