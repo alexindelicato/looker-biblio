@@ -117,6 +117,12 @@ view: av_qbr {
       sql: ${TABLE}.client_metric_value ;;
     }
 
+  measure: total_client_metric_value_amounts {
+    type:  sum
+    label: "Total Value Amounts"
+    sql: ${TABLE}.client_metric_value ;;
+  }
+
 
 
     dimension: UUID {
