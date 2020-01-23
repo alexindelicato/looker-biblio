@@ -250,7 +250,7 @@ explore: sel_members {
   label: "AV Select"
   group_label: "Project Biblio"
   view_label: "AV Select"
-  sql_always_where: ${testmode}="N" ;;
+  sql_always_where: ${testmode}="N" and ${active}="Y" ;;
 
   join: sf_accounts {
     view_label: "SF Accounts"
