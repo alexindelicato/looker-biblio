@@ -3,6 +3,7 @@ view: sel_members {
   drill_fields: [memberid]
 
   dimension: memberid {
+    label: "Member ID"
     primary_key: yes
     type: string
     sql: ${TABLE}.memberid ;;
@@ -10,11 +11,13 @@ view: sel_members {
 
   dimension: _fivetran_deleted {
     type: yesno
+    hidden: yes
     sql: ${TABLE}._fivetran_deleted ;;
   }
 
   dimension_group: _fivetran_synced {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -33,6 +36,7 @@ view: sel_members {
   }
 
   dimension: accountmanagerid {
+    label: "Account Manager ID"
     type: string
     sql: ${TABLE}.accountmanagerid ;;
   }
@@ -525,6 +529,7 @@ view: sel_members {
   }
 
   dimension: organizationname {
+    label: "Client Name"
     type: string
     sql: ${TABLE}.organizationname ;;
   }
