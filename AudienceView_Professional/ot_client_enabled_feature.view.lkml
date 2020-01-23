@@ -67,6 +67,14 @@ view: ot_client_enabled_feature {
     sql: ${TABLE}.default_tm_insider ;;
   }
 
+  dimension: theatermania_feature {
+    label: "TM Newsletter Setting"
+    type: string
+    sql: case when ${default_tm_insider} = 0 then "Unchecked"
+          when ${default_tm_insider} = 1 then "Checked"
+          else "Off" End;;
+  }
+
   dimension: enable_donor_dashboard {
     type: number
     sql: ${TABLE}.enable_donor_dashboard ;;
