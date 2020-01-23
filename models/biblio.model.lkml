@@ -250,4 +250,11 @@ explore: sel_members {
   label: "AV Select"
   group_label: "Project Biblio"
   view_label: "AV Select"
+
+  join: sf_accounts {
+    view_label: "SF Accounts"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
   }
