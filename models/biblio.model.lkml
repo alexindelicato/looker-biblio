@@ -259,3 +259,4 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
   }
   }
+  #-----------------------
