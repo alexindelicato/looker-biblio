@@ -671,6 +671,7 @@ view: sel_members {
   }
 
   dimension: testmode {
+    label: "Test Mode"
     type: string
     sql: ${TABLE}.testmode ;;
   }
