@@ -228,6 +228,7 @@ explore: ot_client {
     sql_on: ${sf_accounts.salesforce_account_id_c} = ${ot_report_crm.crm_id} AND ${sf_accounts.is_deleted}= FALSE;;
   }
   }
+#------------------------
 
 # AudienceView QBR-------
 explore: av_qbr {
@@ -243,3 +244,10 @@ explore: av_qbr {
   }
   }
   #--------------------------
+
+  # AudienceView Select-------
+explore: sel_members {
+  label: "AV Select"
+  group_label: "Project Biblio"
+  view_label: "AV Select"
+  }
