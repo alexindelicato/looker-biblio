@@ -197,6 +197,12 @@ view: ot_production {
     sql: ${TABLE}.prod_name ;;
   }
 
+  measure: count_prod_id {
+    label: "Count Of Production"
+    type: count_distinct
+    sql: ${TABLE}.production_id ;;
+  }
+
   dimension: puchase_alert {
     type: string
     sql: ${TABLE}.puchase_alert ;;
