@@ -89,23 +89,21 @@ view: sf_accounts {
   dimension: product_name {
     label: "Product Name"
     type:  string
-    sql:  case when ${TABLE}.account_status_c = 'Client - OvationTix' THEN "AudienceView Professional"
-          WHEN ${TABLE}.account_status_c = "Client - AudienceView" THEN "AudienceView Unlimited"
-          WHEN ${TABLE}.account_status_c = "Client - Vendini" THEN "AudienceView Select"
-          WHEN ${TABLE}.account_status_c = "Live Mode" THEN "AudienceView Select"
-          WHEN ${TABLE}.account_status_c = "Client - CrowdTorch" THEN "CrowdTorch"
-          WHEN ${TABLE}.account_status_c = "Client - UTix" THEN "AudienceView Campus"
-          WHEN ${TABLE}.account_status_c = "Client - UGrad" THEN "AudienceView Grad"
+    sql:  case when ${TABLE}.type = 'Client - AudienceView Professional' THEN "AudienceView Professional"
+          WHEN ${TABLE}.type = "Client - AudienceView Unlimited" THEN "AudienceView Unlimited"
+          WHEN ${TABLE}.type = "Client - AudienceView Select" THEN "AudienceView Select"
+          WHEN ${TABLE}.type = "Live Mode" THEN "AudienceView Select"
+          WHEN ${TABLE}.type = "Client - CrowdTorch" THEN "CrowdTorch"
+          WHEN ${TABLE}.type = "Client - AudienceView Campus" THEN "AudienceView Campus"
+          WHEN ${TABLE}.type = "Client - AudienceView Grad" THEN "AudienceView Grad"
           ELSE "Research" END;;
   }
 
   dimension: market_solution {
     label: "Market Solution"
-    sql:case when ${TABLE}.account_status_c = 'Client - OvationTix' THEN 'MidMarket'
-    WHEN ${TABLE}.account_status_c = 'Live Mode' THEN 'MidMarket'
-    WHEN ${TABLE}.account_status_c = 'Client - CrowdTorch' THEN 'MidMarket'
-    WHEN ${TABLE}.account_status_c = 'Client - Vendini' THEN 'MidMarket'
-    WHEN ${TABLE}.account_status_c = 'Client - AudienceView' THEN 'Enterprise'
+    sql:case when ${TABLE}.type = 'Client - AudienceView Professional' or 'Client - AudienceView Select' THEN 'MidMarket'
+    WHEN ${TABLE}.type = 'Client - CrowdTorch' THEN 'MidMarket'
+    WHEN ${TABLE}.type = 'Client - AudienceView Unlimited' THEN 'Enterprise'
     ELSE 'Research' END;;
   }
 
