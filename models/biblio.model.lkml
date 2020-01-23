@@ -214,6 +214,12 @@ explore: ot_client {
     relationship: one_to_one
     sql_on: ${ot_report_crm.id}= ${ot_client.report_crm_id};;
   }
+  join: pro_department {
+    view_label: "AV Pro Department"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${pro_department.client_id}= ${ot_client.client_id};;
+  }
 
   join: sf_accounts {
     view_label: "SF Account"
