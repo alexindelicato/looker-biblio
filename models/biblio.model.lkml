@@ -247,9 +247,9 @@ explore: av_qbr {
 
   # AudienceView Select-------
 explore: sel_members {
-  label: "AV Select"
+  label: "AV Select Client"
   group_label: "Project Biblio"
-  view_label: "AV Select"
+  view_label: "AV Select Client"
   sql_always_where: ${testmode}="N" and ${active}="Y" ;;
 
   join: sf_accounts {
@@ -258,5 +258,27 @@ explore: sel_members {
     relationship: one_to_one
     sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
   }
+
+  join: sel_events {
+    view_label: "AV Select Events"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_members.memberid}=${sel_events.memberid} AND  ${sel_events.deleted} IS NOT NULL ;;
+  }
+
+  join: sel_performances {
+    view_label: "AV Select Series"
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NOT NULL ;;
+  }
+
+  join: sel_venues {
+    view_label: "AV Select Venues"
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${sel_members.memberid}=${sel_venues.memberid} AND  ${sel_venues.deleted} IS NOT NULL ;;
+  }
+
   }
   #-----------------------
