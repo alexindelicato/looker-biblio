@@ -88,9 +88,18 @@ view: sel_performances {
     sql: ${TABLE}.settled ;;
   }
 
-  dimension: starttime {
-    type: number
-    sql: ${TABLE}.starttime ;;
+  dimension_group: starttime {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: timestamp_seconds(${TABLE}.starttime) ;;
   }
 
   dimension: ticketlimitperpatron {
