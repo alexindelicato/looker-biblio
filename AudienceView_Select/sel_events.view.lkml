@@ -231,6 +231,7 @@ view: sel_events {
   }
 
   dimension: title {
+    label: "Event Name"
     type: string
     sql: ${TABLE}.title ;;
   }
