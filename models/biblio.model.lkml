@@ -263,21 +263,21 @@ explore: sel_members {
     view_label: "AV Select Events"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sel_members.memberid}=${sel_events.memberid} AND  ${sel_events.deleted} IS NOT NULL ;;
+    sql_on: ${sel_members.memberid}=${sel_events.memberid} AND  ${sel_events.deleted} IS NULL ;;
   }
 
   join: sel_performances {
     view_label: "AV Select Series"
     type: left_outer
     relationship: many_to_many
-    sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NOT NULL ;;
+    sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL ;;
   }
 
   join: sel_venues {
     view_label: "AV Select Venues"
     type: left_outer
     relationship: many_to_many
-    sql_on: ${sel_members.memberid}=${sel_venues.memberid} AND  ${sel_venues.deleted} IS NOT NULL ;;
+    sql_on: ${sel_members.memberid}=${sel_venues.memberid} AND  ${sel_venues.deleted} IS NULL ;;
   }
 
   }
