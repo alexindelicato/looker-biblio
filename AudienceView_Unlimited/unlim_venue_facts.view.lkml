@@ -14,7 +14,6 @@ parse_datetime( '%a %b %d %Y %R', SPLIT( performance_start_date, ':00 ')[safe_of
 capacity,
 sold_count
 FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts`
--- LEFT JOIN `fivetran-ovation-tix-warehouse.new_salesforce.account` AS sf_accounts on sf_accounts.id = sf_account_id
            ;;
 sql_trigger_value: select max(client_metric_date_time) from `fivetran-ovation-tix-warehouse.audienceview.qbr_data`;;
     }
@@ -51,7 +50,13 @@ sql_trigger_value: select max(client_metric_date_time) from `fivetran-ovation-ti
     sql: ${TABLE}.performance_short_description ;;
   }
 
-  dimension_group: performance_start_date {
+
+  dimension: performance_start_date {
+    type: date
+    sql: ${TABLE}.performance_start_date  ;;
+  }
+
+  dimension_group: performance_start_date_group {
     type: time
     sql: ${TABLE}.performance_start_date  ;;
   }
@@ -67,7 +72,7 @@ sql_trigger_value: select max(client_metric_date_time) from `fivetran-ovation-ti
   }
 
   dimension: sold_count {
-    type: string
+    type: number
     sql: ${TABLE}.sold_count ;;
   }
 
@@ -79,11 +84,6 @@ sql_trigger_value: select max(client_metric_date_time) from `fivetran-ovation-ti
   dimension: venue_name {
     type: string
     sql: ${TABLE}.venue_name ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [sf_account_name, venue_name, performance_series_name, performance_name, client_name]
   }
 
   measure:total_sold_count { type: sum sql: ${TABLE}.sold_count ;; drill_fields: [venue_facts*] }
