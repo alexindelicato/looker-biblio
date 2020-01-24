@@ -260,14 +260,14 @@ explore: sel_members {
   }
 
   join: sel_events {
-    view_label: "AV Select Events"
+    view_label: "AV Select Series"
     type: left_outer
     relationship: one_to_many
     sql_on: ${sel_members.memberid}=${sel_events.memberid} AND  ${sel_events.deleted} IS NULL ;;
   }
 
   join: sel_performances {
-    view_label: "AV Select Series"
+    view_label: "AV Select Performances"
     type: left_outer
     relationship: many_to_many
     sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL ;;
