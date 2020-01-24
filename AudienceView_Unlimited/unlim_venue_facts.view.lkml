@@ -14,7 +14,7 @@ parse_datetime( '%a %b %d %Y %R', SPLIT( performance_start_date, ':00 ')[safe_of
 capacity,
 sold_count
 FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts`
-LEFT JOIN `fivetran-ovation-tix-warehouse.new_salesforce.account` AS sf_accounts on sf_accounts.id = sf_account_id
+-- LEFT JOIN `fivetran-ovation-tix-warehouse.new_salesforce.account` AS sf_accounts on sf_accounts.id = sf_account_id
            ;;
 sql_trigger_value: select max(client_metric_date_time) from `fivetran-ovation-tix-warehouse.audienceview.qbr_data`;;
     }
