@@ -28,7 +28,7 @@ view: unlim_venue_facts {
 
   dimension: performance_start_date {
     type: string
-    sql: ${TABLE}.performance_start_date ;;
+    sql: ${TABLE}.performance_start_date  ;;
   }
 
   dimension: sf_account_id {
