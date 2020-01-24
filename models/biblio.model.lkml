@@ -198,7 +198,7 @@ explore: ot_client {
     view_label: "AV Pro Seatting Chart Client"
     type:left_outer
     relationship: one_to_one
-    sql_on: ${ot_seating_chart_client.seating_chart_id}=${ot_seating_chart.seating_chart_id} ;;
+    sql_on: ${ot_seating_chart_client.seating_chart_id}=${ot_seating_chart.seating_chart_id} and ${ot_seating_chart.deleted} = 'F' ;;
   }
 
   join: ot_section {
@@ -219,6 +219,13 @@ explore: ot_client {
     type: left_outer
     relationship: one_to_one
     sql_on: ${pro_department.client_id}= ${ot_client.client_id};;
+  }
+
+  join: ot_client_enabled_feature {
+    view_label: "AV Pro Client Features"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${ot_client_enabled_feature.client_id}=${ot_client.client_id} ;;
   }
 
   join: sf_accounts {
