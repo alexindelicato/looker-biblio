@@ -51,8 +51,8 @@ sql_trigger_value: select max(client_metric_date_time) from `fivetran-ovation-ti
     sql: ${TABLE}.performance_short_description ;;
   }
 
-  dimension: performance_start_date {
-    type: string
+  dimension_group: performance_start_date {
+    type: time
     sql: ${TABLE}.performance_start_date  ;;
   }
 
@@ -85,4 +85,14 @@ sql_trigger_value: select max(client_metric_date_time) from `fivetran-ovation-ti
     type: count
     drill_fields: [sf_account_name, venue_name, performance_series_name, performance_name, client_name]
   }
+
+  measure:total_sold_count { type: sum sql: ${TABLE}.sold_count ;; drill_fields: [venue_facts*] }
+
+  set: venue_facts {
+    fields: [
+      client_name,
+      venue_name
+    ]
+  }
+
 }
