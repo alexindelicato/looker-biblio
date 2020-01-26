@@ -26,17 +26,11 @@ view: av_qbr {
         quarter,
         userrole_name,
         userrole_group,
-        case when client_metric in (
-        'AdHoc', 'BI', 'CallLog', 'CancelTickets', 'Custom', 'Delivery', 'Email', 'Forwarding',
-        'Gifter', 'Invoice', 'Message', 'Offer', 'Referrer', 'TaxRecipient', 'ThankYouLetter',
-        'both', 'combined', 'normal'
-        )  then 'Correspondence Sent' else client_metric end as client_metric,
         client_metric_value,
         sum(case when client_metric='Bundle Admission Amount' then client_metric_value else null end) as bundle_admission_amount,
         sum(case when client_metric='Bundle Admission Volume' then client_metric_value else null end) as bundle_admission_volume,
         sum(case when client_metric='Bundle Amount' then client_metric_value else null end) as  bundle_amount,
         sum(case when client_metric='Bundle Volume' then client_metric_value else null end) as  bundle_volume,
-        sum(case when client_metric='Customer Pass Volume' then client_metric_value else null end) as  customer_pass_volume,
         sum(case when client_metric='Donation Amount' then client_metric_value else null end) as  donation_amount,
         sum(case when client_metric='Donation Volume' then client_metric_value else null end) as  donation_volume,
         sum(case when client_metric='Gift Certificate Amount' then client_metric_value else null end) as  gift_certificate_amount,
@@ -50,25 +44,14 @@ view: av_qbr {
         sum(case when client_metric='Single Admission Amount' then client_metric_value else null end) as  single_admission_amount,
         sum(case when client_metric='Single Admission Volume' then client_metric_value else null end) as  single_admission_volume,
         sum(case when client_metric='Sold Admission Volume' then client_metric_value else null end) as  sold_admission_volume,
-        sum(case when client_metric='Comp Admission Volume' then client_metric_value else null end) as comp_admission_volume,
-        sum(case when client_metric='Customer Memberships Volume' then client_metric_value else null end) as customer_memberships_volume,
-        sum(case when client_metric='Customer Spend Amount' then client_metric_value else null end) as customer_spend_amount,
-        sum(case when client_metric='New Customer Volume' then client_metric_value else null end) as new_customer_volume,
-        sum(case when client_metric='Notes Assigned Volume' then client_metric_value else null end) as notes_assigned_volume,
-        sum(case when client_metric='Notes Created Volume' then client_metric_value else null end) as notes_created_volume,
-        sum(case when client_metric='Online New Customer Volume' then client_metric_value else null end) as online_new_customer_volume,
-        sum(case when client_metric in (
-        'AdHoc', 'BI', 'CallLog', 'CancelTickets', 'Custom', 'Delivery', 'Email', 'Forwarding',
-        'Gifter', 'Invoice', 'Message', 'Offer', 'Referrer', 'TaxRecipient', 'ThankYouLetter',
-        'both', 'combined', 'normal'
-        )  then client_metric_value else null end) as correspondence_sent_volume
+        sum(case when client_metric='Comp Admission Volume' then client_metric_value else null end) as comp_admission_volume
       FROM audienceview.qbr_data
       LEFT JOIN `fivetran-ovation-tix-warehouse.new_salesforce.account` AS sf_accounts on sf_accounts.id = sf_client_id
       WHERE client_metric_value != 0
       and userrole_name not like '%Migration%'
       and userrole_name not like '%Data Loader%'
       and client_metric != 'Extract Date'
-      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
+      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 
       -- ORDER BY client_metric_time
            ;;
@@ -311,7 +294,6 @@ view: av_qbr {
     measure:total_bundle_admission_volume { type: sum sql: ${TABLE}.bundle_admission_volume ;; drill_fields: [qbr_order_volume_detail*] }
     measure:total_bundle_amount { type: sum sql: ${TABLE}.bundle_amount ;; drill_fields: [qbr_order_amount_detail*] }
     measure:total_bundle_volume { type: sum sql: ${TABLE}.bundle_volume ;; drill_fields: [qbr_order_volume_detail*] }
-    measure:total_customer_pass_volume { type: sum sql: ${TABLE}.customer_pass_volume ;; }
     measure:total_donation_amount { type: sum sql: ${TABLE}.donation_amount ;; drill_fields: [qbr_order_amount_detail*] }
     measure:total_donation_volume { type: sum sql: ${TABLE}.donation_volume ;; drill_fields: [qbr_order_volume_detail*] }
     measure:total_gift_certificate_amount { type: sum sql: ${TABLE}.gift_certificate_amount ;; drill_fields: [qbr_order_amount_detail*] }
@@ -326,13 +308,6 @@ view: av_qbr {
     measure:total_single_admission_volume { type: sum sql: ${TABLE}.single_admission_volume ;; drill_fields: [qbr_order_volume_detail*] }
     measure:total_sold_admission_volume { type: sum sql: ${TABLE}.sold_admission_volume ;; }
     measure:total_comp_admission_volume { type: sum sql: ${TABLE}.comp_admission_volume ;; }
-    measure:total_customer_memberships_volume { type: sum sql: ${TABLE}.customer_memberships_volume ;; }
-    measure:total_customer_spend_amount { type: sum sql: ${TABLE}.customer_spend_amount ;; }
-    measure:total_new_customer_volume { type: sum sql: ${TABLE}.new_customer_volume ;; }
-    measure:total_notes_assigned_volume { type: sum sql: ${TABLE}.notes_assigned_volume ;; }
-    measure:total_notes_created_volume { type: sum sql: ${TABLE}.notes_created_volume ;; }
-    measure:total_online_new_customer_volume { type: sum sql: ${TABLE}.online_new_customer_volume ;; }
-    measure:total_correspondence_sent_volume { type: sum sql: ${TABLE}.correspondence_sent_volume ;; }
 
   measure: total_order_amount_USD {
     label: "Total Order Total Amount (USD)"

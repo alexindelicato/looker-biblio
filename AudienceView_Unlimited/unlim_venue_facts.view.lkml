@@ -82,6 +82,7 @@ FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts_new`
   }
 
   measure:total_sold_count { type: sum sql: ${TABLE}.sold_count ;; drill_fields: [venue_facts*] }
+  measure:total_capacity_count { type: sum sql: ${TABLE}.capacity ;; drill_fields: [venue_facts*] }
 
   set: venue_facts {
     fields: [
