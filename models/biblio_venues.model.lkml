@@ -22,9 +22,9 @@ include: "/*/*.view"
 # }
 # AudienceView QBR-------
 explore: unlim_venue_facts {
-  label: "AV Unlimited Venue Facts"
+  label: "AudienceView Venue Facts"
   group_label: "Project Biblio"
-  view_label: "AV Unlimited Venue Facts"
+  view_label: "AudienceView Venue Facts"
 
   join: sf_accounts {
     view_label: "SF Accounts"
