@@ -18,10 +18,11 @@ FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts_new`
            ;;
     }
 
-  dimension: performance_start_date {
-    type: string
-    sql: ${TABLE}.performance_start_date  ;;
-  }
+
+#  dimension: performance_start_date {
+#    type: date
+#    sql: ${TABLE}.performance_start_date  ;;
+#  }
 
   dimension_group: performance_time {
     type: time
