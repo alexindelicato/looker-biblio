@@ -125,6 +125,7 @@ view: sel_venues {
   }
 
   dimension: name {
+    label: "Venue Name"
     type: string
     sql: ${TABLE}.name ;;
   }
