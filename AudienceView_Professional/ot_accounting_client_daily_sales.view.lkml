@@ -81,6 +81,7 @@ view: ot_accounting_client_daily_sales {
       month,
       month_name,
       quarter,
+      quarter_of_year,
       year
     ]
     sql: ${transaction_date} ;;
