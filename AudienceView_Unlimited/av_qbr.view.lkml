@@ -327,6 +327,7 @@ view: av_qbr {
 
    measure: total_ticket_amount {
       label: "Total Ticket Amount"
+      value_format_name: usd_0
       type: number
       sql: ${total_bundle_admission_amount}+${total_single_admission_amount} ;;
     }
