@@ -858,6 +858,11 @@ view: sf_accounts {
     sql: ${TABLE}.current_ticketing_solution_c ;;
   }
 
+  dimension: unlimited_version {
+    type: number
+    sql: case when STARTS_WITH(${TABLE}.current_production_software_version_c,'7.') then  CAST(${TABLE}.current_production_software_version_c AS FLOAT64) end ;;
+  }
+
   dimension: current_version_c {
     type: string
     sql: ${TABLE}.current_version_c ;;
