@@ -287,6 +287,13 @@ explore: sel_members {
     sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL ;;
   }
 
+  join: sel_performances_stats_daily {
+    view_label: "AV Select Performances Stats"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_performances_stats_daily.performanceid}=${sel_performances.performanceid} AND ${sel_performances.deleted} IS NULL  ;;
+  }
+
   join: sel_venues {
     view_label: "AV Select Venues"
     type: left_outer
