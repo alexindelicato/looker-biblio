@@ -62,6 +62,11 @@ view: sel_genbysec_inventory {
     sql: ${TABLE}.sold ;;
   }
 
+  measure: sum_sold {
+    type: sum
+    sql: ${TABLE}.sold ;;
+  }
+
   dimension: venuemapid {
     type: string
     sql: ${TABLE}.venuemapid ;;

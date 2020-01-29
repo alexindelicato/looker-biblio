@@ -91,7 +91,7 @@ view: sel_general_inventory {
     type: number
     sql: case when ${sel_venues.venue_type} = 'General Admission' then ${sold}
           when ${sel_venues.venue_type} = 'Reserved' then ${sel_reserved_inventory.sold}
-          when ${sel_venues.venue_type} = ' Mixed' then ${sel_genbysec_inventory.sold}
+          when ${sel_venues.venue_type} = ' Mixed' then ${sel_genbysec_inventory.sum_sold}
           END;;
   }
 
