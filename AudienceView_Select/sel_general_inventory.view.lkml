@@ -125,6 +125,36 @@ view: sel_general_inventory {
     required_fields: [sel_venues.venue_type, sel_venues.admission, sel_general_inventory.sold, sel_reserved_inventory.sold, sel_reserved_inventory.held ]
   }
 
+  measure: sum_inventory_count {
+    label: "Sum Inventory Count (Event Level Only)"
+    type: number
+    sql: case when ${sel_venues.venue_type} = 'General Admission' then sum(${ga_inventory})
+          when ${sel_venues.venue_type} = 'Reserved' then sum(${sel_reserved_inventory.res_inventory})
+          when ${sel_venues.venue_type} = 'Mixed' then ${sel_genbysec_inventory.mix_inventory}
+          END;;
+    required_fields: [sel_venues.venue_type, sel_venues.admission,sel_general_inventory.sold,sel_general_inventory.inventory, sel_reserved_inventory.inventory]
+  }
+
+  measure: sum_sold_count {
+    label: "Sum Sold Count (Event Level Only)"
+    type: number
+    sql: case when ${sel_venues.venue_type} = 'General Admission' then sum(${ga_sold})
+          when ${sel_venues.venue_type} = 'Reserved' then sum(${sel_reserved_inventory.res_sold})
+          when ${sel_venues.venue_type} = 'Mixed' then ${sel_genbysec_inventory.sum_sold}
+          END;;
+    required_fields: [sel_venues.venue_type, sel_venues.admission, sel_general_inventory.sold, sel_reserved_inventory.sold]
+  }
+
+  measure: sum_capacity_count {
+    label: "Sum Capacity Count (Event Level Only)"
+    type: number
+    sql: case when ${sel_venues.venue_type} = 'General Admission' then sum(${ga_capacity})
+          when ${sel_venues.venue_type} = 'Reserved' then sum(${sel_reserved_inventory.res_capacity})
+          when ${sel_venues.venue_type} = 'Mixed' then ${sel_genbysec_inventory.mix_capacity}
+          END;;
+    required_fields: [sel_venues.venue_type, sel_venues.admission, sel_general_inventory.sold, sel_reserved_inventory.sold, sel_reserved_inventory.held ]
+  }
+
   measure: count {
     type: count
     drill_fields: [id]
