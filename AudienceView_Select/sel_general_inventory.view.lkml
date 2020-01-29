@@ -6,11 +6,13 @@ view: sel_general_inventory {
     primary_key: yes
     type: string
     sql: ${TABLE}.id ;;
+    hidden: yes
   }
 
   dimension: _fivetran_deleted {
     type: yesno
     sql: ${TABLE}._fivetran_deleted ;;
+    hidden: yes
   }
 
   dimension_group: _fivetran_synced {
@@ -25,50 +27,60 @@ view: sel_general_inventory {
       year
     ]
     sql: ${TABLE}._fivetran_synced ;;
+    hidden: yes
   }
 
   dimension: initial {
     type: number
     sql: ${TABLE}.initial ;;
+    hidden: yes
   }
 
   dimension: inventory {
     type: number
+    hidden: yes
     sql: ${TABLE}.inventory ;;
   }
 
   measure: ga_inventory {
     type: number
+    hidden: yes
     sql: ${TABLE}.inventory ;;
   }
 
   measure: ga_capacity {
     type: number
+    hidden: yes
     sql: ${ga_sold}+${ga_inventory} ;;
   }
 
   dimension: notforsale {
     type: number
     sql: ${TABLE}.notforsale ;;
+    hidden: yes
   }
 
   dimension: notified {
     type: string
     sql: ${TABLE}.notified ;;
+    hidden: yes
   }
 
   dimension: performanceid {
     type: string
     sql: ${TABLE}.performanceid ;;
+    hidden: yes
   }
 
   dimension: sold {
     type: number
+    hidden: yes
     sql: ${TABLE}.sold ;;
   }
 
   measure: ga_sold {
     type: number
+    hidden: yes
     sql: ${TABLE}.sold ;;
   }
 #
@@ -110,11 +122,12 @@ view: sel_general_inventory {
           when ${sel_venues.venue_type} = 'Reserved' then ${sel_reserved_inventory.res_capacity}
           when ${sel_venues.venue_type} = 'Mixed' then ${sel_genbysec_inventory.mix_capacity}
           END;;
-    required_fields: [sel_venues.venue_type, sel_venues.admission, sel_general_inventory.sold, sel_reserved_inventory.sold]
+    required_fields: [sel_venues.venue_type, sel_venues.admission, sel_general_inventory.sold, sel_reserved_inventory.sold, sel_reserved_inventory.held ]
   }
 
   measure: count {
     type: count
     drill_fields: [id]
+    hidden: yes
   }
 }

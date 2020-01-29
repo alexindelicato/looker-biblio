@@ -288,7 +288,7 @@ explore: sel_members {
   }
 
   join: sel_general_inventory {
-    view_label: "AV Select General Inventory"
+    view_label: "AV Select Performance Inventory"
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_general_inventory.performanceid}=${sel_performances.performanceid} AND ${sel_performances.deleted} IS NULL ;;
