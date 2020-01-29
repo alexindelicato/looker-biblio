@@ -54,6 +54,7 @@ view: sel_reserved_inventory {
 
   dimension: venuemap {
     type: string
+    hidden: yes
     sql: ${TABLE}.venuemap ;;
   }
 
