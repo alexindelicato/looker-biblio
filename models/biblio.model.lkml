@@ -301,6 +301,13 @@ explore: sel_members {
     sql_on: ${sel_reserved_inventory.performanceid}=${sel_performances.performanceid} AND ${sel_performances.deleted} IS NULL ;;
   }
 
+  join: sel_genbysec_inventory {
+    view_label: "AV Select Mixed Inventory"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_genbysec_inventory.performanceid}=${sel_performances.performanceid} AND ${sel_performances.deleted} IS NULL ;;
+  }
+
   join: sel_venues {
     view_label: "AV Select Venues"
     type: left_outer
