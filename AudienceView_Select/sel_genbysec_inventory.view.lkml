@@ -37,6 +37,16 @@ view: sel_genbysec_inventory {
     sql: ${TABLE}.inventory ;;
   }
 
+  measure: mix_inventory {
+    type: sum
+    sql: ${TABLE}.inventory ;;
+  }
+
+  measure: mix_capacity {
+    type: number
+    sql: ${sum_sold}+${mix_inventory} ;;
+  }
+
   dimension: moreinfo {
     type: string
     sql: ${TABLE}.moreinfo ;;

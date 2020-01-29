@@ -37,6 +37,16 @@ view: sel_reserved_inventory {
     sql: ${TABLE}.inventory ;;
   }
 
+  measure: res_inventory {
+    type: number
+    sql: ${TABLE}.inventory ;;
+  }
+
+  measure: res_capacity {
+    type: number
+    sql: ${res_sold}+${res_inventory} ;;
+  }
+
   dimension: notified {
     type: string
     sql: ${TABLE}.notified ;;
@@ -48,6 +58,11 @@ view: sel_reserved_inventory {
   }
 
   dimension: sold {
+    type: number
+    sql: ${TABLE}.sold ;;
+  }
+
+  measure: res_sold {
     type: number
     sql: ${TABLE}.sold ;;
   }

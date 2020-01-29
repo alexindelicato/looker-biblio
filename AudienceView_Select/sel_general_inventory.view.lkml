@@ -37,6 +37,16 @@ view: sel_general_inventory {
     sql: ${TABLE}.inventory ;;
   }
 
+  measure: ga_inventory {
+    type: number
+    sql: ${TABLE}.inventory ;;
+  }
+
+  measure: ga_capacity {
+    type: number
+    sql: ${ga_sold}+${ga_inventory} ;;
+  }
+
   dimension: notforsale {
     type: number
     sql: ${TABLE}.notforsale ;;
@@ -56,6 +66,11 @@ view: sel_general_inventory {
     type: number
     sql: ${TABLE}.sold ;;
   }
+
+  measure: ga_sold {
+    type: number
+    sql: ${TABLE}.sold ;;
+  }
 #
 #   -- Venue Type = 'G'
 # SELECT performanceID, inventory+sold AS Capacity, inventory, sold, notForSale
@@ -68,31 +83,34 @@ view: sel_general_inventory {
 # SELECT performanceId, sum(inventory) + sum(held) + sum(sold) AS "capacity",  sum(inventory) AS Inventory, sum(held) AS Held, sum(sold) AS Sold, sum(notForSale)
 # FROM genBySec_inventory WHERE performanceID = '13eb90ecc2101fe9ae4d2e7c799b8b91';
 
-#   dimension: is_ga {
-#     type: yesno
-#     sql: ${sel_venues.admission} = 'G';;
-#     hidden: yes
-#   }
-#
-#   dimension: is_reserved {
-#     type: yesno
-#     sql: ${sel_venues.admission} = 'R';;
-#     hidden: yes
-#   }
-#
-#   dimension: is_mixed {
-#     type: yesno
-#     sql: ${sel_venues.admission} = 'F';;
-#     hidden: yes
-#   }
-
   measure: sold_count {
     label: "Sold Count"
     type: number
-    sql: case when ${sel_venues.venue_type} = 'General Admission' then ${sold}
-          when ${sel_venues.venue_type} = 'Reserved' then ${sel_reserved_inventory.sold}
-          when ${sel_venues.venue_type} = ' Mixed' then ${sel_genbysec_inventory.sum_sold}
+    sql: case when ${sel_venues.venue_type} = 'General Admission' then ${ga_sold}
+          when ${sel_venues.venue_type} = 'Reserved' then ${sel_reserved_inventory.res_sold}
+          when ${sel_venues.venue_type} = 'Mixed' then ${sel_genbysec_inventory.sum_sold}
           END;;
+    required_fields: [sel_venues.venue_type, sel_venues.admission, sel_general_inventory.sold, sel_reserved_inventory.sold]
+  }
+
+  measure: inventory_count {
+    label: "Inventory Count"
+    type: number
+    sql: case when ${sel_venues.venue_type} = 'General Admission' then ${ga_inventory}
+          when ${sel_venues.venue_type} = 'Reserved' then ${sel_reserved_inventory.res_inventory}
+          when ${sel_venues.venue_type} = 'Mixed' then ${sel_genbysec_inventory.mix_inventory}
+          END;;
+    required_fields: [sel_venues.venue_type, sel_venues.admission,sel_general_inventory.sold,sel_general_inventory.inventory, sel_reserved_inventory.inventory]
+  }
+
+  measure: capacity_count {
+    label: "Capacity Count"
+    type: number
+    sql: case when ${sel_venues.venue_type} = 'General Admission' then ${ga_capacity}
+          when ${sel_venues.venue_type} = 'Reserved' then ${sel_reserved_inventory.res_capacity}
+          when ${sel_venues.venue_type} = 'Mixed' then ${sel_genbysec_inventory.mix_capacity}
+          END;;
+    required_fields: [sel_venues.venue_type, sel_venues.admission, sel_general_inventory.sold, sel_reserved_inventory.sold]
   }
 
   measure: count {
