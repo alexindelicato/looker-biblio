@@ -287,6 +287,13 @@ explore: sel_members {
     sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL ;;
   }
 
+  join: sel_general_inventory {
+    view_label: "AV Select General Inventory"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_general_inventory.performanceid}=${sel_performances.performanceid} AND ${sel_performances.deleted} IS NULL ;;
+  }
+
   join: sel_venues {
     view_label: "AV Select Venues"
     type: left_outer
