@@ -33,31 +33,31 @@ view: sel_genbysec_inventory {
   dimension: held {
     type: number
     sql: ${TABLE}.held ;;
-    hidden: yes
+
   }
 
   measure: mix_held {
     type: sum
     sql: ${TABLE}.held ;;
-    hidden: yes
+
   }
 
   dimension: inventory {
     type: number
     sql: ${TABLE}.inventory ;;
-    hidden: yes
+
   }
 
   measure: mix_inventory {
     type: sum
     sql: ${TABLE}.inventory ;;
-    hidden: yes
+
   }
 
   measure: mix_capacity {
     type: number
     sql: ${sum_sold}+${mix_inventory}+${mix_held} ;;
-    hidden: yes
+
   }
 
   dimension: moreinfo {
@@ -87,13 +87,13 @@ view: sel_genbysec_inventory {
   dimension: sold {
     type: number
     sql: ${TABLE}.sold ;;
-    hidden: yes
+
   }
 
   measure: sum_sold {
     type: sum
     sql: ${TABLE}.sold ;;
-    hidden: yes
+
   }
 
   dimension: venuemapid {

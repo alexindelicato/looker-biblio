@@ -122,7 +122,8 @@ view: sel_general_inventory {
           when ${sel_venues.venue_type} = 'Reserved' then ${sel_reserved_inventory.res_capacity}
           when ${sel_venues.venue_type} = 'Mixed' then ${sel_genbysec_inventory.mix_capacity}
           END;;
-    required_fields: [sel_venues.venue_type, sel_venues.admission, sel_general_inventory.sold, sel_reserved_inventory.sold, sel_reserved_inventory.held ]
+    required_fields: [sel_venues.venue_type, sel_venues.admission, sel_general_inventory.sold, sel_reserved_inventory.sold, sel_reserved_inventory.held, sel_general_inventory.inventory,
+                    sel_reserved_inventory.inventory ]
   }
 
   measure: sum_inventory_count {
