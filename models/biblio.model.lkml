@@ -311,7 +311,7 @@ explore: sel_members {
   join: sel_venues {
     view_label: "AV Select Venues"
     type: left_outer
-    relationship: many_to_one
+    relationship: one_to_one
     sql_on: ${sel_events.venueid}=${sel_venues.venueid} AND  ${sel_venues.deleted} IS NULL ;;
   }
 
