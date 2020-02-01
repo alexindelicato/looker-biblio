@@ -133,40 +133,40 @@ view: av_qbr {
       sql: ${TABLE}.client_metric ;;
     }
 
-    dimension: client_metric_amounts {
-      type: string
-      sql:
-          CASE
-            WHEN ${TABLE}.client_metric like '%Amount'
-              AND ${TABLE}.client_metric NOT IN ( 'Customer Spend Amount', 'Order Total Amount' )
-            THEN ${TABLE}.client_metric
-           ELSE NULL
-          END
-          ;;
-    }
+#   dimension: client_metric_amounts {
+#      type: string
+#      sql:
+#          CASE
+#            WHEN ${TABLE}.client_metric like '%Amount'
+#              AND ${TABLE}.client_metric NOT IN ( 'Customer Spend Amount', 'Order Total Amount' )
+#            THEN ${TABLE}.client_metric
+#           ELSE NULL
+#          END
+#          ;;
+#    }
 
-    dimension: client_metric_volumes {
-      type: string
-      sql:
-          CASE
-            WHEN ${TABLE}.client_metric like '%Volume'
-              AND ${TABLE}.client_metric NOT IN (
-                'Sold Admission Volume',
-                'Order Total Amount',
-                'Comp Admission Volume',
-                'New Customer Volume',
-                'Notes Created Volume',
-                'Customer Pass Volume',
-                'Customer Memberships Volume',
-                'Notes Assigned Volume',
-                'Online New Customer Volume',
-                'Order Total Volume'
-              )
-            THEN ${TABLE}.client_metric
-            ELSE NULL
-          END
-          ;;
-    }
+#    dimension: client_metric_volumes {
+#      type: string
+#      sql:
+#          CASE
+#            WHEN ${TABLE}.client_metric like '%Volume'
+#              AND ${TABLE}.client_metric NOT IN (
+#                'Sold Admission Volume',
+#                'Order Total Amount',
+#                'Comp Admission Volume',
+#                'New Customer Volume',
+#                'Notes Created Volume',
+#                'Customer Pass Volume',
+#                'Customer Memberships Volume',
+#                'Notes Assigned Volume',
+#                'Online New Customer Volume',
+#                'Order Total Volume'
+#              )
+#            THEN ${TABLE}.client_metric
+#            ELSE NULL
+#          END
+#          ;;
+#    }
 
     dimension: client_metric_value {
       type: string
@@ -300,8 +300,8 @@ view: av_qbr {
     measure:total_gift_certificate_volume { type: sum sql: ${TABLE}.gift_certificate_volume ;; drill_fields: [qbr_order_volume_detail*] }
     measure:total_misc_item_amount { type: sum sql: ${TABLE}.misc_item_amount ;; drill_fields: [qbr_order_amount_detail*] }
     measure:total_misc_item_volume { type: sum sql: ${TABLE}.misc_item_volume ;; drill_fields: [qbr_order_volume_detail*] }
-    measure:total_order_total_amount { type: sum sql: ${TABLE}.order_total_amount ;; drill_fields: [qbr_order_total_detail*] }
-    measure:total_order_total_volume { type: sum sql: ${TABLE}.order_total_volume ;; drill_fields: [qbr_order_total_detail*] }
+    #measure:total_order_total_amount { type: sum sql: ${TABLE}.order_total_amount ;; drill_fields: [qbr_order_total_detail*] }
+    #measure:total_order_total_volume { type: sum sql: ${TABLE}.order_total_volume ;; drill_fields: [qbr_order_total_detail*] }
     measure:total_service_charge_amount { type: sum sql: ${TABLE}.service_charge_amount ;; drill_fields: [qbr_order_amount_detail*] }
     measure:total_service_charge_volume { type: sum sql: ${TABLE}.service_charge_volume ;; drill_fields: [qbr_order_volume_detail*] }
     measure:total_single_admission_amount { type: sum sql: ${TABLE}.single_admission_amount ;; drill_fields: [qbr_order_amount_detail*] }
@@ -309,42 +309,35 @@ view: av_qbr {
     measure:total_sold_admission_volume { type: sum sql: ${TABLE}.sold_admission_volume ;; }
     measure:total_comp_admission_volume { type: sum sql: ${TABLE}.comp_admission_volume ;; }
 
+    measure: total_order_item_amounts {
+      label: "Total Order Item Amount"
+      type: sum
+      sql: coalesce(
+      ${TABLE}.bundle_admission_amount,
+      ${TABLE}.bundle_amount,
+      ${TABLE}.donation_amount,
+      ${TABLE}.gift_certificate_amount,
+      ${TABLE}.misc_item_amount,
+      ${TABLE}.service_charge_amount,
+      ${TABLE}.single_admission_amount
+      );;
+    }
+
   measure: total_order_amount_USD {
-    label: "Total Order Total Amount (USD)"
+    label: "Total Order Item Amount (USD)"
     type:  number
     value_format_name: usd
     required_fields: [client_currency_code]
     sql:   case
-      when ${client_currency_code} = "USD" THEN ${total_order_total_amount} * 1.00
-      when ${client_currency_code} = "CDN" THEN ${total_order_total_amount} * 0.76
-      when ${client_currency_code} = "GBP" THEN ${total_order_total_amount} * 1.32
-      when ${client_currency_code} = "PHP" THEN ${total_order_total_amount} * 0.020
-      when ${client_currency_code} = "EUR" THEN ${total_order_total_amount} * 1.11
-      when ${client_currency_code} = "COP" THEN ${total_order_total_amount} * 0.00029
-    else ${total_order_total_amount}
+      when ${client_currency_code} = "USD" THEN ${total_order_item_amounts} * 1.00
+      when ${client_currency_code} = "CDN" THEN ${total_order_item_amounts} * 0.76
+      when ${client_currency_code} = "GBP" THEN ${total_order_item_amounts} * 1.32
+      when ${client_currency_code} = "PHP" THEN ${total_order_item_amounts} * 0.020
+      when ${client_currency_code} = "EUR" THEN ${total_order_item_amounts} * 1.11
+      when ${client_currency_code} = "COP" THEN ${total_order_item_amounts} * 0.00029
+    else ${total_order_item_amounts}
     end;;
   }
-
-   measure: total_ticket_amount {
-      label: "Total Ticket Amount"
-      value_format_name: usd_0
-      type: number
-      sql: ${total_bundle_admission_amount}+${total_single_admission_amount} ;;
-    }
-
-    measure: total_order_item_amounts {
-      type: sum
-      sql: coalesce(${TABLE}.bundle_admission_amount,${TABLE}.bundle_amount,${TABLE}.donation_amount,${TABLE}.gift_certificate_amount,${TABLE}.misc_item_amount,${TABLE}.service_charge_amount,${TABLE}.single_admission_amount);;
-      drill_fields: [qbr_order_amount_detail*,
-        -total_bundle_admission_amount,
-        -total_bundle_amount,
-        -total_donation_amount,
-        -total_gift_certificate_amount,
-        -total_misc_item_amount,
-        -total_service_charge_amount,
-        -total_single_admission_amount
-      ]
-    }
 
     measure: total_order_item_volumes {
       type: sum
@@ -371,7 +364,10 @@ view: av_qbr {
 
     measure: total_ticket_volume {
       type: sum
-      sql: coalesce(${TABLE}.bundle_admission_volume,${TABLE}.single_admission_volume) ;;
+      sql: coalesce(
+      ${TABLE}.bundle_admission_volume,
+      ${TABLE}.single_admission_volume
+      ) ;;
       drill_fields: [qbr_ticket_detail*,
         -total_bundle_admission_volume,
         -total_single_admission_volume,
@@ -392,9 +388,7 @@ view: av_qbr {
         client_name,
         client_time_zone,
         client_vertical,
-        client_region,
-        total_order_total_amount,
-        total_order_total_volume
+        client_region
       ]
     }
 
