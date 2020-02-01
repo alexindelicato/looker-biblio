@@ -328,6 +328,7 @@ view: sf_accounts {
   }
 
   dimension: billing_postal_code {
+    map_layer_name: countries
     type: string
     sql: ${TABLE}.billing_postal_code ;;
   }

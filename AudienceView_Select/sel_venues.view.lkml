@@ -175,7 +175,8 @@ dimension: venue_type  {
   }
 
   dimension: zip {
-    type: zipcode
+    map_layer_name: us_zipcode_tabulation_areas
+    type: string
     sql: ${TABLE}.zip ;;
   }
 
