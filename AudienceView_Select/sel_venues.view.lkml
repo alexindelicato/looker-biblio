@@ -32,6 +32,15 @@ view: sel_venues {
     sql: ${TABLE}.admission ;;
   }
 
+dimension: venue_type  {
+  label: "Venue Type"
+  type: string
+  sql: case when ${TABLE}.admission = 'G' then 'General Admission'
+        when  ${TABLE}.admission = 'R' then 'Reserved'
+        when ${TABLE}.admission = 'F' then  'Mixed'
+       END ;;
+}
+
   dimension: allgeneralareasinsingleview {
     type: string
     sql: ${TABLE}.allgeneralareasinsingleview ;;

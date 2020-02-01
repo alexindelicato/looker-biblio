@@ -283,15 +283,36 @@ explore: sel_members {
   join: sel_performances {
     view_label: "AV Select Performances"
     type: left_outer
-    relationship: many_to_many
+    relationship: one_to_many
     sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL ;;
+  }
+
+  join: sel_general_inventory {
+    view_label: "AV Select Performance Inventory"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_general_inventory.performanceid}=${sel_performances.performanceid} AND ${sel_performances.deleted} IS NULL ;;
+  }
+
+  join: sel_reserved_inventory {
+    view_label: "AV Select Reserved Inventory"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_reserved_inventory.performanceid}=${sel_performances.performanceid} AND ${sel_performances.deleted} IS NULL ;;
+  }
+
+  join: sel_genbysec_inventory {
+    view_label: "AV Select Mixed Inventory"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_genbysec_inventory.performanceid}=${sel_performances.performanceid} AND ${sel_performances.deleted} IS NULL ;;
   }
 
   join: sel_venues {
     view_label: "AV Select Venues"
     type: left_outer
-    relationship: one_to_many
-    sql_on: ${sel_members.memberid}=${sel_venues.memberid} AND  ${sel_venues.deleted} IS NULL ;;
+    relationship: one_to_one
+    sql_on: ${sel_events.venueid}=${sel_venues.venueid} AND  ${sel_venues.deleted} IS NULL ;;
   }
 
   }

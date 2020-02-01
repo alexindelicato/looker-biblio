@@ -29,6 +29,12 @@ FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts_new`
     sql: ${TABLE}.performance_time  ;;
   }
 
+ measure: count_start_time {
+   type: count_distinct
+  sql: ${TABLE}.performance_name ;;
+  drill_fields: [client_name,performance_series_name,performance_short_description,performance_time_time]
+ }
+
   dimension: UUID {
     primary_key: yes
     hidden: yes
