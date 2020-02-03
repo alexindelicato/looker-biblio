@@ -1,9 +1,8 @@
 view: sel_performance_inventory {
     derived_table: {
       sql:
-        SELECTsel_performances.performanceid
+        SELECT
             performanceid as ID,
-            'Select' as product_name,
             members.organizationname as client_name,
             venues.name as venue_name,
             events.title as event_title,
@@ -28,7 +27,7 @@ view: sel_performance_inventory {
                 UNION ALL
                 SELECT performanceid as ID, (inventory) as in_event_inventory, (sold) as in_event_sold,  'R'
                 FROM mysql_service.reserved_inventory
-             t
+            ) t
             INNER JOIN mysql_service.performances as performance_event on performance_event.performanceid = ID
             INNER JOIN mysql_service.events on events.eventid = performance_event.eventid
             INNER JOIN mysql_service.venues on venues.venueid = events.venueid
@@ -41,20 +40,6 @@ view: sel_performance_inventory {
             venues.name,
             events.title, events.timezone,
             performance_event.starttime
-
-          )as t1
-          GROUP BY
-          ID,
-          product_name,
-          client_name,
-          venue_name,
-          event_title,
-          performance_start_date
-          ORDER BY
-          cast( performance_start_date as TIMESTAMP) ASC,
-          client_name,
-          performance_series_name
-
                      ;;
     }
 
@@ -73,7 +58,7 @@ view: sel_performance_inventory {
       primary_key: yes
       hidden: yes
       type: string
-      sql: ${TABLE}.uuid ;;
+      sql: ${TABLE}.id ;;
     }
 
     dimension: product_name {
