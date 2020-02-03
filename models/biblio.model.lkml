@@ -287,29 +287,8 @@ explore: sel_members {
     sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL ;;
   }
 
-  join: sel_general_inventory {
-    view_label: "AV Select Performance Inventory"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${sel_general_inventory.performanceid}=${sel_performances.performanceid} AND ${sel_performances.deleted} IS NULL ;;
-  }
-
-  join: sel_reserved_inventory {
-    view_label: "AV Select Reserved Inventory"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${sel_reserved_inventory.performanceid}=${sel_performances.performanceid} AND ${sel_performances.deleted} IS NULL ;;
-  }
-
-  join: sel_genbysec_inventory {
-    view_label: "AV Select Mixed Inventory"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${sel_genbysec_inventory.performanceid}=${sel_performances.performanceid} AND ${sel_performances.deleted} IS NULL ;;
-  }
-
   join: sel_performance_inventory {
-    view_label: "AV Select Inventory"
+    view_label: "AV Select Performance Inventory"
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_performances.performanceid}=${sel_performance_inventory.ID} AND ${sel_performances.deleted} IS NULL ;;

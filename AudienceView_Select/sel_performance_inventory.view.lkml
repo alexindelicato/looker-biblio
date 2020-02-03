@@ -16,6 +16,7 @@ view: sel_performance_inventory {
             ELSE
               TIMESTAMP_MICROS(performance_event.starttime*1000000)
             END as performance_start_date,
+            sum(in_event_inventory) as inventory,
             sum( in_event_inventory + in_event_sold ) as capacity,
             sum(in_event_sold) as sold_count,
             FROM (
@@ -33,7 +34,6 @@ view: sel_performance_inventory {
             INNER JOIN mysql_service.venues on venues.venueid = events.venueid
             INNER JOIN mysql_service.members on members.memberid = events.memberid
             WHERE 1 = 1
-            and DATETIME( TIMESTAMP_MICROS(performance_event.starttime*1000000) ) > '2020-01-01T00:00:00'
             group by
             ID,
             client_name,
@@ -106,6 +106,11 @@ view: sel_performance_inventory {
       sql: ${TABLE}.sold_count ;;
     }
 
+  dimension: inventory {
+    type: number
+    sql: ${TABLE}.inventory ;;
+  }
+
     dimension: venue_name {
       type: string
       sql: ${TABLE}.venue_name ;;
@@ -113,7 +118,8 @@ view: sel_performance_inventory {
 
     measure:total_sold_count { type: sum sql: ${TABLE}.sold_count ;; drill_fields: [venue_facts*] }
     measure:total_capacity_count { type: sum sql: ${TABLE}.capacity ;; drill_fields: [venue_facts*] }
-    measure:total_performance_count { type: count_distinct sql: ${TABLE}.UUID ;; drill_fields: [venue_facts*] }
+    measure:total_inventory_count { type: sum sql: ${TABLE}.inventory ;; drill_fields: [venue_facts*] }
+    measure:total_performance_count { type: count_distinct sql: ${TABLE}.id ;; drill_fields: [venue_facts*] }
 
     set: venue_facts {
       fields: [
