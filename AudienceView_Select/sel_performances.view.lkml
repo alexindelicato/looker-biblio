@@ -99,6 +99,7 @@ view: sel_performances {
       quarter,
       year
     ]
+#     sql: DATETIME(TIMESTAMP_MICROS(${TABLE}.starttime*1000000), 'US/Pacific') ;;
     sql: timestamp_seconds(${TABLE}.starttime) ;;
   }
 
