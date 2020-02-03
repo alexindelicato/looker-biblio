@@ -17,7 +17,7 @@ view: sel_performance_inventory {
               TIMESTAMP_MICROS(performance_event.starttime*1000000)
             END as performance_start_date,
             sum(in_event_inventory) as inventory,
-            sum( in_event_inventory + in_event_sold ) as capacity,
+            sum(in_event_inventory + in_event_sold ) as capacity,
             sum(in_event_sold) as sold_count,
             FROM (
                 SELECT performanceid as ID, (inventory) as in_event_inventory, (sold) as in_event_sold, 'F'
