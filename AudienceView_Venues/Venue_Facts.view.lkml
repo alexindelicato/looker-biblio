@@ -38,7 +38,7 @@ view: audienceview_venue_facts {
       SELECT
       inv_event as UUID,
       'Select' as product_name,
-      CONCAT( members.firstname, ' ', members.lastname ) as client_name,
+      members.organizationname as client_name,
       NULL as sf_account_name,
       NULL as sf_account_id,
       venues.name as venue_name,
@@ -75,8 +75,7 @@ view: audienceview_venue_facts {
       and DATETIME( TIMESTAMP_MICROS(performance_event.starttime*1000000) ) > '2020-01-01T00:00:00'
       group by
       inv_event,
-      members.firstname,
-      members.lastname,
+      members.organizationname,
       venues.name,
       events.title, events.timezone,
       performance_event.starttime
