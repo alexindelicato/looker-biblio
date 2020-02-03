@@ -14,6 +14,7 @@ view: ot_accounting_client_daily_sales {
       column: transaction_date { field: ot_client_account_sale_refund.tx_date }
       column: client_id { field: ot_client_account_sale_refund.client_id }
       column: is_ticket { field: ot_order_detail.isTicket }
+      column: is_donation { field: ot_order_detail.isDonation }
       column: item_type { field: ot_order_detail.type }
       column: is_phone_order_fee { field: ot_order_detail.isPhoneOrderFee }
       column: item_price { field: ot_order_detail.price }
@@ -102,6 +103,12 @@ view: ot_accounting_client_daily_sales {
   dimension: is_ticket {
     type: number
     sql: ${TABLE}.is_ticket ;;
+    hidden: yes
+  }
+
+  dimension: is_donation {
+    type: number
+    sql: ${TABLE}.is_donation ;;
     hidden: yes
   }
 
@@ -204,6 +211,13 @@ view: ot_accounting_client_daily_sales {
     sql:  if(${is_ticket}, 0, if(${is_sale}, ${item_price} + ${item_tax} + ${item_convenience_fee}, 0));;
     value_format_name: usd_0
   }
+
+  measure: gross_donation_sales {
+    type:  sum
+    sql:  if(${is_donation}, ${item_price}, 0);;
+    value_format_name: usd_0
+  }
+
 # ------------------------------------------DCL sum1
   measure: credit_card_fees {
     type: sum

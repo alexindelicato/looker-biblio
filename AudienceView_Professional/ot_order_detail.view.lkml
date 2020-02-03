@@ -253,6 +253,11 @@ view: ot_order_detail {
     sql: ${type} IN ('TCK', 'PMT', 'PKT');;
   }
 
+  dimension: isDonation {
+    type: yesno
+    sql: ${type} IN ('DNT');;
+  }
+
   dimension: isPhoneOrderFee {
     type: yesno
     sql: ${type} IN ('PHF') ;;
