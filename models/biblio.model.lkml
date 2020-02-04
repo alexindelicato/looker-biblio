@@ -280,6 +280,20 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_events.memberid} AND  ${sel_events.deleted} IS NULL ;;
   }
 
+  join: sel_tags_to_events {
+    view_label: "AV Select Event Tag Join"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_tags_to_events.eventid}=${sel_events.eventid} ;;
+  }
+
+  join: sel_tags {
+    view_label: "AV Select Performance Tags"
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${sel_tags_to_events.tagid}=${sel_tags.tagid} AND ${sel_tags.deleted} IS NULL ;;
+  }
+
   join: sel_performances {
     view_label: "AV Select Performances"
     type: left_outer
@@ -293,7 +307,6 @@ explore: sel_members {
     relationship: one_to_one
     sql_on: ${sel_performances.performanceid}=${sel_performance_inventory.ID} AND ${sel_performances.deleted} IS NULL ;;
   }
-
 
   join: sel_venues {
     view_label: "AV Select Venues"

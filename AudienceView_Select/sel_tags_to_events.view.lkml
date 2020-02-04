@@ -4,12 +4,14 @@ view: sel_tags_to_events {
 
   dimension: tags_to_eventsid {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.tags_to_eventsid ;;
   }
 
   dimension: _fivetran_deleted {
     type: yesno
+    hidden: yes
     sql: ${TABLE}._fivetran_deleted ;;
   }
 
@@ -24,15 +26,18 @@ view: sel_tags_to_events {
       quarter,
       year
     ]
+    hidden: yes
     sql: ${TABLE}._fivetran_synced ;;
   }
 
   dimension: eventid {
+    hidden: yes
     type: string
     sql: ${TABLE}.eventid ;;
   }
 
   dimension: tagid {
+    hidden: yes
     type: number
     value_format_name: id
     # hidden: yes
@@ -40,6 +45,7 @@ view: sel_tags_to_events {
   }
 
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [tags_to_eventsid, tags.tagid, tags.name]
   }
