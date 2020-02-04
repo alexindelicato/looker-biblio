@@ -55,16 +55,16 @@ view: audienceview_venue_facts {
       ELSE
         TIMESTAMP_MICROS(performance_event.starttime*1000000)
       END as performance_start_date,
-      sum( in_event_inventory + in_event_sold ) as capacity,
+      sum( in_event_inventory + in_event_sold + in_event_held ) as capacity,
       sum(in_event_sold) as sold_count,
       FROM (
-          SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold, 'F'
+          SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold, (held) as in_event_held, (notforsale) as in_event_notforsale, 'F'
           FROM mysql_service.genbysec_inventory
           UNION ALL
-          SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold, 'G'
+          SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold, 0, (notforsale) as in_event_notforsale, 'G'
           FROM mysql_service.general_inventory
           UNION ALL
-          SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold,  'R'
+          SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold, (held) as in_event_held, 0,  'R'
           FROM mysql_service.reserved_inventory
       ) t
       INNER JOIN mysql_service.performances as performance_event on performance_event.performanceid = inv_event
