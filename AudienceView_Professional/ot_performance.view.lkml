@@ -95,6 +95,16 @@ view: ot_performance {
     sql: ${TABLE}.perf_start ;;
   }
 
+  measure: min_perf_date {
+    type: date
+    sql: MIN(${perf_start_raw}) ;;
+  }
+
+  measure: max_perf_date {
+    type: date
+    sql: MAX(${perf_start_raw}) ;;
+  }
+
   dimension: on_sale_time {
       type: yesno
       sql: ${perf_start_raw} >= ${ot_production.hidden_until_raw} ;;

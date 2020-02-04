@@ -213,7 +213,7 @@ view: ot_orders {
 #     sql: cast(max(${time_date}) as timestamp) ;;
 #   }
 
-  measure: max_order_date {
+  measure: max_perf_date {
     type: date
     sql: MAX(${time_raw}) ;;
   }
