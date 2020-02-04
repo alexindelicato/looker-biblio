@@ -40,7 +40,7 @@ view: audienceview_venue_facts {
       'Select' as product_name,
       members.organizationname as client_name,
       NULL as sf_account_name,
-      NULL as sf_account_id,
+      members.memberid as sf_account_id,
       venues.name as venue_name,
       events.title as performance_series_name,
       events.title as performance_short_description,
@@ -76,6 +76,7 @@ view: audienceview_venue_facts {
       group by
       inv_event,
       members.organizationname,
+      members.memberid,
       venues.name,
       events.title, events.timezone,
       performance_event.starttime
