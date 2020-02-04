@@ -232,7 +232,7 @@ view: ot_accounting_client_daily_sales {
  hidden: yes
   filters: {
     field: tx_month
-    value: "13 months ago for 13 months" }
+    value: "12 months ago for 12 months" }
 }
 
 
@@ -242,7 +242,7 @@ measure: arr_ovationtix_service_fees {
  hidden: yes
   filters: {
     field: tx_month
-    value: "13 months ago for 13 months" }
+    value: "12 months ago for 12 months" }
 }
 
 measure: arr_ovationtix_phone_room_fees {
@@ -251,7 +251,7 @@ measure: arr_ovationtix_phone_room_fees {
  hidden: yes
   filters: {
     field: tx_month
-    value: "13 months ago for 13 months" }
+    value: "12 months ago for 12 months" }
 }
 
   measure: arr_refunded_ovationtix_service_fees {
@@ -260,7 +260,7 @@ measure: arr_ovationtix_phone_room_fees {
     value_format_name: usd_0
     filters: {
       field: tx_month
-      value: "13 months ago for 13 months" }
+      value: "12 months ago for 12 months" }
   }
 
 
