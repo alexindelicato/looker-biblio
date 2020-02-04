@@ -228,6 +228,14 @@ explore: ot_client {
     sql_on: ${ot_client_enabled_feature.client_id}=${ot_client.client_id} ;;
   }
 
+  join: ot_accounting_client_daily_sales {
+    view_label: "AV Pro Client Accounting Daily Sales"
+    type: inner
+    relationship: many_to_many
+    sql_on: ${ot_accounting_client_daily_sales.client_id}=${ot_client.client_id} ;;
+  }
+
+
   join: sf_accounts {
     view_label: "SF Account"
     type: left_outer
