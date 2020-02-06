@@ -159,6 +159,18 @@ explore: ot_orders {
     relationship: one_to_one
     sql_on: ${ot_report_crm.id}= ${ot_client.report_crm_id};;
   }
+  join: pro_production_genre {
+    view_label: "AV Pro Production Genre"
+    type:  left_outer
+    relationship: one_to_one
+    sql_on: ${pro_production_genre.production_id}=${ot_production.production_id} ;;
+  }
+  join: pro_genres {
+    view_label: "AV Pro Genre"
+    type:  left_outer
+    relationship: one_to_one
+    sql_on: ${pro_production_genre.genre_id}=${pro_genres.genre_id} ;;
+  }
   join: sf_accounts {
     view_label: "SF Account"
     type: left_outer

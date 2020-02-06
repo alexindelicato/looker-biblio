@@ -32,6 +32,7 @@ view: pro_genres {
 
   dimension: genre {
     type: string
+    hidden: yes
     sql: ${TABLE}.genre ;;
   }
 
