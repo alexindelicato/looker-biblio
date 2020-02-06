@@ -27,6 +27,11 @@ view: ot_production {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
+  dimension: genre {
+    type: string
+    sql: ${pro_genres.genre} ;;
+  }
+
   dimension: ad_banner_html {
     type: string
     sql: ${TABLE}.ad_banner_html ;;
