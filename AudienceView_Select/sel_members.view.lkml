@@ -641,6 +641,7 @@ view: sel_members {
 
   dimension: state {
     type: string
+    map_layer_name: us_zipcode_tabulation_areas
     sql: ${TABLE}.state ;;
   }
 
@@ -732,6 +733,7 @@ view: sel_members {
   }
 
   dimension: zip {
+    map_layer_name: us_zipcode_tabulation_areas
     type: zipcode
     sql: ${TABLE}.zip ;;
   }

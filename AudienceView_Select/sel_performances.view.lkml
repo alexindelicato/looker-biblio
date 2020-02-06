@@ -8,6 +8,11 @@ view: sel_performances {
     sql: ${TABLE}.performanceid ;;
   }
 
+  measure: count_performanceid {
+    type: count_distinct
+    sql: ${TABLE}.performanceid ;;
+  }
+
   dimension: _fivetran_deleted {
     type: yesno
     sql: ${TABLE}._fivetran_deleted ;;
