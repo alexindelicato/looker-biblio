@@ -32,6 +32,13 @@ view: ot_report_crm {
     sql: ${TABLE}.client_type_id ;;
   }
 
+  dimension: client_type {
+    label: "Client Type"
+    type: string
+    sql: ${pro_client_type.type} ;;
+  }
+
+
   dimension: crm_id {
     type: string
     sql: ${TABLE}.crm_id ;;

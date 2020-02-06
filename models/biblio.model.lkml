@@ -159,6 +159,12 @@ explore: ot_orders {
     relationship: one_to_one
     sql_on: ${ot_report_crm.id}= ${ot_client.report_crm_id};;
   }
+  join: pro_client_type {
+    view_label: "AV Pro Client Type"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_report_crm.client_type_id}= ${pro_client_type.client_type_id};;
+  }
   join: pro_production_genre {
     view_label: "AV Pro Production Genre"
     type:  left_outer
@@ -225,6 +231,12 @@ explore: ot_client {
     type: left_outer
     relationship: one_to_one
     sql_on: ${ot_report_crm.id}= ${ot_client.report_crm_id};;
+  }
+  join: pro_client_type {
+    view_label: "AV Pro Client Type"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_report_crm.client_type_id}= ${pro_client_type.client_type_id};;
   }
   join: pro_department {
     view_label: "AV Pro Department"
