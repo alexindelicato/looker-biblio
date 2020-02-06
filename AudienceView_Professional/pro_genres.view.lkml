@@ -5,16 +5,19 @@ view: pro_genres {
   dimension: genre_id {
     primary_key: yes
     type: number
+    hidden: yes
     sql: ${TABLE}.genre_id ;;
   }
 
   dimension: _fivetran_deleted {
     type: yesno
+    hidden: yes
     sql: ${TABLE}._fivetran_deleted ;;
   }
 
   dimension_group: _fivetran_synced {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -34,6 +37,7 @@ view: pro_genres {
 
   measure: count {
     type: count
+    hidden: yes
     drill_fields: [genre_id]
   }
 }
