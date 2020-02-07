@@ -14,13 +14,13 @@ SELECT
   orderadmission_sale_action,
   orderadmission_record_state,
   sum(admission_count) as admission_count,
-  sum(NET) as NET,
-  sum(CHG2) as CHG2,
-  sum(CHG3) as CHG3,
-  sum(CHG5) as CHG5,
-  sum(CHG4) as CHG4,
-  sum(CHG1) as CHG1,
-  sum(GROSS) as GROSS,
+  sum(NET)/100.00 as NET,
+  sum(CHG2)/100.00 as CHG2,
+  sum(CHG3)/100.00 as CHG3,
+  sum(CHG5)/100.00 as CHG5,
+  sum(CHG4)/100.00 as CHG4,
+  sum(CHG1)/100.00 as CHG1,
+  sum(GROSS)/100.00 as GROSS,
   orderadmission_sale_action_description,
   orderadmission_record_state_description
 FROM audienceview.unlimited_sold_admissions
@@ -64,8 +64,8 @@ GROUP BY
   measure:  total_CHG1  { type:  sum  value_format_name: usd label: "Total CHG1 Sold" sql: ${TABLE}.  CHG1  ;; }
   measure:  total_GROSS { type:  sum  value_format_name: usd label: "Total GROSS Sold" sql: ${TABLE}. GROSS ;; }
 
-  measure: count {
-    type: count
-    drill_fields: [userrole_name, client_name]
-  }
+#  measure: count {
+#    type: count
+#    drill_fields: [userrole_name, client_name]
+#  }
 }

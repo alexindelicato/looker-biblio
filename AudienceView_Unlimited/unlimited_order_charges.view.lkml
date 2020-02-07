@@ -19,16 +19,16 @@ SELECT
   servicecharge_description,
   sum(ordercharge_net_sold)/100.00 as ordercharge_net_sold,
   sum(ordercharge_net_paid)/100.00 as ordercharge_net_paid,
-  sum(charge1_paid) as charge1_paid,
-  sum(charge2_paid) as charge2_paid,
-  sum(charge3_paid) as charge3_paid,
-  sum(charge4_paid) as charge4_paid,
-  sum(charge5_paid) as charge5_paid,
-  sum(charge1_sold) as charge1_sold,
-  sum(charge2_sold) as charge2_sold,
-  sum(charge3_sold) as charge3_sold,
-  sum(charge4_sold) as charge4_sold,
-  sum(charge5_sold) as charge5_sold,
+  sum(charge1_paid)/100.00 as charge1_paid,
+  sum(charge2_paid)/100.00 as charge2_paid,
+  sum(charge3_paid)/100.00 as charge3_paid,
+  sum(charge4_paid)/100.00 as charge4_paid,
+  sum(charge5_paid)/100.00 as charge5_paid,
+  sum(charge1_sold)/100.00 as charge1_sold,
+  sum(charge2_sold)/100.00 as charge2_sold,
+  sum(charge3_sold)/100.00 as charge3_sold,
+  sum(charge4_sold)/100.00 as charge4_sold,
+  sum(charge5_sold)/100.00 as charge5_sold,
   servicecharge_type_description,
   servicecharge_pricing_type_description,
   servicecharge_on_exchange_action_description
@@ -94,8 +94,8 @@ measure:total_charge4_sold{ type:  sum  value_format_name: usd label: "Total Cha
 measure:total_charge5_sold{ type:  sum  value_format_name: usd label: "Total Charge 5 Sold" sql: ${TABLE}.charge5_sold;; }
 
 
-  measure: count {
-    type: count
-    drill_fields: [client_name, servicecharge_name, userrole_name]
-  }
+#  measure: count {
+#    type: count
+#    drill_fields: [client_name, servicecharge_name, userrole_name]
+#  }
 }
