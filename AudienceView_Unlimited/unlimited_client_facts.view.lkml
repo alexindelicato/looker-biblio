@@ -23,7 +23,7 @@ view: unlimited_client_facts {
 
   measure: count_client_name {
     type: count_distinct
-    drill_fields: [sf_account_name, client_name]
+    drill_fields: [sf_accounts.name, client_name]
     sql: ${TABLE}.client_name;;
   }
 
