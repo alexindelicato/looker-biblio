@@ -64,6 +64,44 @@ GROUP BY
   measure:  total_CHG1  { type:  sum  value_format_name: usd label: "Total CHG1 Sold" sql: ${TABLE}.  CHG1  ;; }
   measure:  total_GROSS { type:  sum  value_format_name: usd label: "Total GROSS Sold" sql: ${TABLE}. GROSS ;; }
 
+  measure:  total_admission_count_out {
+    type:  sum
+    label: "Total Count Exchnaged (Out)"
+    sql: ${TABLE}. admission_count ;;
+    filters: {
+      field:  orderadmission_record_state_description
+      value: "Delete,Update" }
+  }
+
+  measure:  total_admission_count_in {
+    type:  sum
+    label: "Total Count Exchnaged (IN)"
+    sql: ${TABLE}. admission_count ;;
+    filters: {
+      field:  orderadmission_record_state_description
+      value: "Insert" }
+  }
+
+  measure:  total_net_in {
+    type:  sum
+    value_format_name: usd
+    label: "Total Net Sales Exchnaged (IN)"
+    sql: ${TABLE}. NET ;;
+    filters: {
+      field:  orderadmission_record_state_description
+      value: "Insert" }
+  }
+
+  measure:  total_net_out {
+    type:  sum
+    value_format_name: usd
+    label: "Total Net Sales Exchnaged (Out)"
+    sql: ${TABLE}. NET ;;
+    filters: {
+      field:  orderadmission_record_state_description
+      value: "Delete,Update" }
+  }
+
 #  measure: count {
 #    type: count
 #    drill_fields: [userrole_name, client_name]
