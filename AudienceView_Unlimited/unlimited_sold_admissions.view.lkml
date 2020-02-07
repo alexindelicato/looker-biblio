@@ -22,7 +22,23 @@ SELECT
   sum(CHG1)/100.00 as CHG1,
   sum(GROSS)/100.00 as GROSS,
   orderadmission_sale_action_description,
-  orderadmission_record_state_description
+  orderadmission_record_state_description,
+  SUM(CASE
+      WHEN orderadmission_sale_action in ( 4, 5, 6 ) and orderadmission_record_state = 0 THEN NET
+      ELSE 0
+  END) as exchange_in_net,
+  SUM(CASE
+      WHEN orderadmission_sale_action in ( 4, 5, 6 ) and orderadmission_record_state != 0 THEN NET
+      ELSE 0
+  END) as exchange_out_net,
+  SUM(CASE
+      WHEN orderadmission_sale_action in ( 4, 5, 6 ) and orderadmission_record_state = 0 THEN admission_count
+      ELSE 0
+  END) as exchange_in_count,
+  SUM(CASE
+      WHEN orderadmission_sale_action in ( 4, 5, 6 ) and orderadmission_record_state != 0 THEN admission_count
+      ELSE 0
+  END) as exchange_out_count
 FROM audienceview.unlimited_sold_admissions
 GROUP BY
   UUID,
@@ -55,14 +71,20 @@ GROUP BY
   dimension:  orderadmission_sale_action_description  { type: string sql: ${TABLE}. orderadmission_sale_action_description  ;; }
   dimension:  orderadmission_record_state_description { type: string sql: ${TABLE}. orderadmission_record_state_description ;; }
 
-  measure:  total_admission_count { type:  sum   label: "Total Count Sold" sql: ${TABLE}. admission_count ;; }
-  measure:  total_NET { type:  sum  value_format_name: usd label: "Total Net Sold" sql: ${TABLE}. NET ;; }
-  measure:  total_CHG2  { type:  sum  value_format_name: usd label: "Total CHG2 Sold" sql: ${TABLE}.  CHG2  ;; }
-  measure:  total_CHG3  { type:  sum  value_format_name: usd label: "Total CHG3 Sold" sql: ${TABLE}.  CHG3  ;; }
-  measure:  total_CHG5  { type:  sum  value_format_name: usd label: "Total CHG5 Sold" sql: ${TABLE}.  CHG5  ;; }
-  measure:  total_CHG4  { type:  sum  value_format_name: usd label: "Total CHG4 Sold" sql: ${TABLE}.  CHG4  ;; }
-  measure:  total_CHG1  { type:  sum  value_format_name: usd label: "Total CHG1 Sold" sql: ${TABLE}.  CHG1  ;; }
-  measure:  total_GROSS { type:  sum  value_format_name: usd label: "Total GROSS Sold" sql: ${TABLE}. GROSS ;; }
+  measure:  total_admission_count { type:  sum   label: "Total Count Sold" sql: ${TABLE}.admission_count ;; }
+  measure:  total_NET { type:  sum  value_format_name: usd label: "Total Net Sold" sql: ${TABLE}.NET ;; }
+  measure:  total_CHG2  { type:  sum  value_format_name: usd label: "Total CHG2 Sold" sql: ${TABLE}.CHG2  ;; }
+  measure:  total_CHG3  { type:  sum  value_format_name: usd label: "Total CHG3 Sold" sql: ${TABLE}.CHG3  ;; }
+  measure:  total_CHG5  { type:  sum  value_format_name: usd label: "Total CHG5 Sold" sql: ${TABLE}.CHG5  ;; }
+  measure:  total_CHG4  { type:  sum  value_format_name: usd label: "Total CHG4 Sold" sql: ${TABLE}.CHG4  ;; }
+  measure:  total_CHG1  { type:  sum  value_format_name: usd label: "Total CHG1 Sold" sql: ${TABLE}.CHG1  ;; }
+  measure:  total_GROSS { type:  sum  value_format_name: usd label: "Total GROSS Sold" sql: ${TABLE}.GROSS ;; }
+
+  measure:  total_exchange_in_net { type: sum value_format_name: usd label: "Total Exhchange In Net" sql: ${TABLE}.exchange_in_net ;; }
+  measure:  total_exchange_in_count { type: sum label: "Total Exhchange In Count" sql: ${TABLE}.exchange_in_count ;; }
+  measure:  total_exchange_out_net { type: sum value_format_name: usd label: "Total Exhchange Out Net" sql: ${TABLE}.exchange_out_net ;; }
+  measure:  total_exchange_out_count { type: sum label: "Total Exhchange Out Count" sql: ${TABLE}.exchange_out_count ;; }
+
 
   measure:  total_admission_count_out {
     type:  sum
