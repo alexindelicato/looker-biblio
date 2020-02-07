@@ -72,6 +72,12 @@ view: unlimited_order_charges {
     sql: ${TABLE}.ordercharge_net_paid ;;
   }
 
+  measure: sum_ordercharge_net_paid {
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.ordercharge_net_paid ;;
+  }
+
   dimension: ordercharge_net_sold {
     type: number
     sql: ${TABLE}.ordercharge_net_sold ;;
