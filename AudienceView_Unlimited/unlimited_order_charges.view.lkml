@@ -81,7 +81,7 @@ dimension:servicecharge_pricing_type_description{ type: string sql: ${TABLE}.ser
 dimension:servicecharge_on_exchange_action_description  { type: string sql: ${TABLE}.servicecharge_on_exchange_action_description  ;; }
 
 measure:total_ordercharge_net_sold{ type:  sum  value_format_name: usd label: "Total Net Sold" sql: ${TABLE}.ordercharge_net_sold;; }
-measure:total_ordercharge_net_paid{ type:  sum  value_format_name: usd label: "Total Net Paid" sql: ${TABLE}.ordercharge_net_paid;; }
+measure:total_ordercharge_net_paid{ type:  sum  value_format_name: usd label: "Total Balancing Charge Amount" sql: ${TABLE}.ordercharge_net_paid;; }
 measure:total_charge1_paid{ type:  sum  value_format_name: usd label: "Total Charge 1 Paid" sql: ${TABLE}.charge1_paid;; }
 measure:total_charge2_paid{ type:  sum  value_format_name: usd label: "Total Charge 2 Paid" sql: ${TABLE}.charge2_paid;; }
 measure:total_charge3_paid{ type:  sum  value_format_name: usd label: "Total Charge 3 Paid" sql: ${TABLE}.charge3_paid;; }
