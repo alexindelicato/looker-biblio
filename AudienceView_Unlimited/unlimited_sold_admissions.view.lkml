@@ -26,11 +26,11 @@ SELECT
   SUM(CASE
       WHEN orderadmission_sale_action in ( 4, 5, 6 ) and orderadmission_record_state = 0 THEN NET
       ELSE 0
-  END) as exchange_in_net,
+  END)/100.00 as exchange_in_net,
   SUM(CASE
       WHEN orderadmission_sale_action in ( 4, 5, 6 ) and orderadmission_record_state != 0 THEN NET
       ELSE 0
-  END) as exchange_out_net,
+  END)/100.00 as exchange_out_net,
   SUM(CASE
       WHEN orderadmission_sale_action in ( 4, 5, 6 ) and orderadmission_record_state = 0 THEN admission_count
       ELSE 0
