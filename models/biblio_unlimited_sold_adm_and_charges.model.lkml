@@ -26,5 +26,12 @@ explore: unlimited_client_facts {
     sql_on: ${unlimited_client_facts.client_name}=${unlimited_order_charges.client_name} ;;
   }
 
+  join: sf_accounts {
+    view_label: "SF Accounts"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${unlimited_client_facts.sf_account_id}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
+
 }
 #--------------------------
