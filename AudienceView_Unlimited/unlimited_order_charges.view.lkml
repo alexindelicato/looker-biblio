@@ -32,6 +32,24 @@ SELECT
   servicecharge_pricing_type_description,
   servicecharge_on_exchange_action_description
 FROM audienceview.unlimited_order_charges
+GROUP BY
+  UUID,
+  client_name,
+  audit_time,
+  cast( audit_time as TIMESTAMP) as audit_date_time,
+  YEAR,
+  quarter,
+  userrole_name,
+  userrole_group,
+  servicecharge_name,
+  servicecharge_type,
+  servicecharge_pricing_type,
+  servicecharge_on_exchange_action,
+  servicecharge_description,
+  servicecharge_type_description,
+  servicecharge_pricing_type_description,
+  servicecharge_on_exchange_action_description
+
            ;;
 
       sql_trigger_value: select max(client_metric_date_time) from `fivetran-ovation-tix-warehouse.audienceview.qbr_data`;;
