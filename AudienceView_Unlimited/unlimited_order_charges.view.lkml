@@ -1,152 +1,80 @@
 view: unlimited_order_charges {
-  sql_table_name: audienceview.unlimited_order_charges ;;
+  derived_table: {
+    sql:
+
+SELECT
+  UUID,
+  client_name,
+  audit_time,
+  cast( audit_time as TIMESTAMP) as audit_date_time,
+  YEAR,
+  quarter,
+  userrole_name,
+  userrole_group,
+  servicecharge_name,
+  servicecharge_type,
+  servicecharge_pricing_type,
+  servicecharge_on_exchange_action,
+  servicecharge_description,
+  sum(ordercharge_net_sold) as ordercharge_net_sold,
+  sum(ordercharge_net_paid) as ordercharge_net_paid,
+  sum(charge1_paid) as charge1_paid,
+  sum(charge2_paid) as charge2_paid,
+  sum(charge3_paid) as charge3_paid,
+  sum(charge4_paid) as charge4_paid,
+  sum(charge5_paid) as charge5_paid,
+  sum(charge1_sold) as charge1_sold,
+  sum(charge2_sold) as charge2_sold,
+  sum(charge3_sold) as charge3_sold,
+  sum(charge4_sold) as charge4_sold,
+  sum(charge5_sold) as charge5_sold,
+  servicecharge_type_description,
+  servicecharge_pricing_type_description,
+  servicecharge_on_exchange_action_description
+FROM audienceview.unlimited_order_charges
+           ;;
+
+      sql_trigger_value: select max(client_metric_date_time) from `fivetran-ovation-tix-warehouse.audienceview.qbr_data`;;
+    }
+
+  dimension_group: audit_date_time {
+    type: time
+    sql: ${TABLE}.audit_date_time ;;
+  }
 
   dimension: audit_time {
     type: string
     sql: ${TABLE}.audit_time ;;
   }
 
-  dimension: charge1_paid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.charge1_paid ;;
-  }
+dimension:UUID{ type: string sql: ${TABLE}.UUID;; }
+dimension:client_name{ type: string sql: ${TABLE}.client_name;; }
+dimension:YEAR{ type: string sql: ${TABLE}.YEAR;; }
+dimension:quarter{ type: string sql: ${TABLE}.quarter;; }
+dimension:userrole_name{ type: string sql: ${TABLE}.userrole_name;; }
+dimension:userrole_group{ type: string sql: ${TABLE}.userrole_group;; }
+dimension:servicecharge_name{ type: string sql: ${TABLE}.servicecharge_name;; }
+dimension:servicecharge_type{ type: string sql: ${TABLE}.servicecharge_type;; }
+dimension:servicecharge_pricing_type{ type: string sql: ${TABLE}.servicecharge_pricing_type;; }
+dimension:servicecharge_on_exchange_action{ type: string sql: ${TABLE}.servicecharge_on_exchange_action;; }
+dimension:servicecharge_description{ type: string sql: ${TABLE}.servicecharge_description;; }
+dimension:servicecharge_type_description{ type: string sql: ${TABLE}.servicecharge_type_description;; }
+dimension:servicecharge_pricing_type_description{ type: string sql: ${TABLE}.servicecharge_pricing_type_description;; }
+dimension:servicecharge_on_exchange_action_description  { type: string sql: ${TABLE}.servicecharge_on_exchange_action_description  ;; }
 
-  dimension: charge1_sold {
-    type: number
-    sql: ${TABLE}.charge1_sold ;;
-  }
+measure:total_ordercharge_net_sold{ type:  sum  value_format_name: usd label: "Total Net Sold" sql: ${TABLE}.ordercharge_net_sold;; }
+measure:total_ordercharge_net_paid{ type:  sum  value_format_name: usd label: "Total Net Paid" sql: ${TABLE}.ordercharge_net_paid;; }
+measure:total_charge1_paid{ type:  sum  value_format_name: usd label: "Total Charge 1 Paid" sql: ${TABLE}.charge1_paid;; }
+measure:total_charge2_paid{ type:  sum  value_format_name: usd label: "Total Charge 2 Paid" sql: ${TABLE}.charge2_paid;; }
+measure:total_charge3_paid{ type:  sum  value_format_name: usd label: "Total Charge 3 Paid" sql: ${TABLE}.charge3_paid;; }
+measure:total_charge4_paid{ type:  sum  value_format_name: usd label: "Total Charge 4 Paid" sql: ${TABLE}.charge4_paid;; }
+measure:total_charge5_paid{ type:  sum  value_format_name: usd label: "Total Charge 5 Paid" sql: ${TABLE}.charge5_paid;; }
+measure:total_charge1_sold{ type:  sum  value_format_name: usd label: "Total Charge 1 Sold" sql: ${TABLE}.charge1_sold;; }
+measure:total_charge2_sold{ type:  sum  value_format_name: usd label: "Total Charge 2 Sold" sql: ${TABLE}.charge2_sold;; }
+measure:total_charge3_sold{ type:  sum  value_format_name: usd label: "Total Charge 3 Sold" sql: ${TABLE}.charge3_sold;; }
+measure:total_charge4_sold{ type:  sum  value_format_name: usd label: "Total Charge 4 Sold" sql: ${TABLE}.charge4_sold;; }
+measure:total_charge5_sold{ type:  sum  value_format_name: usd label: "Total Charge 5 Sold" sql: ${TABLE}.charge5_sold;; }
 
-  dimension: charge2_paid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.charge2_paid ;;
-  }
-
-  dimension: charge2_sold {
-    type: number
-    sql: ${TABLE}.charge2_sold ;;
-  }
-
-  dimension: charge3_paid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.charge3_paid ;;
-  }
-
-  dimension: charge3_sold {
-    type: number
-    sql: ${TABLE}.charge3_sold ;;
-  }
-
-  dimension: charge4_paid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.charge4_paid ;;
-  }
-
-  dimension: charge4_sold {
-    type: number
-    sql: ${TABLE}.charge4_sold ;;
-  }
-
-  dimension: charge5_paid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.charge5_paid ;;
-  }
-
-  dimension: charge5_sold {
-    type: number
-    sql: ${TABLE}.charge5_sold ;;
-  }
-
-  dimension: client_name {
-    type: string
-    sql: ${TABLE}.client_name ;;
-  }
-
-  dimension: ordercharge_net_paid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.ordercharge_net_paid ;;
-  }
-
-  measure: sum_ordercharge_net_paid {
-    type: sum
-    value_format_name: usd
-    sql: ${TABLE}.ordercharge_net_paid ;;
-  }
-
-  dimension: ordercharge_net_sold {
-    type: number
-    sql: ${TABLE}.ordercharge_net_sold ;;
-  }
-
-  dimension: quarter {
-    type: string
-    sql: ${TABLE}.quarter ;;
-  }
-
-  dimension: servicecharge_description {
-    type: string
-    sql: ${TABLE}.servicecharge_description ;;
-  }
-
-  dimension: servicecharge_name {
-    type: string
-    sql: ${TABLE}.servicecharge_name ;;
-  }
-
-  dimension: servicecharge_on_exchange_action {
-    type: number
-    sql: ${TABLE}.servicecharge_on_exchange_action ;;
-  }
-
-  dimension: servicecharge_on_exchange_action_description {
-    type: string
-    sql: ${TABLE}.servicecharge_on_exchange_action_description ;;
-  }
-
-  dimension: servicecharge_pricing_type {
-    type: number
-    sql: ${TABLE}.servicecharge_pricing_type ;;
-  }
-
-  dimension: servicecharge_pricing_type_description {
-    type: string
-    sql: ${TABLE}.servicecharge_pricing_type_description ;;
-  }
-
-  dimension: servicecharge_type {
-    type: string
-    sql: ${TABLE}.servicecharge_type ;;
-  }
-
-  dimension: servicecharge_type_description {
-    type: string
-    sql: ${TABLE}.servicecharge_type_description ;;
-  }
-
-  dimension: userrole_group {
-    type: string
-    sql: ${TABLE}.userrole_group ;;
-  }
-
-  dimension: userrole_name {
-    type: string
-    sql: ${TABLE}.userrole_name ;;
-  }
-
-  dimension: uuid {
-    type: string
-    sql: ${TABLE}.UUID ;;
-  }
-
-  dimension: year {
-    type: string
-    sql: ${TABLE}.YEAR ;;
-  }
 
   measure: count {
     type: count
