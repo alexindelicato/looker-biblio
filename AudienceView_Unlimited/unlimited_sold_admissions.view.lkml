@@ -23,7 +23,7 @@ SELECT
   sum(GROSS) as GROSS,
   orderadmission_sale_action_description,
   orderadmission_record_state_description
-FROM audienceview.audienceview.unlimited_sold_admissions
+FROM audienceview.unlimited_sold_admissions
 GROUP BY
   UUID,
   client_name,
@@ -55,7 +55,7 @@ GROUP BY
   dimension:  orderadmission_sale_action_description  { type: string sql: ${TABLE}. orderadmission_sale_action_description  ;; }
   dimension:  orderadmission_record_state_description { type: string sql: ${TABLE}. orderadmission_record_state_description ;; }
 
-  measure:  total_admission_count { type:  sum  value_format_name: usd label: "Total Net Sold" sql: ${TABLE}. admission_count ;; }
+  measure:  total_admission_count { type:  sum  value_format_name: usd label: "Total Count Sold" sql: ${TABLE}. admission_count ;; }
   measure:  total_NET { type:  sum  value_format_name: usd label: "Total Net Sold" sql: ${TABLE}. NET ;; }
   measure:  total_CHG2  { type:  sum  value_format_name: usd label: "Total CHG2 Sold" sql: ${TABLE}.  CHG2  ;; }
   measure:  total_CHG3  { type:  sum  value_format_name: usd label: "Total CHG3 Sold" sql: ${TABLE}.  CHG3  ;; }
