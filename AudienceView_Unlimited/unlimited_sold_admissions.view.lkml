@@ -119,7 +119,6 @@ GROUP BY
   measure:  total_exchange_out_net { type: sum value_format_name: usd label: "Total Exhchange Out Net" sql: ${TABLE}.exchange_out_net ;; }
   measure:  total_exchange_out_count { type: sum label: "Total Exhchange Out Count" sql: ${TABLE}.exchange_out_count ;; }
 
-
 #  measure: count {
 #    type: count
 #    drill_fields: [userrole_name, client_name]
