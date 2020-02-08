@@ -89,8 +89,8 @@ GROUP BY
   dimension:  audit_time  { type: string sql: ${TABLE}. audit_time  ;; }
   dimension_group: audit_date_time { type: time sql: ${TABLE}.audit_date_time ;; }
 
-  dimension:  YEAR  { type: string sql: ${TABLE}. YEAR  ;; }
-  dimension:  quarter { type: string sql: ${TABLE}. quarter ;; }
+#  dimension:  YEAR  { type: string sql: ${TABLE}. YEAR  ;; }
+#  dimension:  quarter { type: string sql: ${TABLE}. quarter ;; }
   dimension:  userrole_name { type: string sql: ${TABLE}. userrole_name ;; }
   dimension:  userrole_group  { type: string sql: ${TABLE}. userrole_group  ;; }
   dimension:  orderadmission_sale_action  { type: string sql: ${TABLE}. orderadmission_sale_action  ;; }
