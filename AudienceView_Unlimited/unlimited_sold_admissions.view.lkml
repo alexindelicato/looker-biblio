@@ -24,29 +24,32 @@ SELECT
   orderadmission_sale_action_description,
   orderadmission_record_state_description,
   SUM(CASE
-      WHEN orderadmission_sale_action in ( 1, 2, 3, 4, 5, 6 ) and orderadmission_record_state = 0 THEN NET
+      WHEN orderadmission_sale_action = 1 THEN admission_count
+      ELSE 0
+  END) as sales_count,
+  SUM(CASE
+      WHEN orderadmission_sale_action = 1 THEN NET
       ELSE 0
   END)/100.00 as sales_net,
+
+  SUM(CASE
+      WHEN orderadmission_sale_action = 2 OR ( orderadmission_sale_action = 0 AND GROSS != 0 ) THEN admission_count
+      ELSE 0
+  END) as changes_count,
   SUM(CASE
       WHEN orderadmission_sale_action = 2 OR ( orderadmission_sale_action = 0 AND GROSS != 0 ) THEN NET
       ELSE 0
   END)/100.00 as changes_net,
-  SUM(CASE
-      WHEN orderadmission_sale_action in ( 1, 2, 3, 4, 5, 6 ) and orderadmission_record_state = 3 THEN NET
-      ELSE 0
-  END)/100.00 as returns_net,
-  SUM(CASE
-      WHEN orderadmission_sale_action = 1 THEN admission_count
-      ELSE 0
-  END)/100.00 as sales_count,
-  SUM(CASE
-      WHEN orderadmission_sale_action = 2 OR ( orderadmission_sale_action = 0 AND GROSS != 0 ) THEN admission_count
-      ELSE 0
-  END)/100.00 as changes_count,
+
   SUM(CASE
       WHEN orderadmission_sale_action = 3 THEN admission_count
       ELSE 0
-  END)/100.00 as returns_count,
+  END) as returns_count,
+  SUM(CASE
+      WHEN orderadmission_sale_action =3 THEN NET
+      ELSE 0
+  END)/100.00 as returns_net,
+
   SUM(CASE
       WHEN orderadmission_sale_action in ( 4, 5, 6 ) and orderadmission_record_state = 0 THEN NET
       ELSE 0
@@ -78,7 +81,7 @@ GROUP BY
   orderadmission_record_state_description
            ;;
 
-      sql_trigger_value: select max(client_metric_date_time) from `fivetran-ovation-tix-warehouse.audienceview.qbr_data`;;
+      sql_trigger_value: select max(cast(concat(audit_time, ':00') as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_sold_admissions`;;
     }
 
   dimension:  UUID  { type: string sql: ${TABLE}. UUID  ;; }
@@ -102,7 +105,7 @@ GROUP BY
 #  measure:  total_CHG5  { type:  sum  value_format_name: usd label: "Total CHG5 Sold" sql: ${TABLE}.CHG5  ;; }
 #  measure:  total_CHG4  { type:  sum  value_format_name: usd label: "Total CHG4 Sold" sql: ${TABLE}.CHG4  ;; }
 #  measure:  total_CHG1  { type:  sum  value_format_name: usd label: "Total CHG1 Sold" sql: ${TABLE}.CHG1  ;; }
-  measure:  total_GROSS { type:  sum  value_format_name: usd label: "Total GROSS Sold" sql: ${TABLE}.GROSS ;; }
+#  measure:  total_GROSS { type:  sum  value_format_name: usd label: "Total GROSS Sold" sql: ${TABLE}.GROSS ;; }
 
   measure:  total_sales_net { type: sum value_format_name: usd label: "Total Sales Net" sql: ${TABLE}.sales_net ;; }
   measure:  total_sales_count { type: sum label: "Total Sales Count" sql: ${TABLE}.sales_count ;; }
@@ -116,44 +119,6 @@ GROUP BY
   measure:  total_exchange_out_net { type: sum value_format_name: usd label: "Total Exhchange Out Net" sql: ${TABLE}.exchange_out_net ;; }
   measure:  total_exchange_out_count { type: sum label: "Total Exhchange Out Count" sql: ${TABLE}.exchange_out_count ;; }
 
-
-  measure:  total_admission_count_out {
-    type:  sum
-    label: "Total Count Exchnaged (Out)"
-    sql: ${TABLE}. admission_count ;;
-    filters: {
-      field:  orderadmission_record_state_description
-      value: "Delete,Update" }
-  }
-
-  measure:  total_admission_count_in {
-    type:  sum
-    label: "Total Count Exchnaged (IN)"
-    sql: ${TABLE}. admission_count ;;
-    filters: {
-      field:  orderadmission_record_state_description
-      value: "Insert" }
-  }
-
-  measure:  total_net_in {
-    type:  sum
-    value_format_name: usd
-    label: "Total Net Sales Exchnaged (IN)"
-    sql: ${TABLE}. NET ;;
-    filters: {
-      field:  orderadmission_record_state_description
-      value: "Insert" }
-  }
-
-  measure:  total_net_out {
-    type:  sum
-    value_format_name: usd
-    label: "Total Net Sales Exchnaged (Out)"
-    sql: ${TABLE}. NET ;;
-    filters: {
-      field:  orderadmission_record_state_description
-      value: "Delete,Update" }
-  }
 
 #  measure: count {
 #    type: count
