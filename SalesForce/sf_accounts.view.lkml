@@ -3063,6 +3063,6 @@ view: sf_accounts {
 
   measure: count {
     type: count
-    drill_fields: [name, product_name]
+    drill_fields: [name, product_name,unlimited_version]
   }
 }
