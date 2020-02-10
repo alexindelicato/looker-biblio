@@ -115,7 +115,7 @@ GROUP BY
   measure:  total_returns_count { type: sum label: "Total Returns Count" sql: ${TABLE}.returns_count ;; }
 
   measure:  total_exchange_in_net { type: sum value_format_name: usd label: "Total Value Exhchange (In) Net" sql: ${TABLE}.exchange_in_net ;; }
-  measure:  total_exchange_in_count { type: sum label: "Total Tickts Exhchange (In)" sql: ${TABLE}.exchange_in_count ;; }
+  measure:  total_exchange_in_count { type: sum label: "Total Tickets Exhchange (In)" sql: ${TABLE}.exchange_in_count ;; }
   measure:  total_exchange_out_net { type: sum value_format_name: usd label: "Total Value Exhchange (Out) Net" sql: ${TABLE}.exchange_out_net ;; }
   measure:  total_exchange_out_count { type: sum label: "Total Tickets Exhchange (Out)" sql: ${TABLE}.exchange_out_count ;; }
 
