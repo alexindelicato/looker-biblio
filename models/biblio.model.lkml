@@ -281,13 +281,6 @@ explore: av_qbr {
     relationship: one_to_one
     sql_on: ${av_qbr.sf_client_id}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
   }
-
-  join: unlim_venue_facts {
-    view_label: "AV Unlimited Venue/Performances"
-    type: left_outer
-    relationship: many_to_many
-    sql_on: ${av_qbr.sf_client_id}=${unlim_venue_facts.sf_account_id};;
-  }
   }
   #--------------------------
 
