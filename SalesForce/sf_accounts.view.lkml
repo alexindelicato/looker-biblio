@@ -21,6 +21,13 @@ view: sf_accounts {
 #     sql: ${TABLE}._fivetran_synced ;;
 #   }
 
+  dimension: looker_join_id_c {
+    label: "Looker Join ID"
+    type: string
+    sql: ${TABLE}.looker_join_id_c ;;
+  }
+
+
   dimension: account_acquisition_source_c {
     type: string
     sql: ${TABLE}.account_acquisition_source_c ;;
