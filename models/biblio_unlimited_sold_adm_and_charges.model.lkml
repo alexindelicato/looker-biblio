@@ -30,7 +30,7 @@ explore: unlimited_client_facts {
     view_label: "SF Accounts"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${unlimited_client_facts.sf_account_id}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
+    sql_on: ${unlimited_client_facts.sf_account_id}=${sf_accounts.looker_join_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
   }
 
 }
