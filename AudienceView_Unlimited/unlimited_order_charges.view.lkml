@@ -6,7 +6,7 @@ SELECT
   UUID,
   client_name,
   audit_time,
-  cast(concat(audit_time, ':00') as TIMESTAMP) as audit_date_time,
+  cast(audit_time as TIMESTAMP) as audit_date_time,
   --cast( audit_time as TIMESTAMP) as audit_date_time,
   YEAR,
   quarter,
