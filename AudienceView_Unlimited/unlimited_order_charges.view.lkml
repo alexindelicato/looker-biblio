@@ -74,7 +74,7 @@ dimension:userrole_group{ type: string sql: ${TABLE}.userrole_group;; }
 dimension:servicecharge_name{ type: string sql: ${TABLE}.servicecharge_name;; }
 dimension:servicecharge_type{ type: string sql: ${TABLE}.servicecharge_type;; }
 dimension:servicecharge_pricing_type{ type: string sql: ${TABLE}.servicecharge_pricing_type;; }
-dimension:servicecharge_on_exchange_action{ type: string sql: ${TABLE}.servicecharge_on_exchange_action;; }
+dimension:servicecharge_on_exchange_action{ type: number sql: cast(${TABLE}.servicecharge_on_exchange_action as INT64);; }
 dimension:servicecharge_description{ type: string sql: ${TABLE}.servicecharge_description;; }
 dimension:servicecharge_type_description{ type: string sql: ${TABLE}.servicecharge_type_description;; }
 dimension:servicecharge_pricing_type_description{ type: string sql: ${TABLE}.servicecharge_pricing_type_description;; }
