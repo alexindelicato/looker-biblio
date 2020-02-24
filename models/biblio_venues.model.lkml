@@ -16,7 +16,7 @@ explore: audienceview_venue_facts {
     view_label: "SF Accounts"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${audienceview_venue_facts.sf_account_id}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
+    sql_on: ${audienceview_venue_facts.sf_account_id}=${sf_accounts.looker_join_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
   }
 
 }
