@@ -190,6 +190,26 @@ view: ot_client_enabled_feature {
     sql: ${TABLE}.enabled_new_ci = 1 ;;
   }
 
+  measure: enabled_new_ci_yes {
+    type: count
+    filters: {
+      field: enabled_new_ci
+      value: "Yes" }
+  }
+
+  measure: enabled_new_ci_no {
+    type: count
+    filters: {
+      field: enabled_new_ci
+      value: "No" }
+  }
+
+  measure: percentage_to_goal {
+    type:  number
+    value_format_name: percent_0
+    sql: ${enabled_new_ci_yes}/${enabled_new_ci_no} ;;
+  }
+
   dimension: enabled_new_ci_pk {
     type: yesno
     sql: ${TABLE}.enabled_new_ci_pk ;;
