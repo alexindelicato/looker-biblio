@@ -56,6 +56,21 @@ explore: sf_opportunity {
   sql_always_where: ${sf_opportunity.is_deleted}= FALSE;;
 }
 
+# salesforce campaign explore as primary table
+explore: sf_campaign {
+  label: "Salesforce Campaigns"
+  group_label: "Project Biblio"
+  view_label: "Salesforce Campaigns"
+  fields: [ALL_FIELDS*]
+  sql_always_where: ${sf_campaign.is_deleted}= FALSE;;
+
+  join: sf_lead {
+    view_label: "SalesFoce Lead"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_lead.campaign_id_c} = ${sf_campaign.id} AND ${sf_lead.is_deleted} = FALSE ;;
+  }
+  }
 
 #--OVATIONTIX JOINS--
 # OvationTix Orders as primary table
