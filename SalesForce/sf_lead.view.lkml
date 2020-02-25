@@ -1,5 +1,5 @@
 view: sf_lead {
-  sql_table_name: fivetran-ovation-tix-warehouse.new_salesforce.lead ;;
+  sql_table_name: new_salesforce.lead ;;
   drill_fields: [lead_id_to_contact_wfr_c]
 
   dimension: lead_id_to_contact_wfr_c {

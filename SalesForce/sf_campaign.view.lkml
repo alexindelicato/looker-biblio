@@ -1,5 +1,5 @@
 view: sf_campaign {
-  sql_table_name: fivetran-ovation-tix-warehouse.new_salesforce.campaign ;;
+  sql_table_name: new_salesforce.campaign ;;
   drill_fields: [pi_pardot_campaign_id_c]
 
   dimension: pi_pardot_campaign_id_c {
