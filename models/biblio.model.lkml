@@ -77,6 +77,13 @@ explore: sf_campaign_member {
     relationship: one_to_one
     sql_on: ${sf_campaign.id} = ${sf_campaign_member.campaign_id} AND ${sf_campaign.is_deleted} = FALSE ;;
   }
+
+  join: sf_user {
+    view_label: "Salesforce Users"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_user.id}=${sf_lead.owner_id};;
+  }
   }
 
 #--OVATIONTIX JOINS--
