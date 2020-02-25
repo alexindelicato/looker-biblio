@@ -367,7 +367,7 @@ view: ot_client_enabled_feature {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
+    drill_fields: [ot_client.client_id,sf_accounts.name]
   }
 
   # ----- Sets of fields for drilling ------
