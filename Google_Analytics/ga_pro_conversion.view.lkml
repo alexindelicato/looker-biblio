@@ -39,6 +39,13 @@ view: ga_pro_conversion {
     sql: ${TABLE}.goal_conversion_rate_all ;;
   }
 
+  measure: avg_goal_conversion_rate_all {
+    type: average
+    label: "Average Conversion Rate"
+    value_format_name: percent_2
+    sql: ${TABLE}.goal_conversion_rate_all ;;
+  }
+
   dimension: profile {
     type: string
     sql: ${TABLE}.profile ;;

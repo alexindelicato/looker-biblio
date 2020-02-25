@@ -370,4 +370,11 @@ explore: sel_members {
   }
 
   }
+  #GA Conversion rate
+  explore: ga_pro_conversion {
+    label: "GA Pro Conversion"
+    group_label: "Project Biblio"
+    view_label: "GA Pro Conversion"
+    }
+
   #-----------------------
