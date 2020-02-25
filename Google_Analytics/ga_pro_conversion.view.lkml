@@ -1,5 +1,5 @@
 view: ga_pro_conversion {
-  sql_table_name: fivetran-ovation-tix-warehouse.ga_pro_conversion.ga_pro_conversion ;;
+  sql_table_name: ga_pro_conversion.ga_pro_conversion ;;
 
   dimension: _fivetran_id {
     type: string
