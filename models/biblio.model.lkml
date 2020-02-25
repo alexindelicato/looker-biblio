@@ -57,18 +57,25 @@ explore: sf_opportunity {
 }
 
 # salesforce campaign explore as primary table
-explore: sf_campaign {
-  label: "Salesforce Campaigns"
+explore: sf_campaign_member {
+  label: "Salesforce Campaign Member"
   group_label: "Project Biblio"
-  view_label: "Salesforce Campaigns"
+  view_label: "Salesforce Campaign Member"
   fields: [ALL_FIELDS*]
-  sql_always_where: ${sf_campaign.is_deleted}= FALSE;;
+  sql_always_where: ${sf_campaign_member.is_deleted}= FALSE;;
 
   join: sf_lead {
     view_label: "SalesFoce Lead"
     type: left_outer
-    relationship: one_to_many
-    sql_on: ${sf_lead.campaign_id_c} = ${sf_campaign.id} AND ${sf_lead.is_deleted} = FALSE ;;
+    relationship: one_to_one
+    sql_on: ${sf_lead.id} = ${sf_campaign_member.lead_id} AND ${sf_lead.is_deleted} = FALSE ;;
+  }
+
+  join: sf_campaign {
+    view_label: "SalesFoce Campaigns"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_campaign.id} = ${sf_campaign_member.campaign_id} AND ${sf_campaign.is_deleted} = FALSE ;;
   }
   }
 
