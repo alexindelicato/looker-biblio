@@ -44,6 +44,13 @@ view: ot_client_account {
 
   dimension: amount {
     type: number
+    value_format_name: usd
+    sql: ${TABLE}.amount ;;
+  }
+
+  measure: amount_value {
+    type: number
+    value_format_name: usd
     sql: ${TABLE}.amount ;;
   }
 
