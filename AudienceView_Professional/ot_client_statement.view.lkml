@@ -106,6 +106,13 @@ view: ot_client_statement {
     sql: ${TABLE}.payout_amount ;;
   }
 
+  measure: payout_amount_number {
+    label: "Payout Amount"
+    type: number
+    value_format_name: usd
+    sql: ${TABLE}.payout_amount ;;
+  }
+
   dimension: statement_amount {
     type: number
     sql: ${TABLE}.statement_amount ;;
