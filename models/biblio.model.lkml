@@ -131,6 +131,14 @@ explore: ot_orders {
     relationship: one_to_one
     sql_on: ${ot_client.client_id}=${ot_client_account.client_id};;
   }
+
+  join: ot_client_statement {
+    view_label: "AV Pro Client Statement"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_client.client_id}=${ot_client_statement.client_id};;
+    }
+
   join: ot_client_account_sale_refund {
     view_label: "AV Pro Client Sale & Refund"
     type: inner
