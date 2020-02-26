@@ -102,6 +102,7 @@ view: ot_client_statement {
 
   dimension: payout_amount {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.payout_amount ;;
   }
 
