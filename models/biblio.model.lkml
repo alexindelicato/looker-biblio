@@ -296,6 +296,19 @@ explore: ot_client {
     sql_on: ${ot_accounting_client_daily_sales.client_id}=${ot_client.client_id} ;;
   }
 
+  join: ot_client_account {
+    view_label: "AV Pro Client Account"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_client.client_id}=${ot_client_account.client_id};;
+  }
+
+  join: ot_client_statement {
+    view_label: "AV Pro Client Statement"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_client.client_id}=${ot_client_statement.client_id};;
+  }
 
   join: sf_accounts {
     view_label: "SF Account"

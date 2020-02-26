@@ -29,6 +29,7 @@ view: ga_pro_conversion {
       date,
       week,
       month,
+      month_name,
       quarter,
       year
     ]
