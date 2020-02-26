@@ -36,11 +36,13 @@ view: ga_pro_conversion {
 
   dimension: goal_conversion_rate_all {
     type: number
+    value_format: "0.00\%"
     sql: ${TABLE}.goal_conversion_rate_all ;;
   }
 
   dimension: transactions_per_session {
     type: number
+    value_format: "0.00\%"
     sql: ${TABLE}.transactions_per_session ;;
   }
 
