@@ -48,7 +48,7 @@ view: ga_pro_conversion {
 
   measure: avg_transactions_per_session {
     type: average
-    label: "Average Ecommerce Transation Rate"
+    label: "Average Ecommerce Transaction Rate"
     value_format: "0.00\%"
     sql: ${TABLE}.transactions_per_session ;;
   }
