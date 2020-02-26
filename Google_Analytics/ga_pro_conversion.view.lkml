@@ -3,6 +3,7 @@ view: ga_pro_conversion {
 
   dimension: _fivetran_id {
     type: string
+    primary_key: yes
     sql: ${TABLE}._fivetran_id ;;
   }
 
