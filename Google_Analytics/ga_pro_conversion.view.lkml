@@ -42,7 +42,7 @@ view: ga_pro_conversion {
   measure: avg_goal_conversion_rate_all {
     type: average
     label: "Average Conversion Rate"
-    value_format_name: percent_2
+    value_format: "0.00\%"
     sql: ${TABLE}.goal_conversion_rate_all ;;
   }
 

@@ -147,19 +147,32 @@ view: ot_client_statement {
     drill_fields: [detail*]
   }
 
+  # todo: total revenue measure
+  measure: total_revenue {
+    type: sum
+    sql: ${ovationtix_service_fees} + ${tkts_service_fees} + ${ovationtix_phone_fees} ;;
+    value_format_name: usd_0
+  }
+
+  measure: total_credit_card_processing {
+    type: sum
+    sql: ${credit_card_processing_fees} ;;
+    value_format_name: usd_0
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
       client_statement_id,
-      client_account.id,
-      client.client_id,
-      client.client_display_name,
-      client.merchant_name,
-      client.lastname,
-      client.perspective_name,
-      client.firstname,
-      client.client_name,
-      client.verisign_username
+      ot_client_account.id,
+      ot_client.client_id,
+      ot_client.client_display_name,
+      ot_client.merchant_name,
+      ot_client.lastname,
+      ot_client.perspective_name,
+      ot_client.firstname,
+      ot_client.client_name,
+      ot_client.verisign_username
     ]
   }
 }
