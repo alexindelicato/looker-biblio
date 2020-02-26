@@ -39,6 +39,18 @@ view: ga_pro_conversion {
     sql: ${TABLE}.goal_conversion_rate_all ;;
   }
 
+  dimension: transactions_per_session {
+    type: number
+    sql: ${TABLE}.transactions_per_session ;;
+  }
+
+  measure: avg_transactions_per_session {
+    type: average
+    label: "Average Ecommerce Transation Rate"
+    value_format: "0.00\%"
+    sql: ${TABLE}.transactions_per_session ;;
+  }
+
   measure: avg_goal_conversion_rate_all {
     type: average
     label: "Average Conversion Rate"
