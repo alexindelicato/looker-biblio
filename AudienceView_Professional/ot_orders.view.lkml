@@ -228,6 +228,11 @@ view: ot_orders {
     sql: MIN(${time_raw}) ;;
   }
 
+  measure: max_order_date {
+    type: date
+    sql: MAX(${time_raw}) ;;
+  }
+
   dimension: to_be_printed {
     type: number
     sql: ${TABLE}.to_be_printed ;;
