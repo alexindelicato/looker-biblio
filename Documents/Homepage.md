@@ -1,6 +1,6 @@
-# Welcome to AudienceView Biblio
-<div style="width: 100%; clear: both; float: left;margin-bottom:1em;">
-<img alt="audienceview logo" src="https://audienceview.com/wp-content/uploads/2020/01/AV_Main_Logo.png" />
+<div style="text-align: center;"><h1> Welcome to AudienceView Biblio </h1> </div>
+<div style="width: 100%; clear: both; float: left;margin-bottom:1em;" style="text-align: center;">
+<img alt="audienceview logo" src="https://audienceview.com/wp-content/uploads/2020/01/AV_Main_Logo.png"   />
 
 </div>
 
