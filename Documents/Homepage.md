@@ -4,7 +4,7 @@
 
 </div>
 
-
+<br>
 This is intended to be a a company-wide data visualization and reporting service. Through it, we can connect various sources of company data, and create connections and metrics based on those data sources. Use the ^Browse or ^Explore menus above to get started.
 
 * [Popular Looks](/browse/top)
