@@ -8,9 +8,9 @@ include: "/*/*.view"
 
 
 explore: unlimited_client_facts {
-  label: "Unlimited Client Facts"
+  label: "Unlimited Client Ticket Sales"
   group_label: "Project Biblio"
-  view_label:  "Unlimited Client Facts"
+  view_label:  "Unlimited Client Ticket Sales"
 
   join: unlimited_sold_admissions {
     view_label: "Sold Admissions"
