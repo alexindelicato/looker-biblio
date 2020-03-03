@@ -204,8 +204,8 @@ view: ot_order_detail {
 
   dimension: order_status {
     type: string
-    sql:case when cast(${status_id} as string) = '1' then 'Complete'
-             when cast(${status_id} as string) = '2' then 'As Order'
+    sql:case when cast(${status_id} as string) = '1' then 'As Order'
+             when cast(${status_id} as string) = '2' then 'Complete'
              when cast(${status_id} as string) = '4' then 'Void'
              when cast(${status_id} as string) = '5' then 'Refund'
              when cast(${status_id} as string) = '9' then 'Scanned'
