@@ -70,9 +70,9 @@ view: audienceview_venue_facts {
           SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold, (held) as in_event_held, 0,  'R'
           FROM mysql_service.reserved_inventory
       ) t,
-      0 as printed_count,
-      0 as unprinted_count,
-      0 as scanned_count
+      '0' as printed_count,
+      '0' as unprinted_count,
+      '0' as scanned_count
       INNER JOIN mysql_service.performances as performance_event on performance_event.performanceid = inv_event
       INNER JOIN mysql_service.events on events.eventid = performance_event.eventid
       INNER JOIN mysql_service.venues on venues.venueid = events.venueid
