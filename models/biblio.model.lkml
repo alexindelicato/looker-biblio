@@ -119,6 +119,14 @@ explore: ot_orders {
     relationship: one_to_many
     sql_on: ${ot_orders.order_id}=${ot_order_detail.order_id} ;;
   }
+
+  join: pro_ticket {
+    view_label: "AV Pro Tickets"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_order_detail.ticket_id} = ${pro_ticket.ticket_id} ;;
+  }
+
   join: ot_order_detail_ticket {
     view_label: "AV Pro Order Detail Tickets"
     type: left_outer
