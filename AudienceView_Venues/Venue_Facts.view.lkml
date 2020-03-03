@@ -30,7 +30,10 @@ view: audienceview_venue_facts {
       performance_start_date,
       cast( performance_start_date as TIMESTAMP) as performance_time,
       capacity,
-      sold_count
+      sold_count,
+      printed_count,
+      unprinted_count,
+      scanned_count
       FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts_new`
 
       UNION ALL
@@ -162,6 +165,21 @@ view: audienceview_venue_facts {
   dimension: sold_count {
     type: number
     sql: ${TABLE}.sold_count ;;
+  }
+
+  dimension: printed_count {
+    type: number
+    sql: ${TABLE}.printed_count ;;
+  }
+
+  dimension: unprinted_count {
+    type: number
+    sql: ${TABLE}.unprinted_count ;;
+  }
+
+  dimension: scanned_count {
+    type: number
+    sql: ${TABLE}.scanned_count ;;
   }
 
   dimension: venue_name {
