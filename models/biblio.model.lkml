@@ -128,7 +128,7 @@ explore: ot_orders {
   }
 
   join: pro_ticket_barcode {
-    view_label: "AV Pro Ticket Barcode"
+    view_label: "AV Pro Tickets Barcode"
     type: left_outer
     relationship: one_to_one
     sql_on: ${pro_ticket.ticket_id} = ${pro_ticket_barcode.ticket_id} ;;
