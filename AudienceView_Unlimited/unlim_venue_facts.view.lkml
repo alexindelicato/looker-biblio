@@ -13,8 +13,11 @@ performance_name,
 performance_start_date,
 cast( performance_start_date as TIMESTAMP) as performance_time,
 capacity,
-sold_count
-FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts_new`
+sold_count,
+printed_count,
+unprinted_count,
+scanned_count
+FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts`
            ;;
     }
 
@@ -82,6 +85,21 @@ FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts_new`
     sql: ${TABLE}.sold_count ;;
   }
 
+  dimension: printed_count {
+    type: number
+    sql: ${TABLE}.printed_count ;;
+  }
+
+  dimension: unprinted_count {
+    type: number
+    sql: ${TABLE}.unprinted_count ;;
+  }
+
+  dimension: scanned_count {
+    type: number
+    sql: ${TABLE}.scanned_count ;;
+  }
+
   dimension: venue_name {
     type: string
     sql: ${TABLE}.venue_name ;;
@@ -89,6 +107,7 @@ FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts_new`
 
   measure:total_sold_count { type: sum sql: ${TABLE}.sold_count ;; drill_fields: [venue_facts*] }
   measure:total_capacity_count { type: sum sql: ${TABLE}.capacity ;; drill_fields: [venue_facts*] }
+  measure:total_scanned_count { type: sum sql: ${TABLE}.scanned_count ;; drill_fields: [venue_facts*] }
 
   set: venue_facts {
     fields: [
