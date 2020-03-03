@@ -127,6 +127,14 @@ explore: ot_orders {
     sql_on: ${ot_order_detail.ticket_id} = ${pro_ticket.ticket_id} ;;
   }
 
+  join: pro_ticket_barcode {
+    view_label: "AV Pro Tickets"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${pro_ticket.ticket_id} = ${pro_ticket_barcode.ticket_id} ;;
+  }
+
+
   join: ot_order_detail_ticket {
     view_label: "AV Pro Order Detail Tickets"
     type: left_outer
