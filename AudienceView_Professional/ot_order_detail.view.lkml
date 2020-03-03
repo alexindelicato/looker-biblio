@@ -90,7 +90,8 @@ view: ot_order_detail {
     sql: ${TABLE}.group_discount_id ;;
   }
 
-  dimension_group: last_tx {
+
+dimension_group: last_tx {
     type: time
     timeframes: [
       raw,
