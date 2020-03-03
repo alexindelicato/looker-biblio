@@ -60,6 +60,9 @@ view: audienceview_venue_facts {
       END as performance_start_date,
       sum( in_event_inventory + in_event_sold + in_event_held ) as capacity,
       sum(in_event_sold) as sold_count,
+      0 as printed_count,
+      0 as unprinted_count,
+      0 as scanned_count
       FROM (
           SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold, (held) as in_event_held, (notforsale) as in_event_notforsale, 'F'
           FROM mysql_service.genbysec_inventory
@@ -69,10 +72,7 @@ view: audienceview_venue_facts {
           UNION ALL
           SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold, (held) as in_event_held, 0,  'R'
           FROM mysql_service.reserved_inventory
-      ) t,
-      '0' as printed_count,
-      '0' as unprinted_count,
-      '0' as scanned_count
+      ) t
       INNER JOIN mysql_service.performances as performance_event on performance_event.performanceid = inv_event
       INNER JOIN mysql_service.events on events.eventid = performance_event.eventid
       INNER JOIN mysql_service.venues on venues.venueid = events.venueid
