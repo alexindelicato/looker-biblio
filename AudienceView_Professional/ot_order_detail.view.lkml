@@ -98,6 +98,7 @@ view: ot_order_detail {
       date,
       week,
       month,
+      month_name,
       quarter,
       year
     ]
