@@ -224,6 +224,13 @@ dimension_group: last_tx {
       value: "2"}
   }
 
+  measure: total_tickets_for_scanning {
+    label: "Total Attendence"
+    type: number
+    value_format_name: percent_2
+    sql: ${count_scanned_tickets} / (${count_complete_tickets} + ${count_scanned_tickets}) ;;
+  }
+
 
   dimension: order_status {
     type: string
