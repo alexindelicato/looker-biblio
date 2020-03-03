@@ -204,6 +204,27 @@ dimension_group: last_tx {
     sql: ${TABLE}.status_id ;;
   }
 
+  measure: count_scanned_tickets {
+    label: "Scanned Tickets"
+    type: count
+    drill_fields: [ot_orders.order_id,ot_client.client_id,ot_client.client_name,count_ticket_id,price]
+
+    filters: {
+      field: status_id
+      value: "9" }
+  }
+
+  measure: count_complete_tickets {
+    label: "Complete Tickets"
+    type: count
+    drill_fields: [ot_orders.order_id,ot_client.client_id,ot_client.client_name,count_ticket_id,price]
+
+    filters: {
+      field: status_id
+      value: "2"}
+  }
+
+
   dimension: order_status {
     type: string
     sql:case when cast(${status_id} as string) = '1' then 'As Order'
