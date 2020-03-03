@@ -14,7 +14,10 @@ view: audienceview_venue_facts {
     performance_start_date,
     cast( performance_start_date as TIMESTAMP) as performance_time,
     SUM(capacity) as capacity,
-    SUM(sold_count) as sold_count
+    SUM(sold_count) as sold_count,
+    SUM(printed_count) as printed_count,
+    SUM(unprinted_count) as unprinted_count,
+    SUM(scanned_count) as scanned_count
     FROM
     (
       SELECT
