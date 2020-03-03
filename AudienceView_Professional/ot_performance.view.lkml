@@ -94,6 +94,7 @@ view: ot_performance {
       date,
       week,
       month,
+      month_name,
       quarter,
       year
     ]

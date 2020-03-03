@@ -267,7 +267,7 @@ view: ot_order_detail {
   measure: count {
     type: count_distinct
     sql:  ${orderdetail_id} ;;
-    drill_fields: [promotion_name, name]
+    drill_fields: [detail*]
   }
 
   measure: ot_service_fee_total {
