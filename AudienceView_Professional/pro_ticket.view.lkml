@@ -1,5 +1,5 @@
 view: pro_ticket {
-  sql_table_name: fivetran-ovation-tix-warehouse.trs_trs.ticket ;;
+  sql_table_name: `fivetran-ovation-tix-warehouse.trs_trs.ticket` ;;
   drill_fields: [ticket_id]
 
   dimension: ticket_id {
