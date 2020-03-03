@@ -37,7 +37,7 @@ view: audienceview_venue_facts {
       printed_count,
       unprinted_count,
       scanned_count
-      FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts_new`
+      FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts`
 
       UNION ALL
 
