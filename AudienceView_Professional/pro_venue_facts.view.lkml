@@ -3,7 +3,7 @@ view: pro_venue_facts {
     sql:
     SELECT performance_id,
     SUM(
-      CAST( IFNULL( CAST(status_id as string), '0') as INT64  )
+      CASE WHEN status_id in ( 2, 9 ) THEN 1 ELSE 0 END
     ) as sold_count,
     SUM(
       CASE WHEN status_id = 2 THEN 1 ELSE 0 END

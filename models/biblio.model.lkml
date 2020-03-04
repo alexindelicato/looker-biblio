@@ -92,6 +92,7 @@ explore: pro_venue_facts {
   view_label: "AV Pro Orders"
   fields: [ALL_FIELDS*]
 #  sql_on: ${pro_venue_facts.performance_id}=${ot_order_detail.performance_id} ;;
+
 }
 
 
