@@ -86,6 +86,15 @@ explore: sf_campaign_member {
   }
   }
 
+explore: pro_venue_facts {
+  label: "AV Pro Venue Facts"
+  group_label: "Project Biblio"
+  view_label: "AV Pro Orders"
+  fields: [ALL_FIELDS*]
+#  sql_on: ${pro_venue_facts.performance_id}=${ot_order_detail.performance_id} ;;
+}
+
+
 #--OVATIONTIX JOINS--
 # OvationTix Orders as primary table
 explore: ot_orders {
@@ -118,13 +127,6 @@ explore: ot_orders {
     type: left_outer
     relationship: one_to_many
     sql_on: ${ot_orders.order_id}=${ot_order_detail.order_id} ;;
-  }
-
-  join: pro_venue_facts {
-    view_label: "AV Pro Venue Facts"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${pro_venue_facts.performance_id}=${ot_order_detail.performance_id} ;;
   }
 
 
