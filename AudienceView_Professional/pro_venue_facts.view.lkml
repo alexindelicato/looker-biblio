@@ -15,6 +15,7 @@ view: pro_venue_facts {
     ) as scanned_count
 
     FROM `fivetran-ovation-tix-warehouse.trs_trs.order_detail`
+    INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.performance` on id = performance_id
     where performance_id in
     (
     select distinct(performance_id)
