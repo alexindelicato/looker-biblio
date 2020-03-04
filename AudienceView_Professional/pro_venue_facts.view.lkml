@@ -23,7 +23,7 @@ view: pro_venue_facts {
     where type = 'TCK'
     and status_id in ( 2, 9 )
     )
-    group by performance_id
+    group by performance_id, perf_start
 
                ;;
   }
