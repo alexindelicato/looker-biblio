@@ -120,6 +120,14 @@ explore: ot_orders {
     sql_on: ${ot_orders.order_id}=${ot_order_detail.order_id} ;;
   }
 
+  join: pro_venue_facts {
+    view_label: "AV Pro Venue Facts"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${pro_venue_facts.performance_id}=${ot_order_detail.performance_id} ;;
+  }
+
+
   join: pro_ticket {
     view_label: "AV Pro Tickets"
     type: left_outer
