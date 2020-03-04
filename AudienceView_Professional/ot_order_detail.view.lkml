@@ -228,7 +228,7 @@ dimension_group: last_tx {
     label: "Total Attendence"
     type: number
     value_format_name: percent_2
-    sql: ${count_scanned_tickets} / (${count_complete_tickets} + ${count_scanned_tickets}) ;;
+    sql: 1 - (${count_scanned_tickets} / (${count_complete_tickets} + ${count_scanned_tickets})) ;;
   }
 
 

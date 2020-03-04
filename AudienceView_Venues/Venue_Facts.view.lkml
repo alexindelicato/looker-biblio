@@ -198,7 +198,7 @@ view: audienceview_venue_facts {
   measure:total_capacity_count { type: sum sql: ${TABLE}.capacity ;; drill_fields: [venue_facts*] }
   measure:total_performance_count { type: count_distinct sql: ${TABLE}.UUID ;; drill_fields: [venue_facts*] }
   measure:total_scanned_count { type: sum sql: ${TABLE}.scanned_count ;; drill_fields: [venue_facts*] }
-  measure:attendance_rate{ type: number  sql:(${total_scanned_count} / ${total_sold_count}*1) ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
+  measure:attendance_rate{ type: number  sql:1 - ((${total_scanned_count} / ${total_sold_count}*1)) ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
 
   set: venue_facts {
     fields: [
