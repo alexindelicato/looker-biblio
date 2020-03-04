@@ -1,7 +1,9 @@
 view: pro_venue_facts {
   derived_table: {
     sql:
-    SELECT performance_id,
+    SELECT
+    CAST( performance_id as STRING) as performance_id,
+    cast( perf_start as TIMESTAMP) as perf_start,
     SUM(
       CASE WHEN status_id in ( 2, 9 ) THEN 1 ELSE 0 END
     ) as sold_count,
@@ -28,6 +30,11 @@ view: pro_venue_facts {
   dimension: performance_id {
     type: string
     sql: ${TABLE}.performance_id ;;
+  }
+
+  dimension_group: perf_start {
+    type: time
+    sql: ${TABLE}.perf_start  ;;
   }
 
   dimension: sold_count {
