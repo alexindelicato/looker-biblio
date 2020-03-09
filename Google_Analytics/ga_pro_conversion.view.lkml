@@ -72,7 +72,7 @@ view: ga_pro_conversion {
   }
 
   measure: sum_session_count {
-    type: sum
+    type: sum_distinct
     sql: ${TABLE}.session_count ;;
   }
 
