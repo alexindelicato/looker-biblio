@@ -99,6 +99,12 @@ view: ganalytics_ot {
     sql: ${TABLE}.ot_transaction_id ;;
   }
 
+  measure: count_transaction_id {
+    type: count_distinct
+    sql:  ${ot_transaction_id} ;;
+    drill_fields: [detail*]
+    }
+
   dimension: product_name {
     type: string
     sql: ${TABLE}.product_name ;;
@@ -127,7 +133,7 @@ view: ganalytics_ot {
       ot_client.client_name,
       ot_client.verisign_username,
       ot_time.date,
-      ot_orders.sum_total,
+      ot_orders.sum_total_distinct,
       ot_order_detail.count_ticket_id
     ]
   }

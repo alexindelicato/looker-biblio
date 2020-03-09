@@ -66,6 +66,25 @@ view: ga_pro_conversion {
     type: string
     sql: ${TABLE}.profile ;;
   }
+  dimension: session_count {
+    type: number
+    sql: ${TABLE}.session_count ;;
+  }
+
+  measure: sum_session_count {
+    type: sum
+    sql: ${TABLE}.session_count ;;
+  }
+
+  dimension: source {
+    type: string
+    sql: ${TABLE}.source ;;
+  }
+
+  dimension: source_medium {
+    type: string
+    sql: ${TABLE}.source_medium ;;
+  }
 
   measure: count {
     type: count
