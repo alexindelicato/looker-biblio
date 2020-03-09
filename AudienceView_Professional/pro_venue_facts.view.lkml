@@ -32,6 +32,11 @@ view: pro_venue_facts {
                ;;
   }
 
+  dimension: client_name {
+    type: string
+    sql: ${TABLE}.client_name ;;
+  }
+
   dimension: performance_id {
     type: string
     sql: ${TABLE}.performance_id ;;
