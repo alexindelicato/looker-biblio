@@ -27,7 +27,7 @@ view: pro_venue_facts {
     where type = 'TCK'
     and status_id =  9
     )
-    group by performance_id, perf_start
+    group by client_name, performance_id, perf_start
 
                ;;
   }
