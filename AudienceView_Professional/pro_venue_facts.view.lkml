@@ -2,6 +2,7 @@ view: pro_venue_facts {
   derived_table: {
     sql:
     SELECT
+    client_name,
     CAST( performance_id as STRING) as performance_id,
     cast( perf_start as TIMESTAMP) as perf_start,
     SUM(
@@ -15,7 +16,10 @@ view: pro_venue_facts {
     ) as scanned_count
 
     FROM `fivetran-ovation-tix-warehouse.trs_trs.order_detail`
-    INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.performance` on id = performance_id
+    INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.performance` as performance on id = performance_id
+    INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.production` as production on production.production_id = performance.production_id
+    INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.client` as client on client.client_id = production.client_id
+
     where performance_id in
     (
     select distinct(performance_id)
