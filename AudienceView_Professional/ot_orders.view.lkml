@@ -197,6 +197,7 @@ view: ot_orders {
       month_name,
       quarter,
       quarter_of_year,
+      week_of_year,
       year
     ]
     sql: ${TABLE}.time ;;
