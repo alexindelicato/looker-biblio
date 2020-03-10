@@ -252,6 +252,7 @@ view: sf_case {
   measure: avg_response_time {
     label: "Average Response Time (Minutes)"
     type: average
+    value_format: "#.##"
     sql: ${response_time} ;;
   }
 
