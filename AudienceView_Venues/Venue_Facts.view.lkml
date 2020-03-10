@@ -8,11 +8,16 @@ view: audienceview_venue_facts {
     sf_account_name,
     sf_account_id,
     venue_name,
+    venue_address_street,
+    venue_address_city,
+    venue_address_state,
+    venue_address_country,
+    venue_address_zip,
     performance_series_name,
     performance_short_description,
     performance_name,
-    performance_start_date,
     cast( performance_start_date as TIMESTAMP) as performance_time,
+    performance_start_date,
     SUM(capacity) as capacity,
     SUM(sold_count) as sold_count,
     SUM(printed_count) as printed_count,
@@ -21,25 +26,31 @@ view: audienceview_venue_facts {
     FROM
     (
       SELECT
-      UUID,
+      events.UUID as UUID,
       'Unlimited' as product_name,
       client_name,
-      sf_account_name,
-      sf_account_id,
-      venue_name,
+      events.sf_account_name as sf_account_name,
+      events.sf_account_id as sf_account_id,
+      events.venue_name as venue_name,
+      venue_location.venue_address_street as venue_address_street,
+      venue_location.venue_address_city as venue_address_city,
+      venue_location.venue_address_state as venue_address_state,
+      venue_location.venue_address_zip as venue_address_zip,
+      venue_location.venue_address_country as venue_address_country,
       performance_series_name,
       performance_short_description,
       performance_name,
-      performance_start_date,
       cast( performance_start_date as TIMESTAMP) as performance_time,
+      performance_start_date,
       capacity,
       sold_count,
       printed_count,
       unprinted_count,
       scanned_count
-      FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts`
+      FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts` as events
+      LEFT JOIN `fivetran-ovation-tix-warehouse.audienceview.venue_location` as venue_location on venue_location.venue_name = events.venue_name
 
-      UNION ALL
+UNION ALL
 
       SELECT
       inv_event as UUID,
@@ -48,19 +59,28 @@ view: audienceview_venue_facts {
       NULL as sf_account_name,
       members.memberid as sf_account_id,
       venues.name as venue_name,
+      venues.street as venue_address_street,
+      venues.city as venue_address_city,
+      venues.state as venue_address_state,
+      venues.zip as venue_address_zip,
+      venues.country as venue_address_country,
       events.title as performance_series_name,
       events.title as performance_short_description,
       events.title as performance_name,
+      CAST(
       CASE WHEN events.timezone != 'none' THEN
         DATETIME( TIMESTAMP_MICROS(performance_event.starttime*1000000), events.timezone)
       ELSE
         DATETIME( TIMESTAMP_MICROS(performance_event.starttime*1000000), 'US/Pacific')
-      END as performance_time,
+      END
+      as TIMESTAMP) as performance_time,
+
       CASE WHEN events.timezone != 'none' THEN
-        TIMESTAMP_MICROS(performance_event.starttime*1000000)
+        DATETIME(TIMESTAMP_MICROS(performance_event.starttime*1000000))
       ELSE
-        TIMESTAMP_MICROS(performance_event.starttime*1000000)
+        DATETIME(TIMESTAMP_MICROS(performance_event.starttime*1000000))
       END as performance_start_date,
+
       sum( in_event_inventory + in_event_sold + in_event_held ) as capacity,
       sum(in_event_sold) as sold_count,
       0 as printed_count,
@@ -87,9 +107,72 @@ view: audienceview_venue_facts {
       members.organizationname,
       members.memberid,
       venues.name,
+      venues.street,
+      venues.city,
+      venues.state,
+      venues.zip,
+      venues.country,
       events.title, events.timezone,
       performance_event.starttime
 
+UNION ALL
+
+    SELECT
+    CAST(performance_id as STRING) as UUID,
+    'Professional' as product_name,
+    client_name,
+    NULL as sf_account_name,
+    NULL as sf_account_id,
+    venue_location.venue_name as venue_name,
+    venue_location.venue_address_street as venue_address_street,
+    venue_location.venue_address_city as venue_address_city,
+    venue_location.venue_address_state as venue_address_state,
+    venue_location.venue_address_zip as venue_address_zip,
+    venue_location.venue_address_country as venue_address_country,
+    prod_name as performance_series_name,
+    prod_name as performance_short_description,
+    prod_name as performance_name,
+    perf_start as performance_time,
+    CAST( perf_start as DATETIME ) as performance_start_date,
+    0 as capacity,
+    SUM(
+      CASE WHEN status_id in ( 2, 9 ) THEN 1 ELSE 0 END
+    ) as sold_count,
+    SUM(
+      CASE WHEN status_id = 2 THEN 1 ELSE 0 END
+    ) as printed_count,
+    0 as unprinted_count,
+    SUM(
+      CASE WHEN status_id = 9 THEN 1 ELSE 0 END
+    ) as scanned_count
+
+    FROM `fivetran-ovation-tix-warehouse.trs_trs.order_detail`
+    INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.performance` as performance on id = performance_id
+    INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.production` as production on production.production_id = performance.production_id
+    INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.client` as client on client.client_id = production.client_id
+    INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.report_crm` as crm on crm.id = client.report_crm_id
+    LEFT JOIN `fivetran-ovation-tix-warehouse.audienceview.venue_location` as venue_location on venue_location.venue_name = production.venue_name
+
+    where performance_id in
+    (
+    select distinct(performance_id)
+    from `fivetran-ovation-tix-warehouse.trs_trs.order_detail`
+    where type = 'TCK'
+    and status_id =  9
+    )
+    group by
+    performance_id,
+    client_name,
+    venue_location.venue_name,
+    venue_location.venue_address_street,
+    venue_location.venue_address_city,
+    venue_location.venue_address_state,
+    venue_location.venue_address_country,
+    venue_location.venue_address_zip,
+    prod_name,
+    prod_name,
+    prod_name,
+    perf_start
     )as t1
     GROUP BY
     UUID,
@@ -98,6 +181,11 @@ view: audienceview_venue_facts {
     sf_account_name,
     sf_account_id,
     venue_name,
+    venue_address_street,
+    venue_address_city,
+    venue_address_state,
+    venue_address_country,
+    venue_address_zip,
     performance_series_name,
     performance_short_description,
     performance_name,
@@ -106,7 +194,6 @@ view: audienceview_venue_facts {
     cast( performance_start_date as TIMESTAMP) ASC,
     client_name,
     performance_series_name
-
                ;;
   }
 
