@@ -244,6 +244,18 @@ view: sf_case {
     sql: ${TABLE}.created_date ;;
   }
 
+  dimension: response_time {
+    type: number
+    sql: timestamp_diff(${first_response_c_raw},${created_raw}, MINUTE) ;;
+  }
+
+  measure: avg_response_time {
+    label: "Average Response Time (Minutes)"
+    type: average
+    sql: ${response_time} ;;
+  }
+
+
   dimension: created_from_closed_case_c {
     type: yesno
     sql: ${TABLE}.created_from_closed_case_c ;;
@@ -1700,6 +1712,6 @@ view: sf_case {
 
   measure: count {
     type: count
-    drill_fields: [id, supplied_name]
+    drill_fields: [id, case_number,sf_accounts.name,description,status,created_date]
   }
 }

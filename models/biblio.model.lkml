@@ -30,7 +30,7 @@ explore: sf_accounts {
     view_label: "Salesforce Support Cases"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sf_accounts.id}=${sf_case.account_id};;
+    sql_on: ${sf_accounts.id}=${sf_case.account_id} AND ${sf_case.is_deleted} = FALSE;;
   }
   join: sf_task {
     view_label: "Salesforce Tasks"
