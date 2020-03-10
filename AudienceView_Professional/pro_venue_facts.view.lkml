@@ -3,6 +3,12 @@ view: pro_venue_facts {
     sql:
     SELECT
     client_name,
+    venue_location.venue_name as venue_name,
+    venue_location.venue_address_street as venue_address_street,
+    venue_location.venue_address_city as venue_address_city,
+    venue_location.venue_address_state as venue_address_state,
+    venue_location.venue_address_zip as venue_address_zip,
+    venue_location.venue_address_country as venue_address_country,
     CAST( performance_id as STRING) as performance_id,
     cast( perf_start as TIMESTAMP) as perf_start,
     SUM(
@@ -19,6 +25,7 @@ view: pro_venue_facts {
     INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.performance` as performance on id = performance_id
     INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.production` as production on production.production_id = performance.production_id
     INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.client` as client on client.client_id = production.client_id
+    LEFT JOIN `fivetran-ovation-tix-warehouse.audienceview.venue_location` as venue_location on venue_location.venue_name = production.venue_name
 
     where performance_id in
     (
@@ -27,7 +34,16 @@ view: pro_venue_facts {
     where type = 'TCK'
     and status_id =  9
     )
-    group by client_name, performance_id, perf_start
+    group by
+    client_name,
+    venue_location.venue_name,
+    venue_address_street,
+    venue_address_city,
+    venue_address_state,
+    venue_address_zip,
+    venue_address_country,
+    performance_id,
+    perf_start
 
                ;;
   }
@@ -35,6 +51,36 @@ view: pro_venue_facts {
   dimension: client_name {
     type: string
     sql: ${TABLE}.client_name ;;
+  }
+
+  dimension: venue_name {
+    type: string
+    sql: ${TABLE}.venue_name ;;
+  }
+
+  dimension: venue_address_street {
+    type: string
+    sql: ${TABLE}.venue_address_street ;;
+  }
+
+  dimension: venue_address_city {
+    type: string
+    sql: ${TABLE}.venue_address_city ;;
+  }
+
+  dimension: venue_address_state {
+    type: string
+    sql: ${TABLE}.venue_address_state ;;
+  }
+
+  dimension: venue_address_zip {
+    type: string
+    sql: ${TABLE}.venue_address_zip ;;
+  }
+
+  dimension: venue_address_country {
+    type: string
+    sql: ${TABLE}.venue_address_country ;;
   }
 
   dimension: performance_id {
