@@ -22,7 +22,13 @@ view: audienceview_venue_facts {
     SUM(sold_count) as sold_count,
     SUM(printed_count) as printed_count,
     SUM(unprinted_count) as unprinted_count,
-    SUM(scanned_count) as scanned_count
+    SUM(scanned_count) as scanned_count,
+    CASE WHEN SUM(sold_count) != 0 THEN
+        SUM(scanned_count) / SUM (sold_count)
+      ELSE
+        0
+      END as nonattendrate
+
     FROM
     (
       SELECT
@@ -49,7 +55,7 @@ view: audienceview_venue_facts {
       scanned_count
       FROM `fivetran-ovation-tix-warehouse.audienceview.venue_facts` as events
       LEFT JOIN `fivetran-ovation-tix-warehouse.audienceview.venue_location` as venue_location on venue_location.venue_name = events.venue_name
-
+      where sold_count >= scanned_count
 UNION ALL
 
       SELECT
@@ -215,6 +221,11 @@ UNION ALL
     sql: ${TABLE}.uuid ;;
   }
 
+  dimension: nonattendrate {
+    type: number
+    sql: ${TABLE}.nonattendrate ;;
+  }
+
   dimension: product_name {
     type: string
     sql: ${TABLE}.product_name ;;
@@ -285,6 +296,7 @@ UNION ALL
   measure:total_capacity_count { type: sum sql: ${TABLE}.capacity ;; drill_fields: [venue_facts*] }
   measure:total_performance_count { type: count_distinct sql: ${TABLE}.UUID ;; drill_fields: [venue_facts*] }
   measure:total_scanned_count { type: sum sql: ${TABLE}.scanned_count ;; drill_fields: [venue_facts*] }
+  measure:non_attendance_rate{ type: average  sql:1-${TABLE}.nonattendrate ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
   measure:attendance_rate{ type: number  sql:1 - ((${total_scanned_count} / ${total_sold_count}*1)) ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
 
   set: venue_facts {
