@@ -158,6 +158,12 @@ view: pro_venue_facts {
   measure:total_scanned_count { type: sum sql: ${TABLE}.scanned_count ;; drill_fields: [venue_facts*] }
   measure:non_attendance_rate{ type: number  sql:1 - ((${total_scanned_count} / ${total_sold_count}*1)) ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
 
+  measure: is_active_selling {
+    type: yesno
+    sql:${total_sold_current_month} != 0 and ${total_sold_prev_year} != 0 ;;
+  }
+
+
   set: venue_facts {
     fields: [
       crm_name,
