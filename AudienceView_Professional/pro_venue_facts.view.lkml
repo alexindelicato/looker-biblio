@@ -3,6 +3,7 @@ view: pro_venue_facts {
     sql:
     SELECT
     client_name,
+    client.client_id,
     crm_name,
     prod_name,
     venue_location.venue_name as venue_name,
@@ -56,6 +57,7 @@ view: pro_venue_facts {
     )
     group by
     client_name,
+    client.client_id,
     crm_name,
     prod_name,
     venue_location.venue_name,
