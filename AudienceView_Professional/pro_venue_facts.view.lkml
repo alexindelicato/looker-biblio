@@ -154,15 +154,15 @@ view: pro_venue_facts {
   }
 
   measure:total_sold_count { type: sum sql: ${TABLE}.sold_count ;; drill_fields: [venue_facts*] }
-  measure:total_sold_current_month { type: sum sql: ${TABLE}.sold_current_month ;; drill_fields: [venue_facts*] }
-  measure:total_sold_prev_year { type: sum sql: ${TABLE}.sold_prev_year ;; drill_fields: [venue_facts*] }
+  #measure:total_sold_current_month { type: sum sql: ${TABLE}.sold_current_month ;; drill_fields: [venue_facts*] }
+  #measure:total_sold_prev_year { type: sum sql: ${TABLE}.sold_prev_year ;; drill_fields: [venue_facts*] }
   measure:total_performance_count { type: count_distinct sql: ${TABLE}.performance_id ;; drill_fields: [venue_facts*] }
   measure:total_scanned_count { type: sum sql: ${TABLE}.scanned_count ;; drill_fields: [venue_facts*] }
   measure:non_attendance_rate{ type: number  sql:1 - ((${total_scanned_count} / ${total_sold_count}*1)) ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
 
   measure: is_active_selling {
     type: yesno
-    sql:${total_sold_current_month} != 0 and ${total_sold_prev_year} != 0 ;;
+    sql:${sold_current_month} != 0 and ${sold_prev_year} != 0 ;;
   }
 
 
