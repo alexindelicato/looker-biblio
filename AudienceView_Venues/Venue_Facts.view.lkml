@@ -23,6 +23,8 @@ view: audienceview_venue_facts {
     SUM(printed_count) as printed_count,
     SUM(unprinted_count) as unprinted_count,
     SUM(scanned_count) as scanned_count,
+    SUM(sold_current_month) as sold_current_month,
+    SUM(sold_prev_year) as sold_prev_year,
     CASE WHEN SUM(sold_count) != 0 THEN
         SUM(scanned_count) / SUM (sold_count)
       ELSE
@@ -50,6 +52,8 @@ view: audienceview_venue_facts {
       performance_start_date,
       capacity,
       sold_count,
+      0 as sold_current_month,
+      0 as sold_prev_year,
       printed_count,
       unprinted_count,
       scanned_count
@@ -89,6 +93,8 @@ UNION ALL
 
       sum( in_event_inventory + in_event_sold + in_event_held ) as capacity,
       sum(in_event_sold) as sold_count,
+      0 as sold_current_month,
+      0 as sold_prev_year,
       0 as printed_count,
       0 as unprinted_count,
       0 as scanned_count
@@ -144,6 +150,22 @@ UNION ALL
     SUM(
       CASE WHEN status_id in ( 2, 9 ) THEN 1 ELSE 0 END
     ) as sold_count,
+    (
+      (SELECT COUNT(0) from `fivetran-ovation-tix-warehouse.trs_trs.orders` as current_orders
+      INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.order_detail` as current_order_detail on current_order_detail.order_id = current_orders.order_id
+      WHERE current_order_detail.status_id in ( 2, 9 )
+      AND current_orders.client_id = client.client_id
+      AND CAST(current_orders.time as DATE) BETWEEN DATE_SUB(current_date(), INTERVAL 1 MONTH) and current_date()
+      GROUP BY client.client_id)
+    ) as sold_current_month,
+    (
+      (SELECT COUNT(0) from `fivetran-ovation-tix-warehouse.trs_trs.orders` as past_orders
+      INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.order_detail` as past_order_detail on past_order_detail.order_id = past_orders.order_id
+      WHERE past_order_detail.status_id in ( 2, 9 )
+      AND past_orders.client_id = client.client_id
+      AND CAST(past_orders.time as DATE) BETWEEN '2019-01-01' and '2020-01-01'
+      GROUP BY client.client_id)
+    ) as sold_prev_year,
     SUM(
       CASE WHEN status_id = 2 THEN 1 ELSE 0 END
     ) as printed_count,
@@ -169,6 +191,7 @@ UNION ALL
     group by
     performance_id,
     client_name,
+    client.client_id,
     venue_location.venue_name,
     venue_location.venue_address_street,
     venue_location.venue_address_city,
@@ -272,6 +295,16 @@ UNION ALL
     sql: ${TABLE}.sold_count ;;
   }
 
+  dimension: sold_current_month {
+    type: number
+    sql: ${TABLE}.sold_current_month ;;
+  }
+
+  dimension: sold_prev_year {
+    type: number
+    sql: ${TABLE}.sold_prev_year ;;
+  }
+
   dimension: printed_count {
     type: number
     sql: ${TABLE}.printed_count ;;
@@ -309,6 +342,11 @@ UNION ALL
   measure:total_scanned_count { type: sum sql: ${TABLE}.scanned_count ;; drill_fields: [venue_facts*] }
   measure:non_attendance_rate{ type: average  sql:1-${TABLE}.nonattendrate ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
   measure:attendance_rate{ type: number  sql:1 - ((${total_scanned_count} / ${total_sold_count}*1)) ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
+
+  measure: is_active_selling {
+    type: yesno
+    sql:${sold_current_month} != 0 and ${sold_prev_year} != 0 ;;
+  }
 
   set: venue_facts {
     fields: [
