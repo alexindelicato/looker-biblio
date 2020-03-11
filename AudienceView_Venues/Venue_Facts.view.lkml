@@ -292,6 +292,17 @@ UNION ALL
     sql: ${TABLE}.venue_name ;;
   }
 
+  dimension: venue_address_city {
+    type: string
+    sql: ${TABLE}.venue_address_city ;;
+  }
+
+  dimension: venue_address_state {
+    type: string
+    sql: ${TABLE}.venue_address_state ;;
+  }
+
+
   measure:total_sold_count { type: sum sql: ${TABLE}.sold_count ;; drill_fields: [venue_facts*] }
   measure:total_capacity_count { type: sum sql: ${TABLE}.capacity ;; drill_fields: [venue_facts*] }
   measure:total_performance_count { type: count_distinct sql: ${TABLE}.UUID ;; drill_fields: [venue_facts*] }
