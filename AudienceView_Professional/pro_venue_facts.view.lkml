@@ -4,6 +4,7 @@ view: pro_venue_facts {
     SELECT
     client_name,
     crm_name,
+    prod_name,
     venue_location.venue_name as venue_name,
     venue_location.venue_address_street as venue_address_street,
     venue_location.venue_address_city as venue_address_city,
@@ -39,6 +40,7 @@ view: pro_venue_facts {
     group by
     client_name,
     crm_name,
+    prod_name,
     venue_location.venue_name,
     venue_address_street,
     venue_address_city,
@@ -54,6 +56,11 @@ view: pro_venue_facts {
   dimension: client_name {
     type: string
     sql: ${TABLE}.client_name ;;
+  }
+
+  dimension: prod_name {
+    type: string
+    sql: ${TABLE}.prod_name ;;
   }
 
   dimension: crm_name {
@@ -123,7 +130,13 @@ view: pro_venue_facts {
 
   set: venue_facts {
     fields: [
-      performance_id
+      crm_name,
+      performance_id,
+      prod_name,
+      perf_start_date,
+      total_scanned_count,
+      total_sold_count,
+      non_attendance_rate
     ]
   }
 
