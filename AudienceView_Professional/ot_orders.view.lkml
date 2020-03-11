@@ -186,6 +186,43 @@ view: ot_orders {
         Else cast(${status_id} as string) end;;
   }
 
+  measure: sold_current_month {
+    type: count
+    filters: {
+      field: time_month
+      value: "this month"
+    }
+  }
+
+  measure: sold_last_year {
+    type: count
+    filters: {
+      field: time_year
+      value: "2019"
+    }
+  }
+
+  measure: is_active_selling {
+      type: yesno
+      sql:${sold_current_month} != 0 and ${sold_last_year} != 0 ;;
+    }
+
+
+#   dimension: sold_current_year {
+#     type: yesno
+#     sql: DATE_DIFF(current_date, ${time_date}, month) = 0 ;;
+#   }
+#
+#   dimension: sold_last_year {
+#     type: yesno
+#     sql:${time_year} = 2019 ;;
+#   }
+#
+#   dimension: is_active_selling {
+#     type: yesno
+#     sql:${sold_current_year} and ${sold_last_year} ;;
+#   }
+
   dimension_group: time {
     type: time
     timeframes: [
