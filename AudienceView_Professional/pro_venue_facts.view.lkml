@@ -17,23 +17,6 @@ view: pro_venue_facts {
     SUM(
       CASE WHEN status_id in ( 2, 9 ) THEN 1 ELSE 0 END
     ) as sold_count,
-    (
-      (SELECT COUNT(0) from `fivetran-ovation-tix-warehouse.trs_trs.orders` as current_orders
-      INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.order_detail` as current_order_detail on current_order_detail.order_id = current_orders.order_id
-      WHERE current_order_detail.status_id in ( 2, 9 )
-      AND current_orders.client_id = client.client_id
-      AND CAST(current_orders.time as DATE) BETWEEN DATE_SUB(current_date(), INTERVAL 1 MONTH) and current_date()
-      GROUP BY client.client_id)
-    ) as sold_current_month,
-    (
-      (SELECT COUNT(0) from `fivetran-ovation-tix-warehouse.trs_trs.orders` as past_orders
-      INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.order_detail` as past_order_detail on past_order_detail.order_id = past_orders.order_id
-      WHERE past_order_detail.status_id in ( 2, 9 )
-      AND past_orders.client_id = client.client_id
-      AND CAST(past_orders.time as DATE) BETWEEN '2019-01-01' and '2020-01-01'
-      GROUP BY client.client_id)
-    ) as sold_prev_year,
-
     SUM(
       CASE WHEN status_id = 2 THEN 1 ELSE 0 END
     ) as printed_count,
@@ -132,17 +115,6 @@ view: pro_venue_facts {
     sql: ${TABLE}.sold_count ;;
   }
 
-  dimension: sold_current_month {
-    type: number
-    sql: ${TABLE}.sold_current_month ;;
-  }
-
-  dimension: sold_prev_year {
-    type: number
-    sql: ${TABLE}.sold_prev_year ;;
-  }
-
-
   dimension: printed_count {
     type: number
     sql: ${TABLE}.printed_count ;;
@@ -159,11 +131,6 @@ view: pro_venue_facts {
   measure:total_performance_count { type: count_distinct sql: ${TABLE}.performance_id ;; drill_fields: [venue_facts*] }
   measure:total_scanned_count { type: sum sql: ${TABLE}.scanned_count ;; drill_fields: [venue_facts*] }
   measure:non_attendance_rate{ type: number  sql:1 - ((${total_scanned_count} / ${total_sold_count}*1)) ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
-
-  dimension: is_active_selling {
-    type: yesno
-    sql:${sold_current_month} != 0 and ${sold_prev_year} != 0 ;;
-  }
 
 
   set: venue_facts {
