@@ -65,7 +65,9 @@ view: pro_venue_facts {
     venue_address_zip,
     venue_address_country,
     performance_id,
-    perf_start
+    perf_start,
+    sold_current_month,
+    sold_prev_year
 
                ;;
   }
