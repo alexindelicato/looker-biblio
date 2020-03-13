@@ -23,8 +23,8 @@ view: audienceview_venue_facts {
     SUM(printed_count) as printed_count,
     SUM(unprinted_count) as unprinted_count,
     SUM(scanned_count) as scanned_count,
-    SUM(sold_current_month) as sold_current_month,
-    SUM(sold_prev_year) as sold_prev_year,
+    sold_current_month as sold_current_month,
+    sold_prev_year as sold_prev_year,
     CASE WHEN SUM(sold_count) != 0 THEN
         SUM(scanned_count) / SUM (sold_count)
       ELSE
@@ -52,8 +52,8 @@ view: audienceview_venue_facts {
       performance_start_date,
       capacity,
       sold_count,
-      0 as sold_current_month,
-      0 as sold_prev_year,
+      1 as sold_current_month,
+      1 as sold_prev_year,
       printed_count,
       unprinted_count,
       scanned_count
@@ -93,8 +93,8 @@ UNION ALL
 
       sum( in_event_inventory + in_event_sold + in_event_held ) as capacity,
       sum(in_event_sold) as sold_count,
-      0 as sold_current_month,
-      0 as sold_prev_year,
+      1 as sold_current_month,
+      1 as sold_prev_year,
       0 as printed_count,
       0 as unprinted_count,
       0 as scanned_count
@@ -214,7 +214,9 @@ UNION ALL
     performance_series_name,
     performance_short_description,
     performance_name,
-    performance_start_date
+    performance_start_date,
+    sold_current_month,
+    sold_prev_year
     ORDER BY
     cast( performance_start_date as TIMESTAMP) ASC,
     client_name,
