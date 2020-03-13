@@ -29,7 +29,10 @@ view: audienceview_venue_facts {
         SUM(scanned_count) / SUM (sold_count)
       ELSE
         0
-      END as nonattendrate
+      END as nonattendrate,
+    CASE WHEN sold_current_month != 0 and sold_prev_year != 0
+      THEN 1 ELSE 0
+    END as isActive
 
     FROM
     (
@@ -303,6 +306,12 @@ UNION ALL
     sql: ${TABLE}.sold_prev_year ;;
   }
 
+  dimension: isActive {
+    type: number
+    sql: ${TABLE}.isActive ;;
+  }
+
+
   dimension: printed_count {
     type: number
     sql: ${TABLE}.printed_count ;;
@@ -341,10 +350,10 @@ UNION ALL
   measure:non_attendance_rate{ type: average  sql:1-${TABLE}.nonattendrate ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
   measure:attendance_rate{ type: number  sql:1 - ((${total_scanned_count} / ${total_sold_count}*1)) ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
 
-  measure: is_active_selling {
-    type: yesno
-    sql:${sold_current_month} != 0 and ${sold_prev_year} != 0 ;;
-  }
+#  measure: is_active_selling {
+#    type: yesno
+#    sql:${sold_current_month} != 0 and ${sold_prev_year} != 0 ;;
+#  }
 
   set: venue_facts {
     fields: [
