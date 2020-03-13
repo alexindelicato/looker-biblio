@@ -3,6 +3,35 @@ view: pro_venue_facts {
     sql:
     SELECT
     client_name,
+    client_id,
+    crm_name,
+    prod_name,
+    venue_name,
+    venue_address_street,
+    venue_address_city,
+    venue_address_state,
+    venue_address_zip,
+    venue_address_country,
+    performance_id,
+    perf_start,
+    SUM(sold_count) as sold_count,
+    SUM(printed_count) as printed_count,
+    SUM(scanned_count) as scanned_count,
+    sold_current_month,
+    sold_prev_year,
+    CASE WHEN SUM(sold_count) != 0 THEN
+        SUM(scanned_count) / SUM (sold_count)
+      ELSE
+        0
+      END as nonattendrate,
+    CASE WHEN sold_current_month != 0 and sold_prev_year != 0
+      THEN 1 ELSE 0
+    END as isActive
+    FROM
+    (
+
+    SELECT
+    client_name,
     production.client_id as client_id,
     crm_name,
     prod_name,
@@ -68,6 +97,24 @@ view: pro_venue_facts {
     perf_start,
     sold_current_month,
     sold_prev_year
+
+    )as t1
+    GROUP BY
+    client_name,
+    client_id,
+    crm_name,
+    prod_name,
+    venue_name,
+    venue_address_street,
+    venue_address_city,
+    venue_address_state,
+    venue_address_zip,
+    venue_address_country,
+    performance_id,
+    perf_start,
+    sold_current_month,
+    sold_prev_year,
+    isActive
 
                ;;
   }
@@ -142,6 +189,11 @@ view: pro_venue_facts {
     sql: ${TABLE}.sold_prev_year ;;
   }
 
+  dimension: isActive {
+    type: number
+    sql: ${TABLE}.isActive ;;
+  }
+
   dimension: printed_count {
     type: number
     sql: ${TABLE}.printed_count ;;
@@ -153,16 +205,16 @@ view: pro_venue_facts {
   }
 
   measure:total_sold_count { type: sum sql: ${TABLE}.sold_count ;; drill_fields: [venue_facts*] }
-  #measure:total_sold_current_month { type: sum sql: ${TABLE}.sold_current_month ;; drill_fields: [venue_facts*] }
-  #measure:total_sold_prev_year { type: sum sql: ${TABLE}.sold_prev_year ;; drill_fields: [venue_facts*] }
+#  measure:total_sold_current_month { type: sum sql: ${TABLE}.sold_current_month ;; drill_fields: [venue_facts*] }
+#  measure:total_sold_prev_year { type: sum sql: ${TABLE}.sold_prev_year ;; drill_fields: [venue_facts*] }
   measure:total_performance_count { type: count_distinct sql: ${TABLE}.performance_id ;; drill_fields: [venue_facts*] }
   measure:total_scanned_count { type: sum sql: ${TABLE}.scanned_count ;; drill_fields: [venue_facts*] }
   measure:non_attendance_rate{ type: number  sql:1 - ((${total_scanned_count} / ${total_sold_count}*1)) ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
 
-  measure: is_active_selling {
-    type: yesno
-    sql:${sold_current_month} != 0 and ${sold_prev_year} != 0 ;;
-  }
+#  measure: is_active_selling {
+#    type: yesno
+#    sql:${sold_current_month} != 0 and ${sold_prev_year} != 0 ;;
+#  }
 
 
   set: venue_facts {
