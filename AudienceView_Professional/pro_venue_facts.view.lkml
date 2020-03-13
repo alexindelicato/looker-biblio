@@ -3,7 +3,7 @@ view: pro_venue_facts {
     sql:
     SELECT
     client_name,
-    client.client_id,
+    production.client_id as client_id,
     crm_name,
     prod_name,
     venue_location.venue_name as venue_name,
@@ -17,6 +17,21 @@ view: pro_venue_facts {
     SUM(
       CASE WHEN status_id in ( 2, 9 ) THEN 1 ELSE 0 END
     ) as sold_count,
+    (
+      SELECT APPROX_COUNT_DISTINCT(pro_client_id)
+      from `fivetran-ovation-tix-warehouse.trs_trs.pro_orders_summary` as current_orders
+        where pro_client_id = production.client_id
+        AND current_orders.pro_orders_year = EXTRACT( YEAR FROM CURRENT_DATE())
+        AND current_orders.pro_orders_month = EXTRACT( MONTH FROM CURRENT_DATE())
+      GROUP BY pro_client_id
+    ) as sold_current_month,
+    (
+      SELECT APPROX_COUNT_DISTINCT(pro_client_id)
+      from `fivetran-ovation-tix-warehouse.trs_trs.pro_orders_summary` as prev_orders
+        where prev_orders.pro_client_id = production.client_id
+        AND prev_orders.pro_orders_year = 2019
+      GROUP BY pro_client_id
+    ) as sold_prev_year,
     SUM(
       CASE WHEN status_id = 2 THEN 1 ELSE 0 END
     ) as printed_count,
@@ -40,7 +55,7 @@ view: pro_venue_facts {
     )
     group by
     client_name,
-    client.client_id,
+    production.client_id,
     crm_name,
     prod_name,
     venue_location.venue_name,
@@ -115,6 +130,16 @@ view: pro_venue_facts {
     sql: ${TABLE}.sold_count ;;
   }
 
+  dimension: sold_current_month {
+    type: number
+    sql: ${TABLE}.sold_current_month ;;
+  }
+
+  dimension: sold_prev_year {
+    type: number
+    sql: ${TABLE}.sold_prev_year ;;
+  }
+
   dimension: printed_count {
     type: number
     sql: ${TABLE}.printed_count ;;
@@ -131,6 +156,11 @@ view: pro_venue_facts {
   measure:total_performance_count { type: count_distinct sql: ${TABLE}.performance_id ;; drill_fields: [venue_facts*] }
   measure:total_scanned_count { type: sum sql: ${TABLE}.scanned_count ;; drill_fields: [venue_facts*] }
   measure:non_attendance_rate{ type: number  sql:1 - ((${total_scanned_count} / ${total_sold_count}*1)) ;; value_format_name: percent_2 drill_fields: [venue_facts*] }
+
+  measure: is_active_selling {
+    type: yesno
+    sql:${sold_current_month} != 0 and ${sold_prev_year} != 0 ;;
+  }
 
 
   set: venue_facts {
