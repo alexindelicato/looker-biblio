@@ -113,7 +113,7 @@ UNION ALL
       INNER JOIN mysql_service.venues on venues.venueid = events.venueid
       INNER JOIN mysql_service.members on members.memberid = events.memberid
       WHERE 1 = 1
-      and DATETIME( TIMESTAMP_MICROS(performance_event.starttime*1000000) ) > '2020-01-01T00:00:00'
+      and DATETIME( TIMESTAMP_MICROS(performance_event.starttime*1000000) ) > '2016-01-01T00:00:00'
       group by
       inv_event,
       members.organizationname,
@@ -151,16 +151,19 @@ UNION ALL
       CASE WHEN status_id in ( 2, 9 ) THEN 1 ELSE 0 END
     ) as sold_count,
     (
-      SELECT COUNT(0) from `fivetran-ovation-tix-warehouse.trs_trs.pro_order_summary` as current_orders
-      WHERE current_orders.pro_client_id = client.client_id
-      AND CAST(current_orders.pro_orders_time as DATE) BETWEEN DATE_SUB(current_date(), INTERVAL 1 MONTH) and current_date()
-      GROUP BY client.client_id
+      SELECT APPROX_COUNT_DISTINCT(pro_client_id)
+      from `fivetran-ovation-tix-warehouse.trs_trs.pro_orders_summary` as current_orders
+        where pro_client_id = production.client_id
+        AND current_orders.pro_orders_year = EXTRACT( YEAR FROM CURRENT_DATE())
+        AND current_orders.pro_orders_month = EXTRACT( MONTH FROM CURRENT_DATE())
+      GROUP BY pro_client_id
     ) as sold_current_month,
     (
-      SELECT COUNT(0) from `fivetran-ovation-tix-warehouse.trs_trs.pro_order_summary` as past_orders
-      WHERE past_orders.pro_client_id = client.client_id
-      AND CAST(past_orders.pro_orders_time as DATE) BETWEEN '2019-01-01' and '2020-01-01'
-      GROUP BY client.client_id
+      SELECT APPROX_COUNT_DISTINCT(pro_client_id)
+      from `fivetran-ovation-tix-warehouse.trs_trs.pro_orders_summary` as prev_orders
+        where prev_orders.pro_client_id = production.client_id
+        AND prev_orders.pro_orders_year = 2019
+      GROUP BY pro_client_id
     ) as sold_prev_year,
     SUM(
       CASE WHEN status_id = 2 THEN 1 ELSE 0 END
@@ -177,17 +180,15 @@ UNION ALL
     INNER JOIN `fivetran-ovation-tix-warehouse.trs_trs.report_crm` as crm on crm.id = client.report_crm_id
     LEFT JOIN `fivetran-ovation-tix-warehouse.audienceview.venue_location` as venue_location on venue_location.venue_name = production.venue_name
 
-    where performance_id in
-    (
-    select distinct(performance_id)
-    from `fivetran-ovation-tix-warehouse.trs_trs.order_detail`
-    where type = 'TCK'
-    and status_id =  9
-    )
+    where 1 = 1
+    AND CAST( perf_start as DATETIME ) > '2016-01-01'
+
     group by
     performance_id,
     client_name,
-    client.client_id,
+--    client.client_id,
+    production.client_id,
+    crm.id,
     venue_location.venue_name,
     venue_location.venue_address_street,
     venue_location.venue_address_city,
@@ -195,9 +196,8 @@ UNION ALL
     venue_location.venue_address_country,
     venue_location.venue_address_zip,
     prod_name,
-    prod_name,
-    prod_name,
     perf_start
+
     )as t1
     GROUP BY
     UUID,
