@@ -281,6 +281,15 @@ measure: annual_recurring_revenue {
     drill_fields: [ot_orders.order_id,credit_card_fees, ovationtix_service_fees,ovationtix_phone_room_fees, Total_fees]
   }
 
+  measure: arr {
+    label: "ACV update"
+    type: number
+    value_format_name: usd
+    sql: case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${ovationtix_phone_room_fees}+${credit_card_fees}
+         when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees}+${credit_card_fees}
+        else  ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees} END ;;
+  }
+
   measure: ovationtix_phone_room_fees {
     type: sum
     sql: if(${is_sale}, if(${is_phone_order_fee}, ${item_credit_card_fee}, 0), 0) ;;
