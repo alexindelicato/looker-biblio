@@ -282,7 +282,7 @@ measure: annual_recurring_revenue {
   }
 
   measure: arr {
-    label: "ACV update"
+    label: "ARR update"
     type: number
     value_format_name: usd
     sql: case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${ovationtix_phone_room_fees}+${credit_card_fees}
