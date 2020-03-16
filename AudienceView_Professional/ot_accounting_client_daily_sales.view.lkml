@@ -233,6 +233,7 @@ view: ot_accounting_client_daily_sales {
   filters: {
     field: tx_month
     value: "12 months ago for 12 months" }
+  required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
 }
 
 
@@ -243,6 +244,7 @@ measure: arr_ovationtix_service_fees {
   filters: {
     field: tx_month
     value: "12 months ago for 12 months" }
+  required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
 }
 
 measure: arr_ovationtix_phone_room_fees {
@@ -252,6 +254,7 @@ measure: arr_ovationtix_phone_room_fees {
   filters: {
     field: tx_month
     value: "12 months ago for 12 months" }
+  required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
 }
 
   measure: arr_refunded_ovationtix_service_fees {
@@ -261,6 +264,7 @@ measure: arr_ovationtix_phone_room_fees {
     filters: {
       field: tx_month
       value: "12 months ago for 12 months" }
+    required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
   }
 
 
@@ -268,7 +272,10 @@ measure: annual_recurring_revenue {
   label: "ARR"
   type: number
   value_format_name: usd_0
-  sql: ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees} - ${arr_refunded_ovationtix_service_fees} ;;
+  sql:  case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_ovationtix_phone_room_fees}+${arr_credit_card_fees}
+         when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees}
+        else  ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees} END ;;
+  required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
 }
 
 # ---------------------------------------------------------------------------------------------------
