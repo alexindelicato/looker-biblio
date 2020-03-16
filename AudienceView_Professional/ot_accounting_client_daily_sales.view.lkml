@@ -295,6 +295,7 @@ measure: annual_recurring_revenue {
     sql: case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${ovationtix_phone_room_fees}+${credit_card_fees}
          when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees}
         else  ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees} END ;;
+    required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
   }
 
   measure: ovationtix_phone_room_fees {
