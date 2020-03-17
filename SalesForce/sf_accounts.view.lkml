@@ -868,7 +868,8 @@ view: sf_accounts {
 
   dimension: unlimited_version {
     type: number
-    sql: case when STARTS_WITH(${TABLE}.current_production_software_version_c,'7.') then  CAST(${TABLE}.current_production_software_version_c AS FLOAT64) end ;;
+    sql: case when STARTS_WITH(sf_accounts.current_production_software_version_c,'7.')
+     then  CAST( SUBSTR(sf_accounts.current_production_software_version_c, 1, 4) AS FLOAT64) end ;;
   }
 
   dimension: current_version_c {
