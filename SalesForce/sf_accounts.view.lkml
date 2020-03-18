@@ -621,6 +621,7 @@ view: sf_accounts {
       year
     ]
     sql: ${TABLE}.contract_expiration_c ;;
+    html: {{ rendered_value | date: "%b %d, %Y" }} ;;
   }
 
   dimension_group: contract_expires_c {
