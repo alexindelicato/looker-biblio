@@ -108,20 +108,23 @@ GROUP BY
   dimension:  orderadmission_sale_action_description  { type: string sql: ${TABLE}.orderadmission_sale_action_description  ;; }
   dimension:  orderadmission_record_state_description { type: string sql: ${TABLE}.orderadmission_record_state_description ;; }
 
+
+  dimension: sales_count { type: number label: "Sales Count" sql: ${TABLE}.sales_count ;; }
+  dimension: changes_count { type: number label: "Changes Count" sql: ${TABLE}.changes_count ;; }
+  dimension: returns_count { type: number label: "Returns Count" sql: ${TABLE}.returns_count ;; }
+
+  dimension: sales_net { type: number value_format_name: usd label: "Sales Net" sql: ${TABLE}.sales_net ;; }
+  dimension: changes_net { type: number value_format_name: usd label: "Changes Net" sql: ${TABLE}.changes_net ;; }
+  dimension: returns_net { type: number value_format_name: usd label: "Returns Net" sql: ${TABLE}.returns_net ;; }
+
   dimension:  default_currency { type: string sql: ${TABLE}.default_currency ;; }
   dimension:  GROSS_USD { type: number value_format_name: usd sql: ${TABLE}.GROSS_USD ;; }
   dimension:  GROSS { type: number value_format_name: usd sql: ${TABLE}.GROSS ;; }
+
+
+
   measure:  total_GROSS_USD { type: sum value_format_name: usd label: "Total GROSS USD" sql: ${TABLE}.GROSS_USD ;; }
   measure:  total_GROSS { type: sum value_format_name: usd label: "Total GROSS" sql: ${TABLE}.GROSS ;; }
-
-#  measure:  total_admission_count { type:  sum   label: "Total Count Sold" sql: ${TABLE}.admission_count ;; }
-#  measure:  total_NET { type:  sum  value_format_name: usd label: "Total Net Sold" sql: ${TABLE}.NET ;; }
-#  measure:  total_CHG2  { type:  sum  value_format_name: usd label: "Total CHG2 Sold" sql: ${TABLE}.CHG2  ;; }
-#  measure:  total_CHG3  { type:  sum  value_format_name: usd label: "Total CHG3 Sold" sql: ${TABLE}.CHG3  ;; }
-#  measure:  total_CHG5  { type:  sum  value_format_name: usd label: "Total CHG5 Sold" sql: ${TABLE}.CHG5  ;; }
-#  measure:  total_CHG4  { type:  sum  value_format_name: usd label: "Total CHG4 Sold" sql: ${TABLE}.CHG4  ;; }
-#  measure:  total_CHG1  { type:  sum  value_format_name: usd label: "Total CHG1 Sold" sql: ${TABLE}.CHG1  ;; }
-#  measure:  total_GROSS { type:  sum  value_format_name: usd label: "Total GROSS Sold" sql: ${TABLE}.GROSS ;; }
 
   measure:  total_sales_net { type: sum value_format_name: usd label: "Total Sales Net" sql: ${TABLE}.sales_net ;; }
   measure:  total_sales_count { type: sum label: "Total Sales Count" sql: ${TABLE}.sales_count ;; }
