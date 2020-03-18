@@ -261,6 +261,16 @@ view: ot_performance {
     sql: ${TABLE}.web_display ;;
   }
 
+  dimension: web_display_label {
+    type: string
+    sql: case when ${TABLE}.web_display ="T" then "Normal"
+        when ${TABLE}.web_display ="S" then "Sold Out"
+        when ${TABLE}.web_display ="C" then "Cancelled"
+        when ${TABLE}.web_display ="I" then "Invinsible"
+        when ${TABLE}.web_display ="M" then "Custom Message"
+        END ;;
+  }
+
   dimension: web_message {
     type: string
     sql: ${TABLE}.web_message ;;
