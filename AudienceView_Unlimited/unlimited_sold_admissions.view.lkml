@@ -1,10 +1,9 @@
 view: unlimited_sold_admissions {
   derived_table: {
     sql:
-
 SELECT
-  UUID,
-  client_name,
+  admissions.UUID as UUID,
+  admissions.client_name as client_name,
   audit_time,
   cast(audit_time as TIMESTAMP) as audit_date_time,
   YEAR,
@@ -65,8 +64,18 @@ SELECT
   SUM(CASE
       WHEN orderadmission_sale_action in ( 4, 5, 6 ) and orderadmission_record_state != 0 THEN admission_count
       ELSE 0
-  END) as exchange_out_count
-FROM audienceview.unlimited_sold_admissions
+  END) as exchange_out_count,
+  facts.default_currency as default_currency,
+    SUM(CASE
+      WHEN facts.default_currency = 'CAD' THEN GROSS * 0.76
+      WHEN facts.default_currency = 'COP' THEN GROSS * 0.00029
+      WHEN facts.default_currency = 'GBP' THEN GROSS * 1.32
+      WHEN facts.default_currency = 'PHP' THEN GROSS * 0.020
+      WHEN facts.default_currency = 'USD' THEN GROSS * 1
+      ELSE 0
+  END)/100 as GROSS_USD
+FROM audienceview.unlimited_sold_admissions as admissions
+INNER JOIN audienceview.unlimited_client_facts as facts on facts.client_name = admissions.client_name
 GROUP BY
   UUID,
   client_name,
@@ -78,25 +87,32 @@ GROUP BY
   orderadmission_sale_action,
   orderadmission_record_state,
   orderadmission_sale_action_description,
-  orderadmission_record_state_description
+  orderadmission_record_state_description,
+  facts.default_currency
            ;;
 
       sql_trigger_value: select max(cast(concat(audit_time, ':00') as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_sold_admissions`;;
     }
 
-  dimension:  UUID  { type: string sql: ${TABLE}. UUID  ;; }
-  dimension:  client_name { type: string sql: ${TABLE}. client_name ;; }
-  dimension:  audit_time  { type: string sql: ${TABLE}. audit_time  ;; }
+  dimension:  UUID  { type: string sql: ${TABLE}.UUID  ;; }
+  dimension:  client_name { type: string sql: ${TABLE}.client_name ;; }
+  dimension:  audit_time  { type: string sql: ${TABLE}.audit_time  ;; }
   dimension_group: audit_date_time { type: time sql: ${TABLE}.audit_date_time ;; }
 
 #  dimension:  YEAR  { type: string sql: ${TABLE}. YEAR  ;; }
 #  dimension:  quarter { type: string sql: ${TABLE}. quarter ;; }
-  dimension:  userrole_name { type: string sql: ${TABLE}. userrole_name ;; }
-  dimension:  userrole_group  { type: string sql: ${TABLE}. userrole_group  ;; }
-  dimension:  orderadmission_sale_action  { type: string sql: ${TABLE}. orderadmission_sale_action  ;; }
-  dimension:  orderadmission_record_state { type: string sql: ${TABLE}. orderadmission_record_state ;; }
-  dimension:  orderadmission_sale_action_description  { type: string sql: ${TABLE}. orderadmission_sale_action_description  ;; }
-  dimension:  orderadmission_record_state_description { type: string sql: ${TABLE}. orderadmission_record_state_description ;; }
+  dimension:  userrole_name { type: string sql: ${TABLE}.userrole_name ;; }
+  dimension:  userrole_group  { type: string sql: ${TABLE}.userrole_group  ;; }
+  dimension:  orderadmission_sale_action  { type: string sql: ${TABLE}.orderadmission_sale_action  ;; }
+  dimension:  orderadmission_record_state { type: string sql: ${TABLE}.orderadmission_record_state ;; }
+  dimension:  orderadmission_sale_action_description  { type: string sql: ${TABLE}.orderadmission_sale_action_description  ;; }
+  dimension:  orderadmission_record_state_description { type: string sql: ${TABLE}.orderadmission_record_state_description ;; }
+
+  dimension:  default_currency { type: string sql: ${TABLE}.default_currency ;; }
+  dimension:  GROSS_USD { type: number value_format_name: usd sql: ${TABLE}.GROSS_USD ;; }
+  dimension:  GROSS { type: number value_format_name: usd sql: ${TABLE}.GROSS ;; }
+  measure:  total_GROSS_USD { type: sum value_format_name: usd label: "Total GROSS USD" sql: ${TABLE}.GROSS_USD ;; }
+  measure:  total_GROSS { type: sum value_format_name: usd label: "Total GROSS" sql: ${TABLE}.GROSS ;; }
 
 #  measure:  total_admission_count { type:  sum   label: "Total Count Sold" sql: ${TABLE}.admission_count ;; }
 #  measure:  total_NET { type:  sum  value_format_name: usd label: "Total Net Sold" sql: ${TABLE}.NET ;; }
