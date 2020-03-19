@@ -379,7 +379,7 @@ explore: sel_members {
     view_label: "AV Select Series"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sel_members.memberid}=${sel_events.memberid} AND  ${sel_events.deleted} IS NULL ;;
+    sql_on: ${sel_members.memberid}=${sel_events.memberid} AND  ${sel_performances.deleted} IS NULL ;;
   }
 
   join: sel_tags_to_events {
@@ -400,14 +400,14 @@ explore: sel_members {
     view_label: "AV Select Performances"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL ;;
+    sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL  ;;
   }
 
   join: sel_performance_inventory {
     view_label: "AV Select Performance Inventory"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${sel_performances.performanceid}=${sel_performance_inventory.ID} AND ${sel_performances.deleted} IS NULL ;;
+    sql_on: ${sel_performances.performanceid}=${sel_performance_inventory.ID} AND  ${sel_performances.deleted} IS NULL  ;;
   }
 
   join: sel_venues {
@@ -431,18 +431,18 @@ explore: sel_members {
       sql_on: ${sel_members.memberid}=${sel_performance_stats.memberid} ;;
     }
 
-    join: sel_events {
-      view_label: "AV Select Series"
-      type: left_outer
-      relationship: one_to_many
-      sql_on: ${sel_performance_stats.memberid}=${sel_events.memberid} ;;
-    }
-
     join: sel_performances {
       view_label: "AV Select Performances"
       type: left_outer
       relationship: one_to_many
-      sql_on: ${sel_events.eventid}=${sel_performances.eventid}  ;;
+      sql_on: ${sel_performance_stats.performanceid}=${sel_performances.performanceid}  ;;
+    }
+
+    join: sel_events {
+      view_label: "AV Select Series"
+      type: left_outer
+      relationship: one_to_many
+      sql_on: ${sel_performances.eventid}=${sel_events.eventid} ;;
     }
     }
 

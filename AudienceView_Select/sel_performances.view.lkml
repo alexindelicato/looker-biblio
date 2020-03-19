@@ -43,7 +43,7 @@ view: sel_performances {
   }
 
   dimension: deleted {
-    type: number
+    type: string
     sql: ${TABLE}.deleted ;;
   }
 
