@@ -69,7 +69,7 @@ view: sel_performance_stats {
 measure: payout_amount {
   type: number
   value_format_name: usd
-  sql:case when ${sel_members.useinternetma} = "N" then ${total_sales__}-${total_convenience_fees}-${total_convenience_fees} END;;
+  sql:case when ${sel_members.useinternetma} = "N" then ${total_sales__}-${total_service_fees}-${total_convenience_fees} END;;
 }
 
   dimension: venueid {
