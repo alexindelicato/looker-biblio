@@ -416,8 +416,15 @@ explore: sel_members {
     relationship: one_to_one
     sql_on: ${sel_events.venueid}=${sel_venues.venueid} AND  ${sel_venues.deleted} IS NULL ;;
   }
-
   }
+
+  #Select performance stats explore
+  explore: sel_performance_stats {
+    label: "AV Select Peformance Stats"
+    group_label: "Project Biblio"
+    view_label: "AV Select Performance Stats"
+    }
+
   #GA Conversion rate
   explore: ga_pro_conversion {
     label: "GA Pro Conversion"
