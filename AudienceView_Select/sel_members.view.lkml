@@ -703,6 +703,7 @@ view: sel_members {
   }
 
   dimension: useinternetma {
+    label: "Use Internet (Private) Merchant Account"
     type: string
     sql: ${TABLE}.useinternetma ;;
   }

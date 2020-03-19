@@ -66,6 +66,12 @@ view: sel_performance_stats {
     sql: ${TABLE}.Total_Service_Fees ;;
   }
 
+measure: payout_amount {
+  type: number
+  value_format_name: usd
+  sql:case when ${sel_members.useinternetma} = "N" then ${total_sales__}-${total_convenience_fees}-${total_convenience_fees} END;;
+}
+
   dimension: venueid {
     type: string
     sql: ${TABLE}.venueid ;;
