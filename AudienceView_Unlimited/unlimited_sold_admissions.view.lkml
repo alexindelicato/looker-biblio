@@ -73,7 +73,15 @@ SELECT
       WHEN facts.default_currency = 'PHP' THEN GROSS * 0.020
       WHEN facts.default_currency = 'USD' THEN GROSS * 1
       ELSE 0
-  END)/100 as GROSS_USD
+  END)/100 as GROSS_USD,
+      SUM(CASE
+      WHEN facts.default_currency = 'CAD' THEN NET * 0.76
+      WHEN facts.default_currency = 'COP' THEN NET * 0.00029
+      WHEN facts.default_currency = 'GBP' THEN NET * 1.32
+      WHEN facts.default_currency = 'PHP' THEN NET * 0.020
+      WHEN facts.default_currency = 'USD' THEN NET * 1
+      ELSE 0
+  END)/100 as NET_USD
 FROM audienceview.unlimited_sold_admissions as admissions
 INNER JOIN audienceview.unlimited_client_facts as facts on facts.client_name = admissions.client_name
 GROUP BY
@@ -120,11 +128,15 @@ GROUP BY
   dimension:  default_currency { type: string sql: ${TABLE}.default_currency ;; }
   dimension:  GROSS_USD { type: number value_format_name: usd sql: ${TABLE}.GROSS_USD ;; }
   dimension:  GROSS { type: number value_format_name: usd sql: ${TABLE}.GROSS ;; }
-
-
+  dimension:  NET_USD { type: number value_format_name: usd sql: ${TABLE}.NET_USD ;; }
+  dimension:  NET { type: number value_format_name: usd sql: ${TABLE}.NET ;; }
 
   measure:  total_GROSS_USD { type: sum value_format_name: usd label: "Total GROSS USD" sql: ${TABLE}.GROSS_USD ;; }
   measure:  total_GROSS { type: sum value_format_name: usd label: "Total GROSS" sql: ${TABLE}.GROSS ;; }
+
+  measure:  total_NET_USD { type: sum value_format_name: usd label: "Total NET USD" sql: ${TABLE}.NET_USD ;; }
+  measure:  total_NET { type: sum value_format_name: usd label: "Total NET" sql: ${TABLE}.NET ;; }
+
 
   measure:  total_sales_net { type: sum value_format_name: usd label: "Total Sales Net" sql: ${TABLE}.sales_net ;; }
   measure:  total_sales_count { type: sum label: "Total Sales Count" sql: ${TABLE}.sales_count ;; }

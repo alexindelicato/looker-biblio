@@ -21,6 +21,11 @@ view: unlimited_client_facts {
     sql: ${TABLE}.sf_account_name ;;
   }
 
+  dimension: default_currency {
+    type: string
+    sql: ${TABLE}.default_currency ;;
+  }
+
   measure: count_client_name {
     type: count_distinct
     drill_fields: [sf_accounts.name, client_name]
