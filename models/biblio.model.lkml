@@ -418,11 +418,32 @@ explore: sel_members {
   }
   }
 
-  #Select performance stats explore
+  #Select performance stats explore for settlement issue
   explore: sel_performance_stats {
     label: "AV Select Peformance Stats"
     group_label: "Project Biblio"
     view_label: "AV Select Performance Stats"
+
+    join: sel_members {
+      view_label: "AV Select Members"
+      type: left_outer
+      relationship: one_to_many
+      sql_on: ${sel_members.memberid}=${sel_performance_stats.memberid} ;;
+    }
+
+    join: sel_events {
+      view_label: "AV Select Series"
+      type: left_outer
+      relationship: one_to_many
+      sql_on: ${sel_performance_stats.memberid}=${sel_events.memberid} ;;
+    }
+
+    join: sel_performances {
+      view_label: "AV Select Performances"
+      type: left_outer
+      relationship: one_to_many
+      sql_on: ${sel_events.eventid}=${sel_performances.eventid}  ;;
+    }
     }
 
   #GA Conversion rate
