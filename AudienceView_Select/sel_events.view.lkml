@@ -154,11 +154,13 @@ view: sel_events {
   }
 
   dimension: notforsaleta {
+    label: "Ticket Agent Message"
     type: string
     sql: ${TABLE}.notforsaleta ;;
   }
 
   dimension: notforsaletl {
+    label: "Ticket Line Message"
     type: string
     sql: ${TABLE}.notforsaletl ;;
   }
@@ -194,14 +196,14 @@ view: sel_events {
     sql: ${TABLE}.starttime ;;
   }
 
-  dimension: starttimeta {
-    type: number
-    sql: ${TABLE}.starttimeta ;;
+  dimension_group: starttimeta {
+    type: time
+    sql:timestamp_seconds(${TABLE}.starttimeta) ;;
   }
 
-  dimension: starttimetl {
-    type: number
-    sql: ${TABLE}.starttimetl ;;
+  dimension_group: starttimetl {
+    type: time
+    sql: timestamp_seconds(${TABLE}.starttimetl) ;;
   }
 
   dimension: suspended {
