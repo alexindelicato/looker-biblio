@@ -431,6 +431,13 @@ explore: sel_members {
       sql_on: ${sel_members.memberid}=${sel_performance_stats.memberid} ;;
     }
 
+    join: sf_accounts {
+      view_label: "SF Accounts"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
+    }
+
     join: sel_performances {
       view_label: "AV Select Performances"
       type: left_outer
