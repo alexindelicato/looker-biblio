@@ -453,4 +453,12 @@ explore: sel_members {
     view_label: "GA Pro Conversion"
     }
 
+
+#CrowdTorch Performance Stats Settlement Issue
+explore: ct_performance_stats {
+  label: "CT Performance Stats"
+  group_label: "Project Biblio"
+  view_label: "CT Performance Stats"
+}
+
   #-----------------------
