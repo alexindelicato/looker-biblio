@@ -466,6 +466,13 @@ explore: ct_performance_stats {
   label: "CT Performance Stats"
   group_label: "Project Biblio"
   view_label: "CT Performance Stats"
+
+  join: sf_accounts {
+    view_label: "SF Accounts"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_performance_stats.client_name}=${sf_accounts.name} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
 }
 
   #-----------------------
