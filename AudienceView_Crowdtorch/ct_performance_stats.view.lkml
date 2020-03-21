@@ -43,26 +43,31 @@ dimension: total_scan {
 
 dimension: grand_total {
   type: number
+  value_format_name: usd
   sql: ${TABLE}.Grand_Total ;;
 }
 
 dimension: service_fee {
   type: number
+  value_format_name: usd
   sql: ${TABLE}.Service_Fee ;;
 }
 
 dimension: cc_service_fee {
   type: number
+  value_format_name: usd
   sql: ${TABLE}.CC_Service_Fee ;;
 }
 
 dimension: additional_fee {
   type: number
+  value_format_name: usd
   sql: ${TABLE}.Additional_Fee ;;
 }
 
 dimension: ap_amount {
   type: number
+  value_format_name: usd
   sql: ${TABLE}.AP_Amount ;;
 }
 
