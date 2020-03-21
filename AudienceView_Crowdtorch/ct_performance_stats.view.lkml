@@ -13,7 +13,7 @@ dimension: client_name {
 
 dimension: client_id {
   type: number
-  sql: ${TABLE}.clientID ;;
+  sql: cast(${TABLE}.clientID as string) ;;
 }
 
 dimension: show_name {

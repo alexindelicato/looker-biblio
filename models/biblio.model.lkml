@@ -471,7 +471,7 @@ explore: ct_performance_stats {
     view_label: "SF Accounts"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${ct_performance_stats.client_name}=${sf_accounts.name} AND ${sf_accounts.is_deleted}= FALSE ;;
+    sql_on: ${ct_performance_stats.client_id}=${sf_accounts.ct_client_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
   }
 }
 
