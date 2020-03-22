@@ -32,6 +32,14 @@ explore: sf_accounts {
     relationship: one_to_many
     sql_on: ${sf_accounts.id}=${sf_case.account_id} AND ${sf_case.is_deleted} = FALSE;;
   }
+
+  join: sf_contact {
+    view_label: "Salesforce Contact"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_contact.id}=${sf_case.contact_id} ;;
+  }
+
   join: sf_task {
     view_label: "Salesforce Tasks"
     type: left_outer
