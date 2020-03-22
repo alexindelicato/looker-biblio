@@ -2,25 +2,47 @@ view: sf_case {
   sql_table_name: new_salesforce.`case` ;;
 
 
-#   dimension: deskscmt_desk_case_id_c {
-#     primary_key: yes
-#     type: number
-#     sql: ${TABLE}.deskscmt_desk_case_id_c ;;
-#   }
-#
-#   dimension_group: _fivetran_synced {
-#     type: time
-#     timeframes: [
-#       raw,
-#       time,
-#       date,
-#       week,
-#       month,
-#       quarter,
-#       year
-#     ]
-#     sql: ${TABLE}._fivetran_synced ;;
-#   }
+  dimension_group: created {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.created_date ;;
+  }
+
+  dimension: response_time {
+    type: number
+    sql: timestamp_diff(${first_response_c_raw},${created_raw}, MINUTE) ;;
+  }
+
+  measure: avg_response_time {
+    label: "Average First Response Time (Minutes)"
+    type: average
+    value_format: "#"
+    sql: ${response_time} ;;
+  }
+
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
+
+  dimension: id {
+    type: string
+    sql: ${TABLE}.id ;;
+  }
+
+  dimension_group: _fivetran_synced {
+    type: time
+    sql: ${TABLE}._fivetran_synced ;;
+  }
 
   dimension: account_id {
     type: string
@@ -38,7 +60,7 @@ view: sf_case {
   }
 
   dimension: acquisition_feedback_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.acquisition_feedback_c ;;
   }
 
@@ -49,15 +71,6 @@ view: sf_case {
 
   dimension_group: actual_launch_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.actual_launch_date_c ;;
   }
 
@@ -122,7 +135,7 @@ view: sf_case {
   }
 
   dimension: box_office_feedback_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.box_office_feedback_c ;;
   }
 
@@ -142,7 +155,7 @@ view: sf_case {
   }
 
   dimension: case_cc_account_owner_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.case_cc_account_owner_c ;;
   }
 
@@ -171,28 +184,14 @@ view: sf_case {
     sql: ${TABLE}.cause_c ;;
   }
 
-  dimension_group: closed {
+  dimension_group: closed_date {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.closed_date ;;
   }
 
   dimension: cms_non_urgent_exclude_c {
-    type: yesno
-    sql: ${TABLE}.cms_non_urgent_exclude_c ;;
-  }
-
-  dimension: comments {
     type: string
-    sql: ${TABLE}.comments ;;
+    sql: ${TABLE}.cms_non_urgent_exclude_c ;;
   }
 
   dimension: contact_email {
@@ -230,40 +229,13 @@ view: sf_case {
     sql: ${TABLE}.created_by_id ;;
   }
 
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_date ;;
-  }
-
-  dimension: response_time {
-    type: number
-    sql: timestamp_diff(${first_response_c_raw},${created_raw}, MINUTE) ;;
-  }
-
-  measure: avg_response_time {
-    label: "Average First Response Time (Minutes)"
-    type: average
-    value_format: "#"
-    sql: ${response_time} ;;
-  }
-
-
   dimension: created_from_closed_case_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.created_from_closed_case_c ;;
   }
 
   dimension: cross_sell_feedback_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.cross_sell_feedback_c ;;
   }
 
@@ -274,15 +246,6 @@ view: sf_case {
 
   dimension_group: csat_date_time_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.csat_date_time_c ;;
   }
 
@@ -297,7 +260,7 @@ view: sf_case {
   }
 
   dimension: csat_sent_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.csat_sent_c ;;
   }
 
@@ -312,7 +275,7 @@ view: sf_case {
   }
 
   dimension: custom_demo_account_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.custom_demo_account_c ;;
   }
 
@@ -322,7 +285,7 @@ view: sf_case {
   }
 
   dimension: custom_presentation_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.custom_presentation_c ;;
   }
 
@@ -338,71 +301,26 @@ view: sf_case {
 
   dimension_group: date_time_escalation_first_response_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.date_time_escalation_first_response_c ;;
   }
 
   dimension_group: date_time_festival_survey_received_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.date_time_festival_survey_received_c ;;
   }
 
   dimension_group: date_time_festival_survey_sent_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.date_time_festival_survey_sent_c ;;
   }
 
   dimension_group: date_time_first_close_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.date_time_first_close_c ;;
   }
 
   dimension_group: date_time_first_touch_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.date_time_first_touch_c ;;
   }
 
@@ -413,29 +331,11 @@ view: sf_case {
 
   dimension_group: deliverable_sla_clock_start_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.deliverable_sla_clock_start_c ;;
   }
 
   dimension_group: deliverable_sla_clock_stop_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.deliverable_sla_clock_stop_c ;;
   }
 
@@ -474,61 +374,48 @@ view: sf_case {
     sql: ${TABLE}.desk_labels_c ;;
   }
 
+  dimension: deskscmt_desk_case_id_c {
+    type: number
+    sql: ${TABLE}.deskscmt_desk_case_id_c ;;
+  }
+
   dimension: deskscmt_desk_connect_sync_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.deskscmt_desk_connect_sync_c ;;
   }
 
   dimension: deskscmt_desk_migrated_case_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.deskscmt_desk_migrated_case_c ;;
   }
 
   dimension: discussed_adopting_wltl_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.discussed_adopting_wltl_c ;;
   }
 
   dimension: dnr_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.dnr_c ;;
   }
 
   dimension_group: due_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.due_date_c ;;
   }
 
   dimension_group: due_date_time_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.due_date_time_c ;;
   }
 
   dimension: dummy_checkbox_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.dummy_checkbox_c ;;
   }
 
   dimension: email_marketing_feedback_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.email_marketing_feedback_c ;;
   }
 
@@ -549,15 +436,6 @@ view: sf_case {
 
   dimension_group: escalated_timestamp_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.escalated_timestamp_c ;;
   }
 
@@ -573,15 +451,6 @@ view: sf_case {
 
   dimension_group: escalation_sent_back_timestamp_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.escalation_sent_back_timestamp_c ;;
   }
 
@@ -592,34 +461,16 @@ view: sf_case {
 
   dimension_group: event_ends_on_hardware_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.event_ends_on_hardware_c ;;
   }
 
   dimension_group: event_starts_on_hardware_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.event_starts_on_hardware_c ;;
   }
 
   dimension: event_wizard_feedback_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.event_wizard_feedback_c ;;
   }
 
@@ -629,21 +480,12 @@ view: sf_case {
   }
 
   dimension: fee_update_needed_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.fee_update_needed_c ;;
   }
 
   dimension_group: fee_verification_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.fee_verification_date_c ;;
   }
 
@@ -653,26 +495,17 @@ view: sf_case {
   }
 
   dimension: fees_verified_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.fees_verified_c ;;
   }
 
   dimension: field_update_test_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.field_update_test_c ;;
   }
 
   dimension_group: first_outbound_email_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.first_outbound_email_c ;;
   }
 
@@ -683,15 +516,6 @@ view: sf_case {
 
   dimension_group: first_response_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.first_response_c ;;
   }
 
@@ -711,12 +535,12 @@ view: sf_case {
   }
 
   dimension: flag_for_management_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.flag_for_management_c ;;
   }
 
   dimension: french_language_detected_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.french_language_detected_c ;;
   }
 
@@ -777,15 +601,6 @@ view: sf_case {
 
   dimension_group: hardware_request_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.hardware_request_date_c ;;
   }
 
@@ -807,12 +622,6 @@ view: sf_case {
   dimension: hotfix_c {
     type: number
     sql: ${TABLE}.hotfix_c ;;
-  }
-
-  dimension: id {
-    primary_key: yes
-    type: string
-    sql: ${TABLE}.id ;;
   }
 
   dimension: impact_level_c {
@@ -841,27 +650,27 @@ view: sf_case {
   }
 
   dimension: is_closed {
-    type: yesno
+    type: string
     sql: ${TABLE}.is_closed ;;
   }
 
   dimension: is_closed_on_create {
-    type: yesno
+    type: string
     sql: ${TABLE}.is_closed_on_create ;;
   }
 
   dimension: is_deleted {
-    type: yesno
+    type: string
     sql: ${TABLE}.is_deleted ;;
   }
 
   dimension: is_escalated {
-    type: yesno
+    type: string
     sql: ${TABLE}.is_escalated ;;
   }
 
   dimension: is_escalated_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.is_escalated_c ;;
   }
 
@@ -876,21 +685,12 @@ view: sf_case {
   }
 
   dimension: kickoff_call_complete_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.kickoff_call_complete_c ;;
   }
 
   dimension_group: last_call_logged_timestamp_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.last_call_logged_timestamp_c ;;
   }
 
@@ -901,57 +701,21 @@ view: sf_case {
 
   dimension_group: last_case_comment_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.last_case_comment_date_c ;;
   }
 
   dimension_group: last_comment_timestamp_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.last_comment_timestamp_c ;;
   }
 
   dimension_group: last_inbound_message_timestamp_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.last_inbound_message_timestamp_c ;;
   }
 
   dimension_group: last_message_timestamp_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.last_message_timestamp_c ;;
   }
 
@@ -960,45 +724,18 @@ view: sf_case {
     sql: ${TABLE}.last_modified_by_id ;;
   }
 
-  dimension_group: last_modified {
+  dimension_group: last_modified_date {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.last_modified_date ;;
   }
 
   dimension_group: last_outbound_email_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.last_outbound_email_c ;;
   }
 
   dimension_group: last_outbound_message_timestamp_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.last_outbound_message_timestamp_c ;;
   }
 
@@ -1009,15 +746,6 @@ view: sf_case {
 
   dimension_group: last_private_case_comment_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.last_private_case_comment_date_c ;;
   }
 
@@ -1026,45 +754,18 @@ view: sf_case {
     sql: ${TABLE}.last_public_case_comment_c ;;
   }
 
-  dimension_group: last_referenced {
+  dimension_group: last_referenced_date {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.last_referenced_date ;;
   }
 
-  dimension_group: last_viewed {
+  dimension_group: last_viewed_date {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.last_viewed_date ;;
   }
 
   dimension_group: launch_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.launch_date_c ;;
   }
 
@@ -1084,40 +785,22 @@ view: sf_case {
   }
 
   dimension: launch_request_prep_alert_sent_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.launch_request_prep_alert_sent_c ;;
   }
 
   dimension_group: launch_request_submitted_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.launch_request_submitted_c ;;
   }
 
   dimension: launched_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.launched_c ;;
   }
 
   dimension_group: launched_timestamp_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.launched_timestamp_c ;;
   }
 
@@ -1133,34 +816,16 @@ view: sf_case {
 
   dimension_group: live_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.live_date_c ;;
   }
 
   dimension: live_mode_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.live_mode_c ;;
   }
 
   dimension_group: maintenance_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.maintenance_date_c ;;
   }
 
@@ -1180,27 +845,27 @@ view: sf_case {
   }
 
   dimension: manager_override_actual_launch_date_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.manager_override_actual_launch_date_c ;;
   }
 
   dimension: member_corp_site_webform_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.member_corp_site_webform_c ;;
   }
 
   dimension: member_support_high_priority_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.member_support_high_priority_c ;;
   }
 
   dimension: merchant_account_created_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.merchant_account_created_c ;;
   }
 
   dimension: mistake_in_prep_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.mistake_in_prep_c ;;
   }
 
@@ -1210,7 +875,7 @@ view: sf_case {
   }
 
   dimension: new_case_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.new_case_c ;;
   }
 
@@ -1221,15 +886,6 @@ view: sf_case {
 
   dimension_group: nps_date_time_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.nps_date_time_c ;;
   }
 
@@ -1299,7 +955,7 @@ view: sf_case {
   }
 
   dimension: ntbf_retention_issue_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.ntbf_retention_issue_c ;;
   }
 
@@ -1329,12 +985,12 @@ view: sf_case {
   }
 
   dimension: patron_corp_site_webform_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.patron_corp_site_webform_c ;;
   }
 
   dimension: payment_gateway_created_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.payment_gateway_created_c ;;
   }
 
@@ -1354,7 +1010,7 @@ view: sf_case {
   }
 
   dimension: pretty_pic_needed_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.pretty_pic_needed_c ;;
   }
 
@@ -1374,7 +1030,7 @@ view: sf_case {
   }
 
   dimension: ready_for_alert_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.ready_for_alert_c ;;
   }
 
@@ -1400,15 +1056,6 @@ view: sf_case {
 
   dimension_group: rep_s_est_launch_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.rep_s_est_launch_date_c ;;
   }
 
@@ -1443,12 +1090,12 @@ view: sf_case {
   }
 
   dimension: rush_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.rush_c ;;
   }
 
   dimension: site_needed_for_launch_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.site_needed_for_launch_c ;;
   }
 
@@ -1463,12 +1110,12 @@ view: sf_case {
   }
 
   dimension: spam_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.spam_c ;;
   }
 
   dimension: staging_work_in_progress_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.staging_work_in_progress_c ;;
   }
 
@@ -1508,21 +1155,12 @@ view: sf_case {
   }
 
   dimension: sync_to_desk_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.sync_to_desk_c ;;
   }
 
   dimension_group: system_modstamp {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.system_modstamp ;;
   }
 
@@ -1533,15 +1171,6 @@ view: sf_case {
 
   dimension_group: target_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.target_date_c ;;
   }
 
@@ -1557,15 +1186,6 @@ view: sf_case {
 
   dimension_group: test_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.test_date_c ;;
   }
 
@@ -1580,7 +1200,7 @@ view: sf_case {
   }
 
   dimension: tiered_pricing_feedback_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.tiered_pricing_feedback_c ;;
   }
 
@@ -1591,29 +1211,11 @@ view: sf_case {
 
   dimension_group: touch_again_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.touch_again_c ;;
   }
 
   dimension_group: training_date_time_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.training_date_time_c ;;
   }
 
@@ -1623,7 +1225,7 @@ view: sf_case {
   }
 
   dimension: trigger_email_alert_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.trigger_email_alert_c ;;
   }
 
@@ -1653,21 +1255,12 @@ view: sf_case {
   }
 
   dimension: vfas_feedback_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.vfas_feedback_c ;;
   }
 
   dimension_group: website_launch_date_c {
     type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     sql: ${TABLE}.website_launch_date_c ;;
   }
 
@@ -1677,12 +1270,12 @@ view: sf_case {
   }
 
   dimension: website_manager_sample_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.website_manager_sample_c ;;
   }
 
   dimension: wltl_feedback_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.wltl_feedback_c ;;
   }
 
@@ -1707,12 +1300,549 @@ view: sf_case {
   }
 
   dimension: year_1_attainment_on_track_c {
-    type: yesno
+    type: string
     sql: ${TABLE}.year_1_attainment_on_track_c ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [id, case_number,sf_accounts.name,description,status,created_date]
+  dimension: comments {
+    type: string
+    sql: ${TABLE}.comments ;;
+  }
+
+  dimension: fstr_already_generated_c {
+    type: string
+    sql: ${TABLE}.fstr_already_generated_c ;;
+  }
+
+  dimension: fstr_approval_c {
+    type: string
+    sql: ${TABLE}.fstr_approval_c ;;
+  }
+
+  dimension_group: fstr_auto_close_c {
+    type: time
+    sql: ${TABLE}.fstr_auto_close_c ;;
+  }
+
+  dimension: fstr_auto_close_steps_not_created_c {
+    type: number
+    sql: ${TABLE}.fstr_auto_close_steps_not_created_c ;;
+  }
+
+  dimension: fstr_business_process_c {
+    type: string
+    sql: ${TABLE}.fstr_business_process_c ;;
+  }
+
+  dimension: fstr_completed_by_c {
+    type: string
+    sql: ${TABLE}.fstr_completed_by_c ;;
+  }
+
+  dimension_group: fstr_completed_date_c {
+    type: time
+    sql: ${TABLE}.fstr_completed_date_c ;;
+  }
+
+  dimension: fstr_contract_c {
+    type: string
+    sql: ${TABLE}.fstr_contract_c ;;
+  }
+
+  dimension_group: fstr_due_date_c {
+    type: time
+    sql: ${TABLE}.fstr_due_date_c ;;
+  }
+
+  dimension: fstr_email_queue_members_c {
+    type: string
+    sql: ${TABLE}.fstr_email_queue_members_c ;;
+  }
+
+  dimension: fstr_opportunity_c {
+    type: string
+    sql: ${TABLE}.fstr_opportunity_c ;;
+  }
+
+  dimension: fstr_parent_event_id_c {
+    type: string
+    sql: ${TABLE}.fstr_parent_event_id_c ;;
+  }
+
+  dimension: fstr_parent_object_name_c {
+    type: string
+    sql: ${TABLE}.fstr_parent_object_name_c ;;
+  }
+
+  dimension: fstr_pce_definition_c {
+    type: string
+    sql: ${TABLE}.fstr_pce_definition_c ;;
+  }
+
+  dimension: fstr_pce_definition_lookup_c {
+    type: string
+    sql: ${TABLE}.fstr_pce_definition_lookup_c ;;
+  }
+
+  dimension: fstr_process_group_c {
+    type: string
+    sql: ${TABLE}.fstr_process_group_c ;;
+  }
+
+  dimension_group: fstr_process_initiated_c {
+    type: time
+    sql: ${TABLE}.fstr_process_initiated_c ;;
+  }
+
+  dimension: fstr_recurring_business_process_c {
+    type: string
+    sql: ${TABLE}.fstr_recurring_business_process_c ;;
+  }
+
+  dimension: fstr_skipped_steps_c {
+    type: string
+    sql: ${TABLE}.fstr_skipped_steps_c ;;
+  }
+
+  dimension: fstr_step_id_c {
+    type: string
+    sql: ${TABLE}.fstr_step_id_c ;;
+  }
+
+  dimension: fstr_step_lookup_c {
+    type: string
+    sql: ${TABLE}.fstr_step_lookup_c ;;
+  }
+
+  dimension: fstr_step_stage_id_c {
+    type: string
+    sql: ${TABLE}.fstr_step_stage_id_c ;;
+  }
+
+  dimension: project_manager_c {
+    type: string
+    sql: ${TABLE}.project_manager_c ;;
+  }
+
+  dimension: zendesk_id_c {
+    type: number
+    sql: ${TABLE}.zendesk_id_c ;;
+  }
+
+  dimension: zendesk_recipient_email_c {
+    type: string
+    sql: ${TABLE}.zendesk_recipient_email_c ;;
+  }
+
+  dimension: zendesk_tags_c {
+    type: string
+    sql: ${TABLE}.zendesk_tags_c ;;
+  }
+
+  dimension: zendesk_category_c {
+    type: string
+    sql: ${TABLE}.zendesk_category_c ;;
+  }
+
+  dimension: zendesk_is_public_c {
+    type: string
+    sql: ${TABLE}.zendesk_is_public_c ;;
+  }
+
+  dimension: zendesk_ticket_id_c {
+    type: number
+    sql: ${TABLE}.zendesk_ticket_id_c ;;
+  }
+
+  dimension: import_notes_c {
+    type: string
+    sql: ${TABLE}.import_notes_c ;;
+  }
+
+  dimension: language {
+    type: string
+    sql: ${TABLE}.language ;;
+  }
+
+  dimension: html_5_ta_release_feedback_c {
+    type: string
+    sql: ${TABLE}.html_5_ta_release_feedback_c ;;
+  }
+
+  dimension: covid_19_cancellation_c {
+    type: string
+    sql: ${TABLE}.covid_19_cancellation_c ;;
+  }
+
+  dimension: anything_else_sf_c {
+    type: string
+    sql: ${TABLE}.anything_else_sf_c ;;
+  }
+
+  dimension: did_you_scan_tickets_to_your_event_sf_c {
+    type: string
+    sql: ${TABLE}.did_you_scan_tickets_to_your_event_sf_c ;;
+  }
+
+  dimension: external_report_sf_c {
+    type: string
+    sql: ${TABLE}.external_report_sf_c ;;
+  }
+
+  dimension: is_there_a_deadline_for_your_patrons_sf_c {
+    type: string
+    sql: ${TABLE}.is_there_a_deadline_for_your_patrons_sf_c ;;
+  }
+
+  dimension: name_of_organization_sf_c {
+    type: string
+    sql: ${TABLE}.name_of_organization_sf_c ;;
+  }
+
+  dimension: offer_refunds_credits_etc_sf_c {
+    type: string
+    sql: ${TABLE}.offer_refunds_credits_etc_sf_c ;;
+  }
+
+  dimension: urls_to_website_and_social_media_site_sf_c {
+    type: string
+    sql: ${TABLE}.urls_to_website_and_social_media_site_sf_c ;;
+  }
+
+  dimension: what_event_s_took_place_what_dates_sf_c {
+    type: string
+    sql: ${TABLE}.what_event_s_took_place_what_dates_sf_c ;;
+  }
+
+  dimension: what_is_your_email_address_sf_c {
+    type: string
+    sql: ${TABLE}.what_is_your_email_address_sf_c ;;
+  }
+
+  dimension: what_is_your_name_sf_c {
+    type: string
+    sql: ${TABLE}.what_is_your_name_sf_c ;;
+  }
+
+  dimension: what_platform_do_you_sell_tickets_on_sf_c {
+    type: string
+    sql: ${TABLE}.what_platform_do_you_sell_tickets_on_sf_c ;;
+  }
+
+  dimension: written_consent_regarding_ticket_sf_c {
+    type: string
+    sql: ${TABLE}.written_consent_regarding_ticket_sf_c ;;
+  }
+
+  dimension: select_your_settlement_period_sf_c {
+    type: string
+    sql: ${TABLE}.select_your_settlement_period_sf_c ;;
+  }
+
+  set: detail {
+    fields: [
+      id,
+      _fivetran_synced_time,
+      account_id,
+      accounting_escalation_platform_c,
+      accounting_escalation_type_c,
+      acquisition_feedback_c,
+      acquisition_sentiment_c,
+      actual_launch_date_c_time,
+      ad_hoc_email_1_c,
+      ad_hoc_email_2_c,
+      ad_hoc_email_3_c,
+      agent_in_desk_c,
+      agent_sentiment_c,
+      aha_url_c,
+      application_c,
+      asset_id,
+      assignee_c,
+      assignment_group_c,
+      assignment_type_c,
+      ba_email_c,
+      box_office_feedback_c,
+      bug_number_c,
+      build_type_c,
+      business_hours_id,
+      case_cc_account_owner_c,
+      case_last_comment_public_yes_or_no_c,
+      case_number,
+      case_reassign_helper_c,
+      case_type_c,
+      cause_c,
+      closed_date_time,
+      cms_non_urgent_exclude_c,
+      contact_email,
+      contact_fax,
+      contact_id,
+      contact_mobile,
+      contact_phone,
+      contact_preference_c,
+      created_by_id,
+      created_time,
+      created_from_closed_case_c,
+      cross_sell_feedback_c,
+      csat_comment_c,
+      csat_date_time_c_time,
+      csat_reason_c,
+      csat_score_c,
+      csat_sent_c,
+      csm_email_address_c,
+      currency_iso_code,
+      custom_demo_account_c,
+      custom_demo_account_needed_picklist_c,
+      custom_presentation_c,
+      custom_presentation_needed_picklist_c,
+      customer_s_internal_incident_number_c,
+      date_time_escalation_first_response_c_time,
+      date_time_festival_survey_received_c_time,
+      date_time_festival_survey_sent_c_time,
+      date_time_first_close_c_time,
+      date_time_first_touch_c_time,
+      de_email_c,
+      deliverable_sla_clock_start_c_time,
+      deliverable_sla_clock_stop_c_time,
+      deliverable_stage_c,
+      description,
+      desk_agent_text_c,
+      desk_case_number_c,
+      desk_case_url_c,
+      desk_id_c,
+      desk_labels_c,
+      deskscmt_desk_case_id_c,
+      deskscmt_desk_connect_sync_c,
+      deskscmt_desk_migrated_case_c,
+      discussed_adopting_wltl_c,
+      dnr_c,
+      due_date_c_time,
+      due_date_time_c_time,
+      dummy_checkbox_c,
+      email_marketing_feedback_c,
+      environment_area_c,
+      escalated_by_c,
+      escalated_case_c,
+      escalated_timestamp_c_time,
+      escalation_first_response_by_c,
+      escalation_sent_back_by_c,
+      escalation_sent_back_timestamp_c_time,
+      escalation_type_c,
+      event_ends_on_hardware_c_time,
+      event_starts_on_hardware_c_time,
+      event_wizard_feedback_c,
+      feature_request_pick_3_only_c,
+      fee_update_needed_c,
+      fee_verification_date_c_time,
+      fee_verifier_c,
+      fees_verified_c,
+      field_update_test_c,
+      first_outbound_email_c_time,
+      first_resolved_by_c,
+      first_response_c_time,
+      first_response_sent_by_c,
+      first_touched_by_c,
+      fixed_in_c,
+      flag_for_management_c,
+      french_language_detected_c,
+      group_c,
+      hardware_api_key_venue_url_c,
+      hardware_invoice_link_c,
+      hardware_invoice_status_c,
+      hardware_item_no_1_c,
+      hardware_item_no_1_quantity_c,
+      hardware_item_no_2_c,
+      hardware_item_no_2_quantity_c,
+      hardware_item_no_3_c,
+      hardware_item_no_3_quantity_c,
+      hardware_request_comments_c,
+      hardware_request_date_c_time,
+      hardware_request_type_c,
+      heat_call_number_c,
+      hosting_ticket_url_c,
+      hotfix_c,
+      impact_level_c,
+      import_record_count_c,
+      import_type_c,
+      inbound_email_address_c,
+      internal_owner_c,
+      is_closed,
+      is_closed_on_create,
+      is_deleted,
+      is_escalated,
+      is_escalated_c,
+      jira_id_c,
+      jira_url_c,
+      kickoff_call_complete_c,
+      last_call_logged_timestamp_c_time,
+      last_case_comment_creator_c,
+      last_case_comment_date_c_time,
+      last_comment_timestamp_c_time,
+      last_inbound_message_timestamp_c_time,
+      last_message_timestamp_c_time,
+      last_modified_by_id,
+      last_modified_date_time,
+      last_outbound_email_c_time,
+      last_outbound_message_timestamp_c_time,
+      last_private_case_comment_c,
+      last_private_case_comment_date_c_time,
+      last_public_case_comment_c,
+      last_referenced_date_time,
+      last_viewed_date_time,
+      launch_date_c_time,
+      launch_description_test_c,
+      launch_health_c,
+      launch_health_reason_c,
+      launch_request_prep_alert_sent_c,
+      launch_request_submitted_c_time,
+      launched_c,
+      launched_timestamp_c_time,
+      legacy_case_number_c,
+      legacy_id_c,
+      live_date_c_time,
+      live_mode_c,
+      maintenance_date_c_time,
+      maintenance_de_c,
+      maintenance_order_c,
+      maintenance_type_c,
+      manager_override_actual_launch_date_c,
+      member_corp_site_webform_c,
+      member_support_high_priority_c,
+      merchant_account_created_c,
+      mistake_in_prep_c,
+      module_c,
+      new_case_c,
+      nps_comments_c,
+      nps_date_time_c_time,
+      nps_score_c,
+      nps_survey_platform_c,
+      nps_tag_1_c,
+      nps_tag_1_category_c,
+      nps_tag_2_c,
+      nps_tag_2_category_c,
+      nps_tag_3_c,
+      nps_tag_3_category_c,
+      nps_tag_4_c,
+      nps_tag_4_category_c,
+      nps_tag_5_c,
+      nps_tag_5_category_c,
+      ntbf_product_area_c,
+      ntbf_retention_issue_c,
+      number_of_seats_c,
+      origin,
+      other_accounts_reporting_c,
+      owner_id,
+      parent_id,
+      patron_corp_site_webform_c,
+      payment_gateway_created_c,
+      pending_reason_c,
+      pm_email_c,
+      post_training_action_c,
+      pretty_pic_needed_c,
+      priority,
+      product_c,
+      queue_escalation_picklist_c,
+      ready_for_alert_c,
+      reason,
+      reason_launch_date_changed_c,
+      record_type_id,
+      related_opportunity_c,
+      rep_s_est_launch_date_c_time,
+      report_to_it_c,
+      request_comments_c,
+      request_type_c,
+      resolution_c,
+      revenue_opportunity_status_c,
+      revenue_opportunity_type_c,
+      rush_c,
+      site_needed_for_launch_c,
+      site_url_c,
+      source_id,
+      spam_c,
+      staging_work_in_progress_c,
+      status,
+      subject,
+      supplied_company,
+      supplied_email,
+      supplied_name,
+      supplied_phone,
+      support_squad_email_c,
+      sync_to_desk_c,
+      system_modstamp_time,
+      tab_c,
+      target_date_c_time,
+      targeted_for_next_maintenance_release_c,
+      template_c,
+      test_date_c_time,
+      test_desk_sync_c,
+      tickets_per_year_c,
+      tiered_pricing_feedback_c,
+      topic_c,
+      touch_again_c_time,
+      training_date_time_c_time,
+      training_topic_c,
+      trigger_email_alert_c,
+      type,
+      update_c,
+      venue_name_c,
+      venue_type_c,
+      version_c,
+      vfas_feedback_c,
+      website_launch_date_c_time,
+      website_manager_build_needed_picklist_c,
+      website_manager_sample_c,
+      wltl_feedback_c,
+      wm_build_type_c,
+      x_1_1_training_time_spent_c,
+      x_3_rd_party_ticket_number_c,
+      xf_review_c,
+      year_1_attainment_on_track_c,
+      comments,
+      fstr_already_generated_c,
+      fstr_approval_c,
+      fstr_auto_close_c_time,
+      fstr_auto_close_steps_not_created_c,
+      fstr_business_process_c,
+      fstr_completed_by_c,
+      fstr_completed_date_c_time,
+      fstr_contract_c,
+      fstr_due_date_c_time,
+      fstr_email_queue_members_c,
+      fstr_opportunity_c,
+      fstr_parent_event_id_c,
+      fstr_parent_object_name_c,
+      fstr_pce_definition_c,
+      fstr_pce_definition_lookup_c,
+      fstr_process_group_c,
+      fstr_process_initiated_c_time,
+      fstr_recurring_business_process_c,
+      fstr_skipped_steps_c,
+      fstr_step_id_c,
+      fstr_step_lookup_c,
+      fstr_step_stage_id_c,
+      project_manager_c,
+      zendesk_id_c,
+      zendesk_recipient_email_c,
+      zendesk_tags_c,
+      zendesk_category_c,
+      zendesk_is_public_c,
+      zendesk_ticket_id_c,
+      import_notes_c,
+      language,
+      html_5_ta_release_feedback_c,
+      covid_19_cancellation_c,
+      anything_else_sf_c,
+      did_you_scan_tickets_to_your_event_sf_c,
+      external_report_sf_c,
+      is_there_a_deadline_for_your_patrons_sf_c,
+      name_of_organization_sf_c,
+      offer_refunds_credits_etc_sf_c,
+      urls_to_website_and_social_media_site_sf_c,
+      what_event_s_took_place_what_dates_sf_c,
+      what_is_your_email_address_sf_c,
+      what_is_your_name_sf_c,
+      what_platform_do_you_sell_tickets_on_sf_c,
+      written_consent_regarding_ticket_sf_c,
+      select_your_settlement_period_sf_c
+    ]
   }
 }
