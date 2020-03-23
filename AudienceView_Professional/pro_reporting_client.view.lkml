@@ -21,10 +21,10 @@ left outer join `fivetran-ovation-tix-warehouse.trs_trs.client_enabled_feature` 
 -- left outer join `fivetran-ovation-tix-warehouse.trs_trs.client_html_skin` client0_8_ on client0_.client_id=client0_8_.client_id
 left outer join `fivetran-ovation-tix-warehouse.trs_trs.tax_rates` taxrate1_ on client0_.service_fee_tax_rate_id=taxrate1_.tax_rate_id
 left outer join `fivetran-ovation-tix-warehouse.trs_trs.report_crm` reportcrm2_ on client0_.report_crm_id=reportcrm2_.id
-where client0_.client_id in
-(
-209
-)
+-- where client0_.client_id in
+-- (
+-- 209
+-- )
 
        ;;
    }
