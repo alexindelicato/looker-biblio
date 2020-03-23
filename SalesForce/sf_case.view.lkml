@@ -47,6 +47,43 @@ view: sf_case {
   }
 
 
+  measure: count_approved {
+    type: count
+    drill_fields: [detail*]
+
+    filters: {
+      field: case_owner_id
+      value: "COVID-19 Approved" }
+  }
+
+  measure: count_unapproved {
+    type: count
+    drill_fields: [detail*]
+
+    filters: {
+      field: case_owner_id
+      value: "COVID-19 Unapproved" }
+  }
+
+  measure: count_escalated {
+    type: count
+    drill_fields: [detail*]
+
+    filters: {
+      field: case_owner_id
+      value: "COVID-19 Escalated" }
+  }
+
+  measure: count_settlement {
+    type: count
+    drill_fields: [detail*]
+
+    filters: {
+      field: case_owner_id
+      value: "COVID-19 Settlement" }
+  }
+
+
 
   measure: count {
     type: count
