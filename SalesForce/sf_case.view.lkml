@@ -28,6 +28,25 @@ view: sf_case {
     sql: ${response_time} ;;
   }
 
+  measure: count_close {
+    type: count
+    drill_fields: [detail*]
+
+    filters: {
+      field: status
+      value: "%Close%" }
+  }
+
+  measure: count_not_close {
+    type: count
+    drill_fields: [detail*]
+
+    filters: {
+      field: status
+      value: "-%Close%" }
+  }
+
+
 
   measure: count {
     type: count
