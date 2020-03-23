@@ -996,7 +996,16 @@ view: sf_case {
 
   dimension: owner_id {
     type: string
-    sql: ${TABLE}.owner_id ;;
+    sql:${TABLE}.owner_id;;
+  }
+
+  dimension: case_owner_id {
+    type: string
+    sql: case when ${TABLE}.owner_id = "00G4T000000Z9eiUAC" then "COVID-19 Approved"
+         when ${TABLE}.owner_id = "00G4T000000Z9edUAC" then "COVID-19 Escalated"
+         when ${TABLE}.owner_id = "00G4T000000Z9UTUA0" then "COVID-19 Settlement"
+         when ${TABLE}.owner_id != "00G4T000000Z9edUAC" and ${TABLE}.owner_id != "00G4T000000Z9eiUAC" then "COVID-19 Unapproved"
+    else  ${TABLE}.owner_id end ;;
   }
 
   dimension: parent_id {
@@ -1562,9 +1571,10 @@ view: sf_case {
   set: detail {
     fields: [
       name_of_organization_sf_c,
-      sf_contacts.name,
+      sf_contact.name,
       sf_contact.email,
       case_number,
+      case_owner_id,
       subject,
       created_time,
       status,
