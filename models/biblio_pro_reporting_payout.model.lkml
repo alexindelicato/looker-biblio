@@ -12,8 +12,24 @@ explore: pro_reporting_client {
   group_label: "Project Biblio"
   view_label: "Professional Reporting"
 
+
+  join: pro_reporting_orders1 {
+    view_label: "Professional Reporting Orders 1"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${pro_reporting_orders1.client_account_client_id}=${pro_reporting_client.client_id} ;;
+  }
+
+  join: pro_reporting_orders2 {
+    view_label: "Professional Reporting Orders 2"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${pro_reporting_orders2.client_account_client_id}=${pro_reporting_client.client_id} ;;
+  }
+
+
   join: pro_reporting_paysegment {
-    view_label: "Reporting Payment Segment Summary"
+    view_label: "Professional Reporting Payment Segment Summary"
     type: left_outer
     relationship: one_to_many
     sql_on: ${pro_reporting_paysegment.order_payment_segment_client_id}=${pro_reporting_client.client_id} ;;

@@ -97,7 +97,6 @@ limit 100
   }
 
 
-
   dimension: client_account_service_fee {
     type: number
     sql: ${TABLE}.client_account_service_fee ;;
