@@ -53,7 +53,7 @@ view: sf_case {
 
     filters: {
       field: case_owner_id
-      value: "COVID-19 Approved" }
+      value: "Approved for finance to settle" }
   }
 
   measure: count_unapproved {
@@ -62,7 +62,7 @@ view: sf_case {
 
     filters: {
       field: case_owner_id
-      value: "COVID-19 Unapproved" }
+      value: "Withheld - In review with client" }
   }
 
   measure: count_escalated {
@@ -71,7 +71,7 @@ view: sf_case {
 
     filters: {
       field: case_owner_id
-      value: "COVID-19 Escalated" }
+      value: "Approved for peer review" }
   }
 
   measure: count_settlement {
@@ -80,7 +80,7 @@ view: sf_case {
 
     filters: {
       field: case_owner_id
-      value: "COVID-19 Settlement" }
+      value: "In Queue" }
   }
 
 
@@ -1038,10 +1038,10 @@ view: sf_case {
 
   dimension: case_owner_id {
     type: string
-    sql: case when ${TABLE}.owner_id = "00G4T000000Z9eiUAC" then "COVID-19 Approved"
-         when ${TABLE}.owner_id = "00G4T000000Z9edUAC" then "COVID-19 Escalated"
-         when ${TABLE}.owner_id = "00G4T000000Z9UTUA0" then "COVID-19 Settlement"
-         when ${TABLE}.owner_id != "00G4T000000Z9edUAC" and ${TABLE}.owner_id != "00G4T000000Z9eiUAC" then "COVID-19 Unapproved"
+    sql: case when ${TABLE}.owner_id = "00G4T000000Z9eiUAC" then "Approved for finance to settle"
+         when ${TABLE}.owner_id = "00G4T000000Z9edUAC" then "Approved for peer review"
+         when ${TABLE}.owner_id = "00G4T000000Z9UTUA0" then "In Queue"
+         when ${TABLE}.owner_id != "00G4T000000Z9edUAC" and ${TABLE}.owner_id != "00G4T000000Z9eiUAC" and ${TABLE}.owner_id != "00G4T000000Z9UTUA0" then "Withheld - In review with client"
     else  ${TABLE}.owner_id end ;;
   }
 
