@@ -79,15 +79,24 @@ and (clientacco0_.payment_id is null)
   }
 
   dimension: client_transaction_date {
-    type: number
+    type: string
     sql: ${TABLE}.client_transaction_date ;;
   }
 
   dimension: client_account_date {
-    type: number
+    type: string
     sql: ${TABLE}.client_account_date ;;
   }
 
+  dimension_group: client_transaction_date {
+    type: time
+    sql: ${TABLE}.client_transaction_date ;;
+  }
+
+  dimension_group: client_account_date {
+    type: time
+    sql: ${TABLE}.client_account_date ;;
+  }
 
 
 #
