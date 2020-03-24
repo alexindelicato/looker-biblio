@@ -47,11 +47,22 @@ dimension: total_scan {
   sql: ${TABLE}.totalScan ;;
 }
 
+  measure: sum_total_scan {
+    type: sum
+    sql: ${TABLE}.totalScan ;;
+  }
+
 dimension: grand_total {
   type: number
   value_format_name: usd
   sql: ${TABLE}.Grand_Total ;;
 }
+
+  measure: sum_grand_total {
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.Grand_Total ;;
+  }
 
 dimension: service_fee {
   type: number

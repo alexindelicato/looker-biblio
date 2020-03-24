@@ -100,6 +100,15 @@ view: ot_client {
   dimension: client_name {
     type: string
     sql: ${TABLE}.client_name ;;
+    link: {
+      label: "Client Overview"
+      url: "{% if sf_accounts.product_name._value == 'AudienceView Select' %}/dashboards/49?Client Name={{sf_accounts.name._filterable_value    | url_encode}}
+      {% elsif sf_accounts.product_name._value == 'AudienceView Professional' %}/dashboards/47?Client Name={{sf_accounts.name._filterable_value   | url_encode }}
+      {% elsif sf_accounts.product_name._value == 'AudienceView Unlimited' %}/dashboards/57?Client Name={{sf_accounts.name._filterable_value | url_encode }}
+      {% elsif sf_accounts.product_name._value == 'AudienceView Campus' %}/dashboards/34?Product={{sf_accounts.product_name._value | url_encode }}
+      {% elsif sf_accounts.product_name._value == 'AudienceView Grad' %}/dashboards/34?Product={{sf_accounts.product_name._value | url_encode }} {% endif %}"
+      icon_url: "https://www.pngfind.com/pngs/m/383-3836953_overview-icon-wp-overview-icon-hd-png-download.png"
+    }
   }
 
   dimension: country_of_incorporation {
