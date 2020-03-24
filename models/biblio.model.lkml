@@ -507,6 +507,19 @@ explore: ct_performance_stats {
     relationship: one_to_one
     sql_on: ${ct_performance_stats.client_id}=${sf_accounts.ct_client_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
   }
+
+  join: sf_contact {
+    view_label: "SF Contact"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.id} = ${sf_contact.account_id} ;;
+  }
+  join: sf_case {
+    view_label: "SF Case"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_contact.id} = ${sf_case.contact_id} ;;
+  }
 }
 
   #-----------------------
