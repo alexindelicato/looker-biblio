@@ -101,13 +101,19 @@ view: ot_client {
     type: string
     sql: ${TABLE}.client_name ;;
     link: {
-      label: "Client Overview"
-      url: "{% if sf_accounts.product_name._value == 'AudienceView Select' %}/dashboards/49?Client Name={{sf_accounts.name._filterable_value    | url_encode}}
-      {% elsif sf_accounts.product_name._value == 'AudienceView Professional' %}/dashboards/47?Client Name={{sf_accounts.name._filterable_value   | url_encode }}
-      {% elsif sf_accounts.product_name._value == 'AudienceView Unlimited' %}/dashboards/57?Client Name={{sf_accounts.name._filterable_value | url_encode }}
-      {% elsif sf_accounts.product_name._value == 'AudienceView Campus' %}/dashboards/34?Product={{sf_accounts.product_name._value | url_encode }}
-      {% elsif sf_accounts.product_name._value == 'AudienceView Grad' %}/dashboards/34?Product={{sf_accounts.product_name._value | url_encode }} {% endif %}"
+      label: "Insight Client Performance Listings"
+      url: "https://audienceview.looker.com/explore/biblio/ot_orders?fields=ot_client.client_name,ot_production.prod_name,ot_performance.perf_start_time,ot_performance.web_available,ot_performance.web_display_label,ot_order_detail.count_scanned_tickets,ot_performance_stats_consumed.total_sold_seats,ot_order_detail.sum_price&f[ot_client.client_name]={{ filterable_value  | url_encode }}&f[ot_performance.perf_start_date]=2020/03/09 to 2020/03/16"
       icon_url: "https://www.pngfind.com/pngs/m/383-3836953_overview-icon-wp-overview-icon-hd-png-download.png"
+    }
+    link: {
+      label: "View Settlement Requests Dashboard"
+      url: "/dashboards/61"
+      icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
+    }
+    link: {
+      label: "AV Pro Client Listing"
+      url: "/looks/508"
+      icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
     }
   }
 
