@@ -61,6 +61,12 @@ view: sf_contact {
     sql: ${TABLE}.alt_email_c ;;
   }
 
+  dimension: Account_Name_Formula__c {
+    label: "Client Name"
+    type: string
+    sql: ${TABLE}.Account_Name_Formula__c ;;
+  }
+
   dimension: apollo_contact_owner_c {
     type: string
     sql: ${TABLE}.apollo_contact_owner_c ;;
