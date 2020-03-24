@@ -16,6 +16,11 @@ dimension: client_id {
   sql: cast(${TABLE}.clientID as string) ;;
 }
 
+  measure: count_client_id {
+    type: count_distinct
+    sql: ${TABLE}.clientID  ;;
+  }
+
 dimension: show_name {
   type: string
   sql: ${TABLE}.showName ;;
