@@ -9,6 +9,13 @@ view: sel_members {
     sql: ${TABLE}.memberid ;;
   }
 
+  measure: count_memberid {
+    label: "Count Member ID"
+    type: count_distinct
+    sql: ${TABLE}.memberid ;;
+    drill_fields: [memberid,organizationname]
+  }
+
   dimension: _fivetran_deleted {
     type: yesno
     hidden: yes
