@@ -221,6 +221,11 @@ view: sf_case {
     sql: ${TABLE}.case_last_comment_public_yes_or_no_c ;;
   }
 
+  dimension: case_opened {
+    type: yesno
+    sql:  ${case_number} IS NOT NULL ;;
+  }
+
   dimension: case_number {
     type: string
     sql: ${TABLE}.case_number ;;
