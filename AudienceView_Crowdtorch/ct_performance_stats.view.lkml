@@ -19,6 +19,7 @@ dimension: client_id {
   measure: count_client_id {
     type: count_distinct
     sql: ${TABLE}.clientID  ;;
+    drill_fields: [client_id,client_name]
   }
 
 dimension: show_name {
