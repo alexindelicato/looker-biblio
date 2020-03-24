@@ -257,15 +257,15 @@ explore: ot_orders {
   }
   join: sf_contact {
     view_label: "SF Contact"
-    type: inner
-    relationship: one_to_many
+    type: left_outer
+    relationship: one_to_one
     sql_on: ${sf_accounts.id} = ${sf_contact.account_id} ;;
   }
   join: sf_case {
     view_label: "SF Case"
-    type: inner
-    relationship: one_to_one
-    sql_on: ${sf_contact.id} = ${sf_case.contact_id} AND ${sf_case.record_type_id} = "0124T000000UEV0QAO";;
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_contact.id} = ${sf_case.contact_id} ;;
   }
   join: ganalytics_ot {
     view_label: "GA Orders"
@@ -457,6 +457,19 @@ explore: sel_members {
       type: left_outer
       relationship: one_to_one
       sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
+    }
+
+    join: sf_contact {
+      view_label: "SF Contact"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${sf_accounts.id} = ${sf_contact.account_id} ;;
+    }
+    join: sf_case {
+      view_label: "SF Case"
+      type: left_outer
+      relationship: one_to_many
+      sql_on: ${sf_contact.id} = ${sf_case.contact_id} ;;
     }
 
     join: sel_performances {
