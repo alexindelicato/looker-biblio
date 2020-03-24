@@ -115,6 +115,11 @@ view: ot_client {
       url: "/looks/508"
       icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
     }
+    link: {
+      label: "Return to SMA Client Dashboard"
+      url: "/dashboards/62"
+      icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
+    }
   }
 
   dimension: country_of_incorporation {

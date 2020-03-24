@@ -7,7 +7,7 @@ view: sel_members {
     primary_key: yes
     type: string
     sql: ${TABLE}.memberid ;;
-  }
+ }
 
   measure: count_memberid {
     label: "Count Member ID"
@@ -539,6 +539,25 @@ view: sel_members {
     label: "Client Name"
     type: string
     sql: ${TABLE}.organizationname ;;
+    link: {
+      label: "Insights Client Performance Listings"
+      url: "https://audienceview.looker.com/explore/biblio/sel_performance_stats?fields=sel_members.organizationname,sel_events.title,sel_members.useinternetma,sel_performance_stats.performance_time,sel_performance_stats.performance_cancelled,sel_events.notforsaleta,sel_events.notforsaletl,sel_performance_stats.tickets_scanned,sel_performance_stats.tickets_sold,sel_performance_stats.total_sales__,sel_performance_stats.total_convenience_fees,sel_performance_stats.total_service_fees,sel_performance_stats.payout_amount&f[sel_performance_stats.performance_date]=2020/03/09 to 2020/03/16&f[sel_members.organizationname]={{ filterable_value | url_encode }}"
+      icon_url: "https://www.pngfind.com/pngs/m/383-3836953_overview-icon-wp-overview-icon-hd-png-download.png"}
+    link: {
+      label: "View Settlement Requests Dashboard"
+      url: "/dashboards/61"
+      icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
+    }
+    link: {
+      label: "AV Select Client Listing"
+      url: "/looks/515"
+      icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
+    }
+    link: {
+      label: "Return to SMA Client Dashboard"
+      url: "/dashboards/62"
+      icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
+    }
   }
 
   dimension: packageservicefeename {
