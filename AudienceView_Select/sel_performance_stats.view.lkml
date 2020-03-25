@@ -53,16 +53,19 @@ view: sel_performance_stats {
 
   dimension: total_convenience_fees {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.Total_Convenience_Fees ;;
   }
 
   dimension: total_sales__ {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.Total_Sales__ ;;
   }
 
   dimension: total_service_fees {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.Total_Service_Fees ;;
   }
 
