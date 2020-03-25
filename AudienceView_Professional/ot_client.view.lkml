@@ -102,7 +102,7 @@ view: ot_client {
     sql: ${TABLE}.client_name ;;
     link: {
       label: "Insight Client Performance Listings"
-      url: "https://audienceview.looker.com/explore/biblio/ot_orders?fields=ot_client.client_name,ot_production.prod_name,ot_performance.perf_start_time,ot_performance.web_available,ot_performance.web_display_label,ot_order_detail.count_scanned_tickets,ot_performance_stats_consumed.total_sold_seats,ot_order_detail.sum_price&f[ot_client.client_name]={{ filterable_value  | url_encode }}&f[ot_performance.perf_start_date]=2020/03/09 to 2020/03/16"
+      url: "https://audienceview.looker.com/explore/biblio/ot_orders?fields=ot_client.client_name,ot_production.prod_name,ot_performance.perf_start_time,ot_performance.web_available,ot_performance.web_display_label,ot_order_detail.count_scanned_tickets,ot_performance_stats_consumed.total_sold_seats,ot_order_detail.sum_price&f[ot_client.client_name]={{ filterable_value  | url_encode }}&f[ot_performance.perf_start_date]=2020/03/02 to 2020/03/16"
       icon_url: "https://www.pngfind.com/pngs/m/383-3836953_overview-icon-wp-overview-icon-hd-png-download.png"
     }
     link: {

@@ -541,7 +541,7 @@ view: sel_members {
     sql: ${TABLE}.organizationname ;;
     link: {
       label: "Insights Client Performance Listings"
-      url: "https://audienceview.looker.com/explore/biblio/sel_performance_stats?fields=sel_members.organizationname,sel_events.title,sel_members.useinternetma,sel_performance_stats.performance_time,sel_performance_stats.performance_cancelled,sel_events.notforsaleta,sel_events.notforsaletl,sel_performance_stats.tickets_scanned,sel_performance_stats.tickets_sold,sel_performance_stats.total_sales__,sel_performance_stats.total_convenience_fees,sel_performance_stats.total_service_fees,sel_performance_stats.payout_amount&f[sel_performance_stats.performance_date]=2020/03/09 to 2020/03/16&f[sel_members.organizationname]={{ filterable_value | url_encode }}"
+      url: "https://audienceview.looker.com/explore/biblio/sel_performance_stats?fields=sel_members.organizationname,sel_events.title,sel_members.useinternetma,sel_performance_stats.performance_time,sel_performance_stats.performance_cancelled,sel_events.notforsaleta,sel_events.notforsaletl,sel_performance_stats.tickets_scanned,sel_performance_stats.tickets_sold,sel_performance_stats.total_sales__,sel_performance_stats.total_convenience_fees,sel_performance_stats.total_service_fees,sel_performance_stats.payout_amount&f[sel_performance_stats.performance_date]=2020/03/02 to 2020/03/16&f[sel_members.organizationname]={{ filterable_value | url_encode }}"
       icon_url: "https://www.pngfind.com/pngs/m/383-3836953_overview-icon-wp-overview-icon-hd-png-download.png"}
     link: {
       label: "View Settlement Requests Dashboard"

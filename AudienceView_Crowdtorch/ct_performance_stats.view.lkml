@@ -11,7 +11,7 @@ dimension: client_name {
   sql: ${TABLE}.clientName ;;
   link: {
     label: "Insight Client Performance Listings"
-    url: "https://audienceview.looker.com/explore/biblio/ct_performance_stats?fields=ct_performance_stats.client_id,ct_performance_stats.client_name,ct_performance_stats.brand_property,ct_performance_stats.billing_currency,ct_performance_stats.show_name,ct_performance_stats.show_date_time_time,ct_performance_stats.total_scan,ct_performance_stats.quantity_tickets,ct_performance_stats.cc_service_fee,ct_performance_stats.service_fee,ct_performance_stats.additional_fee,ct_performance_stats.grand_total,ct_performance_stats.ap_amount&f[ct_performance_stats.client_name]={{ filterable_value | url_encode }}&f[ct_performance_stats.show_date_time_date]=2020/03/09 to 2020/03/16"
+    url: "https://audienceview.looker.com/explore/biblio/ct_performance_stats?fields=ct_performance_stats.client_id,ct_performance_stats.client_name,ct_performance_stats.brand_property,ct_performance_stats.billing_currency,ct_performance_stats.show_name,ct_performance_stats.show_date_time_time,ct_performance_stats.total_scan,ct_performance_stats.quantity_tickets,ct_performance_stats.cc_service_fee,ct_performance_stats.service_fee,ct_performance_stats.additional_fee,ct_performance_stats.grand_total,ct_performance_stats.ap_amount&f[ct_performance_stats.client_name]={{ filterable_value | url_encode }}&f[ct_performance_stats.show_date_time_date]=2020/03/02 to 2020/03/16"
     icon_url: "https://www.pngfind.com/pngs/m/383-3836953_overview-icon-wp-overview-icon-hd-png-download.png"
   }
   link: {
