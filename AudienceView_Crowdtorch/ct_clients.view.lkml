@@ -17,7 +17,7 @@ view: ct_clients {
 
   dimension: client_id {
     type: number
-    sql: ${TABLE}.client_id ;;
+    sql: cast(${TABLE}.client_id as string) ;;
   }
 
   dimension: client_name {
