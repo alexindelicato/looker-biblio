@@ -389,6 +389,13 @@ explore: sel_members {
   view_label: "AV Select Client"
   sql_always_where: ${testmode}="N" and ${active}="Y" ;;
 
+  join: sel_members_merchantaccounts {
+    view_label: "AV Select Marchant Accountss"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sel_members_merchantaccounts.memberid}  ;;
+  }
+
   join: sf_accounts {
     view_label: "SF Accounts"
     type: left_outer
