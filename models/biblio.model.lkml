@@ -396,6 +396,27 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_members_merchantaccounts.memberid}  ;;
   }
 
+  join: sel_payments_donations {
+    view_label: "AV Select Payment Donations"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_members.memberid}=${sel_payments_donations.memberid}  ;;
+  }
+
+  join: sel_donations {
+    view_label: "AV SelectDonations"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sel_donations.memberid}=${sel_members.memberid}  ;;
+  }
+
+  join: sel_donationcampaigns {
+    view_label: "AV Select Donations Campaigns"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_donationcampaigns.donationcampaignid}= ${sel_donations.donationcampaignid}  ;;
+  }
+
   join: sf_accounts {
     view_label: "SF Accounts"
     type: left_outer
