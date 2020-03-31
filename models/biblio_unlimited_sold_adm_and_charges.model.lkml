@@ -8,9 +8,9 @@ include: "/*/*.view"
 
 
 explore: unlimited_client_facts {
-  label: "Unlimited Client Ticket Sales"
+  label: "Unlimited Sales Metrics"
   group_label: "Project Biblio"
-  view_label:  "Unlimited Client Ticket Sales"
+  view_label:  "Unlimited Client Facts"
 
   join: unlimited_sold_admissions {
     view_label: "Sold Admissions"
@@ -24,6 +24,13 @@ explore: unlimited_client_facts {
     type: left_outer
     relationship: one_to_one
     sql_on: ${unlimited_client_facts.client_name}=${unlimited_order_charges.client_name} ;;
+  }
+
+  join: unlimited_donations_summary {
+    view_label: "Donations Summary"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${unlimited_client_facts.client_name}=${unlimited_donations_summary.client_name} ;;
   }
 
   join: sf_accounts {
