@@ -467,6 +467,35 @@ explore: sel_members {
   }
   }
 
+  #Select Donation Report
+  explore: sel_payments_donations {
+    label: "AV Select Payments Donations"
+    group_label: "Project Biblio"
+    view_label: "AV Select Payments Donations"
+    sql_always_where:safe_cast(${sel_payments_donations.amountheld} as FLOAT64) > 0 AND ${sel_payments_donations.settled} IS NULL ;;
+
+    join: sel_donations {
+      view_label: "AV Select Donations"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${sel_donations.donationid}=${sel_payments_donations.donationid} ;;
+    }
+
+    join: sel_donationcampaigns {
+      view_label: "AV Select Donations Campaigns"
+      type: inner
+      relationship: one_to_one
+      sql_on: ${sel_donationcampaigns.donationcampaignid}= ${sel_donations.donationcampaignid}  ;;
+    }
+    join: sel_members {
+      view_label: "AV Select Marchant Accountss"
+      type: inner
+      relationship: one_to_one
+      sql_on: ${sel_members.memberid}=${sel_payments_donations.memberid} AND ${sel_members.testmode}="N" AND ${sel_members.active}="Y" ;;
+    }
+
+ }
+
   #Select performance stats explore for settlement issue
   explore: sel_performance_stats {
     label: "AV Select Peformance Stats"
