@@ -398,21 +398,21 @@ explore: sel_members {
 
   join: sel_payments_donations {
     view_label: "AV Select Payment Donations"
-    type: left_outer
+    type: inner
     relationship: one_to_many
     sql_on: ${sel_members.memberid}=${sel_payments_donations.memberid} AND ${sel_payments_donations.amountheld} != "0.00" AND ${sel_payments_donations.amountheld} != "0" AND ${sel_payments_donations.settled} IS NULL ;;
   }
 
   join: sel_donations {
     view_label: "AV Select Donations"
-    type: left_outer
+    type: inner
     relationship: many_to_one
-    sql_on: ${sel_donations.memberid}=${sel_members.memberid} ;;
+    sql_on: ${sel_donations.donationid}=${sel_payments_donations.donationid} ;;
   }
 
   join: sel_donationcampaigns {
     view_label: "AV Select Donations Campaigns"
-    type: left_outer
+    type: inner
     relationship: one_to_one
     sql_on: ${sel_donationcampaigns.donationcampaignid}= ${sel_donations.donationcampaignid}  ;;
   }

@@ -33,11 +33,12 @@ view: sel_payments_donations {
     sql: ${TABLE}.amountheld ;;
   }
 
-#   measure: sum_amountheld {
-#     label: "Amount Held"
-#     type: number
-#     sql:round(sum(cast(${amountheld} as FLOAT64)),2)  ;;
-#   }
+  measure: sum_amountheld {
+    label: "Amount Held"
+    type: sum_distinct
+    value_format_name:usd
+    sql:round(safe_cast(${amountheld} as FLOAT64),2)  ;;
+  }
 
   dimension: date {
     type: number
@@ -49,6 +50,14 @@ view: sel_payments_donations {
     sql: ${TABLE}.disbursement ;;
   }
 
+  measure: sum_disbursement {
+    label: "Disbursement"
+    type: sum_distinct
+    value_format_name:usd
+    sql:round(safe_cast(${disbursement} as FLOAT64),2) ;;
+  }
+
+
   dimension: donationid {
     type: number
     value_format_name: id
@@ -59,6 +68,13 @@ view: sel_payments_donations {
   dimension: feesdue {
     type: string
     sql: ${TABLE}.feesdue ;;
+  }
+
+  measure: sum_fees {
+    label: "Fees Due"
+    type: sum_distinct
+    value_format_name:usd
+    sql:round(safe_cast(${feesdue} as FLOAT64),2)  ;;
   }
 
   dimension: fundid {
