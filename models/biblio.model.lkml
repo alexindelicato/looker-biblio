@@ -405,9 +405,9 @@ explore: sel_members {
 
   join: sel_donations {
     view_label: "AV Select Donations"
-    type: inner
+    type: left_outer
     relationship: many_to_one
-    sql_on: ${sel_donations.donationid}=${sel_payments_donations.donationid} ;;
+    sql_on: ${sel_donations.donationid}=${sel_payments_donations.donationid} AND ${sel_donations.testmode} = "N" ;;
   }
 
   join: sel_donationcampaigns {
