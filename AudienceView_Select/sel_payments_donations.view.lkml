@@ -29,9 +29,15 @@ view: sel_payments_donations {
   }
 
   dimension: amountheld {
-    type: string
+    type: number
     sql: ${TABLE}.amountheld ;;
   }
+
+#   measure: sum_amountheld {
+#     label: "Amount Held"
+#     type: number
+#     sql:round(sum(cast(${amountheld} as FLOAT64)),2)  ;;
+#   }
 
   dimension: date {
     type: number

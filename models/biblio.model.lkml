@@ -400,14 +400,14 @@ explore: sel_members {
     view_label: "AV Select Payment Donations"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sel_members.memberid}=${sel_payments_donations.memberid}  ;;
+    sql_on: ${sel_members.memberid}=${sel_payments_donations.memberid} AND ${sel_payments_donations.amountheld} != "0.00" AND ${sel_payments_donations.amountheld} != "0" AND ${sel_payments_donations.settled} IS NULL ;;
   }
 
   join: sel_donations {
     view_label: "AV SelectDonations"
     type: left_outer
     relationship: many_to_one
-    sql_on: ${sel_donations.memberid}=${sel_members.memberid}  ;;
+    sql_on: ${sel_donations.memberid}=${sel_members.memberid} ;;
   }
 
   join: sel_donationcampaigns {
