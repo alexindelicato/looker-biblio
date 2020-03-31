@@ -404,7 +404,7 @@ explore: sel_members {
   }
 
   join: sel_donations {
-    view_label: "AV SelectDonations"
+    view_label: "AV Select Donations"
     type: left_outer
     relationship: many_to_one
     sql_on: ${sel_donations.memberid}=${sel_members.memberid} ;;
