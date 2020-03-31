@@ -478,7 +478,7 @@ explore: sel_members {
       view_label: "AV Select Donations"
       type: left_outer
       relationship: one_to_one
-      sql_on: ${sel_donations.donationid}=${sel_payments_donations.donationid} ;;
+      sql_on: ${sel_donations.donationid}=${sel_payments_donations.donationid} AND ${sel_donations.testmode} = "N" ;;
     }
 
     join: sel_donationcampaigns {

@@ -354,6 +354,7 @@ measure: annual_recurring_revenue {
   measure: refunds {
     type: sum
     sql: if(${is_sale}, 0, ${item_price} + ${item_tax} + ${item_convenience_fee} + ${item_facility_fee}) ;;
+    drill_fields: [ot_orders.order_id]
     value_format_name: usd_0
   }
 
