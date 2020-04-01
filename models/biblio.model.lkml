@@ -579,6 +579,13 @@ explore: ct_performance_stats {
   }
 }
 
+#Select Purchase Stats
+explore: sel_purchase_stats {
+  label: "Select Purchase Stats"
+  group_label: "Project Biblio"
+  view_label: "Select Purchase Stats"
+}
+
 explore: ct_clients {
   label: "CT Clients"
   group_label: "Project Biblio"
