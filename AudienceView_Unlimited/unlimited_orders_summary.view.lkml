@@ -59,7 +59,7 @@ facts.default_currency               ;;
   dimension: admissions_sold_amount { type: number value_format_name: usd sql: ${TABLE}.admissions_sold_amount ;; }
   dimension: admissions_sold_amount_usd { type: number value_format_name: usd sql: ${TABLE}.admissions_sold_amount_usd ;; }
 
-  measure: total_orders_created { type: sum label: "Total Orders Created" sql: ${TABLE}.orders_created ;; }
+  measure: total_orders_created { type: sum label: "Total Orders Created" drill_fields: [client_name,performance_short_description,performance_date_date,order_create_date_date]sql: ${TABLE}.orders_created ;;}
   measure: total_admissions_sold_amount { type: sum value_format_name: usd label: "Total Sold Amount" sql: ${TABLE}.admissions_sold_amount ;; }
   measure: total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Total Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; }
 
