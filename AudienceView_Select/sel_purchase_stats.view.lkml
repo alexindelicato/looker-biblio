@@ -14,6 +14,7 @@ view: sel_purchase_stats {
       date,
       week,
       month,
+      month_name,
       quarter,
       year
     ]
@@ -27,12 +28,19 @@ view: sel_purchase_stats {
     sql: ${TABLE}.performanceid ;;
   }
 
+  measure: count_performance {
+    type: count_distinct
+    sql: ${performanceid} ;;
+  }
+
   dimension_group: purchase {
     type: time
     timeframes: [
       raw,
       date,
       week,
+      month_name,
+      week_of_year,
       month,
       quarter,
       year
@@ -49,11 +57,12 @@ view: sel_purchase_stats {
 
   dimension: total_sales__ {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.Total_Sales__ ;;
   }
 
   measure: count {
     type: count
-    drill_fields: []
+    drill_fields: [memberid,performanceid,performance_date,purchase_date,ticket_quantity,total_sales__]
   }
 }

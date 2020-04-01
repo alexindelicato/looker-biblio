@@ -581,9 +581,9 @@ explore: ct_performance_stats {
 
 #Select Purchase Stats
 explore: sel_purchase_stats {
-  label: "Select Purchase Stats"
+  label: "AV Select Purchase Stats"
   group_label: "Project Biblio"
-  view_label: "Select Purchase Stats"
+  view_label: "AV Select Purchase Stats"
 }
 
 explore: ct_clients {
