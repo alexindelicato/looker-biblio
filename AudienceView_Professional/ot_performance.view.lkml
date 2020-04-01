@@ -25,6 +25,7 @@ view: ot_performance {
       time,
       date,
       week,
+      week_of_year,
       month,
       quarter,
       year
@@ -93,11 +94,17 @@ view: ot_performance {
       time,
       date,
       week,
+      week_of_year,
       month,
       month_name,
       quarter,
       year
     ]
+    sql: ${TABLE}.perf_start ;;
+  }
+
+  measure: count_perf_start_time {
+    type: count_distinct
     sql: ${TABLE}.perf_start ;;
   }
 
