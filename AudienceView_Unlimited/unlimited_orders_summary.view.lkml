@@ -2,7 +2,7 @@ view: unlimited_orders_summary {
   derived_table: {
     sql:
     SELECT
-      orders.UUID as UUID,
+      orders.UID as UUID,
       orders.client_name as client_name,
 venue_name,
 performance_series_name,
@@ -14,7 +14,7 @@ order_create_audit_time,
 cast(order_create_audit_time as TIMESTAMP) as order_create_date,
 SUM( orders_created ) as orders_created,
 SUM( admisisons_sold ) as admisisons_sold,
-( admissions_sold_amount / 100.00 ) as admissions_sold_amount,
+SUM( admissions_sold_amount / 100.00 ) as admissions_sold_amount,
 facts.default_currency as default_currency,
         SUM(CASE
           WHEN facts.default_currency = 'CAD' THEN admissions_sold_amount * 0.76
@@ -27,7 +27,7 @@ facts.default_currency as default_currency,
     FROM audienceview.unlimited_orders_summary as orders
     INNER JOIN audienceview.unlimited_client_facts as facts on facts.client_name = orders.client_name
     GROUP BY
-orders.UUID,
+orders.UID,
 orders.client_name,
 venue_name,
 performance_series_name,
@@ -35,7 +35,7 @@ performance_short_description,
 performance_name,
 performance_start_date,
 order_create_audit_time,
-facts.default_currency as default_currency               ;;
+facts.default_currency               ;;
 
       sql_trigger_value: select max(cast(concat(order_create_audit_time, ':00') as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_orders_summary`;;
     }
