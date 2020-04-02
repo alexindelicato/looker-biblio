@@ -34,6 +34,8 @@ view: ct_purchase_stats {
       date,
       week,
       month,
+      month_name,
+      week_of_year,
       quarter,
       year
     ]
@@ -55,6 +57,8 @@ view: ct_purchase_stats {
       date,
       week,
       month,
+      month_name,
+      week_of_year,
       quarter,
       year
     ]
