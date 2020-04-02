@@ -586,6 +586,7 @@ explore: sel_purchase_stats {
   view_label: "AV Select Purchase Stats"
 }
 
+#CT Stats
 explore: ct_clients {
   label: "CT Clients"
   group_label: "Project Biblio"
@@ -604,6 +605,13 @@ explore: ct_clients {
     sql_on: ${sf_accounts.id} = ${sf_contact.account_id} ;;
   }
   }
+
+#Select CT Purchase  Stats
+explore: ct_purchase_stats {
+  label: "CT Purchase Stats"
+  group_label: "Project Biblio"
+  view_label: "CT Purchase Stats"
+}
 
 
   #-----------------------
