@@ -361,7 +361,7 @@ view: ot_orders {
   measure: count_orders {
     type: count_distinct
     sql:  ${ot_orders.order_id} ;;
-    drill_fields: [ot_client.client_id,ot_client.client_name,order_id,time_date,ot_performance.perf_start_date]
+    drill_fields: [ot_client.client_id,ot_client.client_name,order_id,time_date,ot_performance.perf_start_time,ot_production.prod_name]
   }
 
   measure: sum_total {
