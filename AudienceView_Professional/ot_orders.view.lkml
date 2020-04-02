@@ -261,6 +261,23 @@ view: ot_orders {
 #     sql: cast(min(${time_date}) as timestamp) ;;
 #   }
 
+  dimension_group: current_time {
+    type: time
+    timeframes: [
+     raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
+
   measure: min_order_date {
     type: date
     sql: MIN(${time_raw}) ;;
