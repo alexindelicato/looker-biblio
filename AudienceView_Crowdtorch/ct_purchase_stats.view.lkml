@@ -27,6 +27,23 @@ view: ct_purchase_stats {
     sql: ${TABLE}.Grand_Total ;;
   }
 
+  dimension_group: current_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
+
   dimension_group: purchase {
     type: time
     timeframes: [
