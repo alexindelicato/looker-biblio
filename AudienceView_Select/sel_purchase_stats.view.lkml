@@ -7,6 +7,23 @@ view: sel_purchase_stats {
     sql: ${TABLE}.memberid ;;
   }
 
+  dimension_group: current_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
+
   dimension_group: performance {
     type: time
     timeframes: [
