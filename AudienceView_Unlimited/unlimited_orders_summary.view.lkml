@@ -63,6 +63,22 @@ facts.default_currency               ;;
   measure: total_admissions_sold_amount { type: sum value_format_name: usd label: "Total Sold Amount" sql: ${TABLE}.admissions_sold_amount ;; }
   measure: total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Total Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; }
 
+  dimension_group: current_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
 
 #  measure: count {
 #    type: count
