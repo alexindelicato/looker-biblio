@@ -51,8 +51,20 @@ view: sel_performance_stats {
     sql: ${TABLE}.Tickets_Sold ;;
   }
 
+  measure: sum_tickets_sold {
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.Tickets_Sold ;;
+  }
+
   dimension: total_convenience_fees {
     type: number
+    value_format_name: usd
+    sql: ${TABLE}.Total_Convenience_Fees ;;
+  }
+
+  measure: sum_total_convenience_fees {
+    type: sum
     value_format_name: usd
     sql: ${TABLE}.Total_Convenience_Fees ;;
   }
@@ -63,8 +75,20 @@ view: sel_performance_stats {
     sql: ${TABLE}.Total_Sales__ ;;
   }
 
+  measure: sum_total_sales__ {
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.Total_Sales__ ;;
+  }
+
   dimension: total_service_fees {
     type: number
+    value_format_name: usd
+    sql: ${TABLE}.Total_Service_Fees ;;
+  }
+
+  measure: sum_total_service_fees {
+    type: sum
     value_format_name: usd
     sql: ${TABLE}.Total_Service_Fees ;;
   }
@@ -72,8 +96,14 @@ view: sel_performance_stats {
 measure: payout_amount {
   type: number
   value_format_name: usd
-  sql:case when ${sel_members.useinternetma} = "N" then ${total_sales__}-${total_service_fees}-${total_convenience_fees} END;;
+  sql:${total_sales__}-${total_service_fees}-${total_convenience_fees} ;;
 }
+
+  measure: sum_payout_amount {
+    type: number
+    value_format_name: usd
+    sql: ${sum_total_sales__}-${sum_total_service_fees}-${sum_total_convenience_fees} ;;
+  }
 
   dimension: venueid {
     type: string

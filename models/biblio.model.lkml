@@ -505,7 +505,7 @@ explore: sel_members {
     join: sel_members {
       view_label: "AV Select Members"
       type: left_outer
-      relationship: one_to_many
+      relationship: one_to_one
       sql_on: ${sel_members.memberid}=${sel_performance_stats.memberid} ;;
     }
 
