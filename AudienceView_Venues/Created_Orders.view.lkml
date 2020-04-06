@@ -176,7 +176,7 @@ default_currency
 
 ORDER BY order_create_date, performance_date
 
- limit 100
+-- limit 100
 
             ;;
 
