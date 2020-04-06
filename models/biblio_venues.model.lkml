@@ -20,4 +20,10 @@ explore: audienceview_venue_facts {
   }
 
 }
+
+explore: created_orders {
+  label: "AudienceView Created Orders"
+  group_label: "Project Biblio"
+  view_label: "AudienceView Created Orders"
+  }
 #--------------------------
