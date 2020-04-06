@@ -428,7 +428,7 @@ explore: sel_members {
     view_label: "AV Select Series"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sel_members.memberid}=${sel_events.memberid} AND  ${sel_performances.deleted} IS NULL ;;
+    sql_on: ${sel_members.memberid}=${sel_events.memberid} AND  ${sel_events.deleted} IS NULL ;;
   }
 
   join: sel_tags_to_events {
