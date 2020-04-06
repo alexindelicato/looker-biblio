@@ -128,7 +128,7 @@ SELECT
     CAST( Purchase_Date as DATETIME) as order_create_audit_time,
     CAST( Purchase_Date as TIMESTAMP) as order_create_date,
 
-      COUNT(*) as orders_created,
+      SUM(Order_Count) as orders_created,
       SUM(Ticket_Quantity) as admisisons_sold,
       0 as admissions_sold_amount,
       'USD' as default_currency,
@@ -153,6 +153,51 @@ performance_start_date,
 order_create_date,
 order_create_audit_time,
 default_currency
+
+UNION ALL
+
+SELECT
+      CAST(purchase_stats.clientID as STRING) as UUID,
+      'CrowdTorch' as product_name,
+      clientName as client_name,
+      '' as venue_name,
+      brandProperty as performance_series_name,
+      showName as performance_short_description,
+      showName as performance_name,
+    CAST( showDateTime as DATETIME) as performance_start_date,
+    CAST( showDateTime as TIMESTAMP) as performance_date,
+    CAST( PurchaseDate as DATETIME) as order_create_audit_time,
+    CAST( PurchaseDate as TIMESTAMP) as order_create_date,
+      SUM(Order_Count) as orders_created,
+      SUM(Quantity_tickets) as admisisons_sold,
+      SUM(Grand_Total) as admissions_sold_amount,
+      billingCurrency as default_currency,
+        SUM(CASE
+          WHEN billingCurrency = 'CAD' THEN Grand_Total * 0.76
+          WHEN billingCurrency = 'COP' THEN Grand_Total * 0.00029
+          WHEN billingCurrency = 'GBP' THEN Grand_Total * 1.32
+          WHEN billingCurrency = 'PHP' THEN Grand_Total * 0.020
+          WHEN billingCurrency = 'USD' THEN Grand_Total * 1
+          ELSE 0
+      END) as admissions_sold_amount_usd
+
+      FROM crowd_torch.purchase_stats
+WHERE 1 = 1
+
+GROUP BY
+UUID,
+product_name,
+client_name,
+venue_name,
+performance_series_name,
+performance_short_description,
+performance_name,
+performance_date,
+performance_start_date,
+order_create_date,
+order_create_audit_time,
+default_currency
+
 
 ) as t1
 
