@@ -16,7 +16,7 @@ order_create_date,
 order_create_audit_time,
 default_currency,
 SUM(orders_created) as orders_created,
-SUM(admisisons_sold) as admisisons_sold,
+SUM(admissions_sold) as admissions_sold,
 SUM(admissions_sold_amount) as admissions_sold_amount,
 SUM(admissions_sold_amount_usd) as admissions_sold_amount_usd
 
@@ -35,7 +35,7 @@ cast(performance_start_date as TIMESTAMP) as performance_date,
 order_create_audit_time,
 cast(order_create_audit_time as TIMESTAMP) as order_create_date,
 SUM( orders_created ) as orders_created,
-SUM( admisisons_sold ) as admisisons_sold,
+SUM( admisisons_sold ) as admissions_sold,
 SUM( admissions_sold_amount / 100.00 ) as admissions_sold_amount,
 facts.default_currency as default_currency,
         SUM(CASE
@@ -83,7 +83,7 @@ SELECT
 
     SUM(
       CASE WHEN order_detail.status_id in ( 2, 9 ) THEN 1 ELSE 0 END
-    ) as admisisons_sold,
+    ) as admissions_sold,
     0 as admissions_sold_amount,
     'USD' as  default_currency,
     0 as admissions_sold_amount_usd
@@ -129,7 +129,7 @@ SELECT
     CAST( Purchase_Date as TIMESTAMP) as order_create_date,
 
       SUM(Order_Count) as orders_created,
-      SUM(Ticket_Quantity) as admisisons_sold,
+      SUM(Ticket_Quantity) as admissions_sold,
       SUM(Total_Sales__) as admissions_sold_amount,
       'USD' as default_currency,
       SUM(Total_Sales__) as admissions_sold_amount_usd
@@ -169,7 +169,7 @@ SELECT
     CAST( PurchaseDate as DATETIME) as order_create_audit_time,
     CAST( PurchaseDate as TIMESTAMP) as order_create_date,
       SUM(Order_Count) as orders_created,
-      SUM(Quantity_tickets) as admisisons_sold,
+      SUM(Quantity_tickets) as admissions_sold,
       SUM(Grand_Total) as admissions_sold_amount,
       billingCurrency as default_currency,
         SUM(CASE
@@ -249,8 +249,9 @@ ORDER BY order_create_date, performance_date
     dimension: admissions_sold_amount_usd { type: number value_format_name: usd sql: ${TABLE}.admissions_sold_amount_usd ;; }
 
     measure: total_orders_created { type: sum label: "Total Orders Created" drill_fields: [order_summary_fields*]sql: ${TABLE}.orders_created ;;}
-    measure: total_admissions_sold_amount { type: sum value_format_name: usd label: "Total Sold Amount" sql: ${TABLE}.admissions_sold_amount ;; drill_fields: [order_summary_fields*]}
-    measure: total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Total Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; drill_fields: [order_summary_fields*]}
+    measure: total_admissions_sold { type: sum label: "Total Admissions Sold" sql: ${TABLE}.admissions_sold ;; drill_fields: [order_summary_fields*]}
+    measure: total_admissions_sold_amount { type: sum value_format_name: usd label: "Total Admissions Sold Amount" sql: ${TABLE}.admissions_sold_amount ;; drill_fields: [order_summary_fields*]}
+    measure: total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Total Admissions Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; drill_fields: [order_summary_fields*]}
 
     dimension_group: current_time {
       type: time
@@ -272,7 +273,10 @@ ORDER BY order_create_date, performance_date
   set: order_summary_fields {
     fields: [
       product_name,
-      client_name
+      performance_date_month_name,
+      total_orders_created,
+      total_admissions_sold,
+      total_admissions_sold_amount_usd
     ]
   }
 
