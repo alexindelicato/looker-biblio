@@ -83,6 +83,11 @@ view: sel_purchase_stats {
     sql: ${TABLE}.order_count ;;
   }
 
+  measure: total_order_count{
+    type: sum
+    sql: ${TABLE}.order_count;;
+  }
+
   measure: count {
     type: count
     drill_fields: [memberid,performanceid,performance_date,purchase_date,ticket_quantity,total_sales__]
