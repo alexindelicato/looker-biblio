@@ -132,7 +132,7 @@ SELECT
       SUM(Ticket_Quantity) as admisisons_sold,
       SUM(Total_Sales__) as admissions_sold_amount,
       'USD' as default_currency,
-      SUM(Total_Sales__) as as admissions_sold_amount_usd
+      SUM(Total_Sales__) as admissions_sold_amount_usd
 
       FROM mysql_service.purchase_stats
       INNER JOIN mysql_service.performances on performances.performanceid = purchase_stats.performanceid
