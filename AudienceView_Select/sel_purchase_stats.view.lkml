@@ -1,6 +1,30 @@
 view: sel_purchase_stats {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.purchase_stats`
-    ;;
+  derived_table: {
+    sql:
+
+SELECT
+memberid,
+performanceid,
+Performance_Date,
+Purchase_Date,
+SUM(Ticket_Quantity) as Ticket_Quantity,
+SUM(Order_Count) as Order_Count,
+SUM(Total_Sales__) as Total_Sales__
+FROM `fivetran-ovation-tix-warehouse.mysql_service.purchase_stats`
+WHERE 1 = 1
+GROUP BY
+memberid,
+performanceid,
+Performance_Date,
+Purchase_Date
+ORDER BY Purchase_Date
+
+-- limit 100
+
+            ;;
+
+      sql_trigger_value: select max(cast(Purchase_Date, ':00') as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.mysql_service.purchase_stats`;;
+    }
 
   dimension: memberid {
     type: string
