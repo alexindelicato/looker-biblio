@@ -111,7 +111,7 @@ GROUP BY
 #  dimension:  quarter { type: string sql: ${TABLE}. quarter ;; }
   dimension:  userrole_name { type: string sql: ${TABLE}.userrole_name ;; }
   dimension:  userrole_group  { type: string sql: ${TABLE}.userrole_group  ;; }
-  dimension:  orderadmission_sale_action  { type: string sql: ${TABLE}.orderadmission_sale_action  ;; }
+  dimension:  orderadmission_sale_action  { type: number sql: ${TABLE}.orderadmission_sale_action  ;; }
   dimension:  orderadmission_record_state { type: string sql: ${TABLE}.orderadmission_record_state ;; }
   dimension:  orderadmission_sale_action_description  { type: string sql: ${TABLE}.orderadmission_sale_action_description  ;; }
   dimension:  orderadmission_record_state_description { type: string sql: ${TABLE}.orderadmission_record_state_description ;; }
