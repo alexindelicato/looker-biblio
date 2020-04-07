@@ -1612,6 +1612,7 @@ view: sf_case {
 
   dimension: settlement_amount_c {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.settlement_amount_c ;;
   }
 
