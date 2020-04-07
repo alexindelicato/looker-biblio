@@ -1610,6 +1610,11 @@ view: sf_case {
     sql: ${TABLE}.select_your_settlement_period_sf_c ;;
   }
 
+  dimension: settlement_amount_c {
+    type: number
+    sql: ${TABLE}.settlement_amount_c ;;
+  }
+
   set: detail {
     fields: [
       name_of_organization_sf_c,
@@ -1620,6 +1625,7 @@ view: sf_case {
       subject,
       created_time,
       status,
+      settlement_amount_c,
       did_you_scan_tickets_to_your_event_sf_c,
       is_there_a_deadline_for_your_patrons_sf_c,
       name_of_organization_sf_c,
