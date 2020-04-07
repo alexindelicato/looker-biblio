@@ -23,7 +23,7 @@ ORDER BY Purchase_Date
 
             ;;
 
-      sql_trigger_value: select max(cast(Purchase_Date, ':00') as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.mysql_service.purchase_stats`;;
+      sql_trigger_value: select max(cast(Purchase_Date as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.mysql_service.purchase_stats`;;
     }
 
   dimension: memberid {
