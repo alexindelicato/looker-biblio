@@ -110,6 +110,7 @@ ORDER BY Purchase_Date
   measure: total_order_count{
     type: sum
     sql: ${TABLE}.order_count;;
+    drill_fields: [memberid,performanceid,performance_date,purchase_date,ticket_quantity,total_sales__]
   }
 
   measure: count {

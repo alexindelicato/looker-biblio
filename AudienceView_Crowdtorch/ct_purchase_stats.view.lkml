@@ -87,6 +87,16 @@ view: ct_purchase_stats {
     sql: ${TABLE}.showName ;;
   }
 
+  dimension: order_count {
+    type: number
+    sql: ${TABLE}.Order_Count ;;
+  }
+
+  measure: sum_order_count {
+    type: sum
+    sql: ${TABLE}.Order_Count ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [show_name, client_name]
