@@ -84,9 +84,13 @@ SELECT
     SUM(
       CASE WHEN order_detail.status_id in ( 2, 9 ) THEN 1 ELSE 0 END
     ) as admissions_sold,
-    SUM(
-      CASE WHEN order_detail.status_id in ( 2, 9 ) THEN order_detail.price ELSE 0 END
-    ) as admissions_sold_amount,
+--    SUM(
+--      CASE WHEN order_detail.status_id in ( 2, 9 ) THEN order_detail.price ELSE 0 END
+--    ) as admissions_sold_amount,
+
+COALESCE(ROUND(COALESCE(CAST( ( SUM(DISTINCT (CAST(ROUND(COALESCE(orders.total ,0)*(1/1000*1.0), 9) AS NUMERIC) + (cast(cast(concat('0x', substr(to_hex(md5(CAST(orders.order_id  AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST(orders.order_id  AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001 )) - SUM(DISTINCT (cast(cast(concat('0x', substr(to_hex(md5(CAST(orders.order_id  AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST(orders.order_id  AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001) )  / (1/1000*1.0) AS FLOAT64), 0), 6), 0) AS admissions_sold_amount,
+
+
     'USD' as  default_currency,
     SUM(
       CASE WHEN order_detail.status_id in ( 2, 9 ) THEN order_detail.price ELSE 0 END
