@@ -84,9 +84,13 @@ SELECT
     SUM(
       CASE WHEN order_detail.status_id in ( 2, 9 ) THEN 1 ELSE 0 END
     ) as admissions_sold,
-    SUM( orders.total ) as admissions_sold_amount,
+    SUM(
+      CASE WHEN order_detail.status_id in ( 2, 9 ) THEN order_detail.price ELSE 0 END
+    ) as admissions_sold_amount,
     'USD' as  default_currency,
-    SUM( orders.total ) as admissions_sold_amount_usd
+    SUM(
+      CASE WHEN order_detail.status_id in ( 2, 9 ) THEN order_detail.price ELSE 0 END
+    ) as admissions_sold_amount_usd
 
 FROM trs_trs.orders
 LEFT JOIN trs_trs.client ON client.client_id = orders.client_id
