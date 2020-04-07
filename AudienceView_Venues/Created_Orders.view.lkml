@@ -225,7 +225,7 @@ ORDER BY order_create_date, performance_date
 
             ;;
 
-      sql_trigger_value: select max(cast(order_create_date, ':00') as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_orders_summary`;;
+      sql_trigger_value: select max(order_create_audit_time) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_orders_summary`;;
     }
 
     dimension:  UUID  { type: string sql: ${TABLE}.UUID  ;; }
