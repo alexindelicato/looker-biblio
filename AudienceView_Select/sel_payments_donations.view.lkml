@@ -52,7 +52,7 @@ view: sel_payments_donations {
 
   measure: sum_disbursement {
     label: "Disbursement"
-    type: sum_distinct
+    type: sum
     value_format_name:usd
     sql:round(safe_cast(${disbursement} as FLOAT64),2) ;;
   }
