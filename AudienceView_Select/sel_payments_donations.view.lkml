@@ -87,6 +87,11 @@ view: sel_payments_donations {
     sql: ${TABLE}.memberid ;;
   }
 
+  measure: count_memberid {
+    type: count_distinct
+    sql: ${TABLE}.memberid ;;
+  }
+
   dimension: orderid {
     type: number
     value_format_name: id
