@@ -108,6 +108,12 @@ dimension: ap_amount {
   sql: ${TABLE}.AP_Amount ;;
 }
 
+  measure: sum_ap_amount {
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.AP_Amount ;;
+  }
+
 dimension: billing_currency {
   type: string
   sql: ${TABLE}.billingCurrency ;;
