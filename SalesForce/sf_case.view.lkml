@@ -1043,7 +1043,7 @@ view: sf_case {
 
   dimension: case_owner_id {
     type: string
-    sql: case when ${TABLE}.owner_id = "00G4T000000Z9eiUAC" then "Approved for finance to settle"
+    sql: case when ${TABLE}.owner_id IN ("00G4T000000Z9eiUAC","0054T000001XoxiQAC","0054T000001VEQ6QAO","0054T000001XvhiQAC","0054T000001VEQ3QAO","0054T000001VW3MQAW","0054T000001XiNnQAK","0054T000001XvPJQA0") then "Approved for finance to settle"
          when ${TABLE}.owner_id = "00G4T000000Z9edUAC" then "Approved for peer review"
          when ${TABLE}.owner_id = "00G4T000000Z9UTUA0" then "In Queue"
          when ${TABLE}.owner_id != "00G4T000000Z9edUAC" and ${TABLE}.owner_id != "00G4T000000Z9eiUAC" and ${TABLE}.owner_id != "00G4T000000Z9UTUA0" then "Withheld - In review with client"
