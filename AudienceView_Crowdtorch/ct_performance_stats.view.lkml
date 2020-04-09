@@ -52,6 +52,18 @@ dimension_group: show_date_time {
   sql: ${TABLE}.showDateTime ;;
 }
 
+  dimension: performance_settlement {
+    type: string
+    sql: case when ${show_date_time_week_of_year} = 10 then "March 2nd to March 8th"
+         when ${show_date_time_week_of_year} = 11 then "March 9th to March 15th"
+         when ${show_date_time_week_of_year} = 12 then "March 16th to March 22nd"
+         when ${show_date_time_week_of_year} = 13 then "March 23rd to March 29th"
+         when ${show_date_time_week_of_year} = 14 then "March 30th to April 5th"
+         when ${show_date_time_week_of_year} = 15 then "April 6th to April 12th"
+         when ${show_date_time_week_of_year} = 16 then "April 13th to April 19th"
+    else "Research" End;;
+  }
+
 dimension: brand_property {
   type: string
   sql: ${TABLE}.brandProperty ;;
