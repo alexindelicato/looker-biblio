@@ -1648,7 +1648,7 @@ view: sf_case {
          when ${TABLE}.select_your_settlement_period_sf_c = "April 6 - April 12" then 6
          when ${TABLE}.select_your_settlement_period_sf_c = "April 13 - April 19" then 7
          when ${TABLE}.select_your_settlement_period_sf_c = "April 20 - April 26" then 8
-         when ${TABLE}.select_your_settlement_period_sf_c = "April 26 - May 4" then 9
+         when ${TABLE}.select_your_settlement_period_sf_c = "April 27 - May 3" then 9
          else 0 End;;
   }
 
