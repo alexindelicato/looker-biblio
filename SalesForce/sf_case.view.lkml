@@ -44,6 +44,10 @@ view: sf_case {
     filters: {
       field: status
       value: "-%Close%" }
+
+    filters: {
+      field: subject
+      value: "-%Approve%" }
   }
 
 
@@ -55,6 +59,29 @@ view: sf_case {
       field: case_owner_id
       value: "Approved for finance to settle" }
   }
+
+  measure: count_settled {
+    type: count
+    drill_fields: [detail*]
+
+    filters: {
+      field: subject
+      value: "Approved%" }
+  }
+
+  measure: count_rejected {
+    type: count
+    drill_fields: [detail*]
+
+    filters: {
+      field: status
+      value: "%Close%" }
+
+    filters: {
+      field: subject
+      value: "-%Approve%" }
+  }
+
 
   measure: count_unapproved {
     type: count
@@ -1609,6 +1636,20 @@ view: sf_case {
   dimension: select_your_settlement_period_sf_c {
     type: string
     sql: ${TABLE}.select_your_settlement_period_sf_c ;;
+  }
+
+  dimension: rank_settlement_period {
+    type: number
+    sql: case when ${TABLE}.select_your_settlement_period_sf_c = "March 2 - March 8" then 1
+         when ${TABLE}.select_your_settlement_period_sf_c = "March 9 - March 15" then 2
+         when ${TABLE}.select_your_settlement_period_sf_c = "March 16 - March 22" then 3
+         when ${TABLE}.select_your_settlement_period_sf_c = "March 23 - March 29" then 4
+         when ${TABLE}.select_your_settlement_period_sf_c = "March 30 - April 5" then 5
+         when ${TABLE}.select_your_settlement_period_sf_c = "April 6 - April 12" then 6
+         when ${TABLE}.select_your_settlement_period_sf_c = "April 13 - April 19" then 7
+         when ${TABLE}.select_your_settlement_period_sf_c = "April 20 - April 26" then 8
+         when ${TABLE}.select_your_settlement_period_sf_c = "April 26 - May 4" then 9
+         else 0 End;;
   }
 
   dimension: settlement_amount_c {
