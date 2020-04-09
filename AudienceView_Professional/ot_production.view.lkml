@@ -53,6 +53,12 @@ view: ot_production {
     sql: ${TABLE}.client_id ;;
   }
 
+  measure: count_client_id {
+    type: count_distinct
+    # hidden: yes
+    sql: ${TABLE}.client_id ;;
+  }
+
   dimension: confirmation_image_id {
     type: number
     sql: ${TABLE}.confirmation_image_id ;;

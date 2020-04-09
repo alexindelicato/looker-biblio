@@ -449,6 +449,11 @@ view: ot_client {
     sql: ${TABLE}.zipcode_of_incorporation ;;
   }
 
+  measure: count_client {
+    type: count_distinct
+    sql: ${client_id} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
