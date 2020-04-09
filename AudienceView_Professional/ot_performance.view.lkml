@@ -103,6 +103,41 @@ view: ot_performance {
     sql: ${TABLE}.perf_start ;;
   }
 
+  dimension_group: current_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
+
+  dimension: settled_status {
+    type: string
+    sql: case when ${current_time_week_of_year} > ${perf_start_week_of_year} then "Settled"
+         else "Unsettled" End;;
+  }
+
+  dimension: perf_start_settlement {
+    type: string
+    sql: case when ${perf_start_week_of_year} = 10 then "March 2nd to March 8th"
+         when ${perf_start_week_of_year} = 11 then "March 9th to March 15th"
+         when ${perf_start_week_of_year} = 12 then "March 16th to March 22nd"
+         when ${perf_start_week_of_year} = 13 then "March 23rd to March 29th"
+         when ${perf_start_week_of_year} = 14 then "March 30th to April 5th"
+         when ${perf_start_week_of_year} = 15 then "April 6th to April 12th"
+         when ${perf_start_week_of_year} = 16 then "April 13th to April 19th"
+    else "Research" End;;
+  }
+
   measure: count_perf_start_time {
     type: count_distinct
     sql: ${TABLE}.perf_start ;;
