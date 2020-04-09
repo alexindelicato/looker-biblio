@@ -1046,7 +1046,8 @@ view: sf_case {
     sql: case when ${TABLE}.owner_id IN ("00G4T000000Z9eiUAC","0054T000001XoxiQAC","0054T000001VEQ6QAO","0054T000001XvhiQAC","0054T000001VEQ3QAO","0054T000001VW3MQAW","0054T000001XiNnQAK","0054T000001XvPJQA0") then "Approved for finance to settle"
          when ${TABLE}.owner_id = "00G4T000000Z9edUAC" then "Approved for peer review"
          when ${TABLE}.owner_id = "00G4T000000Z9UTUA0" then "In Queue"
-         when ${TABLE}.owner_id NOT IN ("00G4T000000Z9eiUAC","0054T000001XoxiQAC","0054T000001VEQ6QAO","0054T000001XvhiQAC","0054T000001VEQ3QAO","0054T000001VW3MQAW","0054T000001XiNnQAK","0054T000001XvPJQA0")  and ${TABLE}.owner_id != "00G4T000000Z9eiUAC" and ${TABLE}.owner_id != "00G4T000000Z9UTUA0" then "Withheld - In review with client"
+         when ${TABLE}.owner_id = "00G4T000000ZAAzUAO" then "Donation Settlement"
+         when ${TABLE}.owner_id NOT IN ("00G4T000000Z9eiUAC","0054T000001XoxiQAC","0054T000001VEQ6QAO","0054T000001XvhiQAC","0054T000001VEQ3QAO","0054T000001VW3MQAW","0054T000001XiNnQAK","0054T000001XvPJQA0")  and ${TABLE}.owner_id != "00G4T000000Z9eiUAC" and ${TABLE}.owner_id != "00G4T000000Z9UTUA0" and ${TABLE}.owner_id != "00G4T000000ZAAzUAO" then "Withheld - In review with client"
     else  ${TABLE}.owner_id end ;;
   }
 
