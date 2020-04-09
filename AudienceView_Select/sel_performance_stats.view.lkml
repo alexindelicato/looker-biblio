@@ -29,11 +29,24 @@ view: sel_performance_stats {
       time,
       date,
       week,
+      week_of_year,
       month,
       quarter,
       year
     ]
     sql: ${TABLE}.Performance_date ;;
+  }
+
+  dimension: performance_settlement {
+    type: string
+    sql: case when ${performance_week_of_year} = 10 then "March 2nd to March 8th"
+         when ${performance_week_of_year} = 11 then "March 9th to March 15th"
+         when ${performance_week_of_year} = 12 then "March 16th to March 22nd"
+         when ${performance_week_of_year} = 13 then "March 23rd to March 29th"
+         when ${performance_week_of_year} = 14 then "March 30th to April 5th"
+         when ${performance_week_of_year} = 15 then "April 6th to April 12th"
+         when ${performance_week_of_year} = 16 then "April 13th to April 19th"
+    else "Research" End;;
   }
 
   dimension: performanceid {
