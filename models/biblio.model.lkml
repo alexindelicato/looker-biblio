@@ -215,8 +215,8 @@ explore: ot_orders {
   join: ot_price_level {
     view_label: "AV Pro Performance Price Levels"
     type: left_outer
-    relationship: one_to_one
-    sql_on: ${ot_performance_stats_total.price_level_id}=${ot_price_level.price_level_id} and ${ot_price_level._fivetran_deleted} = false;;
+    relationship: many_to_one
+    sql_on: ${ot_order_detail.price_level_id}=${ot_price_level.price_level_id} and ${ot_price_level._fivetran_deleted} = false;;
   }
 
   join: ot_payment_segment {
@@ -251,20 +251,20 @@ explore: ot_orders {
   }
   join: pro_performance_sections {
     view_label: "AV Pro Performance Sections"
-    type:left_outer
+    type:inner
     relationship: one_to_one
     sql_on: ${pro_performance_sections.performance_id}=${ot_performance.id} ;;
   }
   join: ot_section {
     view_label: "AV Pro Section"
-    type:left_outer
+    type:inner
     relationship: one_to_one
-    sql_on: ${ot_section.seating_chart_id}=${pro_performance_sections.section_id} ;;
+    sql_on: ${ot_section.section_id}=${pro_performance_sections.section_id} ;;
   }
   join: pro_seat {
     view_label: "AV Pro Seat"
-    type:left_outer
-    relationship: one_to_one
+    type:inner
+    relationship: one_to_many
     sql_on: ${ot_section.section_id}=${pro_seat.section_id} ;;
   }
   join: sf_accounts {
