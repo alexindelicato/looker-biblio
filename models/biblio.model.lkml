@@ -249,6 +249,19 @@ explore: ot_orders {
     relationship: one_to_one
     sql_on: ${pro_production_genre.genre_id}=${pro_genres.genre_id} ;;
   }
+
+  join: ot_section {
+    view_label: "AV Pro Section"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${ot_section.seating_chart_id}=${ot_performance.bo_available} ;;
+  }
+  join: pro_seat {
+    view_label: "AV Pro Seat"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${ot_section.section_id}=${pro_seat.section_id} ;;
+  }
   join: sf_accounts {
     view_label: "SF Account"
     type: left_outer
