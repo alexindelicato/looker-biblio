@@ -251,19 +251,19 @@ explore: ot_orders {
   }
   join: pro_performance_sections {
     view_label: "AV Pro Performance Sections"
-    type:inner
+    type:left_outer
     relationship: one_to_one
     sql_on: ${pro_performance_sections.performance_id}=${ot_performance.id} ;;
   }
   join: ot_section {
     view_label: "AV Pro Section"
-    type:inner
+    type:left_outer
     relationship: one_to_one
     sql_on: ${ot_section.section_id}=${pro_performance_sections.section_id} ;;
   }
   join: pro_seat {
     view_label: "AV Pro Seat"
-    type:inner
+    type:left_outer
     relationship: one_to_one
     sql_on: ${pro_ticket.ticket_seat_id}=${pro_seat.seat_id} ;;
   }
