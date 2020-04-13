@@ -155,7 +155,7 @@ explore: ot_orders {
 
 
   join: ot_order_detail_ticket {
-    view_label: "AV Pro Order Detail Tickets"
+    view_label: "AV Pro Orders Detail Tickets"
     type: left_outer
     relationship: one_to_one
     sql_on: ${ot_order_detail_ticket.orderdetail_id}=${ot_order_detail.orderdetail_id} ;;
@@ -264,8 +264,8 @@ explore: ot_orders {
   join: pro_seat {
     view_label: "AV Pro Seat"
     type:inner
-    relationship: one_to_many
-    sql_on: ${ot_section.section_id}=${pro_seat.section_id} ;;
+    relationship: one_to_one
+    sql_on: ${pro_ticket.ticket_seat_id}=${pro_seat.seat_id} ;;
   }
   join: sf_accounts {
     view_label: "SF Account"
