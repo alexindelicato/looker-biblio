@@ -249,12 +249,17 @@ explore: ot_orders {
     relationship: one_to_one
     sql_on: ${pro_production_genre.genre_id}=${pro_genres.genre_id} ;;
   }
-
+  join: pro_performance_sections {
+    view_label: "AV Pro Performance Sections"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${pro_performance_sections.performance_id}=${ot_performance.id} ;;
+  }
   join: ot_section {
     view_label: "AV Pro Section"
     type:left_outer
     relationship: one_to_one
-    sql_on: ${ot_section.seating_chart_id}=${ot_performance.bo_available} ;;
+    sql_on: ${ot_section.seating_chart_id}=${pro_performance_sections.section_id} ;;
   }
   join: pro_seat {
     view_label: "AV Pro Seat"

@@ -43,9 +43,9 @@ view: sel_donations {
     sql: ${TABLE}.commissionableservicefee ;;
   }
 
-  dimension: created {
-    type: number
-    sql: ${TABLE}.created ;;
+  dimension_group: created {
+    type: time
+    sql: timestamp_seconds(${TABLE}.created) ;;
   }
 
   dimension: donationcampaignid {
