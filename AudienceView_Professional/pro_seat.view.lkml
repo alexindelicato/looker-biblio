@@ -34,6 +34,7 @@ view: pro_seat {
   }
 
   dimension: number {
+    label: "Seat Label"
     type: string
     sql: ${TABLE}.number ;;
   }
@@ -54,6 +55,7 @@ view: pro_seat {
   }
 
   dimension: row {
+    label: "Row Label"
     type: string
     sql: ${TABLE}.row ;;
   }

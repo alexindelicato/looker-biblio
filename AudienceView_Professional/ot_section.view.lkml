@@ -68,6 +68,7 @@ view: ot_section {
   }
 
   dimension: name {
+    label: "Section Name"
     type: string
     sql: ${TABLE}.name ;;
   }
