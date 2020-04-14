@@ -37,7 +37,7 @@ performance_start_date,
 order_create_audit_time,
 facts.default_currency               ;;
 
-      sql_trigger_value: select max(cast(concat(order_create_audit_time, ':00') as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_orders_summary`;;
+      sql_trigger_value: select max(order_create_audit_time) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_orders_summary`;;
     }
 
   dimension:  UUID  { type: string sql: ${TABLE}.UUID  ;; }

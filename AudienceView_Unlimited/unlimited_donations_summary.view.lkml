@@ -34,7 +34,7 @@ view: unlimited_donations_summary {
       facts.default_currency
                ;;
 
-      sql_trigger_value: select max(cast(concat(audit_time, ':00') as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_donations_summary`;;
+      sql_trigger_value: select max(audit_time) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_donations_summary`;;
     }
 
     dimension:  UUID  { type: string sql: ${TABLE}.UUID  ;; }

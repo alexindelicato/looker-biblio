@@ -99,7 +99,7 @@ GROUP BY
   facts.default_currency
            ;;
 
-      sql_trigger_value: select max(cast(concat(audit_time, ':00') as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_sold_admissions`;;
+      sql_trigger_value: select max(audit_time) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_sold_admissions`;;
     }
 
   dimension:  UUID  { type: string sql: ${TABLE}.UUID  ;; }
