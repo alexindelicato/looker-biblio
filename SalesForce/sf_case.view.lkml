@@ -51,13 +51,21 @@ view: sf_case {
   }
 
 
-  measure: count_approved {
+  measure: count_approved_for_finance_to_settle {
     type: count
     drill_fields: [detail*]
 
     filters: {
       field: case_owner_id
       value: "Approved for finance to settle" }
+
+    filters: {
+      field: subject
+      value: "-%Approve%" }
+
+    filters: {
+      field: status
+      value: "-%Close%" }
   }
 
   measure: count_settled {
@@ -83,13 +91,21 @@ view: sf_case {
   }
 
 
-  measure: count_unapproved {
+  measure: count_witheld_in_review_with_client {
     type: count
     drill_fields: [detail*]
 
     filters: {
       field: case_owner_id
       value: "Withheld - In review with client" }
+
+    filters: {
+      field: subject
+      value: "-%Approve%" }
+
+    filters: {
+      field: status
+      value: "-%Close%" }
   }
 
   measure: count_escalated {
@@ -101,13 +117,21 @@ view: sf_case {
       value: "Approved for peer review" }
   }
 
-  measure: count_settlement {
+  measure: count_queue {
     type: count
     drill_fields: [detail*]
 
     filters: {
       field: case_owner_id
       value: "In Queue" }
+
+    filters: {
+      field: subject
+      value: "-%Approve%" }
+
+    filters: {
+      field: status
+      value: "-%Close%" }
   }
 
 
