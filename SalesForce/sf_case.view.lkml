@@ -52,6 +52,7 @@ view: sf_case {
 
 
   measure: count_approved_for_finance_to_settle {
+    label: "Approved for finance to settle"
     type: count
     drill_fields: [detail*]
 
@@ -92,6 +93,7 @@ view: sf_case {
 
 
   measure: count_witheld_in_review_with_client {
+    label: "Withheld - In review with client"
     type: count
     drill_fields: [detail*]
 
@@ -118,6 +120,7 @@ view: sf_case {
   }
 
   measure: count_queue {
+    label: "In Queue"
     type: count
     drill_fields: [detail*]
 
