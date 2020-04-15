@@ -162,7 +162,35 @@ dimension_group: last_tx {
     value_format_name:usd
     sql: ${TABLE}.price ;;
     drill_fields: [ot_client.client_id,ot_client.client_name,ot_orders.order_id,ganalytics_ot.date_date,sum_donations]
+
+    filters: {
+      field: order_type
+      value: "Donation" }
   }
+
+
+  measure: sum_ticket_revenue{
+    type: sum_distinct
+    value_format_name:usd
+    sql: ${TABLE}.price ;;
+    drill_fields: [ot_client.client_id,ot_client.client_name,ot_orders.order_id,ganalytics_ot.date_date,sum_donations]
+
+    filters: {
+      field: order_type
+      value: "Tickets" }
+  }
+
+  measure: sum_package_revenue{
+    type: sum_distinct
+    value_format_name:usd
+    sql: ${TABLE}.price ;;
+    drill_fields: [ot_client.client_id,ot_client.client_name,ot_orders.order_id,ganalytics_ot.date_date,sum_donations]
+
+    filters: {
+      field: order_type
+      value: "Package" }
+  }
+
 
   dimension: price_level_id {
     type: number
