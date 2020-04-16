@@ -330,7 +330,7 @@ explore: ot_client {
   }
 
   join: pro_persona {
-    view_label: "AV Pro Persona/User Join"
+    view_label: "AV Pro User Persona"
     type:left_outer
     relationship: one_to_one
     sql_on: ${pro_persona.name}=${pro_persona_user.persona_name} ;;
