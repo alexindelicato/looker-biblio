@@ -111,23 +111,23 @@ view: pro_user {
   }
 
   dimension: receive_donation_email {
-    type: number
-    sql: ${TABLE}.receive_donation_email ;;
+    type: yesno
+    sql: ${TABLE}.receive_donation_email = 1 ;;
   }
 
   dimension: receive_package_email {
-    type: number
-    sql: ${TABLE}.receive_package_email ;;
+    type: yesno
+    sql: ${TABLE}.receive_package_email = 1 ;;
   }
 
   dimension: receive_who_coming_email {
-    type: number
-    sql: ${TABLE}.receive_who_coming_email ;;
+    type: yesno
+    sql: ${TABLE}.receive_who_coming_email = 1 ;;
   }
 
   dimension: seen_welcome_message {
-    type: number
-    sql: ${TABLE}.seen_welcome_message ;;
+    type: yesno
+    sql: ${TABLE}.seen_welcome_message = 1 ;;
   }
 
   dimension: user_type {
