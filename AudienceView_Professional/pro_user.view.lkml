@@ -48,8 +48,8 @@ view: pro_user {
   }
 
   dimension: deleted {
-    type: number
-    sql: ${TABLE}.deleted ;;
+    type: yesno
+    sql: ${TABLE}.deleted = 1 ;;
   }
 
   dimension: disabled {
