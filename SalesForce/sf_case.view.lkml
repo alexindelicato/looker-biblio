@@ -84,7 +84,20 @@ view: sf_case {
 
     filters: {
       field: status
-      value: "%Close%" }
+      value: "Closed: Resolved,Closed: No Response,Closed: N/A,Closed As Duplicate,Closed: Rejected" }
+
+    filters: {
+      field: subject
+      value: "-%Approve%" }
+  }
+
+  measure: count_balance_owing {
+    type: count
+    drill_fields: [detail*]
+
+    filters: {
+      field: status
+      value: "Closed - Balance Owing" }
 
     filters: {
       field: subject
