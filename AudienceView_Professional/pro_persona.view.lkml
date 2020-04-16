@@ -43,13 +43,20 @@ view: pro_persona {
 
   dimension: name {
     type: string
+    primary_key: yes
     sql: ${TABLE}.name ;;
+  }
+
+  measure: persona_list {
+    type: list
+    list_field: persona_group
   }
 
   dimension: persona_group {
     type: string
     sql: ${TABLE}.persona_group ;;
   }
+
 
   dimension: user_persona_group {
     type: string
