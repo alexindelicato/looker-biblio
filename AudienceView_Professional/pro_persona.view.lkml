@@ -51,6 +51,13 @@ view: pro_persona {
     sql: ${TABLE}.persona_group ;;
   }
 
+  dimension: user_persona_group {
+    type: string
+    sql:case when ${TABLE}.persona_group = "administrative" and ${TABLE}.persona_group NOT IN ("box_office","developmennt_officer","patron_management") then "Admin"
+         when ${TABLE}.persona_group = "administrative" and ${TABLE}.persona_group = "box_office" and ${TABLE}.persona_group NOT IN ("box_office","developmennt_officer","patron_management") then "Admin, Box Office"
+    Else "Research" End;;
+  }
+
   dimension: user_type {
     type: number
     sql: ${TABLE}.user_type ;;
