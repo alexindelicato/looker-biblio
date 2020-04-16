@@ -307,6 +307,37 @@ explore: ot_client {
   fields: [ALL_FIELDS*]
   sql_always_where: ${ot_client.demo}=0 and ${ot_client.testing_mode}=0 and ${ot_client.active} = 1 ;;
 
+
+  join: pro_client_user {
+    view_label: "AV Pro Client/User Join"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${ot_client.client_id}=${pro_client_user.client_id} ;;
+  }
+
+  join: pro_user {
+    view_label: "AV Pro User"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${pro_client_user.user_id}=${pro_user.user_id} ;;
+  }
+
+  join: pro_persona_user {
+    view_label: "AV Pro Persona/User Join"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${pro_user.user_id}=${pro_persona_user.user_id} ;;
+  }
+
+  join: pro_persona {
+    view_label: "AV Pro Persona/User Join"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${pro_persona.name}=${pro_persona_user.persona_name} ;;
+  }
+
+
+
   join: ot_seating_chart_client {
     view_label: "AV Pro Seatting Chart Client"
     type:left_outer

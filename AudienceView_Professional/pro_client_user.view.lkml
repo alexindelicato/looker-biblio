@@ -4,11 +4,13 @@ view: pro_client_user {
 
   dimension: _fivetran_deleted {
     type: yesno
+    hidden: yes
     sql: ${TABLE}._fivetran_deleted ;;
   }
 
   dimension_group: _fivetran_synced {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -23,16 +25,19 @@ view: pro_client_user {
 
   dimension: client_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.client_id ;;
   }
 
   dimension: user_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.user_id ;;
   }
 
   measure: count {
     type: count
+    hidden: yes
     drill_fields: []
   }
 }
