@@ -37,8 +37,8 @@ view: pro_persona {
   }
 
   dimension: is_client {
-    type: string
-    sql: ${TABLE}.is_client ;;
+    type: yesno
+    sql: ${TABLE}.is_client = "T" ;;
   }
 
   dimension: name {
