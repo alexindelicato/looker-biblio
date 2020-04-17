@@ -439,10 +439,24 @@ explore: sel_members {
   sql_always_where: ${testmode}="N" and ${active}="Y" ;;
 
   join: sel_members_merchantaccounts {
-    view_label: "AV Select Marchant Accountss"
+    view_label: "AV Select Marchant Accounts"
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_members.memberid}=${sel_members_merchantaccounts.memberid}  ;;
+  }
+
+  join: sel_agent_to_members {
+    view_label: "AV Select Agents to Members"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sel_agent_to_members.memberid}  ;;
+  }
+
+  join: sel_agents {
+    view_label: "AV Select Agents"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_agent_to_members.agentid}=${sel_agents.agentid}  ;;
   }
 
   join: sel_payments_donations {

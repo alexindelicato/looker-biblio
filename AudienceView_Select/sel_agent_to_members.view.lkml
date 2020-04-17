@@ -5,17 +5,20 @@ view: sel_agent_to_members {
 
   dimension: agent_to_membersid {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.agent_to_membersid ;;
   }
 
   dimension: _fivetran_deleted {
     type: yesno
+    hidden: yes
     sql: ${TABLE}._fivetran_deleted ;;
   }
 
   dimension_group: _fivetran_synced {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -30,6 +33,7 @@ view: sel_agent_to_members {
 
   dimension: agentid {
     type: number
+    hidden: yes
     value_format_name: id
     # hidden: yes
     sql: ${TABLE}.agentid ;;
@@ -37,6 +41,7 @@ view: sel_agent_to_members {
 
   dimension: memberid {
     type: string
+    hidden: yes
     sql: ${TABLE}.memberid ;;
   }
 
@@ -47,6 +52,7 @@ view: sel_agent_to_members {
 
   measure: count {
     type: count
+    hidden: yes
     drill_fields: [agent_to_membersid, agents.agentid, agents.firstname, agents.lastname]
   }
 }

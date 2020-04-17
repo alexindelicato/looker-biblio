@@ -58,6 +58,12 @@ view: sel_agents {
     sql: ${TABLE}.firstname ;;
   }
 
+  dimension: full_name {
+    type: string
+    sql: concat( ${TABLE}.firstname, " ", ${TABLE}.lastname)  ;;
+  }
+
+
   dimension: isoldta {
     type: string
     sql: ${TABLE}.isoldta ;;
