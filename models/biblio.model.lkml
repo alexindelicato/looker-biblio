@@ -456,7 +456,7 @@ explore: sel_members {
     view_label: "AV Select Agents"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${sel_agent_to_members.agentid}=${sel_agents.agentid}  ;;
+    sql_on: ${sel_agent_to_members.agentid}=${sel_agents.agentid} AND ${sel_agents.deleted} is NULL ;;
   }
 
   join: sel_payments_donations {
