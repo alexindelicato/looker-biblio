@@ -283,6 +283,11 @@ view: ot_orders {
     sql: MIN(${time_raw}) ;;
   }
 
+  measure: min_order_month {
+    type: date_month_name
+    sql: MIN(${time_raw}) ;;
+  }
+
   measure: max_order_date {
     type: date
     sql: MAX(${time_raw}) ;;
