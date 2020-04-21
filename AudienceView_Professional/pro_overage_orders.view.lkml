@@ -8,9 +8,8 @@ view: pro_overage_orders {
     ot_order_detail.type IN ('TCK', 'PMT', 'PKT'),
     sf_accounts.name as sf_account_name,
     sf_accounts.id as sf_account_id,
-    time as order_date,
-    ot_orders.order_id as order_id,
-    MIN(ot_orders.time) AS min_order_date
+    ot_orders.time as order_date,
+    min(ot_orders.time) as min_order_date
 
     FROM `fivetran-ovation-tix-warehouse.trs_trs.orders` as ot_orders
     LEFT JOIN trs_trs.client  AS ot_client ON ot_orders.client_id=ot_client.client_id
@@ -22,7 +21,7 @@ view: pro_overage_orders {
 
     where (ot_client.demo=0 and ot_client.testing_mode=0 and ot_client.active = 1 and ot_orders.imported=0 and ot_orders.is_test_mode=0 and ot_orders.status_id != 11)
 
-    GROUP BY 1,2,3,4,5,6,7,8
+    GROUP BY 1,2,3,4,5,6,7
 
                ;;
   }
@@ -30,12 +29,6 @@ view: pro_overage_orders {
   dimension: number_of_days_live {
     type: number
     sql:  timestamp_diff(${current_time_raw}, ${min_order_date_raw}, day);;
-  }
-
-  dimension: order_id {
-    type: number
-    primary_key:  yes
-    sql: ${TABLE}.order_id ;;
   }
 
  dimension: client_name {
@@ -62,6 +55,11 @@ view: pro_overage_orders {
   dimension: units_sold {
     type: number
     sql: ${TABLE}.units_sold ;;
+  }
+
+  dimension: overage_month {
+    type: yesno
+    sql: ${current_time_month_name} = ${min_order_date_month_name}  ;;
   }
 
   dimension_group: min_order_date {
