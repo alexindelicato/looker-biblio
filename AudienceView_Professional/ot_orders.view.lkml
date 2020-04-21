@@ -278,6 +278,12 @@ view: ot_orders {
     sql: CURRENT_TIMESTAMP() ;;
   }
 
+   dimension: number_of_days_live {
+     type: number
+     sql:  timestamp_diff(${current_time_raw}, ${sf_accounts.go_live_date_c_raw}, day);;
+# # MySQL: TIMESTAMPDIFF(second, ${filter_end_date_raw}, ${filter_start_date_raw});;
+   }
+
   measure: min_order_date {
     type: date
     sql: MIN(${time_raw}) ;;
