@@ -103,6 +103,14 @@ explore: pro_venue_facts {
 
 }
 
+#Order overages
+explore: pro_overage_orders {
+  label: "AV Pro Overages"
+  group_label: "Project Biblio"
+  view_label: "AV Pro Overages"
+  fields: [ALL_FIELDS*]
+ }
+
 
 #--OVATIONTIX JOINS--
 # OvationTix Orders as primary table
