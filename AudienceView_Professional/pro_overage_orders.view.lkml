@@ -10,7 +10,7 @@ view: pro_overage_orders {
     sf_accounts.id as sf_account_id,
     time as order_date,
     ot_orders.order_id as order_id,
-    min(time) as min_order_date
+    MIN(ot_orders.time) AS min_order_date
 
     FROM `fivetran-ovation-tix-warehouse.trs_trs.orders` as ot_orders
     LEFT JOIN trs_trs.client  AS ot_client ON ot_orders.client_id=ot_client.client_id
@@ -25,6 +25,11 @@ view: pro_overage_orders {
     GROUP BY 1,2,3,4,5,6,7,8
 
                ;;
+  }
+
+  dimension: number_of_days_live {
+    type: number
+    sql:  timestamp_diff(${current_time_raw}, ${min_order_date_raw}, day);;
   }
 
   dimension: order_id {
@@ -64,6 +69,22 @@ view: pro_overage_orders {
     sql: ${TABLE}.min_order_date ;;
   }
 
+  dimension_group: current_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
   dimension_group: order_date {
     type: time
     sql: ${TABLE}.order_date ;;
