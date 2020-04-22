@@ -17,7 +17,7 @@ view: pro_overage_orders {
 
     where (ot_client.demo=0 and ot_client.testing_mode=0 and ot_client.active = 1 and ot_orders.imported=0 and ot_orders.is_test_mode=0 and ot_orders.status_id != 11)
 
-and client_name = 'Jody Oberfelder Dance Projects '
+-- and client_name = 'Jody Oberfelder Dance Projects '
 
     GROUP BY 1,2,3,4,5,6,7
 
@@ -50,15 +50,15 @@ and client_name = 'Jody Oberfelder Dance Projects '
     sql: ${TABLE}.units_sold ;;
   }
 
-  dimension: overage_month {
-    type: yesno
-    sql: ${current_time_month_name} = ${min_order_date_month_name}  ;;
-  }
+#  dimension: overage_month {
+#    type: yesno
+#    sql: ${current_time_month_name} = ${}  ;;
+#  }
 
-  dimension_group: min_order_date {
-    type: time
-    sql: ${TABLE}.min_order_date ;;
-  }
+#  dimension_group: min_order_date {
+#    type: time
+#    sql: ${TABLE}.min_order_date ;;
+#  }
 
   dimension_group: current_time {
     type: time
