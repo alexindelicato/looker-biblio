@@ -123,6 +123,7 @@ dimension: ap_amount {
 }
 
   measure: sum_ap_amount {
+    label: "Payout Amount"
     type: sum
     value_format_name: usd
     sql: ${TABLE}.AP_Amount ;;
