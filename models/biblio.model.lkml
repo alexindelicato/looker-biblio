@@ -114,7 +114,10 @@ explore: pro_overage_orders {
     view_label: "AV Pro Min Order"
     type:inner
     relationship: many_to_one
-    sql_on: ${pro_overage_orders.client_id}=${pro_min_orders.first_order_client_id} ;;
+    sql_on: ${pro_overage_orders.client_id}=${pro_min_orders.first_order_client_id}
+    and ${pro_min_orders.first_order_date_month_name} = ${pro_overage_orders.current_time_month_name}
+
+    ;;
   }
  }
 
