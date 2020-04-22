@@ -113,8 +113,8 @@ explore: pro_overage_orders {
   join: pro_min_orders {
     view_label: "AV Pro Min Order"
     type:inner
-    relationship: many_to_many
-    sql_on: ${pro_overage_orders.min_order_date_date}=${pro_min_orders.min_order_date_date} ;;
+    relationship: many_to_one
+    sql_on: ${pro_overage_orders.client_id}=${pro_min_orders.first_order_client_id} ;;
   }
  }
 
