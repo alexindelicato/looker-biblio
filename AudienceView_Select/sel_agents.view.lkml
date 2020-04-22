@@ -69,9 +69,14 @@ view: sel_agents {
     sql: ${TABLE}.isoldta ;;
   }
 
-  dimension: last {
-    type: number
-    sql: ${TABLE}.last ;;
+  dimension_group: last {
+    type: time
+    sql: timestamp_seconds(${TABLE}.last) ;;
+  }
+
+  measure: max_last_login {
+    type: time
+    sql: MAX(${last_raw}) ;;
   }
 
   dimension: lastname {
