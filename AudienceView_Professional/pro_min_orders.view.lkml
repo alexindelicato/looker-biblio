@@ -23,6 +23,16 @@ view: pro_min_orders {
     sql: ${TABLE}.first_order_client_id  ;;
   }
 
+  dimension: first_order_client_name {
+    type: string
+    sql: ${TABLE}.first_order_client_name  ;;
+  }
+
+  dimension: total_orders_count{
+    type: number
+    sql: ${TABLE}.total_orders_count ;;
+  }
+
   dimension_group: first_order_date {
     type: time
     sql: ${TABLE}.first_order_date  ;;
