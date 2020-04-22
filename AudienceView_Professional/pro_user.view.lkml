@@ -67,6 +67,11 @@ view: pro_user {
     sql: ${TABLE}.first_name ;;
   }
 
+  dimension: full_name {
+    type: string
+    sql: concat(${TABLE}.first_name, " ", ${TABLE}.last_name) ;;
+  }
+
   dimension_group: last_login {
     type: time
     timeframes: [
@@ -79,6 +84,11 @@ view: pro_user {
       year
     ]
     sql: ${TABLE}.last_login_date ;;
+  }
+
+  measure: max_last_login {
+    type: date
+    sql: MAX(${last_login_raw}) ;;
   }
 
   dimension: last_name {
