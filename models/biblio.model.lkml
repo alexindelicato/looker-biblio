@@ -109,6 +109,13 @@ explore: pro_overage_orders {
   group_label: "Project Biblio"
   view_label: "AV Pro Overages"
   fields: [ALL_FIELDS*]
+
+  join: pro_min_orders {
+    view_label: "AV Pro Min Order"
+    type:inner
+    relationship: many_to_many
+    sql_on: ${pro_overage_orders.min_order_date_date}=${pro_min_orders.min_order_date_date} ;;
+  }
  }
 
 explore: pro_min_orders {
