@@ -2,7 +2,7 @@ view: pro_min_orders {
   derived_table: {
     sql:
     SELECT
-  ot_client.client_id
+    ot_client.client_id,
     min(ot_orders.time) as min_order_date
 
     FROM `fivetran-ovation-tix-warehouse.trs_trs.orders` as ot_orders

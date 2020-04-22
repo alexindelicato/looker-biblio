@@ -111,6 +111,13 @@ explore: pro_overage_orders {
   fields: [ALL_FIELDS*]
  }
 
+explore: pro_min_orders {
+  label: "AV Pro Min Orders"
+  group_label: "Project Biblio"
+  view_label: "AV Pro Min Orders"
+  fields: [ALL_FIELDS*]
+}
+
 
 #--OVATIONTIX JOINS--
 # OvationTix Orders as primary table
