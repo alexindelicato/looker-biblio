@@ -6,8 +6,8 @@ view: pro_overage_orders {
     ot_client.client_name as client_name,
     ot_order_detail.ticket_id as ticket_id,
     ot_order_detail.type IN ('TCK', 'PMT', 'PKT'),
-    sf_accounts.name as sf_account_name,
-    sf_accounts.id as sf_account_id,
+    sf_accounts.name as sf_accounts_name,
+    sf_accounts.id as sf_accounts_id,
     ot_orders.time as order_date
     FROM `fivetran-ovation-tix-warehouse.trs_trs.orders` as ot_orders
     LEFT JOIN trs_trs.client  AS ot_client ON ot_orders.client_id=ot_client.client_id
@@ -32,6 +32,18 @@ view: pro_overage_orders {
   dimension: client_id {
     type: number
     sql: ${TABLE}.client_id ;;
+  }
+
+  dimension: sf_account_name {
+    label: "SF Client Name"
+    type: number
+    sql: ${TABLE}.sf_accounts_name ;;
+  }
+
+  dimension: sf_account_id {
+    label: "SF Client ID"
+    type: string
+    sql: ${TABLE}.sf_accounts_id ;;
   }
 
   dimension: ticket_id{

@@ -118,16 +118,16 @@ explore: pro_overage_orders {
     and ${pro_min_orders.first_order_date_month_name} = ${pro_overage_orders.current_time_month_name}
 
     ;;
+
+  }
+
+  join: sf_accounts {
+    view_label: "SF Account"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id} = ${pro_overage_orders.sf_account_id} AND ${sf_accounts.is_deleted}= FALSE;;
   }
  }
-
-explore: pro_min_orders {
-  label: "AV Pro Min Orders"
-  group_label: "Project Biblio"
-  view_label: "AV Pro Min Orders"
-  fields: [ALL_FIELDS*]
-}
-
 
 #--OVATIONTIX JOINS--
 # OvationTix Orders as primary table
