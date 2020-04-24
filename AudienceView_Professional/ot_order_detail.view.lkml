@@ -328,9 +328,10 @@ dimension_group: last_tx {
   }
 
   measure: ot_service_fee_total {
+    label: "Credit Card Fees"
     type: sum
     sql:  ${service_fee};;
-    value_format_name: usd_0
+    value_format_name: usd
   }
 
   measure: ACV_service_fee_total {
@@ -346,9 +347,10 @@ dimension_group: last_tx {
 
 
   measure: processing_fee_total {
+    label: "OvationTix Service Fee"
     type: sum
     sql:  ${processing_fee};;
-    value_format_name: usd_0
+    value_format_name: usd
   }
 
   measure: ACV_processing_fee_total {

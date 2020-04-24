@@ -342,8 +342,8 @@ view: ot_client {
   }
 
   dimension: private_merchant_account {
-    type: number
-    sql: ${TABLE}.private_merchant_account ;;
+    type: yesno
+    sql: ${TABLE}.private_merchant_account = 1 ;;
   }
 
   dimension: private_tax_calc_account {

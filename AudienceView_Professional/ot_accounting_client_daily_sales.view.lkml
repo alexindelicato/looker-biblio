@@ -44,7 +44,7 @@ view: ot_accounting_client_daily_sales {
 
   dimension: private_merchant_account {
     type: yesno
-    sql: ${TABLE}.private_merchant_account = 1;;
+    sql: ${TABLE}.private_merchant_account;;
   }
 
   dimension: crm_id {
