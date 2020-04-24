@@ -81,8 +81,9 @@ view: sel_performance_stats {
   measure: sum_total_convenience_fees {
     type: sum
     value_format_name: usd
-    sql: ${TABLE}.Total_Convenience_Fees ;;
+    sql: round(safe_cast(${TABLE}.Total_Convenience_Fees as FLOAT64),2) ;;
   }
+
 
   dimension: total_sales__ {
     type: number
