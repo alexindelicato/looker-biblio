@@ -1118,6 +1118,18 @@ view: sf_case {
     else  ${TABLE}.owner_id end ;;
   }
 
+  dimension: case_owner_name {
+    type:  string
+    sql: case when ${owner_id} = "0054T000001XoxiQAC" then "Amanda Xu"
+         when ${owner_id} = "0054T000001VEQ6QAO" then "Weixi Wu"
+         when ${owner_id} = "0054T000001XvhiQAC" then "Joel Guevarra"
+         when ${owner_id} = "0054T000001VW3MQAW" then "Salman Shaik"
+         when ${owner_id} = "0054T000001XiNnQAK" then "Chadwick Stewart"
+         when ${owner_id} = "0054T000001XvPJQA0" then "Helene Senelet"
+         when ${owner_id} = "0054T000001VEQ3QAO" then "Crystal Zhu"
+    Else "Finance Queue" ENd;;
+  }
+
   dimension: parent_id {
     type: string
     sql: ${TABLE}.parent_id ;;
