@@ -267,14 +267,24 @@ measure: arr_ovationtix_phone_room_fees {
     required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
   }
 
+  measure: arr_refunded_credit_card_fees {
+    type: sum
+    sql: if(${is_sale}, 0, ${item_credit_card_fee}) ;;
+    value_format_name: usd_0
+    filters: {
+      field: tx_month
+      value: "12 months ago for 12 months" }
+    required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
+  }
+
 
 measure: annual_recurring_revenue {
   label: "ARR"
   type: number
   value_format_name: usd_0
   sql:  case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_ovationtix_phone_room_fees}+${arr_credit_card_fees}
-         when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees}
-        else  ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees} END ;;
+         when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees}-${arr_refunded_credit_card_fees}
+        else  ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees}-${arr_refunded_credit_card_fees} END ;;
   required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
 }
 
@@ -283,7 +293,7 @@ measure: annual_recurring_revenue {
   measure: Total_fees {
     label: "Total Fees (Minus Refunds)"
     type: number
-    sql:   ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees};;
+    sql:   ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees}-${refunded_credit_card_fees};;
     value_format_name: usd
     drill_fields: [ot_orders.order_id,credit_card_fees, ovationtix_service_fees,ovationtix_phone_room_fees, Total_fees]
   }
@@ -369,6 +379,12 @@ measure: annual_recurring_revenue {
   measure: refunded_ovationtix_service_fees {
     type: sum
     sql: if(${is_sale}, 0, ${item_ovationtix_fee}) ;;
+    value_format_name: usd_0
+  }
+
+  measure: refunded_credit_card_fees {
+    type: sum
+    sql: if(${is_sale}, 0, ${item_credit_card_fee}) ;;
     value_format_name: usd_0
   }
 
