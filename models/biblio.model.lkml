@@ -136,7 +136,7 @@ explore: ot_orders {
   group_label: "Project Biblio"
   view_label: "AV Pro Orders"
   fields: [ALL_FIELDS*]
-  sql_always_where: ${ot_client.demo}=0 and ${ot_client.testing_mode}=0 and ${ot_client.active} = 1 and ${imported}=0 and ${is_test_mode}=0 and ${status_id} != 11;;
+  sql_always_where: ${ot_client.demo}=0 and ${ot_client.testing_mode}=0 and ${ot_client.client_id} NOT IN (35200,34918) and  ${ot_client.active} = 1 and ${imported}=0 and ${is_test_mode}=0 and ${status_id} != 11;;
 
   join: ot_client {
     view_label: "AV Pro Client"
@@ -330,7 +330,7 @@ explore: ot_client {
   group_label: "Project Biblio"
   view_label: "AV Pro Client"
   fields: [ALL_FIELDS*]
-  sql_always_where: ${ot_client.demo}=0 and ${ot_client.testing_mode}=0 and ${ot_client.active} = 1 ;;
+  sql_always_where: ${ot_client.demo}=0 and ${ot_client.testing_mode}=0 and ${ot_client.active} = 1 and ${ot_client.client_id} NOT IN (35200,34918)  ;;
 
 
   join: pro_client_user {
