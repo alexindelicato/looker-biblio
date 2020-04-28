@@ -288,6 +288,14 @@ measure: annual_recurring_revenue {
     drill_fields: [ot_orders.order_id,credit_card_fees, ovationtix_service_fees,ovationtix_phone_room_fees, Total_fees]
   }
 
+  measure: Total_fees_with_refunds {
+    label: "Total Fees"
+    type: number
+    sql:   ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees};;
+    value_format_name: usd
+    drill_fields: [ot_orders.order_id,credit_card_fees, ovationtix_service_fees,ovationtix_phone_room_fees, Total_fees]
+  }
+
   measure: arr {
     label: "ARR update"
     type: number
