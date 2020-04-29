@@ -63,6 +63,7 @@ dimension_group: show_date_time {
          when ${show_date_time_week_of_year} = 16 then "April 13th to April 19th"
         when ${show_date_time_week_of_year} = 17 then "April 20th to April 26th"
          when ${show_date_time_week_of_year} = 18 then "April 27th to May 3rd"
+        when ${show_date_time_week_of_year} = 19 then "May 4th to May 10th"
     else "Research" End;;
   }
 

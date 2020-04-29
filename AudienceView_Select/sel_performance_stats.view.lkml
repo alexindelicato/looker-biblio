@@ -48,6 +48,7 @@ view: sel_performance_stats {
          when ${performance_week_of_year} = 16 then "April 13th to April 19th"
          when ${performance_week_of_year} = 17 then "April 20th to April 26th"
          when ${performance_week_of_year} = 18 then "April 27th to May 3rd"
+         when ${performance_week_of_year} = 19 then "May 4th to May 10th"
     else "Research" End;;
   }
 
