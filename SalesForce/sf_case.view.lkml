@@ -1695,16 +1695,36 @@ view: sf_case {
     sql: ${TABLE}.test_settlement_period_c ;;
   }
 
-  dimension: split_test_Settlement_period__c {
+  dimension: ve {
+    label: "Settlement Period"
     type: string
-    sql: With vd as (SELECT id,
-          split(sf_case.test_settlement_period_c, ";")  AS split
-      FROM `fivetran-ovation-tix-warehouse.new_salesforce.case` as sf_case
-      )
-
-          select id, v as ve from vd, unnest(split) v ;;
+    sql: ${sf_settlement_split.ve};;
   }
 
+#   dimension: split_test_Settlement_period__c {
+#     type: string
+#     sql: With vd as (SELECT id,
+#           split(sf_case.test_settlement_period_c, ";")  AS split
+#       FROM `fivetran-ovation-tix-warehouse.new_salesforce.case` as sf_case
+#       )
+#
+#           select id, v as ve from vd, unnest(split) v ;;
+#   }
+
+
+  dimension: rank_settlement_period_split {
+    type: number
+    sql: case when ${sf_settlement_split.ve} = "March 2 - March 8" then 1
+         when ${sf_settlement_split.ve} = "March 9 - March 15" then 2
+         when ${sf_settlement_split.ve} = "March 16 - March 22" then 3
+         when ${sf_settlement_split.ve} = "March 23 - March 29" then 4
+         when ${sf_settlement_split.ve} = "March 30 - April 5" then 5
+         when ${sf_settlement_split.ve} = "April 6 - April 12" then 6
+         when ${sf_settlement_split.ve} = "April 13 - April 19" then 7
+         when ${sf_settlement_split.ve} = "April 20 - April 26" then 8
+         when ${sf_settlement_split.ve} = "April 27 - May 3" then 9
+         else 0 End;;
+  }
 
   dimension: rank_settlement_period {
     type: number

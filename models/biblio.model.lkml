@@ -33,6 +33,14 @@ explore: sf_accounts {
     sql_on: ${sf_accounts.id}=${sf_case.account_id} AND ${sf_case.is_deleted} = FALSE;;
   }
 
+  join: sf_settlement_split {
+    view_label: "Salesforce Settlement Split"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_case.id}=${sf_settlement_split.id} AND ${sf_case.is_deleted} = FALSE;;
+  }
+
+
   join: sf_contact {
     view_label: "Salesforce Contact"
     type: left_outer
@@ -309,6 +317,12 @@ explore: ot_orders {
     type: left_outer
     relationship: one_to_many
     sql_on: ${sf_contact.id} = ${sf_case.contact_id} ;;
+  }
+  join: sf_settlement_split {
+    view_label: "Salesforce Settlement Split"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_case.id}=${sf_settlement_split.id} AND ${sf_case.is_deleted} = FALSE;;
   }
   join: ganalytics_ot {
     view_label: "GA Orders"
@@ -616,6 +630,12 @@ explore: sel_members {
       relationship: one_to_many
       sql_on: ${sf_contact.id} = ${sf_case.contact_id} ;;
     }
+    join: sf_settlement_split {
+      view_label: "Salesforce Settlement Split"
+      type: left_outer
+      relationship: one_to_many
+      sql_on: ${sf_case.id}=${sf_settlement_split.id} AND ${sf_case.is_deleted} = FALSE;;
+    }
 
     join: sel_performances {
       view_label: "AV Select Performances"
@@ -664,6 +684,12 @@ explore: ct_performance_stats {
     type: left_outer
     relationship: one_to_many
     sql_on: ${sf_contact.id} = ${sf_case.contact_id} ;;
+  }
+  join: sf_settlement_split {
+    view_label: "Salesforce Settlement Split"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_case.id}=${sf_settlement_split.id} AND ${sf_case.is_deleted} = FALSE;;
   }
 }
 
