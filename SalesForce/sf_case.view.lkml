@@ -1690,6 +1690,22 @@ view: sf_case {
     sql: ${TABLE}.select_your_settlement_period_sf_c ;;
   }
 
+  dimension: test_settlement_period_c {
+    type: string
+    sql: ${TABLE}.test_settlement_period_c ;;
+  }
+
+  dimension: split_test_Settlement_period__c {
+    type: string
+    sql: With vd as (SELECT id,
+          split(sf_case.test_settlement_period_c, ";")  AS split
+      FROM `fivetran-ovation-tix-warehouse.new_salesforce.case` as sf_case
+      )
+
+          select id, v as ve from vd, unnest(split) v ;;
+  }
+
+
   dimension: rank_settlement_period {
     type: number
     sql: case when ${TABLE}.select_your_settlement_period_sf_c = "March 2 - March 8" then 1
