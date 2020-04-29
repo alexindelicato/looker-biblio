@@ -33,9 +33,9 @@ view: sel_agents {
     sql: ${TABLE}.agenttype ;;
   }
 
-  dimension: creation {
-    type: number
-    sql: ${TABLE}.creation ;;
+  dimension_group: creation {
+    type: time
+    sql: timestamp_seconds(${TABLE}.creation) ;;
   }
 
   dimension: defaulttaeventview {
@@ -79,14 +79,36 @@ view: sel_agents {
     sql: MAX(${last_raw}) ;;
   }
 
+  dimension_group: current_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
+
+#   dimension: number_of_days_inactive {
+#     type: number
+#     sql:  timestamp_diff(${current_time_date}, ${max_last_login}, day);;
+#   }
+
   dimension: lastname {
     type: string
     sql: ${TABLE}.lastname ;;
   }
 
-  dimension: modified {
-    type: number
-    sql: ${TABLE}.modified ;;
+  dimension_group: modified {
+    type: time
+    sql: timestamp_seconds(${TABLE}.modified) ;;
   }
 
   dimension: notes {
