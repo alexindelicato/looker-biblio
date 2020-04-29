@@ -1611,7 +1611,7 @@ view: sf_accounts {
 
   dimension: number_of_years_live {
     type: number
-    sql:  timestamp_diff(${current_time_raw}, ${sf_accounts.go_live_date_c_raw}, year);;
+    sql:  DATE_DIFF( CURRENT_DATE, CAST(live_date_c as date), YEAR ) ;;
 # # MySQL: TIMESTAMPDIFF(second, ${filter_end_date_raw}, ${filter_start_date_raw});;
   }
 
