@@ -189,6 +189,12 @@ view: sf_accounts {
     sql: ${TABLE}.annual_contract_value_c ;;
   }
 
+  measure:: annual_contract_value {
+    type: number
+    value_format_name: usd
+    sql: ${TABLE}.annual_contract_value_c ;;
+  }
+
   dimension: annual_email_fees_c {
     type: number
     sql: ${TABLE}.annual_email_fees_c ;;
@@ -1584,6 +1590,29 @@ view: sf_accounts {
       year
     ]
     sql: ${TABLE}.live_date_c ;;
+  }
+
+  dimension_group: current_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
+
+  dimension: number_of_years_live {
+    type: number
+    sql:  timestamp_diff(${current_time_raw}, ${sf_accounts.go_live_date_c_raw}, year);;
+# # MySQL: TIMESTAMPDIFF(second, ${filter_end_date_raw}, ${filter_start_date_raw});;
   }
 
   dimension: live_f_c {

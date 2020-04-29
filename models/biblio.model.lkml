@@ -526,6 +526,13 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
   }
 
+  join: sel_select_audit {
+    view_label: "Select Audit"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.vam_member_id_c}=${sel_select_audit.vam_member_id} ;;
+  }
+
   join: sel_events {
     view_label: "AV Select Series"
     type: left_outer
