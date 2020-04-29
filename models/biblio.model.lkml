@@ -707,6 +707,19 @@ explore: sel_purchase_stats {
   view_label: "AV Select Purchase Stats"
 }
 
+explore: sel_purchase_finance_view {
+  label: "AV Select Purchase Finance"
+  group_label: "Project Biblio"
+  view_label: "AV Select Purchase Finance"
+
+  join: sel_members {
+    view_label: "AV Select Marchant Accounts"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sel_purchase_finance_view.memberid}  ;;
+}
+}
+
 #CT Stats
 explore: ct_clients {
   label: "CT Clients"
