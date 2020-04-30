@@ -47,6 +47,11 @@ view: sel_feature_control {
     sql: ${TABLE}.name ;;
   }
 
+  measure: feature_list {
+    type: list
+    list_field: name
+  }
+
   measure: count {
     type: count
     drill_fields: [name]

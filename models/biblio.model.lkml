@@ -478,7 +478,7 @@ explore: sel_members {
   sql_always_where: ${testmode}="N" and ${active}="Y" ;;
 
   join: sel_members_merchantaccounts {
-    view_label: "AV Select Marchant Accounts"
+    view_label: "AV Select Merchant Accounts"
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_members.memberid}=${sel_members_merchantaccounts.memberid}  ;;
@@ -489,6 +489,20 @@ explore: sel_members {
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_members.memberid}=${sel_agent_to_members.memberid}  ;;
+  }
+
+  join: sel_feature_control_members {
+    view_label: "AV Select Feature to Members"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sel_feature_control_members.memberid}  ;;
+  }
+
+  join: sel_feature_control {
+    view_label: "AV Select Feature"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_feature_control.featurecontrolid}=${sel_feature_control_members.featurecontrolid}  ;;
   }
 
   join: sel_agents {
