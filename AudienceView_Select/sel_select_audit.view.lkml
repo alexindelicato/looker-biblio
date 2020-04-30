@@ -160,6 +160,7 @@ view: sel_select_audit {
 
   dimension: mor_clients_total_merchant_processing_cc_fees_ {
     type: string
+    label: "Total Merchant Processing CC Fees"
     sql: ${TABLE}.mor_clients_total_merchant_processing_cc_fees_ ;;
   }
 
