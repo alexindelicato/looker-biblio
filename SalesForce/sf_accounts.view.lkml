@@ -394,6 +394,7 @@ view: sf_accounts {
 
   dimension: boxxo_annual_revenue_c {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.boxxo_annual_revenue_c ;;
   }
 
@@ -2430,6 +2431,11 @@ view: sf_accounts {
   dimension: scheduled_reports_c {
     type: yesno
     sql: ${TABLE}.scheduled_reports_c ;;
+  }
+
+  dimension: overall_score_c {
+    type: number
+    sql: ${TABLE}.overall_score_c ;;
   }
 
   dimension: score_commercial_c {
