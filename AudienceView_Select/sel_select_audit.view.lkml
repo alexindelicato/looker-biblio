@@ -86,7 +86,8 @@ view: sel_select_audit {
     label: "ARR"
     value_format_name: usd
     type: number
-    sql: ${sf_accounts.annual_contract_value_c} + ${TABLE}.arr_subscription_revenue_ ;;
+    sql: case when ${contract_type} = "License + Fee" then ${sf_accounts.annual_contract_value_c} + cast(${arr_subscription_revenue_} as INT64)
+         else ${sf_accounts.annual_contract_value_c} END;;
   }
 
   dimension: contract_expiration_month {
