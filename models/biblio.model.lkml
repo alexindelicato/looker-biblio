@@ -561,6 +561,12 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_finance_arr.vam_member_id} ;;
   }
 
+  join: sel_purchase_finance_view {
+    view_label: "Select Orders 2020"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sel_purchase_finance_view.memberid} ;;
+  }
 
   join: sel_events {
     view_label: "AV Select Series"

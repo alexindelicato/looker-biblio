@@ -72,7 +72,6 @@ view: sel_finance_arr {
 
   dimension: vam_member_id {
     type: string
-    hidden: yes
     sql: ${TABLE}.vam_member_id ;;
   }
 
