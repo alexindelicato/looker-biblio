@@ -4,6 +4,7 @@ view: sel_finance_arr {
 
   dimension_group: _fivetran_synced {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -33,11 +34,13 @@ view: sel_finance_arr {
 
   dimension: current_arr {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.current_arr ;;
   }
 
   dimension: last_month_arr {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.last_month_arr ;;
   }
 
@@ -48,21 +51,25 @@ view: sel_finance_arr {
 
   dimension: revalued_arr {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.revalued_arr ;;
   }
 
   dimension: segment {
     type: string
+    hidden: yes
     sql: ${TABLE}.segment ;;
   }
 
   dimension: vam_member_id {
     type: string
+    hidden: yes
     sql: ${TABLE}.vam_member_id ;;
   }
 
   dimension: vertical {
     type: string
+    hidden: yes
     sql: ${TABLE}.vertical ;;
   }
 

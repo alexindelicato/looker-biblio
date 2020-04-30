@@ -176,8 +176,9 @@ view: sel_select_audit {
   }
 
   dimension: mor_clients_total_merchant_processing_cc_fees_ {
-    type: string
+    type: number
     label: "Total Merchant Processing CC Fees"
+    value_format_name: usd
     sql: ${TABLE}.mor_clients_total_merchant_processing_cc_fees_ ;;
   }
 
