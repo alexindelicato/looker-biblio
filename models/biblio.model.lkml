@@ -498,6 +498,13 @@ explore: sel_members {
     sql_on: ${sel_agent_to_members.agentid}=${sel_agents.agentid} AND ${sel_agents.deleted} is NULL ;;
   }
 
+  join: sel_max_login {
+    view_label: "AV Select Login"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sel_max_login.sel_members_memberid} ;;
+  }
+
   join: sel_payments_donations {
     view_label: "AV Select Payment Donations"
     type: inner
