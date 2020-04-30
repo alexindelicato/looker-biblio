@@ -35,8 +35,9 @@ view: sel_purchase_finance_view {
     sql: ${TABLE}.Performance_Date ;;
   }
 
-    dimension: purchase_date {
-      type: date
+    dimension_group: purchase_date {
+      type: time
+      datatype: date
       sql: ${TABLE}.Purchase_Date ;;
     }
 
@@ -61,6 +62,17 @@ view: sel_purchase_finance_view {
     sql: round(safe_cast(${TABLE}.Total_Sales__ as FLOAT64),2) ;;
   }
 
+  measure: 2020_total_sales_ {
+    type: sum
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.Total_Sales__ as FLOAT64),2) ;;
+
+
+    filters: {
+      field: purchase_date_year
+      value: "2020"
+    }
+  }
 
     dimension: total_service_fee {
       type: number
@@ -134,7 +146,7 @@ view: sel_purchase_finance_view {
         memberid,
         performanceid,
         performance_date,
-        purchase_date,
+        purchase_date_date,
         ticket_quantity,
         order_count,
         total_sales__,

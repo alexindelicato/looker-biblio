@@ -55,6 +55,15 @@ view: sel_finance_arr {
     sql: ${TABLE}.revalued_arr ;;
   }
 
+  dimension: arr_usd{
+    label: "ARR (USD)"
+    type: number
+    value_format_name: usd
+    sql: case when ${currency} = "CAD" then ${TABLE}.revalued_arr * 0.76
+         when ${currency} = "USD" then ${TABLE}.revalued_arr * 1
+         else 0 End;;
+  }
+
   dimension: segment {
     type: string
     hidden: yes

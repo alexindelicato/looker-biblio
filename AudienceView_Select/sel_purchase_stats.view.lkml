@@ -102,6 +102,7 @@ ORDER BY Purchase_Date
     sql: ${TABLE}.Total_Sales__ ;;
   }
 
+
   dimension: order_count{
     type: number
     sql: ${TABLE}.order_count ;;
