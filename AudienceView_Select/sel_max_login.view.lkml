@@ -31,7 +31,7 @@ view: sel_max_login {
 
     dimension_group: max_last_login_date {
       type: time
-      label: "Last Login Date"
+      label: "Last Login"
       sql: ${TABLE}.max_last_login_date ;;
     }
 
