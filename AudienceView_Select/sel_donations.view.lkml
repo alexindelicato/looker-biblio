@@ -34,8 +34,37 @@ view: sel_donations {
   }
 
   dimension: amount {
-    type: string
-    sql: ${TABLE}.amount ;;
+    type: number
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+  }
+
+  measure: sum_donation_amount {
+    type: sum
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+  }
+
+  measure: 2019_sum_donation_amount {
+    type: sum
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+
+    filters: {
+      field: created_year
+      value: "2019"
+    }
+  }
+
+  measure: 2020_sum_donation_amount {
+    type: sum
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+
+    filters: {
+      field: created_year
+      value: "2020"
+    }
   }
 
   dimension: commissionableservicefee {
