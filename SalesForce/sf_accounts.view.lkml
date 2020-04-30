@@ -186,6 +186,7 @@ view: sf_accounts {
   dimension: annual_contract_value_c {
     type: number
     value_format_name: usd
+    label: "Annual Contract Value"
     sql: ${TABLE}.annual_contract_value_c ;;
   }
 
@@ -747,6 +748,7 @@ view: sf_accounts {
 
   dimension: csm_health_sentiment_product_detail_c {
     type: string
+    label: "CSM Health Sentiment"
     sql: ${TABLE}.csm_health_sentiment_product_detail_c ;;
   }
 
@@ -1352,6 +1354,7 @@ view: sf_accounts {
 
   dimension: id {
     type: string
+    label: "Salesforce ID"
     primary_key: yes
     sql: ${TABLE}.id ;;
   }
@@ -1611,6 +1614,7 @@ view: sf_accounts {
 
   dimension: number_of_years_live {
     type: number
+    label: "Length of Service"
     sql:  DATE_DIFF( CURRENT_DATE, CAST(live_date_c as date), YEAR ) ;;
 # # MySQL: TIMESTAMPDIFF(second, ${filter_end_date_raw}, ${filter_start_date_raw});;
   }
@@ -2912,6 +2916,7 @@ view: sf_accounts {
 
   dimension: tl_gateway_c {
     type: string
+    label: "Payment Processing"
     sql: ${TABLE}.tl_gateway_c ;;
   }
 
@@ -3001,6 +3006,7 @@ view: sf_accounts {
 
   dimension: vertical_new_c {
     type: string
+    label: "Vertical"
     sql: ${TABLE}.vertical_new_c ;;
   }
 

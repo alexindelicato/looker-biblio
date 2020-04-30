@@ -23,11 +23,13 @@ view: sel_select_audit {
 
   dimension: arr_service_fees_only_ {
     type: string
+    label: "ARR Service Fees"
     sql: ${TABLE}.arr_service_fees_only_ ;;
   }
 
   dimension: arr_subscription_revenue_ {
     type: string
+    label: "ARR Subscription Revenue"
     sql: ${TABLE}.arr_subscription_revenue_ ;;
   }
 
@@ -103,6 +105,7 @@ view: sel_select_audit {
 
   dimension_group: current_contract_end_date_dd_mm_yyyy_ {
     type: time
+    label: "Contract End Date"
     timeframes: [
       raw,
       time,
@@ -146,6 +149,7 @@ view: sel_select_audit {
 
   dimension: merchant_processing_fee {
     type: string
+    label: "Merchant Processing Fee"
     sql: ${TABLE}.merchant_processing_fee ;;
   }
 
