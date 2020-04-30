@@ -22,13 +22,15 @@ view: sel_select_audit {
   }
 
   dimension: arr_service_fees_only_ {
-    type: string
+    type: number
+    value_format_name: usd
     label: "ARR Service Fees"
     sql: ${TABLE}.arr_service_fees_only_ ;;
   }
 
   dimension: arr_subscription_revenue_ {
-    type: string
+    type: number
+    value_format_name: usd
     label: "ARR Subscription Revenue"
     sql: ${TABLE}.arr_subscription_revenue_ ;;
   }
@@ -71,6 +73,20 @@ view: sel_select_audit {
   dimension: client_status {
     type: string
     sql: ${TABLE}.client_status ;;
+  }
+
+  dimension: contract_type {
+    type: string
+    value_format_name: usd
+    sql: case when ${arr_subscription_revenue_} IS NOT NULL then "License + Fee"
+    Else "Per Ticket Fee" END;;
+  }
+
+  dimension: total_arr {
+    label: "ARR"
+    value_format_name: usd
+    type: number
+    sql: ${sf_accounts.annual_contract_value_c} + ${TABLE}.arr_subscription_revenue_ ;;
   }
 
   dimension: contract_expiration_month {
