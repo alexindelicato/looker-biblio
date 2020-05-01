@@ -1,24 +1,22 @@
 view: sel_nps_scores {
   derived_table: {
     sql:
-
-SELECT
-sel_nps_scores_client_name,
-max_nps_date,
-score,
-nps_date
-FROM
-(
-SELECT
-  sel_nps_scores.client_name  AS sel_nps_scores_client_name,
-  MAX( sel_nps_scores.nps_date ) as max_nps_date
-  FROM `fivetran-ovation-tix-warehouse.mysql_service.nps_scores` AS sel_nps_scores
-  GROUP BY 1
-) as t1
-INNER JOIN `fivetran-ovation-tix-warehouse.mysql_service.nps_scores` on client_name = t1.sel_nps_scores_client_name
-and nps_date = t1.max_nps_date
-
-    ;;}
+      SELECT
+      sel_nps_scores_client_name,
+      max_nps_date,
+      score,
+      nps_date
+      FROM
+      (
+      SELECT
+        client_name AS sel_nps_scores_client_name,
+        MAX( nps_date ) as max_nps_date
+      FROM `fivetran-ovation-tix-warehouse.mysql_service.nps_scores`
+      GROUP BY 1
+      ) as t1
+      INNER JOIN `fivetran-ovation-tix-warehouse.mysql_service.nps_scores` on client_name = t1.sel_nps_scores_client_name
+      and nps_date = t1.max_nps_date
+      ;;}
 
 
 
