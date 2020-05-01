@@ -59,7 +59,7 @@ view: sel_finance_arr {
     label: "Rolling ARR (USD)"
     type: number
     value_format_name: usd
-    sql: case when ${currency} = "CAD" then ${TABLE}.revalued_arr * 0.76
+    sql: case when ${currency} = "CAD" then ${TABLE}.revalued_arr * 0.72
          when ${currency} = "USD" then ${TABLE}.revalued_arr * 1
          else 0 End;;
   }
