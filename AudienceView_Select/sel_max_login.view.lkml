@@ -46,7 +46,8 @@ view: sel_max_login {
     label: "Last Login"
     datatype: date
     sql: case when ${TABLE}.sel_members_max_last_login_date > ${TABLE}.sel_agents_max_last_login_date then ${TABLE}.sel_members_max_last_login_date
-         when ${TABLE}.sel_members_max_last_login_date < ${TABLE}.sel_agents_max_last_login_date then ${TABLE}.sel_agents_max_last_login_date END;;
+         when ${TABLE}.sel_members_max_last_login_date < ${TABLE}.sel_agents_max_last_login_date then ${TABLE}.sel_agents_max_last_login_date
+         ELSE ${TABLE}.sel_members_max_last_login_date END;;
   }
 
   dimension_group: current_time {
