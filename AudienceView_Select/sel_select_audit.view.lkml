@@ -122,7 +122,7 @@ view: sel_select_audit {
 
   dimension_group: current_contract_end_date_dd_mm_yyyy_ {
     type: time
-    label: "Contract End Date"
+    label: "Contract End"
     timeframes: [
       raw,
       time,

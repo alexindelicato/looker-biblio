@@ -46,6 +46,7 @@ view: sel_donations {
   }
 
   measure: 2019_sum_donation_amount {
+    label: "2019 Donation Amount (USD)"
     type: sum
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
@@ -57,6 +58,7 @@ view: sel_donations {
   }
 
   measure: 2020_sum_donation_amount {
+    label: "2020 Donation Amount (USD)"
     type: sum
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
