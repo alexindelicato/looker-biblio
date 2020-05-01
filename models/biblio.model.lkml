@@ -568,6 +568,13 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_total_sales.member_id} ;;
   }
 
+  join: sel_nps_scores {
+    view_label: "Select NPS Scores"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.organizationname}=${sel_nps_scores.sel_nps_scores_client_name} ;;
+  }
+
   join: sel_events {
     view_label: "AV Select Series"
     type: left_outer
