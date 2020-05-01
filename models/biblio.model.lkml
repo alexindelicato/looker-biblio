@@ -768,6 +768,11 @@ explore: sel_total_sales {
   }
   }
 
+explore: sel_nps_scores {
+  label: "AV Select NPS Scores"
+  group_label: "Project Biblio"
+  view_label: "AV Select NPS Scores"
+}
 #CT Stats
 explore: ct_clients {
   label: "CT Clients"

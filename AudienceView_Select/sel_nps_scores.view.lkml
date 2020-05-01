@@ -1,30 +1,33 @@
 view: sel_nps_scores {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.nps_scores`
-    ;;
+  derived_table: {
+    sql:
 
-  dimension_group: _fivetran_synced {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}._fivetran_synced ;;
-  }
+SELECT
+sel_nps_scores_client_name,
+max_nps_date,
+score,
+nps_date
+FROM
+(
+SELECT
+  sel_nps_scores.client_name  AS sel_nps_scores_client_name,
+  MAX( sel_nps_scores.nps_date ) as max_nps_date
+  FROM `fivetran-ovation-tix-warehouse.mysql_service.nps_scores` AS sel_nps_scores
+  GROUP BY 1
+) as t1
+INNER JOIN `fivetran-ovation-tix-warehouse.mysql_service.nps_scores` on client_name = t1.sel_nps_scores_client_name
+and nps_date = t1.max_nps_date
 
-  dimension: client_name {
+    ;;}
+
+
+
+  dimension: sel_nps_scores_client_name {
+    label: "Client Name"
     type: string
-    sql: ${TABLE}.client_name ;;
+    sql: ${TABLE}.sel_nps_scores_client_name ;;
   }
 
-  dimension: comments {
-    type: string
-    sql: ${TABLE}.comments ;;
-  }
 
   dimension_group: nps {
     type: time
@@ -40,19 +43,14 @@ view: sel_nps_scores {
     sql: ${TABLE}.nps_date ;;
   }
 
+  dimension_group: max_nps_date {
+    label: "Most Recent"
+    type: time
+    sql: ${TABLE}.max_nps_date ;;
+  }
+
   dimension: score {
     type: number
     sql: ${TABLE}.score ;;
-  }
-
-  dimension: uuid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}.uuid ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [client_name]
   }
 }
