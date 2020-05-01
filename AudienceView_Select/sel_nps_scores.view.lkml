@@ -48,6 +48,7 @@ view: sel_nps_scores {
   }
 
   dimension: score {
+    label: "NPS Score"
     type: number
     sql: ${TABLE}.score ;;
   }
