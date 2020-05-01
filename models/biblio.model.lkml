@@ -561,11 +561,11 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_finance_arr.vam_member_id} ;;
   }
 
-  join: sel_purchase_finance_view {
+  join: sel_total_sales {
     view_label: "Select Orders 2020"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${sel_members.memberid}=${sel_purchase_finance_view.memberid} ;;
+    sql_on: ${sel_members.memberid}=${sel_total_sales.member_id} ;;
   }
 
   join: sel_events {
@@ -748,12 +748,25 @@ explore: sel_purchase_finance_view {
   view_label: "AV Select Purchase Finance"
 
   join: sel_members {
-    view_label: "AV Select Marchant Accounts"
+    view_label: "AV Select Members"
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_members.memberid}=${sel_purchase_finance_view.memberid}  ;;
 }
 }
+
+explore: sel_total_sales {
+  label: "AV Select Purchase Two"
+  group_label: "Project Biblio"
+  view_label: "AV Select Purchase Two"
+
+  join: sel_members {
+    view_label: "AV Select Members"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sel_total_sales.member_id}  ;;
+  }
+  }
 
 #CT Stats
 explore: ct_clients {
