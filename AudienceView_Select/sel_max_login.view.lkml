@@ -43,7 +43,7 @@ view: sel_max_login {
 
   dimension_group: max_last_login {
     type: time
-    label: "Max Last Login"
+    label: "Last Login"
     datatype: date
     sql: case when ${TABLE}.sel_members_max_last_login_date > ${TABLE}.sel_agents_max_last_login_date then ${TABLE}.sel_members_max_last_login_date
          when ${TABLE}.sel_members_max_last_login_date < ${TABLE}.sel_agents_max_last_login_date then ${TABLE}.sel_agents_max_last_login_date END;;
