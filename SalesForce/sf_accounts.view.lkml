@@ -2487,6 +2487,7 @@ view: sf_accounts {
 
   dimension: segment_new_c {
     type: string
+    label: "Segment"
     sql: ${TABLE}.segment_new_c ;;
   }
 
