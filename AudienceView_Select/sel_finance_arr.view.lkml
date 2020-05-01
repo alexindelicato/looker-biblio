@@ -56,7 +56,7 @@ view: sel_finance_arr {
   }
 
   dimension: arr_usd{
-    label: "ARR (USD)"
+    label: "Rolling ARR (USD)"
     type: number
     value_format_name: usd
     sql: case when ${currency} = "CAD" then ${TABLE}.revalued_arr * 0.76

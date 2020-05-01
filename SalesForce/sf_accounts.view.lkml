@@ -27,6 +27,11 @@ view: sf_accounts {
     sql: ${TABLE}.looker_join_id_c ;;
   }
 
+  dimension: platform {
+    label: "Platform"
+    type: string
+    sql: ${TABLE}.platform_c ;;
+    }
 
   dimension: account_acquisition_source_c {
     type: string
@@ -322,6 +327,7 @@ view: sf_accounts {
   }
 
   dimension: billing_country {
+    label: "Country"
     type: string
     sql: ${TABLE}.billing_country ;;
   }
@@ -348,6 +354,7 @@ view: sf_accounts {
   }
 
   dimension: billing_state {
+    label: "State"
     type: string
     sql: ${TABLE}.billing_state ;;
   }
