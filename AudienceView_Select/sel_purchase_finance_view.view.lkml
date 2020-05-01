@@ -1,8 +1,7 @@
 view: sel_purchase_finance_view {
-    derived_table: {
-      sql: SELECT * FROM `fivetran-ovation-tix-warehouse.mysql_service.purchase_stats`
+      sql_table_name:`fivetran-ovation-tix-warehouse.mysql_service.purchase_stats`
         ;;
-    }
+
 
     measure: count {
       type: count
