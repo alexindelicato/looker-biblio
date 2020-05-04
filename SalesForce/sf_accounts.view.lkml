@@ -647,6 +647,7 @@ view: sf_accounts {
   }
 
   dimension_group: contract_expiration_c {
+    label: "Contract Expire"
     type: time
     timeframes: [
       raw,

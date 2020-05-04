@@ -57,7 +57,7 @@ view: unlimited_donations_summary {
 
    measure: 2019_donation_amount {
     type: sum
-    label: "2019 Donation Amount (USD)"
+    label: "2019 Contributed Amount (USD)"
     value_format_name: usd
      sql: ${TABLE}.donation_amount_usd ;;
      drill_fields: [userrole_name, client_name]
@@ -71,7 +71,7 @@ view: unlimited_donations_summary {
 
   measure: 2020_donation_amount {
     type: sum
-    label: "2020 Donation Amount (USD)"
+    label: "2020 Contributed Amount (USD)"
     value_format_name: usd
     sql: ${TABLE}.donation_amount_usd ;;
     drill_fields: [userrole_name, client_name]
