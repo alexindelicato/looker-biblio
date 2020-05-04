@@ -198,7 +198,7 @@ view: sf_accounts {
   dimension: annual_contract_value_conversion {
     type: number
     value_format_name: usd
-    label: "Annual Contract Value USD"
+    label: "Annual Contract Value (USD)"
     sql:  CASE
           WHEN ${TABLE}.currency_iso_code = 'CAD' THEN ${TABLE}.annual_contract_value_c  * 0.76
           WHEN ${TABLE}.currency_iso_code  = 'COP' THEN ${TABLE}.annual_contract_value_c  * 0.00029
