@@ -33,6 +33,14 @@ sql: ${TABLE}.unlimited_orders_summary_2019_sold_amount;;
     required_fields: [unlimited_orders_summary_2020_sold_amount]
   }
 
+  measure: 2019_sold_amount {
+    label: "2019 Sold Amount (USD)"
+    type: number
+    value_format_name: usd
+    sql: ${TABLE}.unlimited_orders_summary_2019_sold_amount;;
+    required_fields: [unlimited_orders_summary_2019_sold_amount]
+  }
+
   dimension: client_name {
     type: string
     sql: ${TABLE}.client_name;;
