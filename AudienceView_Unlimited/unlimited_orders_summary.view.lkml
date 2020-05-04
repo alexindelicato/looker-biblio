@@ -80,6 +80,32 @@ facts.default_currency               ;;
     sql: CURRENT_TIMESTAMP() ;;
   }
 
+  measure: 2019_sold_amount {
+    type: sum
+    label: "2019 Total Sold Amount (USD)"
+    value_format_name: usd
+    sql:  ${TABLE}.admissions_sold_amount_usd  ;;
+
+
+    filters: {
+      field: order_create_date_year
+      value: "2019"
+    }
+  }
+
+
+  measure: 2020_sold_amount {
+    type: sum
+    label: "2020 Total Sold Amount (USD)"
+    value_format_name: usd
+    sql:  ${TABLE}.admissions_sold_amount_usd  ;;
+
+    filters: {
+      field: order_create_date_year
+      value: "2020"
+    }
+  }
+
 #  measure: count {
 #    type: count
 #    drill_fields: [userrole_name, client_name]
