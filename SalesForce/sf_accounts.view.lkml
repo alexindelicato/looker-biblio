@@ -202,7 +202,7 @@ view: sf_accounts {
     sql:  CASE
           WHEN ${TABLE}.currency_iso_code = 'CAD' THEN ${TABLE}.annual_contract_value_c  * 0.72
           WHEN ${TABLE}.currency_iso_code  = 'COP' THEN ${TABLE}.annual_contract_value_c  * 0.00029
-          WHEN ${TABLE}.currency_iso_code  = 'GBP' THEN ${TABLE}.annual_contract_value_c  * 1.32
+          WHEN ${TABLE}.currency_iso_code  = 'GBP' THEN ${TABLE}.annual_contract_value_c  * 1.24
           WHEN ${TABLE}.currency_iso_code  = 'PHP' THEN ${TABLE}.annual_contract_value_c  * 0.020
           WHEN ${TABLE}.currency_iso_code  = 'USD' THEN ${TABLE}.annual_contract_value_c  * 1
           ELSE 0
