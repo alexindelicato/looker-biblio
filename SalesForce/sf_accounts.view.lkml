@@ -871,6 +871,7 @@ view: sf_accounts {
   }
 
   dimension: current_production_software_version_c {
+    label: "Current Version"
     type: string
     sql: ${TABLE}.current_production_software_version_c ;;
   }
@@ -1535,6 +1536,7 @@ view: sf_accounts {
   }
 
   dimension_group: last_updated_c {
+    label: "Health Score Update"
     type: time
     timeframes: [
       raw,
@@ -2439,6 +2441,7 @@ view: sf_accounts {
   }
 
   dimension: revenue_health_status_c {
+    label: "Health Score"
     type: string
     sql: ${TABLE}.revenue_health_status_c ;;
   }
