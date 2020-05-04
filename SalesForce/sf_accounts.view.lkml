@@ -1537,6 +1537,7 @@ view: sf_accounts {
       quarter,
       year
     ]
+    html: {{ rendered_value | date: "%b %d, %Y" }} ;;
     sql: ${TABLE}.last_updated_c ;;
   }
 
