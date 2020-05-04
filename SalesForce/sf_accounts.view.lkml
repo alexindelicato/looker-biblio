@@ -368,10 +368,18 @@ view: sf_accounts {
   }
 
   dimension: billing_state {
-    label: "State"
+    label: "Billing State"
     type: string
     sql: ${TABLE}.billing_state ;;
   }
+
+  dimension: state {
+    label: "Region/State"
+    type: string
+    sql: case when ${TABLE}.billing_state is NULL then ${TABLE}.billing_city
+         else  ${TABLE}.billing_state  END;;
+  }
+
 
   dimension: billing_street {
     type: string
