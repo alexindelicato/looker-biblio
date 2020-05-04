@@ -26,7 +26,7 @@ sql: ${TABLE}.unlimited_orders_summary_2019_sold_amount;;
   }
 
   measure: 2020_sold_amount {
-    label: "2020 Sold Amount (USD)"
+    label: "2020 Earned Income (Ticket Sales - USD)"
     type: number
     value_format_name: usd
     sql: ${TABLE}.unlimited_orders_summary_2020_sold_amount;;
@@ -34,7 +34,7 @@ sql: ${TABLE}.unlimited_orders_summary_2019_sold_amount;;
   }
 
   measure: 2019_sold_amount {
-    label: "2019 Sold Amount (USD)"
+    label: "2019 Earned Income (Ticket Sales - USD)"
     type: number
     value_format_name: usd
     sql: ${TABLE}.unlimited_orders_summary_2019_sold_amount;;
