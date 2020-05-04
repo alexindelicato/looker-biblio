@@ -55,6 +55,34 @@ view: unlimited_donations_summary {
     measure:  total_donation_amount_usd { type: sum value_format_name: usd label: "Total Donation Amount (USD)" sql: ${TABLE}.donation_amount_usd ;; }
 
 
+   measure: 2019_donation_amount {
+    type: sum
+    label: "2019 Donation Amount (USD)"
+    value_format_name: usd
+     sql: ${TABLE}.donation_amount_usd ;;
+     drill_fields: [userrole_name, client_name]
+
+    filters: {
+      field: audit_date_time_year
+      value: "2019"
+    }
+  }
+
+
+  measure: 2020_donation_amount {
+    type: sum
+    label: "2020 Donation Amount (USD)"
+    value_format_name: usd
+    sql: ${TABLE}.donation_amount_usd ;;
+    drill_fields: [userrole_name, client_name]
+
+    filters: {
+      field: audit_date_time_year
+      value: "2020"
+    }
+  }
+
+
 #  measure: count {
 #    type: count
 #    drill_fields: [userrole_name, client_name]
