@@ -2494,10 +2494,10 @@ view: sf_accounts {
     sql: ${TABLE}.secondary_payment_gateway_c ;;
   }
 
-  dimension: segment_c {
-    type: string
-    sql: ${TABLE}.segment_c ;;
-  }
+#   dimension: segment_c {
+#     type: string
+#     sql: ${TABLE}.segment_c ;;
+#   }
 
   dimension: segment_new_c {
     type: string
