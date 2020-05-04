@@ -1653,6 +1653,13 @@ view: sf_accounts {
 # # MySQL: TIMESTAMPDIFF(second, ${filter_end_date_raw}, ${filter_start_date_raw});;
   }
 
+  dimension: unlimited_number_of_years_live {
+    type: number
+    label: "Unlimited Length of Service (Years)"
+    sql:  DATE_DIFF( CURRENT_DATE, CAST(go_live_date_c as date), YEAR ) ;;
+# # MySQL: TIMESTAMPDIFF(second, ${filter_end_date_raw}, ${filter_start_date_raw});;
+  }
+
   dimension: live_f_c {
     type: yesno
     sql: ${TABLE}.live_f_c ;;
