@@ -71,7 +71,7 @@ view: sel_max_login {
     dimension: number_of_days_inactive {
       label: "Days Inactive"
     type: number
-    sql:  DATE_DIFF(CAST(${max_last_login_date} as date),  CURRENT_DATE,  DAY )  ;;
+    sql:  DATE_DIFF(CURRENT_DATE, CAST(${max_last_login_date} as date),  DAY )  ;;
   }
 
 
