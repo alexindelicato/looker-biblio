@@ -751,7 +751,7 @@ explore: ct_transactions {
     view_label: "CT ARR"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${ct_transactions.clientid}=${ct_arr.client_id} ;;
+    sql_on: ${ct_transactions.clientid}=${ct_arr.client_id} and ${ct_arr.client_id} <> 10353725 ;;
   }
 
   join: sf_accounts {
