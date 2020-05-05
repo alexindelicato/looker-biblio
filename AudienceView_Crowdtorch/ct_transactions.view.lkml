@@ -1281,6 +1281,7 @@ view: ct_transactions {
   }
 
   dimension: transactiontype {
+    label: "Transaction Type"
     type: string
     sql: ${TABLE}.transactiontype ;;
   }

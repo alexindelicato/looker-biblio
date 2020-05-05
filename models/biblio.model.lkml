@@ -746,7 +746,7 @@ explore: ct_transactions {
   label: "CT Client Transactions"
   group_label: "Project Biblio"
   view_label: "CT Client Transactions"
-  sql_always_where: (CAST(${ct_transactions.transactiontime_date} AS TIMESTAMP)  >= TIMESTAMP('2020-01-01 00:00:00')) ;;
+  sql_always_where: ${dataset} IN ('donationFund', 'donationFundRefund','ticketOrder', 'ticketRefundOrder') and (CAST(${ct_transactions.transactiontime_date} AS TIMESTAMP)  >= TIMESTAMP('2020-01-01 00:00:00')) ;;
 
   join: ct_clientvenues {
     view_label: "CT Client Venues"
