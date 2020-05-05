@@ -57,7 +57,7 @@ view: sel_finance_arr {
 
   dimension: rolling_arr {
     type: number
-    label: "ROlling ARR (USD)"
+    label: "Rolling ARR (USD)"
     value_format_name: usd
     sql: ${TABLE}.rolling_arr ;;
   }
