@@ -569,6 +569,7 @@ view: ct_transactions {
 
   measure: sum_grand_total {
     label: "Sum Grand Total"
+    value_format_name: usd
     type: sum
     sql: ${TABLE}.grandtotal ;;
   }
@@ -905,6 +906,7 @@ view: ct_transactions {
   }
 
   dimension: quantity {
+    label: "# of Tickets"
     type: number
     sql: ${TABLE}.quantity ;;
   }
