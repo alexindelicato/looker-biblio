@@ -55,8 +55,22 @@ view: sel_finance_arr {
     sql: ${TABLE}.revalued_arr ;;
   }
 
-  dimension: arr_usd{
+  dimension: rolling_arr {
+    type: number
+    label: "ROlling ARR (USD)"
+    value_format_name: usd
+    sql: ${TABLE}.rolling_arr ;;
+  }
+
+  measure: measure_arr_usd{
     label: "Rolling ARR (USD)"
+    type: number
+    value_format_name: usd
+    sql: ${TABLE}.rolling_arr ;;
+  }
+
+  dimension: arr_usd{
+    label: "Rolling ARR (USD OLD)"
     type: number
     value_format_name: usd
     sql: case when ${currency} = "CAD" then ${TABLE}.revalued_arr * 0.72
@@ -64,8 +78,8 @@ view: sel_finance_arr {
          else 0 End;;
   }
 
-  measure: measure_arr_usd{
-    label: "Rolling ARR (USD)"
+  measure: measure_arr_usd_old {
+    label: "Rolling ARR (USD OLD)"
     type: number
     value_format_name: usd
     sql: case when ${currency} = "CAD" then ${TABLE}.revalued_arr * 0.72
