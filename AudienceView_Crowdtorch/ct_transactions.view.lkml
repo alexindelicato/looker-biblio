@@ -1269,6 +1269,12 @@ view: ct_transactions {
     sql: CAST(${TABLE}.transactiontime AS TIMESTAMP) ;;
   }
 
+  measure: last_order_date {
+    label: "Last Order Date"
+    type: date
+    sql: max(${transactiontime_raw}) ;;
+  }
+
   dimension_group: transactiontimelocal {
     type: time
     timeframes: [
