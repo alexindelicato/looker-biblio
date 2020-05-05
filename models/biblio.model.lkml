@@ -743,15 +743,22 @@ explore: ct_performance_stats {
 }
 
 explore: ct_transactions {
-  label: "CT Client Facts"
+  label: "CT Client Transactions"
   group_label: "Project Biblio"
-  view_label: "CT Client Facts"
+  view_label: "CT Client Transactions"
+
+  join: ct_arr {
+    view_label: "CT ARR"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_transactions.clientid}=${ct_arr.client_id} ;;
+  }
 
   join: sf_accounts {
     view_label: "SF Accounts"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${ct_transactions.clientid}=${sf_accounts.ct_client_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
+    sql_on: ${ct_transactions.clientid} = cast(${sf_accounts.ct_client_id_c} as INT64) AND ${sf_accounts.is_deleted}= FALSE and ${sf_accounts.ct_client_id_c} is NOT NULL ;;
   }
 }
 #Select Purchase Stats

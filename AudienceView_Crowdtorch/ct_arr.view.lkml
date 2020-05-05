@@ -22,6 +22,7 @@ view: ct_arr {
   }
 
   dimension: client_id {
+    label: "Client ID"
     type: number
     sql: ${TABLE}.client_id ;;
   }
@@ -32,11 +33,14 @@ view: ct_arr {
   }
 
   dimension: current_arr {
+    label: "Rolling ARR (USD)"
     type: number
+    value_format_name: usd
     sql: ${TABLE}.current_arr ;;
   }
 
   dimension: customer {
+    label: "Client Name"
     type: string
     sql: ${TABLE}.customer ;;
   }
@@ -61,10 +65,10 @@ view: ct_arr {
     sql: ${TABLE}.prior_period_arr ;;
   }
 
-  dimension: revalued_arr {
-    type: number
-    sql: ${TABLE}.revalued_arr ;;
-  }
+#   dimension: revalued_arr {
+#     type: number
+#     sql: ${TABLE}.revalued_arr ;;
+#   }
 
   measure: count {
     type: count
