@@ -69,24 +69,24 @@ view: sel_finance_arr {
     sql: ${TABLE}.rolling_arr ;;
   }
 
-  dimension: arr_usd{
-    label: "Rolling ARR (USD OLD)"
-    type: number
-    value_format_name: usd
-    sql: case when ${currency} = "CAD" then ${TABLE}.revalued_arr * 0.72
-         when ${currency} = "USD" then ${TABLE}.revalued_arr * 1
-         else 0 End;;
-  }
-
-  measure: measure_arr_usd_old {
-    label: "Rolling ARR (USD OLD)"
-    type: number
-    value_format_name: usd
-    sql: case when ${currency} = "CAD" then ${TABLE}.revalued_arr * 0.72
-         when ${currency} = "USD" then ${TABLE}.revalued_arr * 1
-         else 0 End;;
-        required_fields: [currency,revalued_arr]
-  }
+#   dimension: arr_usd{
+#     label: "Rolling ARR (USD OLD)"
+#     type: number
+#     value_format_name: usd
+#     sql: case when ${currency} = "CAD" then ${TABLE}.revalued_arr * 0.72
+#          when ${currency} = "USD" then ${TABLE}.revalued_arr * 1
+#          else 0 End;;
+#   }
+#
+#   measure: measure_arr_usd_old {
+#     label: "Rolling ARR (USD OLD)"
+#     type: number
+#     value_format_name: usd
+#     sql: case when ${currency} = "CAD" then ${TABLE}.revalued_arr * 0.72
+#          when ${currency} = "USD" then ${TABLE}.revalued_arr * 1
+#          else 0 End;;
+#         required_fields: [currency,revalued_arr]
+#   }
 
   dimension: segment {
     type: string
