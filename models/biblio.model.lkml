@@ -746,7 +746,14 @@ explore: ct_transactions {
   label: "CT Client Transactions"
   group_label: "Project Biblio"
   view_label: "CT Client Transactions"
-  sql_always_where: ${dataset} IN ('ticketOrder', 'ticketRefundOrder') and (CAST(${ct_transactions.transactiontime_date} AS TIMESTAMP)  >= TIMESTAMP('2020-01-01 00:00:00')) ;;
+  sql_always_where: (CAST(${ct_transactions.transactiontime_date} AS TIMESTAMP)  >= TIMESTAMP('2020-01-01 00:00:00')) ;;
+
+  join: ct_clientvenues {
+    view_label: "CT Client Venues"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_transactions.clientid} = ${ct_clientvenues.clientid} and ${ct_clientvenues.venueid} = ${ct_transactions.venueid} ;;
+  }
 
   join: ct_arr {
     view_label: "CT ARR"
