@@ -40,8 +40,6 @@ explore: unlimited_client_facts {
     sql_on: ${unlimited_client_facts.client_name}=${unlimited_sales_by_year.client_name} ;;
   }
 
-
-
   join: unlimited_orders_summary {
     view_label: "Orders Summary"
     type: left_outer
