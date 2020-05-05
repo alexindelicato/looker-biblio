@@ -93,9 +93,20 @@ view: ct_transactions {
 #     type: string
 #     sql: ${TABLE}.billingcountry ;;
 #   }
+#
+#                         Round(sum(billingServiceFee + billingCreditCardProcessingFee), 2) as Revenue,
+#                          Round(sum(billingServiceFee + billingCreditCardProcessingFee), 2) as AR_Amt
+
 
   dimension: billingcreditcardprocessingfee {
     type: number
+    sql: ${TABLE}.billingcreditcardprocessingfee ;;
+  }
+
+  measure: billing_credit_card_fee {
+    type: sum
+    label: "Total Credit Card Fee"
+    value_format_name: usd
     sql: ${TABLE}.billingcreditcardprocessingfee ;;
   }
 
@@ -124,6 +135,22 @@ view: ct_transactions {
     type: number
     sql: ${TABLE}.billingservicefee ;;
   }
+
+  measure: billing_service_fee {
+    type: sum
+    label: "Total Service Fee"
+    value_format_name: usd
+    sql: ${TABLE}.billingservicefee ;;
+  }
+
+  measure: total_arr {
+    label: "Total ARR"
+    type: number
+    value_format_name: usd
+    sql: ${billing_service_fee} + ${billing_credit_card_fee} ;;
+
+  }
+
 #
 #   dimension: billingstate {
 #     type: string
