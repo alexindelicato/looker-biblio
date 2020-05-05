@@ -217,12 +217,14 @@ view: ct_transactions {
   }
 
   dimension: clientid {
+    label: "Client Id"
     type: number
     value_format_name: id
     sql: ${TABLE}.clientid ;;
   }
 
   dimension: clientname {
+    label: "Client Name"
     type: string
     sql: ${TABLE}.clientname ;;
   }
@@ -260,6 +262,8 @@ view: ct_transactions {
   }
 
   dimension: ctrevenue {
+    label: "CT Revenue"
+    value_format_name: usd
     type: number
     sql: ${TABLE}.ctrevenue ;;
   }
@@ -755,6 +759,8 @@ view: ct_transactions {
   }
 
   dimension: paymentamount {
+    label: "Payment Amount"
+    value_format_name: usd
     type: number
     sql: ${TABLE}.paymentamount ;;
   }
@@ -820,6 +826,8 @@ view: ct_transactions {
 
   dimension: pricingamount {
     type: number
+    label: "pricingamount"
+    value_format_name: usd
     sql: ${TABLE}.pricingamount ;;
   }
 
