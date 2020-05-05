@@ -698,6 +698,7 @@ view: ct_transactions {
   }
 
   dimension: istmgateway {
+    label: "Merchant of Record"
     type: yesno
     sql: ${TABLE}.istmgateway ;;
   }
