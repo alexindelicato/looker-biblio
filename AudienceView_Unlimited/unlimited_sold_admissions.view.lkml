@@ -150,6 +150,32 @@ GROUP BY
   measure:  total_exchange_out_net { type: sum value_format_name: usd label: "Total Value Exchange (Out) Net" sql: ${TABLE}.exchange_out_net ;; }
   measure:  total_exchange_out_count { type: sum label: "Total Tickets Exchange (Out)" sql: ${TABLE}.exchange_out_count ;; }
 
+  measure: 2019_total_sales {
+    type: sum
+    label: "2019 Total Sold Amount (USD)"
+    value_format_name: usd
+    sql:  ${TABLE}.sales_net  ;;
+
+
+    filters: {
+      field: audit_date_time_year
+      value: "2019"
+    }
+  }
+
+
+  measure: 2020_total_sales {
+    type: sum
+    label: "2020 Total Sold Amount (USD)"
+    value_format_name: usd
+    sql:  ${TABLE}.sales_net  ;;
+
+    filters: {
+      field: audit_date_time_week_of_year
+      value: "2020"
+    }
+  }
+
 #  measure: count {
 #    type: count
 #    drill_fields: [userrole_name, client_name]
