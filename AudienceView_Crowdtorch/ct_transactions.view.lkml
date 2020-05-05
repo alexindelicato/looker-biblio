@@ -84,15 +84,15 @@ view: ct_transactions {
     sql: ${TABLE}.billingadditionalfee ;;
   }
 
-  dimension: billingcity {
-    type: string
-    sql: ${TABLE}.billingcity ;;
-  }
-
-  dimension: billingcountry {
-    type: string
-    sql: ${TABLE}.billingcountry ;;
-  }
+#   dimension: billingcity {
+#     type: string
+#     sql: ${TABLE}.billingcity ;;
+#   }
+#
+#   dimension: billingcountry {
+#     type: string
+#     sql: ${TABLE}.billingcountry ;;
+#   }
 
   dimension: billingcreditcardprocessingfee {
     type: number
@@ -124,21 +124,21 @@ view: ct_transactions {
     type: number
     sql: ${TABLE}.billingservicefee ;;
   }
-
-  dimension: billingstate {
-    type: string
-    sql: ${TABLE}.billingstate ;;
-  }
-
-  dimension: billingstreetaddress1 {
-    type: string
-    sql: ${TABLE}.billingstreetaddress1 ;;
-  }
-
-  dimension: billingstreetaddress2 {
-    type: string
-    sql: ${TABLE}.billingstreetaddress2 ;;
-  }
+#
+#   dimension: billingstate {
+#     type: string
+#     sql: ${TABLE}.billingstate ;;
+#   }
+#
+#   dimension: billingstreetaddress1 {
+#     type: string
+#     sql: ${TABLE}.billingstreetaddress1 ;;
+#   }
+#
+#   dimension: billingstreetaddress2 {
+#     type: string
+#     sql: ${TABLE}.billingstreetaddress2 ;;
+#   }
 
   dimension: billingzipcode {
     type: string
@@ -179,11 +179,11 @@ view: ct_transactions {
     type: number
     sql: ${TABLE}.ccgratuity ;;
   }
-
-  dimension: ccnumber {
-    type: string
-    sql: ${TABLE}.ccnumber ;;
-  }
+#
+#   dimension: ccnumber {
+#     type: string
+#     sql: ${TABLE}.ccnumber ;;
+#   }
 
   dimension: ccrevenue {
     type: number
@@ -195,10 +195,10 @@ view: ct_transactions {
     sql: ${TABLE}.ccservicefee ;;
   }
 
-  dimension: ccshipping {
-    type: number
-    sql: ${TABLE}.ccshipping ;;
-  }
+#   dimension: ccshipping {
+#     type: number
+#     sql: ${TABLE}.ccshipping ;;
+#   }
 
   dimension: cctax {
     type: number
@@ -284,21 +284,21 @@ view: ct_transactions {
     type: string
     sql: ${TABLE}.currencyprefix ;;
   }
-
-  dimension: customeremail {
-    type: string
-    sql: ${TABLE}.customeremail ;;
-  }
-
-  dimension: customerfirstname {
-    type: string
-    sql: ${TABLE}.customerfirstname ;;
-  }
-
-  dimension: customerlastname {
-    type: string
-    sql: ${TABLE}.customerlastname ;;
-  }
+#
+#   dimension: customeremail {
+#     type: string
+#     sql: ${TABLE}.customeremail ;;
+#   }
+#
+#   dimension: customerfirstname {
+#     type: string
+#     sql: ${TABLE}.customerfirstname ;;
+#   }
+#
+#   dimension: customerlastname {
+#     type: string
+#     sql: ${TABLE}.customerlastname ;;
+#   }
 
   dimension: customerservicefee {
     type: number
@@ -1305,11 +1305,9 @@ view: ct_transactions {
       affiliatefirstname,
       showname,
       productname,
-      customerfirstname,
       operatorfirstname,
       clientname,
       lastname,
-      customerlastname,
       affiliatelastname,
       couponname,
       servicename,

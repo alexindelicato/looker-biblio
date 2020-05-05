@@ -742,6 +742,18 @@ explore: ct_performance_stats {
   }
 }
 
+explore: ct_transactions {
+  label: "CT Client Facts"
+  group_label: "Project Biblio"
+  view_label: "CT Client Facts"
+
+  join: sf_accounts {
+    view_label: "SF Accounts"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_transactions.clientid}=${sf_accounts.ct_client_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
+}
 #Select Purchase Stats
 explore: sel_purchase_stats {
   label: "AV Select Purchase Stats"
