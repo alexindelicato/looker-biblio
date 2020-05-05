@@ -562,7 +562,14 @@ view: ct_transactions {
   }
 
   dimension: grandtotal {
+    label: "Grand Total"
     type: number
+    sql: ${TABLE}.grandtotal ;;
+  }
+
+  measure: sum_grand_total {
+    label: "Sum Grand Total"
+    type: sum
     sql: ${TABLE}.grandtotal ;;
   }
 
@@ -825,6 +832,7 @@ view: ct_transactions {
   }
 
   dimension: paymentid {
+    label: "Order Number"
     type: number
     value_format_name: id
     sql: ${TABLE}.paymentid ;;
@@ -898,6 +906,12 @@ view: ct_transactions {
 
   dimension: quantity {
     type: number
+    sql: ${TABLE}.quantity ;;
+  }
+
+  measure: sum_of_tickets {
+    label: "# of Tickets"
+    type: sum
     sql: ${TABLE}.quantity ;;
   }
 
