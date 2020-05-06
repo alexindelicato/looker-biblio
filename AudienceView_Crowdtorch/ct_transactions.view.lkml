@@ -595,8 +595,8 @@ view: ct_transactions {
     type: number
     sql: case when ${currencycode} = "CAD" then ${TABLE}.grandtotal * 0.72
         when ${currencycode} = "USD" then ${TABLE}.grandtotal * 1
-        when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.total_ticket_revenue_2019 * 0.81
-        when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.total_ticket_revenue_2019 * 0.92
+        when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.grandtotal * 0.81
+        when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.grandtotal * 0.92
         else 0 End;;
   }
 
@@ -613,8 +613,8 @@ view: ct_transactions {
     type: sum
     sql:case when ${currencycode} = "CAD" then ${TABLE}.grandtotal * 0.72
         when ${currencycode} = "USD" then ${TABLE}.grandtotal * 1
-        when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.total_ticket_revenue_2019 * 0.81
-        when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.total_ticket_revenue_2019 * 0.92
+        when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.grandtotal * 0.81
+        when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.grandtotal * 0.92
         else 0 End;;
 
     drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
@@ -636,8 +636,8 @@ view: ct_transactions {
     type: sum
     sql:  case when ${currencycode} = "CAD" then ${TABLE}.grandtotal * 0.72
     when ${currencycode} = "USD" then ${TABLE}.grandtotal * 1
-    when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.total_ticket_revenue_2019 * 0.81
-    when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.total_ticket_revenue_2019 * 0.92
+    when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.grandtotal * 0.81
+    when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.grandtotal * 0.92
     else 0 End;;
     drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
 
