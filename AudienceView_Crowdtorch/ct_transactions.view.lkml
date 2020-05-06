@@ -612,7 +612,7 @@ view: ct_transactions {
     sql:  case when ${currencycode} = "CAD" then ${TABLE}.grandtotal * 0.72
     when ${currencycode} = "USD" then ${TABLE}.grandtotal * 1
     else 0 End;;
-    drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal,grandtotal_usd]
+    drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
 
     filters: {
       field: transactiontime_year
