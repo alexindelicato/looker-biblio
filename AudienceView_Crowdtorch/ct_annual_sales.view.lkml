@@ -118,6 +118,8 @@ dimension: client_id {
     value_format_name: usd
     sql:case when ${ct_transactions.currencycode} = "CAD" then ${TABLE}.total_ticket_revenue_2019 * 0.72
           when ${ct_transactions.currencycode} = "USD" then ${TABLE}.total_ticket_revenue_2019 * 1
+          when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.total_ticket_revenue_2019 * 0.81
+             when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.total_ticket_revenue_2019 * 0.92
           Else 0 End
          ;;
     required_fields: [total_ticket_revenue_2019,ct_transactions.currencycode]
@@ -138,6 +140,8 @@ dimension: client_id {
     required_fields: [total_ticket_revenue_2020,ct_transactions.currencycode]
     sql:case when ${ct_transactions.currencycode} = "CAD" then ${TABLE}.total_ticket_revenue_2020 * 0.72
           when ${ct_transactions.currencycode} = "USD" then ${TABLE}.total_ticket_revenue_2020 * 1
+           when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.total_ticket_revenue_2019 * 0.81
+             when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.total_ticket_revenue_2019 * 0.92
           Else 0 End ;;
   }
 
