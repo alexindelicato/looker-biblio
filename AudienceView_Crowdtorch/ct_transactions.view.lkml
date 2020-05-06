@@ -1398,6 +1398,7 @@ view: ct_transactions {
     label: "Last Order Date"
     type: date
     sql: max(${transactiontime_raw}) ;;
+    drill_fields: [paymentid,transactiontime_date,dataset]
   }
 
   dimension_group: transactiontimelocal {
