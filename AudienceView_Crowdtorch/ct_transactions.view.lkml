@@ -188,6 +188,16 @@ view: ct_transactions {
     sql: ${TABLE}.brandproperty ;;
   }
 
+  dimension: brand {
+    label: "Brand"
+    type: string
+    sql: case when ${TABLE}.brandproperty = "TS" then "TuneStub"
+         when ${TABLE}.brandproperty = "LS" then "LaughStub"
+         when ${TABLE}.brandproperty = "ES" then "ElectroStub"
+         when ${TABLE}.brandproperty = "TM" then "CrowdTorch"
+          else "Research" End;;
+  }
+
   dimension: cashgratuity {
     type: number
     sql: ${TABLE}.cashgratuity ;;
