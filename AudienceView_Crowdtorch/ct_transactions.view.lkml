@@ -1346,6 +1346,13 @@ view: ct_transactions {
     sql: ${TABLE}.subtotal ;;
   }
 
+  measure: subtotal_measure {
+    label: "Subtotal"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.subtotal ;;
+    }
+
   dimension: successfultransaction {
     type: yesno
     sql: ${TABLE}.successfultransaction ;;
