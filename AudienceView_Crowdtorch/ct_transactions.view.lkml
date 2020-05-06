@@ -148,8 +148,19 @@ view: ct_transactions {
     type: number
     value_format_name: usd
     sql: ${billing_service_fee} + ${billing_credit_card_fee} ;;
-
   }
+
+#   measure: total_arr_dimension {
+#     label: "Total ARR"
+#     type: sum
+#     value_format_name: usd
+#     sql: ${billing_service_fee} + ${billing_credit_card_fee} ;;
+#
+#     filters: {
+#       field: transactiontime_date
+#       value: "12 months ago for 12 months"
+#     }
+#   }
 
 #
 #   dimension: billingstate {
@@ -601,7 +612,7 @@ view: ct_transactions {
 
     filters: {
       field: dataset
-      value: "ticketOrder"
+      value: "ticketOrder,ticketRefundOrder"
     }
     }
 
@@ -621,7 +632,7 @@ view: ct_transactions {
 
     filters: {
       field: dataset
-      value: "ticketOrder"
+      value: "ticketOrder,ticketRefundOrder"
     }
   }
 
@@ -641,7 +652,7 @@ view: ct_transactions {
 
     filters: {
       field: dataset
-      value: "donationFund"
+      value: "donationFund,donationFundRefund"
     }
   }
 
@@ -661,7 +672,7 @@ view: ct_transactions {
 
     filters: {
       field: dataset
-      value: "donationFund"
+      value: "donationFund,donationFundRefund"
     }
   }
 
@@ -1023,7 +1034,12 @@ view: ct_transactions {
 
     filters: {
       field: dataset
-      value: "ticketOrder"
+      value: "ticketOrder,ticketRefundOrder"
+    }
+
+    filters: {
+      field: transactionid
+      value:  "-0"
     }
   }
 
@@ -1039,7 +1055,11 @@ view: ct_transactions {
     }
     filters: {
       field: dataset
-      value: "ticketOrder"
+      value: "ticketOrder,ticketRefundOrder"
+    }
+    filters: {
+      field: transactionid
+      value:  "-0"
     }
   }
 
