@@ -563,8 +563,18 @@ view: ct_transactions {
 
   dimension: grandtotal {
     label: "Grand Total"
+    value_format_name: usd
     type: number
     sql: ${TABLE}.grandtotal ;;
+  }
+
+  dimension: grandtotal_usd {
+    label: "Grand Total (USD)"
+    value_format_name: usd
+    type: number
+    sql: case when ${currencycode} = "CAD" then ${TABLE}.grandtotal * 0.72
+        when ${currencycode} = "USD" then ${TABLE}.grandtotal * 1
+        else 0 End;;
   }
 
   measure: sum_grand_total {
@@ -572,6 +582,87 @@ view: ct_transactions {
     value_format_name: usd
     type: sum
     sql: ${TABLE}.grandtotal ;;
+  }
+
+  measure: 2019_sum_grand_total {
+    label: "2019 Earned Income Total (USD)"
+    value_format_name: usd
+    type: sum
+    sql:case when ${currencycode} = "CAD" then ${TABLE}.grandtotal * 0.72
+        when ${currencycode} = "USD" then ${TABLE}.grandtotal * 1
+        else 0 End;;
+
+    drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+    filters: {
+      field: transactiontime_year
+      value: "2019"
+    }
+
+    filters: {
+      field: dataset
+      value: "ticketOrder"
+    }
+    }
+
+  measure: 2020_sum_grand_total {
+    label: "2020 Earned Income Total (USD)"
+    value_format_name: usd
+    type: sum
+    sql:  case when ${currencycode} = "CAD" then ${TABLE}.grandtotal * 0.72
+    when ${currencycode} = "USD" then ${TABLE}.grandtotal * 1
+    else 0 End;;
+    drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal,grandtotal_usd]
+
+    filters: {
+      field: transactiontime_year
+      value: "2020"
+    }
+
+    filters: {
+      field: dataset
+      value: "ticketOrder"
+    }
+  }
+
+  measure: 2019_donation_grand_total {
+    label: "2019 Contributed Income Total (USD)"
+    value_format_name: usd
+    type: sum
+    sql: case when ${currencycode} = "CAD" then ${TABLE}.grandtotal * 0.72
+    when ${currencycode} = "USD" then ${TABLE}.grandtotal * 1
+    else 0 End;;
+    drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+    filters: {
+      field: transactiontime_year
+      value: "2019"
+    }
+
+    filters: {
+      field: dataset
+      value: "donationFund"
+    }
+  }
+
+  measure: 2020_donation_grand_total {
+    label: "2020 Contributed Income Total (USD)"
+    value_format_name: usd
+    type: sum
+    sql:   case when ${currencycode} = "CAD" then ${TABLE}.grandtotal * 0.72
+    when ${currencycode} = "USD" then ${TABLE}.grandtotal * 1
+    else 0 End;;
+    drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+    filters: {
+      field: transactiontime_year
+      value: "2020"
+    }
+
+    filters: {
+      field: dataset
+      value: "donationFund"
+    }
   }
 
   dimension: gratuity {
@@ -916,6 +1007,40 @@ view: ct_transactions {
     label: "# of Tickets"
     type: sum
     sql: ${TABLE}.quantity ;;
+  }
+
+  measure: 2019_sum_of_tickets {
+    label: "2019 # of Tickets"
+    type: sum
+    sql: ${TABLE}.quantity ;;
+    drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal]
+
+    filters: {
+      field: transactiontime_year
+      value: "2019"
+    }
+
+
+    filters: {
+      field: dataset
+      value: "ticketOrder"
+    }
+  }
+
+  measure: 2020_sum_of_tickets {
+    label: "2020 # of Tickets"
+    type: sum
+    sql: ${TABLE}.quantity ;;
+    drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal]
+
+    filters: {
+      field: transactiontime_year
+      value: "2020"
+    }
+    filters: {
+      field: dataset
+      value: "ticketOrder"
+    }
   }
 
   dimension: rackrate {
