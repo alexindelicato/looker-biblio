@@ -38,6 +38,13 @@ dimension: client_id{
     sql:${TABLE}.ticket_revenue_2019 ;;
   }
 
+  measure:: 2019_ticket_revenue_measure {
+    type: number
+    value_format_name: usd
+    sql:${TABLE}.ticket_revenue_2019 ;;
+    required_fields: [2019_ticket_revenue]
+  }
+
 
   dimension: 2020_ticket_revenue {
     type: number
