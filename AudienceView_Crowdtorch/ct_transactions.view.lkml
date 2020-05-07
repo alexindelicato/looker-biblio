@@ -110,6 +110,33 @@ view: ct_transactions {
     sql: ${TABLE}.billingcreditcardprocessingfee ;;
   }
 
+  measure: billing_credit_card_fee_usd {
+    type: sum
+    label: "Total Credit Card Fee (USD)"
+    value_format_name: usd
+    sql: case when ${currencycode} = "CAD" then ${TABLE}.billingcreditcardprocessingfee * 0.72
+        when ${currencycode} = "USD" then ${TABLE}.billingcreditcardprocessingfee * 1
+        when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.billingcreditcardprocessingfee * 0.81
+        when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.billingcreditcardprocessingfee * 0.92
+        else 0 End;;
+  }
+
+  measure: refund_billing_credit_card_fee_usd {
+    type: sum
+    label: "Refund Total Credit Card Fee (USD)"
+    value_format_name: usd
+    sql: case when ${currencycode} = "CAD" then ${TABLE}.billingcreditcardprocessingfee * 0.72
+        when ${currencycode} = "USD" then ${TABLE}.billingcreditcardprocessingfee * 1
+        when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.billingcreditcardprocessingfee * 0.81
+        when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.billingcreditcardprocessingfee * 0.92
+        else 0 End;;
+
+    filters: {
+      field: dataset
+      value: "ticketRefundOrder"
+    }
+  }
+
 
   #ARR
   measure: arr_billing_credit_card_fee {
@@ -188,8 +215,42 @@ view: ct_transactions {
     sql: ${TABLE}.billingservicefee ;;
   }
 
+  measure: billing_service_fee_usd {
+    type: sum
+    label: "Total Service Fee (USD)"
+    value_format_name: usd
+    sql: case when ${currencycode} = "CAD" then ${TABLE}.billingservicefee * 0.72
+        when ${currencycode} = "USD" then ${TABLE}.billingservicefee * 1
+        when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.billingservicefee * 0.81
+        when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.billingservicefee * 0.92
+        else 0 End;;
+  }
+
+  measure: refund_billing_service_fee_usd {
+    type: sum
+    label: "Refund Total Service Fee (USD)"
+    value_format_name: usd
+    sql: case when ${currencycode} = "CAD" then ${TABLE}.billingservicefee * 0.72
+        when ${currencycode} = "USD" then ${TABLE}.billingservicefee * 1
+        when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.billingservicefee * 0.81
+        when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.billingservicefee * 0.92
+        else 0 End;;
+
+    filters: {
+      field: dataset
+      value: "ticketRefundOrder"
+    }
+  }
+
   measure: total_arr {
     label: "Total ARR"
+    type: number
+    value_format_name: usd
+    sql: ${billing_service_fee_usd} + ${billing_credit_card_fee_usd} ;;
+  }
+
+  measure: total_arr_usd {
+    label: "Total ARR (USD)"
     type: number
     value_format_name: usd
     sql: ${billing_service_fee} + ${billing_credit_card_fee} ;;
@@ -652,6 +713,22 @@ view: ct_transactions {
     sql: ${TABLE}.grandtotal ;;
   }
 
+  measure: refund_sum_grand_total {
+    label: "Refund Grand Total"
+    value_format_name: usd
+    type: sum
+    sql: case when ${currencycode} = "CAD" then ${TABLE}.grandtotal * 0.72
+        when ${currencycode} = "USD" then ${TABLE}.grandtotal * 1
+        when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.grandtotal * 0.81
+        when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.grandtotal * 0.92
+        else 0 End;;
+
+    filters: {
+      field: dataset
+      value: "ticketRefundOrder"
+    }
+  }
+
   measure: 2019_sum_grand_total {
     label: "2019 Earned Income Total (USD)"
     value_format_name: usd
@@ -969,6 +1046,11 @@ view: ct_transactions {
     sql: ${TABLE}.paymentgatewaytype ;;
   }
 
+  dimension: is_mor{
+    type: yesno
+    sql: ${TABLE}.paymentgatewaytype = "TM Optimal Payments" ;;
+  }
+
   dimension: paymentgatewaytypeid {
     type: number
     value_format_name: id
@@ -1079,6 +1161,17 @@ view: ct_transactions {
     label: "# of Tickets"
     type: sum
     sql: ${TABLE}.quantity ;;
+  }
+
+  measure: refund_sum_of_tickets {
+    label: "# of Refunded Tickets"
+    type: sum
+    sql: ${TABLE}.quantity ;;
+
+    filters: {
+      field: dataset
+      value: "ticketRefundOrder"
+    }
   }
 
   measure: 2019_sum_of_tickets {
@@ -1314,6 +1407,7 @@ view: ct_transactions {
     type: time
     timeframes: [
       raw,
+      month_name,
       time,
       date,
       week,
