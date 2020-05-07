@@ -246,14 +246,14 @@ view: ct_transactions {
     label: "Total ARR"
     type: number
     value_format_name: usd
-    sql: ${billing_service_fee_usd} + ${billing_credit_card_fee_usd} ;;
+    sql: ${billing_service_fee} + ${billing_credit_card_fee} ;;
   }
 
   measure: total_arr_usd {
     label: "Total ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${billing_service_fee} + ${billing_credit_card_fee} ;;
+    sql: ${billing_service_fee_usd} + ${billing_credit_card_fee_usd} ;;
   }
 
 #   measure: total_arr_dimension {
