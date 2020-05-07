@@ -110,6 +110,51 @@ view: ct_transactions {
     sql: ${TABLE}.billingcreditcardprocessingfee ;;
   }
 
+
+  #ARR
+  measure: arr_billing_credit_card_fee {
+    type: sum
+    label: "ARR Credit Card Fee (USD)"
+    value_format_name: usd
+    sql:case when ${currencycode} = "CAD" then ${TABLE}.billingcreditcardprocessingfee * 0.72
+    when ${currencycode} = "USD" then ${TABLE}.billingcreditcardprocessingfee * 1
+    when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.billingcreditcardprocessingfee * 0.81
+    when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.billingcreditcardprocessingfee * 0.92
+    else 0 End;;
+
+    drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+    filters: {
+      field: transactiontime_date
+      value: "12 months ago for 12 months"
+    }
+  }
+
+  measure: arr_billing_service_fee {
+    type: sum
+    label: "ARR Service Fee (USD)"
+    value_format_name: usd
+    sql:case when ${currencycode} = "CAD" then ${TABLE}.billingservicefee * 0.72
+          when ${currencycode} = "USD" then ${TABLE}.billingservicefee * 1
+          when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.billingservicefee * 0.81
+          when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.billingservicefee * 0.92
+          else 0 End;;
+
+      drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+      filters: {
+        field: transactiontime_date
+        value: "12 months ago for 12 months"
+      }
+    }
+
+    measure: rolling_arr {
+      label: "Rolling ARR (USD)"
+      type: number
+      value_format_name: usd
+      sql: ${arr_billing_credit_card_fee} + ${arr_billing_service_fee} ;;
+    }
+
   dimension: billingfeeslabmissing {
     type: yesno
     sql: ${TABLE}.billingfeeslabmissing ;;
