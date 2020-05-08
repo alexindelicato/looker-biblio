@@ -2968,6 +2968,12 @@ view: sf_accounts {
     sql: ${TABLE}.tl_gateway_c ;;
   }
 
+  dimension: ct_mor {
+    type: yesno
+    label: "CT MOR"
+    sql: ${TABLE}.tl_gateway_c = "TM Optimal Payments" ;;
+  }
+
   dimension: type {
     type: string
     sql: ${TABLE}.type ;;
