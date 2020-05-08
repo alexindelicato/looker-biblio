@@ -157,6 +157,15 @@ view: ct_transactions {
     }
   }
 
+  measure: arr_net_billing_credit_card_fee {
+    type: number
+    label: "ARR Net Credit Card Fee (USD)"
+    value_format_name: usd
+    sql: ${arr_billing_credit_card_fee} * 0.25 ;;
+      drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+    }
+
   measure: arr_billing_service_fee {
     type: sum
     label: "ARR Service Fee (USD)"
