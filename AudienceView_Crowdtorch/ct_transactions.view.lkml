@@ -157,6 +157,20 @@ view: ct_transactions {
     }
   }
 
+  measure: arr_billing_credit_card_fee_local_currency {
+    type: sum
+    label: "ARR Credit Card Fee (Local Currency)"
+    value_format_name: usd
+    sql: ${TABLE}.billingcreditcardprocessingfee  ;;
+
+      drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+      filters: {
+        field: transactiontime_date
+        value: "12 months ago for 12 months"
+      }
+    }
+
   measure: arr_net_billing_credit_card_fee {
     type: number
     label: "ARR Net Credit Card Fee (USD)"
@@ -184,12 +198,34 @@ view: ct_transactions {
       }
     }
 
+  measure: arr_billing_service_fee_local_currency {
+    type: sum
+    label: "ARR Service Fee (Local Currency)"
+    value_format_name: usd
+    sql:${TABLE}.billingservicefee  ;;
+
+      drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+      filters: {
+        field: transactiontime_date
+        value: "12 months ago for 12 months"
+      }
+    }
+
     measure: rolling_arr {
       label: "Rolling ARR (USD)"
       type: number
       value_format_name: usd
       sql: ${arr_billing_credit_card_fee} + ${arr_billing_service_fee} ;;
     }
+
+  measure: rolling_arr_local_currency {
+    label: "Rolling ARR (Local Currency)"
+    type: number
+    value_format_name: usd
+    sql: ${arr_billing_credit_card_fee_local_currency} + ${arr_billing_service_fee_local_currency} ;;
+  }
+
 
   dimension: billingfeeslabmissing {
     type: yesno
