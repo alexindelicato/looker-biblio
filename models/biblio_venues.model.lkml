@@ -26,4 +26,12 @@ explore: created_orders {
   group_label: "Project Biblio"
   view_label: "AudienceView Created Orders"
   }
+
+  explore: pos_usage {
+    label: "Unlimited POS Usage"
+    group_label: "Project Biblio"
+    view_label: "Unlimited POS Usage"
+
+  }
+
 #--------------------------
