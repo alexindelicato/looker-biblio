@@ -123,7 +123,7 @@ view: ct_master_list {
 
   dimension: is_mor{
     type: yesno
-    sql: ${TABLE}.payment_processor IN ("ElectroStub USA ePay","LaughStub USA ePay","TicketMob USA ePay","TuneStub USA ePay", "USA ePay"") ;;
+    sql: ${TABLE}.payment_processor IN ("ElectroStub USA ePay","LaughStub USA ePay","TicketMob USA ePay","TuneStub USA ePay") ;;
   }
 
 
