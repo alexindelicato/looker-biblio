@@ -168,6 +168,20 @@ explore: ot_orders {
     sql_on: ${ot_orders.client_id}=${pro_client_facts.client_id} ;;
   }
 
+  join: pro_client_user {
+    view_label: "AV Pro Client/User Join"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${ot_client.client_id}=${pro_client_user.client_id} ;;
+  }
+
+  join: pro_user {
+    view_label: "AV Pro User"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${pro_client_user.user_id}=${pro_user.user_id} ;;
+  }
+
   join: ot_client_fee_structure {
     view_label: "AV Pro Client Fee Structure"
     type:left_outer
