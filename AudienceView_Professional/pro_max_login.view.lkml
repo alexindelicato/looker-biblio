@@ -2,52 +2,36 @@ view: pro_max_login {
   derived_table: {
     sql:
       SELECT
-      sel_members.memberid  AS sel_members_memberid,
-      sel_members.organizationname  AS sel_members_organizationname,
-      CAST(MAX((timestamp_seconds(sel_members.last)))  AS DATE) AS sel_members_max_last_login_date,
-      CAST(MAX((timestamp_seconds(sel_agents.last)))  AS DATE) AS sel_agents_max_last_login_date
-    FROM mysql_service.members  AS sel_members
-    LEFT JOIN `fivetran-ovation-tix-warehouse.mysql_service.agent_to_members`
-       AS sel_agent_to_members ON sel_members.memberid=sel_agent_to_members.memberid
-    LEFT JOIN `fivetran-ovation-tix-warehouse.mysql_service.agents`
-       AS sel_agents ON sel_agent_to_members.agentid=sel_agents.agentid AND sel_agents.deleted is NULL
+  ot_client.client_id  AS client_id,
+  ot_client.client_name  AS client_name,
+  CAST(MAX(pro_user.last_login_date)  AS DATE) AS last_login
+FROM trs_trs.orders  AS ot_orders
+LEFT JOIN trs_trs.client  AS ot_client ON ot_orders.client_id=ot_client.client_id
+LEFT JOIN `fivetran-ovation-tix-warehouse.trs_trs.client_user`
+     AS pro_client_user ON ot_client.client_id=pro_client_user.client_id
+LEFT JOIN `fivetran-ovation-tix-warehouse.trs_trs.user`
+     AS pro_user ON pro_client_user.user_id=pro_user.user_id
 
-    WHERE sel_members.testmode="N" and sel_members.active="Y"
-    GROUP BY 1,2  ;;
+WHERE ot_client.demo=0 and ot_client.testing_mode=0 and ot_client.client_id NOT IN (35200,34918) and  ot_client.active = 1 and ot_orders.imported=0 and ot_orders.is_test_mode=0 and ot_orders.status_id != 11
+GROUP BY 1,2   ;;
   }
 
-  dimension: sel_members_memberid {
+  dimension: client_id {
     type: string
     hidden:  yes
-    sql: ${TABLE}.sel_members_memberid  ;;
+    sql: ${TABLE}.client_id  ;;
   }
 
-  dimension: sel_members_organizationname {
+  dimension: client_name {
     type: string
     hidden: yes
-    sql: ${TABLE}.sel_members_organizationname  ;;
+    sql: ${TABLE}.client_name  ;;
   }
 
-
-  dimension_group: sel_members_max_last_login_date {
-    type: time
-    label: "Members Last Login"
-    sql: ${TABLE}.sel_members_max_last_login_date ;;
-  }
-
-  dimension_group: sel_agents_max_last_login_date {
-    type: time
-    label: "Agents Last Login"
-    sql: ${TABLE}.sel_agents_max_last_login_date ;;
-  }
-
-  dimension_group: max_last_login {
+  dimension_group: last_login {
     type: time
     label: "Last Login"
-    datatype: date
-    sql: case when ${TABLE}.sel_members_max_last_login_date > ${TABLE}.sel_agents_max_last_login_date then ${TABLE}.sel_members_max_last_login_date
-         when ${TABLE}.sel_members_max_last_login_date < ${TABLE}.sel_agents_max_last_login_date then ${TABLE}.sel_agents_max_last_login_date
-         ELSE ${TABLE}.sel_members_max_last_login_date END;;
+    sql: ${TABLE}.last_login ;;
   }
 
   dimension_group: current_time {
@@ -71,7 +55,7 @@ view: pro_max_login {
   dimension: number_of_days_inactive {
     label: "Days Inactive"
     type: number
-    sql:  DATE_DIFF(CURRENT_DATE, CAST(${max_last_login_date} as date),  DAY )  ;;
+    sql:  DATE_DIFF(CURRENT_DATE, CAST(${last_login_date} as date),  DAY )  ;;
   }
 
 

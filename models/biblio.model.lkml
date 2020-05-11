@@ -182,6 +182,13 @@ explore: ot_orders {
     sql_on: ${pro_client_user.user_id}=${pro_user.user_id} ;;
   }
 
+  join: pro_max_login {
+    view_label: "AV Pro Last Login"
+    type:left_outer
+    relationship: one_to_one
+    sql_on: ${pro_max_login.client_id}=${ot_orders.client_id} ;;
+  }
+
   join: ot_client_fee_structure {
     view_label: "AV Pro Client Fee Structure"
     type:left_outer
