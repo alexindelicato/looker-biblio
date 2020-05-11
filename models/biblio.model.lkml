@@ -755,13 +755,6 @@ explore: ct_transactions {
     sql_on: ${ct_transactions.clientid} = ${ct_clientvenues.clientid} and ${ct_clientvenues.venueid} = ${ct_transactions.venueid} ;;
   }
 
-  join: ct_monthly_report {
-    view_label: "CT Transaction Summary"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${ct_transactions.clientid} = ${ct_monthly_report.client_id}  ;;
-  }
-
   join: ct_annual_sales {
     view_label: "CT Annual Transaction Summary"
     type: left_outer
