@@ -21,6 +21,7 @@ GROUP BY 1,2 ;;
   dimension: client_id {
     type: number
     sql: ${TABLE}.client_id ;;
+    primary_key: yes
   }
 
   dimension: client_name {
