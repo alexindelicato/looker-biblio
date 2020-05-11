@@ -157,6 +157,24 @@ view: ct_transactions {
     }
   }
 
+  measure: 2019_billing_credit_card_fee {
+    type: sum
+    label: "2019 ARR Credit Card Fee (USD)"
+    value_format_name: usd
+    sql:case when ${currencycode} = "CAD" then ${TABLE}.billingcreditcardprocessingfee * 0.72
+          when ${currencycode} = "USD" then ${TABLE}.billingcreditcardprocessingfee * 1
+          when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.billingcreditcardprocessingfee * 0.81
+          when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.billingcreditcardprocessingfee * 0.92
+          else 0 End;;
+
+      drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+      filters: {
+        field: transactiontime_year
+        value: "2019"
+      }
+    }
+
   measure: arr_billing_credit_card_fee_local_currency {
     type: sum
     label: "ARR Credit Card Fee (Local Currency)"
@@ -170,6 +188,8 @@ view: ct_transactions {
         value: "12 months ago for 12 months"
       }
     }
+
+
 
   measure: arr_net_billing_credit_card_fee {
     type: number
@@ -204,6 +224,24 @@ view: ct_transactions {
       filters: {
         field: transactiontime_date
         value: "12 months ago for 12 months"
+      }
+    }
+
+  measure: 2019_billing_service_fee {
+    type: sum
+    label: "2019 ARR Service Fee (USD)"
+    value_format_name: usd
+    sql:case when ${currencycode} = "CAD" then ${TABLE}.billingservicefee * 0.72
+          when ${currencycode} = "USD" then ${TABLE}.billingservicefee * 1
+          when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.billingservicefee * 0.81
+          when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.billingservicefee * 0.92
+          else 0 End;;
+
+      drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+      filters: {
+        field: transactiontime_year
+        value: "2019"
       }
     }
 
@@ -308,6 +346,13 @@ view: ct_transactions {
     type: number
     value_format_name: usd
     sql: ${billing_service_fee_usd} + ${billing_credit_card_fee_usd} ;;
+  }
+
+  measure: 2019_total_arr_usd {
+    label: "2019 Total ARR (USD)"
+    type: number
+    value_format_name: usd
+    sql: ${2019_billing_service_fee} + ${2019_billing_credit_card_fee} ;;
   }
 
 #   measure: total_arr_dimension {
