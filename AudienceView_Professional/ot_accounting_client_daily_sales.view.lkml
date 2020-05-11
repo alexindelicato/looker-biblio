@@ -160,6 +160,24 @@ view: ot_accounting_client_daily_sales {
     value_format_name: usd_0
   }
 
+  measure: 2020_gross_ticket_count {
+    type: sum
+    sql: if(${is_ticket},if(${is_sale},1,0),0) ;;
+
+    filters: {
+      field: tx_year
+      value: "2020" }
+  }
+
+  measure: 2019_gross_ticket_count {
+    type: sum
+    sql: if(${is_ticket},if(${is_sale},1,0),0) ;;
+
+    filters: {
+      field: tx_year
+      value: "2019" }
+  }
+
   measure: gross_ticket_count {
     type: sum
     sql: if(${is_ticket},if(${is_sale},1,0),0) ;;
@@ -174,6 +192,26 @@ view: ot_accounting_client_daily_sales {
     type: sum
     sql:  if(${is_ticket}, if(${is_sale}, ${item_price} + ${item_tax} + ${item_convenience_fee} + ${item_facility_fee}, 0), 0);;
     value_format_name: usd_0
+  }
+
+  measure: 2020_gross_ticket_sales {
+    type: sum
+    sql:  if(${is_ticket}, if(${is_sale}, ${item_price} + ${item_tax} + ${item_convenience_fee} + ${item_facility_fee}, 0), 0);;
+    value_format_name: usd_0
+
+    filters: {
+      field: tx_year
+      value: "2020" }
+  }
+
+  measure: 2019_gross_ticket_sales {
+    type: sum
+    sql:  if(${is_ticket}, if(${is_sale}, ${item_price} + ${item_tax} + ${item_convenience_fee} + ${item_facility_fee}, 0), 0);;
+    value_format_name: usd_0
+
+    filters: {
+      field: tx_year
+      value: "2019" }
   }
 
   measure: gross_count_donation {
@@ -225,9 +263,50 @@ view: ot_accounting_client_daily_sales {
     value_format_name: usd
   }
 
+  measure: 2020_credit_card_fees {
+    type: sum
+    sql: if(${is_sale}, if(${is_phone_order_fee}, 0, ${item_credit_card_fee}), 0) ;;
+    value_format_name: usd
+
+    filters: {
+      field: tx_year
+      value: "2020" }
+  }
+
+  measure: 2019_credit_card_fees {
+    type: sum
+    sql: if(${is_sale}, if(${is_phone_order_fee}, 0, ${item_credit_card_fee}), 0) ;;
+    value_format_name: usd
+
+    filters: {
+      field: tx_year
+      value: "2019" }
+  }
+
+  measure: 2020_net_credit_card_fees {
+    type: sum
+    sql: if(${is_sale}, if(${is_phone_order_fee}, 0, ${item_credit_card_fee}), 0)*0.25 ;;
+    value_format_name: usd
+
+    filters: {
+      field: tx_year
+      value: "2020" }
+  }
+
+  measure: 2019_net_credit_card_fees {
+    type: sum
+    sql: if(${is_sale}, if(${is_phone_order_fee}, 0, ${item_credit_card_fee}), 0)*0.25 ;;
+    value_format_name: usd
+
+    filters: {
+      field: tx_year
+      value: "2019" }
+  }
+
 # Calculating ARR
  measure: arr_credit_card_fees {
    type:  sum
+  value_format_name: usd_0
   sql: if(${is_sale}, if(${is_phone_order_fee}, 0, ${item_credit_card_fee}), 0) ;;
  hidden: yes
   filters: {
@@ -239,6 +318,7 @@ view: ot_accounting_client_daily_sales {
 
 measure: arr_ovationtix_service_fees {
   type:  sum
+  value_format_name: usd_0
   sql: if(${is_sale}, ${item_ovationtix_fee}, 0) ;;
  hidden: yes
   filters: {
@@ -246,6 +326,44 @@ measure: arr_ovationtix_service_fees {
     value: "12 months ago for 12 months" }
   required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
 }
+
+  measure: 2019_ovationtix_service_fees {
+    type:  sum
+    value_format_name: usd_0
+    sql: if(${is_sale}, ${item_ovationtix_fee}, 0) ;;
+    filters: {
+      field: tx_year
+      value: "2019" }
+}
+
+    measure: 2020_ovationtix_service_fees {
+      type:  sum
+      value_format_name: usd_0
+      sql: if(${is_sale}, ${item_ovationtix_fee}, 0) ;;
+      filters: {
+        field: tx_year
+        value: "2020" }
+}
+
+  measure: 2019_annual_recurring_revenue {
+    label: "2019 ARR (minus refunds)"
+    type: number
+    value_format_name: usd_0
+    sql:  case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${2019_ovationtix_phone_room_fees}+${2019_credit_card_fees}-${2019_refunded_ovationtix_service_fees}-${2019_refunded_credit_card_fees}
+         when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${2019_credit_card_fees}+${2019_ovationtix_service_fees}+${2019_ovationtix_phone_room_fees}-${2019_refunded_ovationtix_service_fees}-${2019_refunded_credit_card_fees}
+        else  ${2019_credit_card_fees}+${2019_ovationtix_service_fees}+${2019_ovationtix_phone_room_fees}-${2019_refunded_ovationtix_service_fees}-${2019_refunded_credit_card_fees} END ;;
+    required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
+  }
+
+  measure: 2020_annual_recurring_revenue {
+    label: "2020 ARR (minus refunds)"
+    type: number
+    value_format_name: usd_0
+    sql:  case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${2020_ovationtix_phone_room_fees}+${2020_credit_card_fees}-${2020_refunded_ovationtix_service_fees}-${2020_refunded_credit_card_fees}
+         when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${2020_credit_card_fees}+${2020_ovationtix_service_fees}+${2020_ovationtix_phone_room_fees}-${2020_refunded_ovationtix_service_fees}-${2020_refunded_credit_card_fees}
+        else  ${2020_credit_card_fees}+${2020_ovationtix_service_fees}+${2020_ovationtix_phone_room_fees}-${2020_refunded_ovationtix_service_fees}-${2020_refunded_credit_card_fees} END ;;
+    required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
+  }
 
 measure: arr_ovationtix_phone_room_fees {
   type:  sum
@@ -257,6 +375,24 @@ measure: arr_ovationtix_phone_room_fees {
   required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
 }
 
+  measure: 2019_ovationtix_phone_room_fees {
+    type:  sum
+    value_format_name: usd_0
+    sql: if(${is_sale}, if(${is_phone_order_fee}, ${item_credit_card_fee}, 0), 0) ;;
+    filters: {
+      field: tx_year
+      value: "2019" }
+    }
+
+    measure: 2020_ovationtix_phone_room_fees {
+      type:  sum
+      value_format_name: usd_0
+      sql: if(${is_sale}, if(${is_phone_order_fee}, ${item_credit_card_fee}, 0), 0) ;;
+      filters: {
+        field: tx_year
+        value: "2020" }
+      }
+
   measure: arr_refunded_ovationtix_service_fees {
     type: sum
     sql: if(${is_sale}, 0, ${item_ovationtix_fee}) ;;
@@ -266,6 +402,24 @@ measure: arr_ovationtix_phone_room_fees {
       value: "12 months ago for 12 months" }
     required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
   }
+
+      measure: 2019_refunded_ovationtix_service_fees {
+        type: sum
+        sql: if(${is_sale}, 0, ${item_ovationtix_fee}) ;;
+        value_format_name: usd_0
+        filters: {
+          field: tx_year
+          value: "2019" }
+        }
+
+      measure: 2020_refunded_ovationtix_service_fees {
+        type: sum
+        sql: if(${is_sale}, 0, ${item_ovationtix_fee}) ;;
+        value_format_name: usd_0
+        filters: {
+          field: tx_year
+          value: "2020" }
+      }
 
   measure: arr_refunded_credit_card_fees {
     type: sum
@@ -277,12 +431,30 @@ measure: arr_ovationtix_phone_room_fees {
     required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
   }
 
+  measure: 2019_refunded_credit_card_fees {
+    type: sum
+    sql: if(${is_sale}, 0, ${item_credit_card_fee}) ;;
+    value_format_name: usd_0
+    filters: {
+      field: tx_year
+      value: "2019" }
+    }
+
+  measure: 2020_refunded_credit_card_fees {
+    type: sum
+    sql: if(${is_sale}, 0, ${item_credit_card_fee}) ;;
+    value_format_name: usd_0
+    filters: {
+      field: tx_year
+      value: "2020" }
+  }
+
 
 measure: annual_recurring_revenue {
-  label: "ARR"
+  label: "Rolling ARR (USD)"
   type: number
   value_format_name: usd_0
-  sql:  case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_ovationtix_phone_room_fees}+${arr_credit_card_fees}
+  sql:  case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_ovationtix_phone_room_fees}+${arr_credit_card_fees}-${arr_refunded_ovationtix_service_fees}-${arr_refunded_credit_card_fees}
          when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees}-${arr_refunded_credit_card_fees}
         else  ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees}-${arr_refunded_credit_card_fees} END ;;
   required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
@@ -310,7 +482,7 @@ measure: annual_recurring_revenue {
     label: "ARR update"
     type: number
     value_format_name: usd
-    sql: case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${ovationtix_phone_room_fees}+${credit_card_fees}
+    sql: case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${ovationtix_phone_room_fees}+${credit_card_fees}-${refunded_ovationtix_service_fees}-${refunded_credit_card_fees}
          when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees} - ${refunded_credit_card_fees}
         else  ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees} - ${refunded_credit_card_fees} END ;;
     required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
