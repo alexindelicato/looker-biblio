@@ -161,6 +161,13 @@ explore: ot_orders {
     sql_on: ${ot_orders.client_id}=${ot_client.client_id} ;;
   }
 
+  join: pro_client_facts {
+    view_label: "AV Pro Client Facts"
+    type:left_outer
+    relationship: many_to_one
+    sql_on: ${ot_orders.client_id}=${pro_client_facts.client_id} ;;
+  }
+
   join: ot_client_fee_structure {
     view_label: "AV Pro Client Fee Structure"
     type:left_outer
