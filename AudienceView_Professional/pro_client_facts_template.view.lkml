@@ -1,4 +1,4 @@
-view: pro_client_facts {
+view: pro_client_facts_template {
     derived_table: {
       explore_source: ot_orders {
         column: client_id {}
