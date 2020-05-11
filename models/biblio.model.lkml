@@ -8,6 +8,14 @@ datagroup: biblio_default_datagroup {
   max_cache_age: "1 hour"
 }
 
+# Should probably name this either semantically (cache_policy_hourly)
+# or by name of data group (ot, or trs).
+ datagroup: caching_policy {
+#  Outputs current day of year (001-366) - current hour (00-24).
+   sql_trigger: select FORMAT_DATETIME("%j-%H", CURRENT_DATETIME());;
+   max_cache_age: "1 hour"
+ }
+
 persist_with: biblio_default_datagroup
 
 #--SALESFORCE JOINS--
@@ -152,6 +160,13 @@ explore: ot_orders {
     relationship: many_to_one
     sql_on: ${ot_orders.client_id}=${ot_client.client_id} ;;
   }
+
+  join: pro_client_facts {
+     type: left_outer
+     relationship: many_to_one
+     sql_on: ${ot_orders.client_id}=${pro_client_facts.client_id} ;;
+   }
+
   join: ot_client_fee_structure {
     view_label: "AV Pro Client Fee Structure"
     type:left_outer
@@ -352,6 +367,12 @@ explore: ot_client {
     type:left_outer
     relationship: one_to_one
     sql_on: ${ot_client.client_id}=${pro_client_user.client_id} ;;
+  }
+
+  join: pro_client_facts {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ot_client.client_id}=${pro_client_facts.client_id} ;;
   }
 
   join: pro_user {

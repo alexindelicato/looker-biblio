@@ -449,6 +449,32 @@ view: ot_client {
     sql: ${TABLE}.zipcode_of_incorporation ;;
   }
 
+  dimension: is_active {
+    type: yesno
+    sql: DATE_DIFF(current_date, ${pro_client_facts.last_order_date}, month) < 13 ;;
+  }
+
+  dimension: is_churn_risk {
+    type: yesno
+    sql: ${is_active} and DATE_DIFF(current_date, ${pro_client_facts.last_order_date}, DAY) > 90 ;;
+  }
+
+  dimension: days_since_last_order {
+    type: number
+    sql: DATE_DIFF(current_date, ${pro_client_facts.last_order_date}, DAY) ;;
+  }
+
+  dimension: churn_date {
+    type: date
+    sql: case when not ${is_active} then ${pro_client_facts.last_order_date} else null end ;;
+  }
+
+  dimension_group: state_change {
+    type: time
+    timeframes: [date,week,month,quarter,year]
+    sql: cast(case when ${is_active} then ${pro_client_facts.first_order_date} else ${churn_date} end as timestamp) ;;
+  }
+
   measure: count_client {
     type: count_distinct
     sql: ${client_id} ;;
