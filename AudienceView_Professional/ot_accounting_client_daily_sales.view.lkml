@@ -595,13 +595,13 @@ measure: annual_recurring_revenue {
   measure: refunded_ovationtix_service_fees {
     type: sum
     sql: if(${is_sale}, 0, ${item_ovationtix_fee}) ;;
-    value_format_name: usd_0
+    value_format_name: usd
   }
 
   measure: refunded_credit_card_fees {
     type: sum
     sql: if(${is_sale}, 0, ${item_credit_card_fee}) ;;
-    value_format_name: usd_0
+    value_format_name: usd
   }
 
   measure: net_sales_count {
@@ -612,13 +612,13 @@ measure: annual_recurring_revenue {
   measure: net_sales {
     type: number
     sql: ${gross_ticket_sales} + ${gross_other_sales} - ${refunds} ;;
-    value_format_name: usd_0
+    value_format_name: usd
   }
 
   measure: net_ovationtix_service_fees {
     type: number
     sql: ${ovationtix_service_fees} - ${refunded_ovationtix_service_fees} ;;
-    value_format_name: usd_0
+    value_format_name: usd
   }
 
 }
