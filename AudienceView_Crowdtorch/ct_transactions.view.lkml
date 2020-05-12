@@ -175,6 +175,24 @@ view: ct_transactions {
       }
     }
 
+  measure: 2019_net_billing_credit_card_fee {
+    type: sum
+    label: "2019 NET Credit Card Fee (USD)"
+    value_format_name: usd
+    sql: case when ${currencycode} = "CAD" then (${TABLE}.billingcreditcardprocessingfee * 0.72)*0.25
+          when ${currencycode} = "USD" then ${TABLE}.billingcreditcardprocessingfee * 0.25
+          when ${ct_transactions.currencycode} = "GBP" then (${TABLE}.billingcreditcardprocessingfee * 0.81)*0.25
+          when ${ct_transactions.currencycode} = "EUR" then (${TABLE}.billingcreditcardprocessingfee * 0.92)*0.25
+          else 0 End;;
+
+      drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+      filters: {
+        field: transactiontime_year
+        value: "2019"
+      }
+    }
+
   measure: arr_billing_credit_card_fee_local_currency {
     type: sum
     label: "ARR Credit Card Fee (Local Currency)"
@@ -193,7 +211,7 @@ view: ct_transactions {
 
   measure: arr_net_billing_credit_card_fee {
     type: number
-    label: "ARR Net Credit Card Fee (USD)"
+    label: "Rolling ARR Net Credit Card Fee (USD)"
     value_format_name: usd
     sql: ${arr_billing_credit_card_fee} * 0.25 ;;
       drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
