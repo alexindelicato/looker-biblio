@@ -219,6 +219,26 @@ view: ot_accounting_client_daily_sales {
     sql: if(${is_sale}, if(${item_type} = 'DNT', 1, 0), 0) ;;
   }
 
+  measure: 2019_gross_count_donation {
+    label: "2019 # of Donations"
+    type: sum
+    sql: if(${is_sale}, if(${item_type} = 'DNT', 1, 0), 0) ;;
+
+    filters: {
+      field: tx_year
+      value: "2019" }
+  }
+
+  measure: 2020_gross_count_donation {
+    label: "2020 # of Donations"
+    type: sum
+    sql: if(${is_sale}, if(${item_type} = 'DNT', 1, 0), 0) ;;
+
+    filters: {
+      field: tx_year
+      value: "2020" }
+  }
+
   measure: gross_count_product {
     type: sum
     sql: if(${is_sale}, if(${item_type} = 'PRD', 1, 0), 0) ;;
@@ -255,6 +275,30 @@ view: ot_accounting_client_daily_sales {
     sql:  if(${is_donation}, ${item_price}, 0);;
     value_format_name: usd_0
   }
+
+
+  measure: 2019_gross_donation_sales {
+    label: "2019 Contributed Income"
+    type:  sum
+    sql:  if(${is_donation}, ${item_price}, 0);;
+    value_format_name: usd_0
+
+    filters: {
+      field: tx_year
+      value: "2019" }
+  }
+
+  measure: 2020_gross_donation_sales {
+    label: "2020 Contributed Income"
+    type:  sum
+    sql:  if(${is_donation}, ${item_price}, 0);;
+    value_format_name: usd_0
+
+    filters: {
+      field: tx_year
+      value: "2020" }
+  }
+
 
 # ------------------------------------------DCL sum1
   measure: credit_card_fees {
