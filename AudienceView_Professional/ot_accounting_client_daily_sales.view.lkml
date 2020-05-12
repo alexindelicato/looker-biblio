@@ -498,9 +498,9 @@ measure: annual_recurring_revenue {
   label: "Rolling ARR (USD)"
   type: number
   value_format_name: usd
-  sql:  case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_ovationtix_phone_room_fees}+${arr_credit_card_fees}-${arr_refunded_ovationtix_service_fees}-${arr_refunded_credit_card_fees}
-         when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees}-${arr_refunded_credit_card_fees}
-        else  ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees}-${arr_refunded_credit_card_fees} END ;;
+  sql:  case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_ovationtix_phone_room_fees}+${arr_credit_card_fees}-${arr_refunded_ovationtix_service_fees}
+         when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees}
+        else  ${arr_credit_card_fees}+${arr_ovationtix_service_fees}+${arr_ovationtix_phone_room_fees}-${arr_refunded_ovationtix_service_fees} END ;;
   required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
 }
 
@@ -509,7 +509,7 @@ measure: annual_recurring_revenue {
   measure: Total_fees {
     label: "Total Fees (Minus Refunds)"
     type: number
-    sql:   ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees}-${refunded_credit_card_fees};;
+    sql:   ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees};;
     value_format_name: usd
     drill_fields: [ot_orders.order_id,credit_card_fees, ovationtix_service_fees,ovationtix_phone_room_fees, Total_fees]
   }
@@ -526,9 +526,9 @@ measure: annual_recurring_revenue {
     label: "ARR update"
     type: number
     value_format_name: usd
-    sql: case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${ovationtix_phone_room_fees}+${credit_card_fees}-${refunded_ovationtix_service_fees}-${refunded_credit_card_fees}
-         when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees} - ${refunded_credit_card_fees}
-        else  ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees} - ${refunded_credit_card_fees} END ;;
+    sql: case when ${sf_accounts.license_type_c} = "License - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${ovationtix_phone_room_fees}+${credit_card_fees}-${refunded_ovationtix_service_fees}
+         when ${sf_accounts.license_type_c} = "Hybrid - Professional" then ${sf_accounts.annual_subscription_fee_c} + ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees}
+        else  ${credit_card_fees}+${ovationtix_service_fees}+${ovationtix_phone_room_fees}-${refunded_ovationtix_service_fees}  END ;;
     required_fields: [sf_accounts.license_type_c,sf_accounts.annual_subscription_fee_c]
   }
 
