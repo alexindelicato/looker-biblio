@@ -853,7 +853,10 @@ explore: ct_transactions {
     view_label: "CT FX Rate"
     type: inner
     relationship: one_to_one
-    sql_on: extract(month(${ct_transactions.transactiontime_date} as timestamp) = ${ct_fx_rates.periodid} and extract(year(${ct_transactions.transactiontime_year} as timestamp)  = ${ct_fx_rates.yearid} and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates.currency} ;;
+    sql_on:
+    extract(month(${ct_transactions.transactiontime_date}) = ${ct_fx_rates.periodid}
+    and extract(year(${ct_transactions.transactiontime_year}) = ${ct_fx_rates.yearid}
+    and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates.currency} ;;
     }
 
   join: ct_annual_sales {
