@@ -70,7 +70,22 @@ view: sel_transactions {
 
   dimension: commissionableconveniencefee {
     type: number
-    sql: ${TABLE}.commissionableconveniencefee ;;
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64),2) ;;
+  }
+
+  dimension: total_commissionableconveniencefee {
+    label: "Revenue Convenience Fee (VMA)"
+    type: number
+    value_format_name: usd
+    sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64),2) END ;;
+  }
+
+  measure: cc_processing_convenience_fee {
+    label: "CC Proceessing Convinence Fee (VMA)"
+    type: number
+    value_format_name: usd
+    sql: ${total_conveniencefee}-${total_commissionableconveniencefee} ;;
   }
 
   dimension: commissionableservicefee {
@@ -78,9 +93,32 @@ view: sel_transactions {
     sql: ${TABLE}.commissionableservicefee ;;
   }
 
+  measure: total_commissionableservicefee {
+    label: "Revenue Service Fee (VMA)"
+    type: sum
+    value_format_name: usd
+    sql: case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2) end;;
+  }
+
+  measure: cc_processing_service_fee {
+    label: "CC Proceessing Service Fee (VMA)"
+    type: number
+    value_format_name: usd
+    sql: ${total_servicefee}-${total_commissionableservicefee} ;;
+  }
+
   dimension: conveniencefee {
-    type: string
-    sql: ${TABLE}.conveniencefee ;;
+    label: "Convenience Fee"
+    type: number
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2) ;;
+  }
+
+  dimension: total_conveniencefee {
+    label: "Total Convenience Fee"
+    type: number
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2) ;;
   }
 
   dimension: conveniencefeesalestax {
@@ -241,12 +279,14 @@ view: sel_transactions {
 
   dimension: servicefee {
     type: number
+    value_format_name: usd
     sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
   }
 
   measure: total_servicefee {
     label: "Total Service Fee"
     type: sum
+    value_format_name: usd
     sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
   }
 

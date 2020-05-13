@@ -45,7 +45,7 @@ view: sel_orders_misclineitems {
 
   dimension: date {
     type: number
-    sql: ${TABLE}.date ;;
+    sql: timestamp_seconds(${TABLE}.date) ;;
   }
 
   dimension: donation {
