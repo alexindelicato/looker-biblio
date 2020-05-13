@@ -1,4 +1,4 @@
-view: ct__fx_rates {
+view: ct_fx_rates {
   sql_table_name: `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_fx_rates`
     ;;
 
