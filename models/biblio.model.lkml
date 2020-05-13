@@ -854,7 +854,7 @@ explore: ct_transactions {
     type: inner
     relationship: one_to_one
     sql_on:
-    ${ct_transactions.transactiontime_month} = ${ct_fx_rates.periodid}
+    EXTRACT(MONTH FROM ${ct_transactions.transactiontime_raw}) = ${ct_fx_rates.periodid}
     and ${ct_transactions.transactiontime_year} = ${ct_fx_rates.yearid}
     and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates.currency} ;;
     }
