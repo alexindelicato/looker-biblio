@@ -703,6 +703,13 @@ explore: sel_transactions {
     relationship: one_to_one
     sql_on: ${sel_donations.orderid}=${sel_orders.id} AND ${sel_donations.testmode} = "N" ;;
   }
+
+  join: sel_performances {
+    view_label: "AV Select Performances"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_transactions.performanceid}=${sel_performances.performanceid} AND  ${sel_performances.deleted} IS NULL  ;;
+  }
 }
 
   #Select Donation Report
