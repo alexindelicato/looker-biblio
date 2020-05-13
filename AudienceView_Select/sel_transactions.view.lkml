@@ -237,6 +237,12 @@ view: sel_transactions {
     sql: ${TABLE}.quantity ;;
   }
 
+  measure: total_quantity {
+    label: "# of Tickets"
+    type: sum
+    sql: ${TABLE}.quantity ;;
+  }
+
   dimension: response_code {
     type: string
     sql: ${TABLE}.response_code ;;
