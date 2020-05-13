@@ -266,9 +266,16 @@ view: sel_transactions {
   }
 
   dimension: total {
-    type: string
-    sql: ${TABLE}.total ;;
+    type: number
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
   }
+
+  measure: total_amount {
+    label: "Total Amount"
+    type: sum
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+  }
+
 
   dimension: trans_id {
     type: string
