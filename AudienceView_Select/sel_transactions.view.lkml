@@ -313,6 +313,7 @@ view: sel_transactions {
   measure: total_amount {
     label: "Total Amount"
     type: sum
+    value_format_name: usd
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
   }
 
