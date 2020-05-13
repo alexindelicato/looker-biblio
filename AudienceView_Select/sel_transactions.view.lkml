@@ -74,11 +74,11 @@ view: sel_transactions {
     sql: round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64),2) ;;
   }
 
-  dimension: total_commissionableconveniencefee {
+  measure: total_commissionableconveniencefee {
     label: "Revenue Convenience Fee (VMA)"
-    type: number
+    type: sum
     value_format_name: usd
-    sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64),2) END ;;
+    sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2) END ;;
   }
 
   measure: cc_processing_convenience_fee {
@@ -114,9 +114,9 @@ view: sel_transactions {
     sql: round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2) ;;
   }
 
-  dimension: total_conveniencefee {
+  measure: total_conveniencefee {
     label: "Total Convenience Fee"
-    type: number
+    type: sum
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2) ;;
   }
@@ -281,6 +281,13 @@ view: sel_transactions {
     type: number
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+  }
+
+  measure: total_ARR {
+    label: "Total ARR"
+    type: number
+    value_format_name: usd
+    sql: ${total_servicefee} + ${total_conveniencefee} ;;
   }
 
   measure: total_servicefee {
