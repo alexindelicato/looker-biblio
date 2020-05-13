@@ -98,9 +98,9 @@ view: sel_transactions {
     sql: ${TABLE}.cseat ;;
   }
 
-  dimension: date {
-    type: number
-    sql: ${TABLE}.date ;;
+  dimension_group: date {
+    type: time
+    sql: timestamp_seconds(${TABLE}.date) ;;
   }
 
   dimension: dateconsigneeinvoiced {
@@ -240,8 +240,14 @@ view: sel_transactions {
   }
 
   dimension: servicefee {
-    type: string
-    sql: ${TABLE}.servicefee ;;
+    type: number
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+  }
+
+  measure: total_servicefee {
+    label: "Total Service Fee"
+    type: sum
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
   }
 
   dimension: settled {

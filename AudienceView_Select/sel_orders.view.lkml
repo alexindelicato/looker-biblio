@@ -59,9 +59,9 @@ view: sel_orders {
     sql: ${TABLE}.consigneeinvoiceid ;;
   }
 
-  dimension: date {
-    type: number
-    sql: ${TABLE}.date ;;
+  dimension_group: date {
+    type: time
+    sql: timestamp_seconds(${TABLE}.date) ;;
   }
 
   dimension: deliveryid {
