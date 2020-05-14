@@ -141,7 +141,7 @@ view: ct_transactions {
   #ARR
   measure: arr_billing_credit_card_fee {
     type: sum
-    label: "ARR Credit Card Fee (USD)"
+    label: "Rolling ARR Credit Card Fee (USD)"
     value_format_name: usd
     sql:case when ${currencycode} = "CAD" then ${TABLE}.billingcreditcardprocessingfee * 0.72
     when ${currencycode} = "USD" then ${TABLE}.billingcreditcardprocessingfee * 1
@@ -188,6 +188,13 @@ view: ct_transactions {
         value: "2019"
       }
     }
+
+  measure: 2019_net_billing_credit_card_fee_fx_rate {
+    type: number
+    label: "2019 ARR NET Credit Card Fee (FX Rate USD)"
+    value_format_name: usd
+    sql: ${2019_billing_credit_card_fee_fx_rate} * 0.25 ;;
+  }
 
   measure: 2019_net_billing_credit_card_fee {
     type: sum
@@ -243,7 +250,7 @@ view: ct_transactions {
 
   measure: arr_billing_service_fee {
     type: sum
-    label: "ARR Service Fee (USD)"
+    label: " Rolling ARR Service Fee (USD)"
     value_format_name: usd
     sql:case when ${currencycode} = "CAD" then ${TABLE}.billingservicefee * 0.72
           when ${currencycode} = "USD" then ${TABLE}.billingservicefee * 1
