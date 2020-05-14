@@ -859,13 +859,6 @@ explore: ct_transactions {
     and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates.currency} ;;
     }
 
-  join: ct_annual_sales {
-    view_label: "CT Annual Transaction Summary"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${ct_transactions.clientid} = ${ct_annual_sales.client_id}  ;;
-  }
-
   join: ct_master_list {
     view_label: "CT Client Facts"
     type: left_outer
