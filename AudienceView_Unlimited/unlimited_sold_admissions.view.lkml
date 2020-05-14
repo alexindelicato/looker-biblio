@@ -163,6 +163,18 @@ GROUP BY
     }
   }
 
+  measure: 2019_admission_count {
+    type: sum
+    label: "2019 # of Tickets"
+    sql:  ${TABLE}.admission_count  ;;
+
+
+    filters: {
+      field: audit_date_time_year
+      value: "2019"
+    }
+  }
+
 
   measure: 2020_total_sales {
     type: sum
