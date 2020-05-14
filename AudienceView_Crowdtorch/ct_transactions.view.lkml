@@ -175,6 +175,20 @@ view: ct_transactions {
       }
     }
 
+  measure: 2019_billing_credit_card_fee_fx_rate {
+    type: sum
+    label: "2019 ARR Credit Card Fee (FX Rate USD)"
+    value_format_name: usd
+    sql:${TABLE}.billingcreditcardprocessingfee * ${ct_fx_rates.fx_rate} ;;
+
+      drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+      filters: {
+        field: transactiontime_year
+        value: "2019"
+      }
+    }
+
   measure: 2019_net_billing_credit_card_fee {
     type: sum
     label: "2019 NET Credit Card Fee (USD)"
@@ -254,6 +268,20 @@ view: ct_transactions {
           when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.billingservicefee * 0.81
           when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.billingservicefee * 0.92
           else 0 End;;
+
+      drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
+
+      filters: {
+        field: transactiontime_year
+        value: "2019"
+      }
+    }
+
+  measure: 2019_billing_service_fee_fx_rate {
+    type: sum
+    label: "2019 ARR Service Fee (FX Rate USD)"
+    value_format_name: usd
+    sql:${TABLE}.billingservicefee * ${ct_fx_rates.fx_rate} ;;
 
       drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
 
@@ -371,6 +399,13 @@ view: ct_transactions {
     type: number
     value_format_name: usd
     sql: ${2019_billing_service_fee} + ${2019_billing_credit_card_fee} ;;
+  }
+
+  measure: 2019_total_arr_usd_fx {
+    label: "2019 Total ARR (FX Rate USD)"
+    type: number
+    value_format_name: usd
+    sql: ${2019_billing_service_fee_fx_rate} + ${2019_billing_credit_card_fee_fx_rate} ;;
   }
 
 #   measure: total_arr_dimension {
