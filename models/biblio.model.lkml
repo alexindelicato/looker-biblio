@@ -724,6 +724,12 @@ explore: sel_transactions {
     relationship: one_to_one
     sql_on: ${sel_donations.orderid}=${sel_orders.id} AND ${sel_donations.testmode} = "N" ;;
   }
+  join: sel_donationcampaigns {
+    view_label: "AV Select Donations Campaigns"
+    type: inner
+    relationship: one_to_one
+    sql_on: ${sel_donationcampaigns.donationcampaignid}= ${sel_donations.donationcampaignid}  ;;
+  }
 
   join: sel_performances {
     view_label: "AV Select Performances"

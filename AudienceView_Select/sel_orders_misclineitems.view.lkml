@@ -194,6 +194,23 @@ view: sel_orders_misclineitems {
     }
   }
 
+  measure: 2020_total_tipjar {
+    label: "2020 Total Tipjar Donation"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+
+    filters: {
+      field: donation
+      value: "Y"
+    }
+
+    filters: {
+      field: date_year
+      value: "2020"
+    }
+  }
+
   measure: count {
     type: count
     drill_fields: [id, name, orders.id, exchanges.exchangeid]
