@@ -178,7 +178,7 @@ view: sel_orders_misclineitems {
   }
 
   measure: 2019_total_tipjar {
-    label: "Total Tipjar Donation"
+    label: "2019 Total Tipjar Donation"
     type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
