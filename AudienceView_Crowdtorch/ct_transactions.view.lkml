@@ -904,14 +904,10 @@ view: ct_transactions {
     }
 
   measure: 2020_sum_grand_total {
-    label: "2020 Earned Income Total (USD)"
+    label: "2020 Earned Income Total (FX Rate USD)"
     value_format_name: usd
     type: sum
-    sql:  case when ${currencycode} = "CAD" then ${TABLE}.grandtotal * 0.72
-    when ${currencycode} = "USD" then ${TABLE}.grandtotal * 1
-    when ${ct_transactions.currencycode} = "GBP" then ${TABLE}.grandtotal * 0.81
-    when ${ct_transactions.currencycode} = "EUR" then ${TABLE}.grandtotal * 0.92
-    else 0 End;;
+    sql:  ${TABLE}.grandtotal * ${ct_fx_rates.fx_rate} ;;
     drill_fields: [transactionid,clientname,paymentid,showname,quantity,grandtotal_usd]
 
     filters: {
