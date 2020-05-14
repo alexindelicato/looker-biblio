@@ -342,6 +342,30 @@ view: ct_transactions {
     sql: ${TABLE}.billingrecoupablefee ;;
   }
 
+  measure:: sum_billingrecoupablefee {
+    type: sum
+    sql: ${TABLE}.billingrecoupablefee ;;
+  }
+
+  measure:: sum_billingrecoupablefee_fx_rate {
+    label: "Recoupable Fees (FX Rate USD)"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.billingrecoupablefee * ${ct_fx_rates.fx_rate} ;;
+  }
+
+  measure:: 2019_billingrecoupablefee_fx_rate {
+    label: "2019 Recoupable Fees (FX Rate USD)"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.billingrecoupablefee * ${ct_fx_rates.fx_rate} ;;
+
+    filters: {
+      field: transactiontime_year
+      value: "2019"
+    }
+  }
+
   dimension: billingsaletypeid {
     type: number
     value_format_name: id
@@ -412,7 +436,7 @@ view: ct_transactions {
     label: "2019 Total ARR (FX Rate USD)"
     type: number
     value_format_name: usd
-    sql: ${2019_billing_service_fee_fx_rate} + ${2019_billing_credit_card_fee_fx_rate} ;;
+    sql: ${2019_billing_service_fee_fx_rate} + ${2019_billing_credit_card_fee_fx_rate} + ${2019_billingrecoupablefee_fx_rate} ;;
   }
 
 #   measure: total_arr_dimension {
@@ -1717,6 +1741,7 @@ view: ct_transactions {
       date,
       week,
       month,
+      month_name,
       quarter,
       year
     ]
@@ -1738,6 +1763,7 @@ view: ct_transactions {
       date,
       week,
       month,
+      month_name,
       quarter,
       year
     ]
