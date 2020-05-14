@@ -248,6 +248,13 @@ view: sf_accounts {
     sql: ${TABLE}.annual_subscription_fee_c ;;
   }
 
+  dimension: select_contract_type {
+    type: string
+    label: "Contract Type"
+    sql: case when ${annual_subscription_fee_c} is not NULL and ${type} = "Client - AudienceView Select" then "Licensed"
+        else "Per Ticket Fee" End;;
+  }
+
   dimension: annual_support_c {
     type: number
     value_format_name: usd
