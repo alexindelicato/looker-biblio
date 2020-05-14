@@ -129,8 +129,17 @@ view: sel_orders {
   }
 
   dimension: totalcost {
-    type: string
-    sql: ${TABLE}.totalcost ;;
+    label: "Total Order Cost"
+    type: number
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.totalcost as FLOAT64), 2) ;;
+  }
+
+  measure: sum_totalcost {
+    label: "Total Order Cost"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.totalcost as FLOAT64), 2) ;;
   }
 
   dimension: totaldiscount {

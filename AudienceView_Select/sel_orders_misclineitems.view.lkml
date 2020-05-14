@@ -38,6 +38,13 @@ view: sel_orders_misclineitems {
     sql: ${TABLE}.commissionableservicefee ;;
   }
 
+  measure: total_commissionableservicefee {
+    label: "Misc Item Revenue Service Fee"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2) ;;
+  }
+
   dimension: coupon {
     type: string
     sql: ${TABLE}.coupon ;;
@@ -114,9 +121,31 @@ view: sel_orders_misclineitems {
   }
 
   dimension: servicefee {
-    type: string
-    sql: ${TABLE}.servicefee ;;
+    label: "Service Fee"
+    type: number
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
   }
+
+  measure: total_servicefee {
+    label: "Total Misc Item Service Fee"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+  }
+
+  measure: total_tipjar_servicefee {
+    label: "Total Tipjar Service Fee"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+
+    filters: {
+      field: donation
+      value: "Y"
+    }
+  }
+
 
   dimension: settled {
     type: number
@@ -124,8 +153,28 @@ view: sel_orders_misclineitems {
   }
 
   dimension: total {
-    type: string
-    sql: ${TABLE}.total ;;
+    type: number
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+  }
+
+  measure: sum_total {
+    label: "Total Misc Items Amount"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+  }
+
+  measure: sum_total_tipjar {
+    label: "Total Tipjar Donation"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+
+    filters: {
+      field: donation
+      value: "Y"
+    }
   }
 
   measure: count {

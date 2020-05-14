@@ -76,7 +76,7 @@ view: sel_transactions {
 
   measure: total_commissionableconveniencefee {
     label: "Revenue Convenience Fee (VMA)"
-    type: sum
+    type: sum_distinct
     value_format_name: usd
     sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2) END ;;
   }
@@ -95,7 +95,7 @@ view: sel_transactions {
 
   measure: total_commissionableservicefee {
     label: "Revenue Service Fee (VMA)"
-    type: sum
+    type: sum_distinct
     value_format_name: usd
     sql: case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2) end;;
   }
@@ -116,7 +116,7 @@ view: sel_transactions {
 
   measure: total_conveniencefee {
     label: "Total Convenience Fee"
-    type: sum
+    type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2) ;;
   }
@@ -239,7 +239,7 @@ view: sel_transactions {
 
   measure: total_quantity {
     label: "# of Tickets"
-    type: sum
+    type: sum_distinct
     sql: ${TABLE}.quantity ;;
   }
 
@@ -298,7 +298,7 @@ view: sel_transactions {
 
   measure: total_servicefee {
     label: "Total Service Fee"
-    type: sum
+    type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
   }
@@ -324,8 +324,8 @@ view: sel_transactions {
   }
 
   measure: total_amount {
-    label: "Total Amount"
-    type: sum
+    label: "Total Admission Amount"
+    type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
   }
