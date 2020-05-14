@@ -57,6 +57,21 @@ view: sel_donations {
     }
   }
 
+  measure: total_donation_amoount{
+    label: "Total Donations (including tipjar)"
+    type: number
+    value_format_name: usd
+    sql: ${sum_donation_amount}+${sel_orders_misclineitems.total_tipjar} ;;
+  }
+
+  measure: 2019_total_donation_amoount{
+    label: "2019 Total Donations (including tipjar)"
+    type: number
+    value_format_name: usd
+    sql: ${2019_sum_donation_amount}+${sel_orders_misclineitems.2019_total_tipjar} ;;
+  }
+
+
   measure: 2020_sum_donation_amount {
     label: "2020 Contributed Income (USD)"
     type: sum

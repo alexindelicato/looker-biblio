@@ -577,6 +577,27 @@ explore: sel_members {
     sql_on: ${sel_donationcampaigns.donationcampaignid}= ${sel_donations.donationcampaignid}  ;;
   }
 
+  join: sel_transactions {
+    view_label: "AV Select Transactions"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sel_transactions.memberid};;
+  }
+
+  join: sel_orders {
+    view_label: "AV Select Orders"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_orders.id}=${sel_transactions.orderid} and ${sel_orders.testmode} = "N" ;;
+  }
+
+  join: sel_orders_misclineitems {
+    view_label: "AV Select Order Misc Items"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_orders_misclineitems.orderid}=${sel_orders.id} ;;
+  }
+
   join: sf_accounts {
     view_label: "SF Accounts"
     type: left_outer
@@ -737,6 +758,27 @@ explore: sel_transactions {
       type: inner
       relationship: one_to_one
       sql_on: ${sel_members.memberid}=${sel_payments_donations.memberid} AND ${sel_members.testmode}="N" AND ${sel_members.active}="Y" ;;
+    }
+
+    join: sel_transactions {
+      view_label: "AV Select Transactions"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${sel_members.memberid}=${sel_transactions.memberid};;
+    }
+
+    join: sel_orders {
+      view_label: "AV Select Orders"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${sel_orders.id}=${sel_transactions.orderid} and ${sel_orders.testmode} = "N" ;;
+    }
+
+    join: sel_orders_misclineitems {
+      view_label: "AV Select Order Misc Items"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${sel_orders_misclineitems.orderid}=${sel_orders.id} ;;
     }
 
  }

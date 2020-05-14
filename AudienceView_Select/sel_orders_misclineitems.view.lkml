@@ -50,8 +50,8 @@ view: sel_orders_misclineitems {
     sql: ${TABLE}.coupon ;;
   }
 
-  dimension: date {
-    type: number
+  dimension_group: date {
+    type: time
     sql: timestamp_seconds(${TABLE}.date) ;;
   }
 
@@ -165,7 +165,7 @@ view: sel_orders_misclineitems {
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
   }
 
-  measure: sum_total_tipjar {
+  measure: total_tipjar {
     label: "Total Tipjar Donation"
     type: sum_distinct
     value_format_name: usd
@@ -174,6 +174,23 @@ view: sel_orders_misclineitems {
     filters: {
       field: donation
       value: "Y"
+    }
+  }
+
+  measure: 2019_total_tipjar {
+    label: "Total Tipjar Donation"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+
+    filters: {
+      field: donation
+      value: "Y"
+    }
+
+    filters: {
+      field: date_year
+      value: "2019"
     }
   }
 
