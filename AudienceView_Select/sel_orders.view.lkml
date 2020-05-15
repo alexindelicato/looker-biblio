@@ -136,7 +136,7 @@ view: sel_orders {
   }
 
   measure: sum_totalcost {
-    label: "Total Order Cost"
+    label: "Total Order Amount"
     type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.totalcost as FLOAT64), 2) ;;
