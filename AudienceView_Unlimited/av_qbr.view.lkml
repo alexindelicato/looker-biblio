@@ -334,14 +334,14 @@ filters: {
       value: "2019" }
   }
 
-  measure: 2019_total_donation_amount { type: sum sql: ${TABLE}.donation_amount ;; drill_fields: [qbr_order_amount_detail*] value_format_name: usd
+  measure: 2019_total_donation_amount { type: sum sql: ${TABLE}.donation_amount ;; drill_fields: [qbr_order_amount_detail*] value_format_name: usd label: "2019 Contributed Amount"
     filters: {
       field: client_metric_time_year
       value: "2019" }
   }
 
 
-  measure:2019_total_donation_volume { type: sum sql: ${TABLE}.donation_volume ;; drill_fields: [qbr_order_volume_detail*]
+  measure:2019_total_donation_volume { type: sum sql: ${TABLE}.donation_volume ;; drill_fields: [qbr_order_volume_detail*] label: "2019 Contributed Volume"
     filters: {
       field: client_metric_time_year
       value: "2019" }
