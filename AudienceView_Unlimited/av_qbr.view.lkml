@@ -485,6 +485,23 @@ filters: {
     end;;
     }
 
+  measure: 2019_earned_income_USD {
+    label: "2019 Earned Income (USD)"
+    type:  number
+    value_format_name: usd
+    required_fields: [client_currency_code]
+    sql:   case
+      when ${client_currency_code} = "USD" THEN ${2019_total_order_admission_amounts} * 1.00
+      when ${client_currency_code} = "CDN" THEN ${2019_total_order_admission_amounts} * 0.76
+      when ${client_currency_code} = "GBP" THEN ${2019_total_order_admission_amounts} * 1.32
+      when ${client_currency_code} = "PHP" THEN ${2019_total_order_admission_amounts} * 0.020
+      when ${client_currency_code} = "EUR" THEN ${2019_total_order_admission_amounts} * 1.11
+      when ${client_currency_code} = "COP" THEN ${2019_total_order_admission_amounts} * 0.00029
+    else ${2019_total_order_admission_amounts}
+    end;;
+  }
+
+
 
     measure: total_order_item_volumes {
       type: sum
