@@ -79,8 +79,8 @@ view: sel_members_merchantaccounts {
 
   dimension: gateway {
     type: string
-    sql: case when ${TABLE}.name is NULL and ${sel_members.country} = "CA" then "Paysafe"
-         when ${TABLE}.name is NULL and ${sel_members.country} = "US" then "Heartland"
+    sql: case when ${TABLE}.name is NULL and ${sel_members.country} = "CA" then "Paysafe VMA"
+         when ${TABLE}.name is NULL and ${sel_members.country} = "US" then "Heartland VMA"
          else ${TABLE}.name end ;;
   }
 
