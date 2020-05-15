@@ -518,7 +518,7 @@ explore: sel_members {
     view_label: "AV Select Merchant Accounts"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${sel_members.memberid}=${sel_members_merchantaccounts.memberid}  ;;
+    sql_on: ${sel_members.memberid}=${sel_members_merchantaccounts.memberid} and ${sel_members_merchantaccounts.deleted} is NULL  ;;
   }
 
   join: sel_agent_to_members {

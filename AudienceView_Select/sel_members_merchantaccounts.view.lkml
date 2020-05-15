@@ -77,6 +77,13 @@ view: sel_members_merchantaccounts {
     sql: ${TABLE}.name ;;
   }
 
+  dimension: gateway {
+    type: string
+    sql: case when ${TABLE}.name is NULL and ${sel_members.country} = "CA" then "Paysafe"
+         when ${TABLE}.name is NULL and ${sel_members.country} = "US" then "Heartland"
+         else ${TABLE}.name end ;;
+  }
+
   dimension: priority {
     type: number
     sql: ${TABLE}.priority ;;
