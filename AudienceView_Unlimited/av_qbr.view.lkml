@@ -347,6 +347,66 @@ filters: {
       value: "2019" }
   }
 
+  measure:2019_total_gift_certificate_amount { type: sum sql: ${TABLE}.gift_certificate_amount ;; drill_fields: [qbr_order_amount_detail*] value_format_name: usd
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+  measure:2019_total_gift_certificate_volume { type: sum sql: ${TABLE}.gift_certificate_volume ;; drill_fields: [qbr_order_volume_detail*]
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
+  measure:2019_total_misc_item_amount { type: sum sql: ${TABLE}.misc_item_amount ;; drill_fields: [qbr_order_amount_detail*] value_format_name: usd
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
+  measure:2019_total_misc_item_volume { type: sum sql: ${TABLE}.misc_item_volume ;; drill_fields: [qbr_order_volume_detail*]
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
+  measure:2019_total_order_total_volume { type: sum sql: ${TABLE}.order_total_volume ;; drill_fields: [qbr_order_total_detail*]
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
+  measure:2019_total_service_charge_amount { type: sum sql: ${TABLE}.service_charge_amount ;; drill_fields: [qbr_order_amount_detail*] value_format_name: usd
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+  measure:2019_total_service_charge_volume { type: sum sql: ${TABLE}.service_charge_volume ;; drill_fields: [qbr_order_volume_detail*]
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+  measure:2019_total_single_admission_amount { type: sum sql: ${TABLE}.single_admission_amount ;; drill_fields: [qbr_order_amount_detail*] value_format_name: usd
+  filters: {
+    field: client_metric_time_year
+    value: "2019" }
+}
+  measure:2019_total_single_admission_volume { type: sum sql: ${TABLE}.single_admission_volume ;; drill_fields: [qbr_order_volume_detail*]
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+  measure:2019_total_sold_admission_volume { type: sum sql: ${TABLE}.sold_admission_volume ;;
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+  measure:2019_total_comp_admission_volume { type: sum sql: ${TABLE}.comp_admission_volume ;;
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
 
    measure: total_order_item_amounts {
       label: "Total Order Item Amount"
