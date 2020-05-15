@@ -309,7 +309,46 @@ view: av_qbr {
     measure:total_sold_admission_volume { type: sum sql: ${TABLE}.sold_admission_volume ;; }
     measure:total_comp_admission_volume { type: sum sql: ${TABLE}.comp_admission_volume ;; }
 
-    measure: total_order_item_amounts {
+
+  measure:2019_total_bundle_admission_amount { type: sum sql: ${TABLE}.bundle_admission_amount ;; drill_fields: [qbr_order_amount_detail*] value_format_name: usd
+
+filters: {
+    field: client_metric_time_year
+    value: "2019" }
+}
+
+  measure:2019_total_bundle_admission_volume { type: sum sql: ${TABLE}.bundle_admission_volume ;; drill_fields: [qbr_order_volume_detail*]
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
+  measure:2019_total_bundle_amount { type: sum sql: ${TABLE}.bundle_amount ;; drill_fields: [qbr_order_amount_detail*] value_format_name: usd
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+  measure:2019_total_bundle_volume { type: sum sql: ${TABLE}.bundle_volume ;; drill_fields: [qbr_order_volume_detail*]
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
+  measure: 2019_total_donation_amount { type: sum sql: ${TABLE}.donation_amount ;; drill_fields: [qbr_order_amount_detail*] value_format_name: usd
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
+
+  measure:2019_total_donation_volume { type: sum sql: ${TABLE}.donation_volume ;; drill_fields: [qbr_order_volume_detail*]
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
+
+   measure: total_order_item_amounts {
       label: "Total Order Item Amount"
       type: sum
       sql: coalesce(
