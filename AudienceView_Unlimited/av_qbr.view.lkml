@@ -424,6 +424,7 @@ filters: {
 
   measure: 2019_total_order_admission_amounts {
     label: "2019 Earned Income"
+    value_format_name: usd
     type: sum
     sql: coalesce(
       ${TABLE}.bundle_admission_amount,
