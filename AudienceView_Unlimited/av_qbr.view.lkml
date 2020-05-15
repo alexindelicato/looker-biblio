@@ -422,6 +422,24 @@ filters: {
       );;
     }
 
+  measure: 2019_total_order_item_amounts {
+    label: "2019 Total Order Item Amount"
+    type: sum
+    sql: coalesce(
+      ${TABLE}.bundle_admission_amount,
+      ${TABLE}.bundle_amount,
+      ${TABLE}.donation_amount,
+      ${TABLE}.gift_certificate_amount,
+      ${TABLE}.misc_item_amount,
+      ${TABLE}.service_charge_amount,
+      ${TABLE}.single_admission_amount
+      );;
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
+
   measure: 2019_total_order_admission_amounts {
     label: "2019 Earned Income"
     value_format_name: usd
@@ -450,6 +468,23 @@ filters: {
     else ${total_order_item_amounts}
     end;;
   }
+
+  measure: 2019_total_order_amount_USD {
+    label: "2019 Total Earned Income (Inludes Everything USD)"
+    type:  number
+    value_format_name: usd
+    required_fields: [client_currency_code]
+    sql:   case
+      when ${client_currency_code} = "USD" THEN ${2019_total_order_item_amounts} * 1.00
+      when ${client_currency_code} = "CDN" THEN ${2019_total_order_item_amounts} * 0.76
+      when ${client_currency_code} = "GBP" THEN ${2019_total_order_item_amounts} * 1.32
+      when ${client_currency_code} = "PHP" THEN ${2019_total_order_item_amounts} * 0.020
+      when ${client_currency_code} = "EUR" THEN ${2019_total_order_item_amounts} * 1.11
+      when ${client_currency_code} = "COP" THEN ${2019_total_order_item_amounts} * 0.00029
+    else ${2019_total_order_item_amounts}
+    end;;
+    }
+
 
     measure: total_order_item_volumes {
       type: sum
