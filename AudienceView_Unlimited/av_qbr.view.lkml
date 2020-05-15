@@ -422,6 +422,18 @@ filters: {
       );;
     }
 
+  measure: 2019_total_order_admission_amounts {
+    label: "2019 Earned Income"
+    type: sum
+    sql: coalesce(
+      ${TABLE}.bundle_admission_amount,
+      ${TABLE}.single_admission_amount
+      );;
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
   measure: total_order_amount_USD {
     label: "Total Order Item Amount (USD)"
     type:  number
@@ -473,6 +485,24 @@ filters: {
         total_ticket_volume]
       value_format_name: decimal_0
     }
+
+  measure: 2019_total_ticket_volume {
+    label: "2019 Earned Income Volume"
+    type: sum
+    sql: coalesce(
+      ${TABLE}.bundle_admission_volume,
+      ${TABLE}.single_admission_volume
+      ) ;;
+    drill_fields: [qbr_ticket_detail*,
+      -total_bundle_admission_volume,
+      -total_single_admission_volume,
+      total_ticket_volume]
+    value_format_name: decimal_0
+    filters: {
+      field: client_metric_time_year
+      value: "2019" }
+  }
+
     measure: average_ticket_amount {
       type: average
       sql: ${TABLE}.single_admission_amount;;
