@@ -292,6 +292,7 @@ view: sel_transactions {
     }
   }
 
+
   measure: 2019_total_quantity_refunded {
     label: "2019 # of Tickets Refunded"
     type: sum_distinct
