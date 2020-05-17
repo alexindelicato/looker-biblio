@@ -584,6 +584,13 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_transactions.memberid};;
   }
 
+  join: sel_refunds {
+    view_label: "AV Select Refunds"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_orders.id}=${sel_refunds.orderid}  ;;
+  }
+
   join: sel_orders {
     view_label: "AV Select Orders"
     type: left_outer
@@ -784,7 +791,7 @@ explore: sel_orders {
     view_label: "AV Select Performances"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sel_orders_misclineitems.performanceid}=${sel_performances.performanceid} AND  ${sel_performances.deleted} IS NULL  ;;
+    sql_on: ${sel_transactions.performanceid}=${sel_performances.performanceid} AND  ${sel_performances.deleted} IS NULL  ;;
   }
 }
 
@@ -820,6 +827,13 @@ explore: sel_orders {
       type: left_outer
       relationship: one_to_one
       sql_on: ${sel_members.memberid}=${sel_transactions.memberid};;
+    }
+
+    join: sel_refunds {
+      view_label: "AV Select Refunds"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${sel_orders.id}=${sel_refunds.orderid}  ;;
     }
 
     join: sel_orders {

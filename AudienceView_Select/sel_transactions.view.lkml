@@ -265,6 +265,63 @@ view: sel_transactions {
     }
   }
 
+  measure: total_quantity_refunded {
+    label: "# of Tickets Refunded"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+
+    filters: {
+      field: sel_refunds.refundid
+      value: "NOT NULL"
+    }
+  }
+
+  measure: 2020_total_quantity_refunded {
+    label: "2020 # of Tickets Refunded"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+
+    filters: {
+      field: sel_refunds.refundid
+      value: "NOT NULL"
+    }
+
+    filters: {
+      field: date_year
+      value: "2020"
+    }
+  }
+
+  measure: 2019_total_quantity_refunded {
+    label: "2019 # of Tickets Refunded"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+
+    filters: {
+      field: sel_refunds.refundid
+      value: "NOT NULL"
+    }
+
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
+
+  measure: 2020_net_total_quantity {
+    label: "2020 NET # of Tickets"
+    type: number
+    sql: ${2020_total_quantity} - ${2020_total_quantity_refunded} ;;
+  }
+
+  measure: 2019_net_total_quantity {
+    label: "2019 NET # of Tickets"
+    type: number
+    sql: ${2019_total_quantity} - ${2019_total_quantity_refunded} ;;
+  }
+
+
   dimension: response_code {
     type: string
     sql: ${TABLE}.response_code ;;
