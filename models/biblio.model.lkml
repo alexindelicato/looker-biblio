@@ -746,6 +746,20 @@ explore: sel_orders {
     sql_on: ${sel_orders.id}=${sel_transactions.orderid} and  ${testmode} = "N" ;;
   }
 
+  join: sel_refunds {
+    view_label: "AV Select Refunds"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_orders.id}=${sel_refunds.orderid}  ;;
+  }
+
+  join: sel_exchanges {
+    view_label: "AV Select Exchanges"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_orders.id}=${sel_exchanges.orderid}  ;;
+  }
+
   join: sel_orders_misclineitems {
     view_label: "AV Select Order Misc Items"
     type: left_outer
