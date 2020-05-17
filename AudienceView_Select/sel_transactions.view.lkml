@@ -243,6 +243,28 @@ view: sel_transactions {
     sql: ${TABLE}.quantity ;;
   }
 
+  measure: 2020_total_quantity {
+    label: "2020 # of Tickets"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+
+  filters: {
+    field: date_year
+    value: "2020"
+  }
+  }
+
+  measure: 2019_total_quantity {
+    label: "2019 # of Tickets"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
   dimension: response_code {
     type: string
     sql: ${TABLE}.response_code ;;
@@ -328,6 +350,28 @@ view: sel_transactions {
     type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+  }
+
+  measure: 2019_total_amount {
+    label: "2019 Total Admission Amount"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
+  measure: 2020_total_amount {
+    label: "2020 Total Admission Amount"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    filters: {
+      field: date_year
+      value: "2020"
+    }
   }
 
 
