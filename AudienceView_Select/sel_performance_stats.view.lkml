@@ -76,7 +76,7 @@ view: sel_performance_stats {
   dimension: total_convenience_fees {
     type: number
     value_format_name: usd
-    sql: ${TABLE}.Total_Convenience_Fees ;;
+    sql: round(safe_cast(${TABLE}.Total_Convenience_Fees as FLOAT64),2) ;;
   }
 
   measure: sum_total_convenience_fees {
@@ -89,28 +89,28 @@ view: sel_performance_stats {
   dimension: total_sales__ {
     type: number
     value_format_name: usd
-    sql: ${TABLE}.Total_Sales__ ;;
+    sql: round(safe_cast(${TABLE}.Total_Sales__ as FLOAT64),2) ;;
   }
 
   measure: sum_total_sales__ {
     type: sum
     value_format_name: usd
-    sql: ${TABLE}.Total_Sales__ ;;
+    sql: round(safe_cast(${TABLE}.Total_Sales__ as FLOAT64),2) ;;
   }
 
   dimension: total_service_fees {
     type: number
     value_format_name: usd
-    sql: ${TABLE}.Total_Service_Fees ;;
+    sql: round(safe_cast(${TABLE}.Total_Service_Fees as FLOAT64),2) ;;
   }
 
   measure: sum_total_service_fees {
     type: sum
     value_format_name: usd
-    sql: ${TABLE}.Total_Service_Fees ;;
+    sql: round(safe_cast(${TABLE}.Total_Service_Fees as FLOAT64),2) ;;
   }
 
-measure: payout_amount {
+dimension: payout_amount {
   type: number
   value_format_name: usd
   sql:${total_sales__}-${total_service_fees}-${total_convenience_fees} ;;
