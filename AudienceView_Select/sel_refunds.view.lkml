@@ -39,8 +39,37 @@ view: sel_refunds {
   }
 
   dimension: amount {
-    type: string
-    sql: ${TABLE}.amount ;;
+    type: number
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+  }
+
+  measure:: total_refund_amount {
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+  }
+
+  measure:: 2020_total_refund_amount {
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+
+  filters: {
+    field: date_year
+    value: "2020"
+  }
+}
+
+  measure:: 2019_total_refund_amount {
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+
+    filters: {
+      field: date_year
+      value: "2019"
+    }
   }
 
   dimension: arbitrary {
@@ -98,9 +127,9 @@ view: sel_refunds {
     sql: ${TABLE}.conveniencesalestaxrefunded ;;
   }
 
-  dimension: date {
-    type: number
-    sql: ${TABLE}.date ;;
+  dimension_group: date {
+    type: time
+    sql: timestamp_seconds(${TABLE}.date) ;;
   }
 
   dimension: description {

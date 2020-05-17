@@ -433,6 +433,20 @@ view: sel_transactions {
   }
 
 
+  measure: 2020_net_admission_amount {
+    label: "2020 NET Admission Amount"
+    type: number
+    value_format_name: usd
+    sql: ${2020_total_amount} - ${sel_refunds.2020_total_refund_amount} ;;
+}
+
+  measure: 2019_net_admission_amount {
+    label: "2019 NET Admission Amount"
+    type: number
+    value_format_name: usd
+    sql: ${2019_total_amount} - ${sel_refunds.2019_total_refund_amount} ;;
+  }
+
   dimension: trans_id {
     type: string
     sql: ${TABLE}.trans_id ;;
