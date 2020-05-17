@@ -722,7 +722,7 @@ explore: sel_transactions {
     view_label: "AV Select Donations"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${sel_donations.orderid}=${sel_orders.id} AND ${sel_donations.testmode} = "N" ;;
+    sql_on: ${sel_donations.memberid}=${sel_members.memberid} AND ${sel_donations.testmode} = "N" ;;
   }
   join: sel_donationcampaigns {
     view_label: "AV Select Donations Campaigns"

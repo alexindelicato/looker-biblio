@@ -47,7 +47,7 @@ view: sel_donations {
 
   measure: 2019_sum_donation_amount {
     label: "2019 Contributed Income (USD)"
-    type: sum
+    type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
 
@@ -75,13 +75,13 @@ view: sel_donations {
     label: "2020 Total Donations (including tipjar)"
     type: number
     value_format_name: usd
-    sql: ${2019_sum_donation_amount}+${sel_orders_misclineitems.2020_total_tipjar} ;;
+    sql: ${2020_sum_donation_amount}+${sel_orders_misclineitems.2020_total_tipjar} ;;
   }
 
 
   measure: 2020_sum_donation_amount {
     label: "2020 Contributed Income (USD)"
-    type: sum
+    type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
 
