@@ -433,18 +433,50 @@ view: sel_transactions {
   }
 
 
+  measure: 2020_total_comp_amount {
+    label: "2020 Total Comp Admission Amount"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    filters: {
+      field: transactiontype
+      value: "4"
+    }
+    filters: {
+      field: date_year
+      value: "2020"
+    }
+    drill_fields: [orderid]
+  }
+
+  measure: 2019_total_comp_amount {
+    label: "2019 Total Comp Admission Amount"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    filters: {
+      field: transactiontype
+      value: "4"
+    }
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+    drill_fields: [orderid]
+  }
+
   measure: 2020_net_admission_amount {
     label: "2020 NET Admission Amount"
     type: number
     value_format_name: usd
-    sql: ${2020_total_amount} - ${sel_refunds.2020_total_refund_amount} ;;
+    sql: ${2020_total_amount} - ${sel_refunds.2020_total_refund_amount} - ${2020_total_comp_amount} ;;
 }
 
   measure: 2019_net_admission_amount {
     label: "2019 NET Admission Amount"
     type: number
     value_format_name: usd
-    sql: ${2019_total_amount} - ${sel_refunds.2019_total_refund_amount} ;;
+    sql: ${2019_total_amount} - ${sel_refunds.2019_total_refund_amount} - ${2020_total_comp_amount}  ;;
   }
 
   dimension: trans_id {
