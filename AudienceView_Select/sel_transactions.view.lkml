@@ -157,8 +157,26 @@ view: sel_transactions {
   }
 
   dimension: discount {
-    type: string
-    sql: ${TABLE}.discount ;;
+    type: number
+    sql: round(safe_cast(${TABLE}.discount as FLOAT64), 2) ;;
+  }
+
+  measure: sum_discount {
+    label: "Total Discount"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.discount as FLOAT64), 2) ;;
+  }
+
+  measure: 2020_sum_discount {
+    label: "2020 Discount Amount"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.discount as FLOAT64), 2) ;;
+    filters: {
+      field: date_year
+      value: "2020"
+      }
   }
 
   dimension: exchangedtransid {
@@ -417,6 +435,35 @@ view: sel_transactions {
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
   }
 
+  measure: refund_total_amount {
+    label: "Total Refund Admission Amount"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+
+    filters: {
+      field: sel_refunds.refundid
+      value: "NOT NULL"
+    }
+  }
+
+  measure: 2020_refund_total_amount {
+    label: "2020 Total Refund Admission Amount"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+
+    filters: {
+      field: sel_refunds.refundid
+      value: "NOT NULL"
+    }
+    filters: {
+      field: date_year
+      value: "2020"
+    }
+  }
+
+
   measure: 2019_total_amount {
     label: "2019 Total Admission Amount"
     type: sum_distinct
@@ -438,6 +485,17 @@ view: sel_transactions {
       value: "2020"
     }
   }
+
+  measure: total_comp_amount {
+    label: "Total Comp Admission Amount"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    filters: {
+      field: transactiontype
+      value: "4"
+    }
+    }
 
 
   measure: 2020_total_comp_amount {
@@ -472,11 +530,18 @@ view: sel_transactions {
     drill_fields: [orderid]
   }
 
-  measure: 2020_net_admission_amount {
+  measure: net_admission_amount {
+    label: "Total NET Admission Amount"
+    type: number
+    value_format_name: usd
+    sql: ${total_amount} - ${refund_total_amount} - ${total_comp_amount} - ${sum_discount} ;;
+  }
+
+ measure: 2020_net_admission_amount {
     label: "2020 NET Admission Amount"
     type: number
     value_format_name: usd
-    sql: ${2020_total_amount} - ${sel_refunds.2020_total_refund_amount} - ${2020_total_comp_amount} ;;
+    sql: ${2020_total_amount} - ${2020_refund_total_amount} - ${2020_total_comp_amount} - ${2020_sum_discount} ;;
 }
 
   measure: 2019_net_admission_amount {
