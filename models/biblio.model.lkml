@@ -757,7 +757,7 @@ explore: sel_orders {
     view_label: "AV Select Transactions"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${sel_orders.id}=${sel_transactions.orderid} and  ${testmode} = "N" ;;
+    sql_on: ${sel_orders.id}=${sel_transactions.orderid} and  ${testmode} = "N";;
   }
 
   join: sel_refunds {

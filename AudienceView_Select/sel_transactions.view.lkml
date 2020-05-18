@@ -121,6 +121,41 @@ view: sel_transactions {
     sql: round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2) ;;
   }
 
+  measure: total_conveniencefee_usd {
+    label: "Total Convenience Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.72
+            when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+            else 0 end ;;
+  }
+
+  measure: total_arr_conveniencefee {
+    label: "Rolling ARR Convenience Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.72
+           when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+            else 0 end ;;
+      filters: {
+    field: date_date
+    value: "12 months ago for 12 months"
+  }
+  }
+
+  measure: 2019_arr_conveniencefee {
+    label: "2019 Rolling ARR Convenience Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
   dimension: conveniencefeesalestax {
     type: number
     sql: ${TABLE}.conveniencefeesalestax ;;
@@ -388,24 +423,74 @@ view: sel_transactions {
   }
 
   measure: total_ARR {
-    label: "Total Transaction ARR"
+    label: "Total Transaction ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${total_servicefee} + ${total_conveniencefee} ;;
+    sql: ${total_servicefee_usd} + ${total_conveniencefee} ;;
+  }
+
+  measure: total_arr {
+    label: "Total ARR (USD)"
+    type: number
+    value_format_name: usd
+    sql: ${total_servicefee_usd} + ${total_conveniencefee_usd} + ${sel_orders_misclineitems.total_servicefee_usd} + ${sel_memberships_sales.total_membership_arr_usd} ;;
   }
 
   measure: rolling_arr {
-    label: "Rolling ARR"
+    label: "Rolling ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${total_servicefee} + ${total_conveniencefee} + ${sel_orders_misclineitems.total_servicefee} + ${sel_memberships_sales.total_membership_arr} ;;
+    sql: ${total_arr_servicefee} + ${total_arr_conveniencefee} + ${sel_orders_misclineitems.total_arr_servicefee} + ${sel_memberships_sales.rolling_total_membership_arr} ;;
+  }
+
+  measure: 2019_arr {
+    label: "2019 ARR (USD)"
+    type: number
+    value_format_name: usd
+    sql: ${2019_total_arr_servicefee} + ${2019_arr_conveniencefee} + ${sel_orders_misclineitems.2019_total_arr_servicefee} + ${sel_memberships_sales.2019_total_membership_arr} ;;
+  }
+
+  measure: total_servicefee_usd {
+    label: "Total Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+            when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+            else 0 end;;
   }
 
   measure: total_servicefee {
     label: "Total Service Fee"
     type: sum_distinct
     value_format_name: usd
-    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+    sql:  round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+
+  }
+
+  measure: total_arr_servicefee {
+    label: "Rolling ARR Service Fee"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+    when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+    else 0 end ;;
+    filters: {
+      field: date_date
+      value: "12 months ago for 12 months"
+    }
+  }
+
+  measure: 2019_total_arr_servicefee {
+    label: "2019 Rolling ARR Service Fee"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
   }
 
   dimension: settled {
@@ -433,6 +518,10 @@ view: sel_transactions {
     type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    filters: {
+      field: transactiontype
+      value: "not 4"
+    }
   }
 
   measure: refund_total_amount {
@@ -473,6 +562,10 @@ view: sel_transactions {
       field: date_year
       value: "2019"
     }
+    filters: {
+      field: transactiontype
+      value: "not 4"
+    }
   }
 
   measure: 2020_total_amount {
@@ -483,6 +576,10 @@ view: sel_transactions {
     filters: {
       field: date_year
       value: "2020"
+    }
+    filters: {
+      field: transactiontype
+      value: "not 4"
     }
   }
 
@@ -541,14 +638,14 @@ view: sel_transactions {
     label: "2020 NET Admission Amount"
     type: number
     value_format_name: usd
-    sql: ${2020_total_amount} - ${2020_refund_total_amount} - ${2020_total_comp_amount} - ${2020_sum_discount} ;;
+    sql: ${2020_total_amount}  ;;
 }
 
   measure: 2019_net_admission_amount {
     label: "2019 NET Admission Amount"
     type: number
     value_format_name: usd
-    sql: ${2019_total_amount} - ${sel_refunds.2019_total_refund_amount} - ${2020_total_comp_amount}  ;;
+    sql: ${2019_total_amount}  ;;
   }
 
   dimension: trans_id {

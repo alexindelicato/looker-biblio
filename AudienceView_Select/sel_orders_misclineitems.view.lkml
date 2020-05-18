@@ -134,6 +134,41 @@ view: sel_orders_misclineitems {
     sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
   }
 
+  measure: total_servicefee_usd {
+    label: "Total  Misc Item Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:    case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end  ;;
+  }
+
+  measure: total_arr_servicefee {
+    label: "Rolling  Misc Item Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:    case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+    when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+    else 0 end  ;;
+    filters: {
+      field: date_date
+      value: "12 months ago for 12 months"
+    }
+  }
+
+  measure: 2019_total_arr_servicefee {
+    label: "Rolling  Misc Item Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:    case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end  ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
   measure: total_tipjar_servicefee {
     label: "Total Tipjar Service Fee"
     type: sum_distinct

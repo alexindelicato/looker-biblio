@@ -50,9 +50,42 @@ view: sel_memberships_sales {
     sql: round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2) ;;
   }
 
-  dimension: date {
-    type: number
-    sql: ${TABLE}.date ;;
+  measure: total_conveniencefee_usd {
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+  }
+
+  measure: 2019_arr_conveniencefee {
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
+  measure: rolling_arr_conveniencefee {
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_date
+      value: "12 months ago for 12 months"
+    }
+  }
+
+
+  dimension_group: date {
+    type: time
+    sql: timestamp_seconds(${TABLE}.date) ;;
   }
 
   dimension: declinebenefits {
@@ -114,11 +147,62 @@ view: sel_memberships_sales {
     sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
   }
 
+  measure: total_servicefee_usd {
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+  }
+
+  measure: 2019_arr_servicefee {
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
+  measure: rolling_arr_servicefee {
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_date
+      value: "12 months ago for 12 months"
+    }
+  }
+
   measure: total_membership_arr {
     type: number
     value_format_name: usd
     sql: ${total_conveniencefee}+${total_servicefee} ;;
   }
+
+  measure: total_membership_arr_usd {
+    type: number
+    value_format_name: usd
+    sql: ${total_conveniencefee_usd}+${total_servicefee_usd} ;;
+  }
+
+  measure: 2019_total_membership_arr {
+    type: number
+    value_format_name: usd
+    sql: ${2019_arr_conveniencefee}+${2019_arr_servicefee} ;;
+  }
+
+  measure: rolling_total_membership_arr {
+    type: number
+    value_format_name: usd
+    sql: ${rolling_arr_conveniencefee}+${rolling_arr_servicefee} ;;
+  }
+
 
   dimension: settledaily {
     type: string
