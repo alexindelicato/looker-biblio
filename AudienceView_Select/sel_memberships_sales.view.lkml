@@ -27,13 +27,27 @@ view: sel_memberships_sales {
   }
 
   dimension: amount {
-    type: string
-    sql: ${TABLE}.amount ;;
+    type: number
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+  }
+
+  measure: sum_membership_amount {
+    label: "Total Membership Amount"
+    value_format_name: usd
+    type: sum_distinct
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
   }
 
   dimension: conveniencefee {
-    type: string
-    sql: ${TABLE}.conveniencefee ;;
+    type: number
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2) ;;
+  }
+
+  measure: total_conveniencefee {
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2) ;;
   }
 
   dimension: date {
@@ -53,6 +67,7 @@ view: sel_memberships_sales {
 
   dimension: membershipid {
     type: string
+    primary_key: yes
     sql: ${TABLE}.membershipid ;;
   }
 
@@ -82,14 +97,27 @@ view: sel_memberships_sales {
     sql: ${TABLE}.patronid ;;
   }
 
-  dimension: servicefee {
+  dimension: settled {
     type: string
-    sql: ${TABLE}.servicefee ;;
+    sql: ${TABLE}.settled ;;
   }
 
-  dimension: settled {
+  dimension: servicefee {
     type: number
-    sql: ${TABLE}.settled ;;
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+  }
+
+  measure: total_servicefee {
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+  }
+
+  measure: total_membership_arr {
+    type: number
+    value_format_name: usd
+    sql: ${total_conveniencefee}+${total_servicefee} ;;
   }
 
   dimension: settledaily {

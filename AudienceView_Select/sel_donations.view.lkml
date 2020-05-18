@@ -172,6 +172,7 @@ view: sel_donations {
   measure: donation_servicefee {
     label: "Total Donation Service Fee"
     type: sum
+    value_format_name: usd
     sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
   }
 
