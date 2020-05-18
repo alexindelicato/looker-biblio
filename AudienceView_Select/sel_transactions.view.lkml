@@ -370,10 +370,17 @@ view: sel_transactions {
   }
 
   measure: total_ARR {
-    label: "Total ARR"
+    label: "Total Transaction ARR"
     type: number
     value_format_name: usd
     sql: ${total_servicefee} + ${total_conveniencefee} ;;
+  }
+
+  measure: rolling_arr {
+    label: "Rolling ARR"
+    type: number
+    value_format_name: usd
+    sql: ${total_servicefee} + ${total_conveniencefee} + ${sel_orders_misclineitems.total_servicefee} ;;
   }
 
   measure: total_servicefee {

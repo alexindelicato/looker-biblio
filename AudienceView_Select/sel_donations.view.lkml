@@ -165,8 +165,14 @@ view: sel_donations {
   }
 
   dimension: servicefee {
-    type: string
-    sql: ${TABLE}.servicefee ;;
+    type: number
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+  }
+
+  measure: donation_servicefee {
+    label: "Total Donation Service Fee"
+    type: sum
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
   }
 
   dimension: settled {
