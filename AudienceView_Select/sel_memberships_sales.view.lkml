@@ -100,7 +100,6 @@ view: sel_memberships_sales {
 
   dimension: membershipid {
     type: string
-    primary_key: yes
     sql: ${TABLE}.membershipid ;;
   }
 
@@ -111,6 +110,7 @@ view: sel_memberships_sales {
 
   dimension: membershipsaleid {
     type: string
+    primary_key: yes
     sql: ${TABLE}.membershipsaleid ;;
   }
 

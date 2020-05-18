@@ -72,6 +72,7 @@ view: sel_giftcardissued {
 
   measure: total_servicefee_usd {
     type: sum_distinct
+    value_format_name: usd
     sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
           when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
           else 0 end ;;
@@ -79,6 +80,7 @@ view: sel_giftcardissued {
 
   measure: 2019_total_servicefee_usd {
     type: sum_distinct
+    value_format_name: usd
     sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
           when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
           else 0 end ;;
@@ -90,6 +92,7 @@ view: sel_giftcardissued {
 
   measure: rolling_arr_servicefee_usd {
     type: sum_distinct
+    value_format_name: usd
     sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
           when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
           else 0 end ;;
