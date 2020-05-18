@@ -49,9 +49,9 @@ view: sel_giftcardissued {
     sql: ${TABLE}.giftcardconfigurationid ;;
   }
 
-  dimension: issuedon {
-    type: number
-    sql: ${TABLE}.issuedon ;;
+  dimension_group: issuedon {
+    type: time
+    sql: timestamp_seconds(${TABLE}.issuedon) ;;
   }
 
   dimension: orderid {
@@ -64,6 +64,41 @@ view: sel_giftcardissued {
     type: number
     sql: ${TABLE}.servicefee ;;
   }
+
+  measure: total_servicefee {
+    type: sum_distinct
+    sql: ${TABLE}.servicefee ;;
+  }
+
+  measure: total_servicefee_usd {
+    type: sum_distinct
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+  }
+
+  measure: 2019_total_servicefee_usd {
+    type: sum_distinct
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: issuedon_year
+      value: "2019"
+    }
+  }
+
+  measure: rolling_arr_servicefee_usd {
+    type: sum_distinct
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: issuedon_date
+      value: "12 months ago for 12 months"
+    }
+  }
+
 
   dimension: settled {
     type: number

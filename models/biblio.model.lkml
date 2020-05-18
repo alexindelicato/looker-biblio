@@ -605,6 +605,13 @@ explore: sel_members {
     sql_on: ${sel_orders.id}=${sel_memberships_sales.orderid} ;;
   }
 
+  join: sel_giftcardissued {
+    view_label: "AV Select GiftCard Sales"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_orders.id}=${sel_giftcardissued.orderid} ;;
+  }
+
   join: sel_orders_misclineitems {
     view_label: "AV Select Order Misc Items"
     type: left_outer
@@ -801,6 +808,13 @@ explore: sel_orders {
     sql_on: ${sel_orders.id}=${sel_memberships_sales.orderid} ;;
   }
 
+  join: sel_giftcardissued {
+    view_label: "AV Select GiftCard Sales"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_orders.id}=${sel_giftcardissued.orderid} ;;
+  }
+
   join: sel_performances {
     view_label: "AV Select Performances"
     type: left_outer
@@ -847,6 +861,13 @@ explore: sel_orders {
       type: left_outer
       relationship: one_to_one
       sql_on: ${sel_orders.id}=${sel_memberships_sales.orderid} ;;
+    }
+
+    join: sel_giftcardissued {
+      view_label: "AV Select GiftCard Sales"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${sel_orders.id}=${sel_giftcardissued.orderid} ;;
     }
 
     join: sel_refunds {

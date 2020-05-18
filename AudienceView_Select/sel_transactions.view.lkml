@@ -440,14 +440,14 @@ view: sel_transactions {
     label: "Rolling ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${total_arr_servicefee} + ${total_arr_conveniencefee} + ${sel_orders_misclineitems.total_arr_servicefee} + ${sel_memberships_sales.rolling_total_membership_arr} ;;
+    sql: ${total_arr_servicefee} + ${total_arr_conveniencefee} + ${sel_orders_misclineitems.total_arr_servicefee} + ${sel_memberships_sales.rolling_total_membership_arr} + ${sel_giftcardissued.rolling_arr_servicefee_usd};;
   }
 
   measure: 2019_arr {
     label: "2019 ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${2019_total_arr_servicefee} + ${2019_arr_conveniencefee} + ${sel_orders_misclineitems.2019_total_arr_servicefee} + ${sel_memberships_sales.2019_total_membership_arr} ;;
+    sql: ${2019_total_arr_servicefee} + ${2019_arr_conveniencefee} + ${sel_orders_misclineitems.2019_total_arr_servicefee} + ${sel_memberships_sales.2019_total_membership_arr} + ${sel_giftcardissued.2019_total_servicefee_usd} ;;
   }
 
   measure: total_servicefee_usd {
