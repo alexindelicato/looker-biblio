@@ -428,7 +428,7 @@ view: ct_transactions {
     label: "2019 Net ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${2019_billing_service_fee_fx_rate} + ${2019_billing_credit_card_fee_fx_rate} ;;
+    sql: ${2019_billing_service_fee_fx_rate} + ${2019_net_billing_credit_card_fee_fx_rate} ;;
   }
 
   measure: 2019_total_arr_usd_fx {
