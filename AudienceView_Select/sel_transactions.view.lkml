@@ -300,6 +300,10 @@ view: sel_transactions {
     label: "2020 # of Tickets"
     type: sum_distinct
     sql: ${TABLE}.quantity ;;
+    filters: {
+      field: voided
+      value: "NULL"
+    }
 
   filters: {
     field: date_year
