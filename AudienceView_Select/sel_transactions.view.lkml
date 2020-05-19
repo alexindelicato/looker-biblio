@@ -145,6 +145,8 @@ view: sel_transactions {
     type: number
     value_format_name: usd
     sql: case when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "Y" then ${2019_arr}
+         when  ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "Y" then ${2019_arr}
+         when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "N" then ${2019_arr}
          else ${2019_total_commissionableconveniencefee}+${2019_total_commissionableservicefee} + ${sel_donations.2019_commissionableservicefee} + ${sel_giftcardissued.2019_commissionableservicefee} + ${sel_orders_misclineitems.2019_commissionableservicefee} end ;;
          required_fields: [sel_members.useinternetma, sel_members.useretailma]
   }
