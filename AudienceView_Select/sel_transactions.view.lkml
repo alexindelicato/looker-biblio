@@ -78,14 +78,16 @@ view: sel_transactions {
     label: "Revenue Convenience Fee (VMA)"
     type: sum_distinct
     value_format_name: usd
-    sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2) END ;;
+    sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2)*0.7673
+         when  ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2)*1 END ;;
   }
 
   measure: 2019_total_commissionableconveniencefee {
     label: "2019 Revenue Convenience Fee (VMA)"
     type: sum_distinct
     value_format_name: usd
-    sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2) END ;;
+    sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2)*0.7673
+         when  ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2)*1 END ;;
     filters: {
       field: date_year
       value: "2019"
@@ -115,14 +117,16 @@ view: sel_transactions {
     label: "Revenue Service Fee (VMA)"
     type: sum_distinct
     value_format_name: usd
-    sql: case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2) end;;
+    sql:  case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*1 END  ;;
   }
 
   measure: 2019_total_commissionableservicefee {
     label: "2019 Revenue Service Fee (VMA)"
     type: sum_distinct
     value_format_name: usd
-    sql: case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2) end;;
+    sql:  case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*0.7673
+           when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*1 END ;;
     filters: {
       field: date_year
       value: "2019"
@@ -570,7 +574,10 @@ view: sel_transactions {
     type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
-
+    filters: {
+      field: transactiontype
+      value: "NOT 4"
+    }
   }
 
   measure: refund_total_amount {

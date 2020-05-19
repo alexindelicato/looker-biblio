@@ -93,7 +93,23 @@ view: sel_donations {
 
   dimension: commissionableservicefee {
     type: number
-    sql: ${TABLE}.commissionableservicefee ;;
+    sql: round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2) ;;
+  }
+
+  measure: sum_commissionableservicefee {
+    type: sum_distinct
+    sql: case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*1 END ;;
+  }
+
+  measure: 2019_commissionableservicefee {
+    type: sum_distinct
+    sql: case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*0.7673
+         when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*1 END ;;
+    filters: {
+      field: created_year
+      value: "2019"
+    }
   }
 
   dimension_group: created {
