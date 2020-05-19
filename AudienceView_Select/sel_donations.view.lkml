@@ -112,6 +112,14 @@ view: sel_donations {
     }
   }
 
+  measure: 2019_cc_processing_service_fee {
+    type: number
+    value_format_name: usd
+    sql: ${2019_donation_servicefee}-${2019_commissionableservicefee} ;;
+  }
+
+
+
   dimension_group: created {
     type: time
     sql: timestamp_seconds(${TABLE}.created) ;;
