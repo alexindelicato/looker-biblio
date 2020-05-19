@@ -180,7 +180,7 @@ view: sel_donations {
     label: "Total Donation Service Fee (USD)"
     type: sum_distinct
     value_format_name: usd
-    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
             when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
             else 0 end ;;
   }
@@ -189,7 +189,7 @@ view: sel_donations {
     label: "2019 Donation Service Fee"
     type: sum_distinct
     value_format_name: usd
-    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
             when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
             else 0 end;;
     filters: {
@@ -202,7 +202,7 @@ view: sel_donations {
     label: "Rolling Donation Service Fee"
     type: sum_distinct
     value_format_name: usd
-    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
             when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
             else 0 end;;
     filters: {

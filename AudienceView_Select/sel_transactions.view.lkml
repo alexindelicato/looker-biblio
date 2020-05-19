@@ -125,7 +125,7 @@ view: sel_transactions {
     label: "Total Convenience Fee (USD)"
     type: sum_distinct
     value_format_name: usd
-    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.72
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
             when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
             else 0 end ;;
   }
@@ -134,7 +134,7 @@ view: sel_transactions {
     label: "Rolling ARR Convenience Fee (USD)"
     type: sum_distinct
     value_format_name: usd
-    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.72
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
            when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
             else 0 end ;;
       filters: {
@@ -147,7 +147,7 @@ view: sel_transactions {
     label: "2019 Rolling ARR Convenience Fee (USD)"
     type: sum_distinct
     value_format_name: usd
-    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.72
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
           when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
           else 0 end ;;
     filters: {
@@ -311,7 +311,10 @@ view: sel_transactions {
     label: "2019 # of Tickets"
     type: sum_distinct
     sql: ${TABLE}.quantity ;;
-
+    filters: {
+      field: voided
+      value: "NULL"
+    }
     filters: {
       field: date_year
       value: "2019"
@@ -456,7 +459,7 @@ view: sel_transactions {
     label: "Total Service Fee (USD)"
     type: sum_distinct
     value_format_name: usd
-    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
             when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
             else 0 end;;
   }
@@ -473,7 +476,7 @@ view: sel_transactions {
     label: "Rolling ARR Service Fee"
     type: sum_distinct
     value_format_name: usd
-    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
     when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
     else 0 end ;;
     filters: {
@@ -486,7 +489,7 @@ view: sel_transactions {
     label: "2019 Rolling ARR Service Fee"
     type: sum_distinct
     value_format_name: usd
-    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
           when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
           else 0 end ;;
     filters: {
