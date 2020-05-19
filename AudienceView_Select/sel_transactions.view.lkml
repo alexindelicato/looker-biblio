@@ -433,21 +433,21 @@ view: sel_transactions {
     label: "Total ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${total_servicefee_usd} + ${total_conveniencefee_usd} + ${sel_orders_misclineitems.total_servicefee_usd} + ${sel_memberships_sales.total_membership_arr_usd} ;;
+    sql: ${total_servicefee_usd} + ${total_conveniencefee_usd} + ${sel_orders_misclineitems.total_servicefee_usd} + ${sel_memberships_sales.total_membership_arr_usd} + ${sel_donations.donation_servicefee_usd} ;;
   }
 
   measure: rolling_arr {
     label: "Rolling ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${total_arr_servicefee} + ${total_arr_conveniencefee} + ${sel_orders_misclineitems.total_arr_servicefee} + ${sel_memberships_sales.rolling_total_membership_arr} + ${sel_giftcardissued.rolling_arr_servicefee_usd} ;;
+    sql: ${total_arr_servicefee} + ${total_arr_conveniencefee} + ${sel_orders_misclineitems.total_arr_servicefee} + ${sel_memberships_sales.rolling_total_membership_arr} + ${sel_giftcardissued.rolling_arr_servicefee_usd} + ${sel_donations.rollimg_donation_servicefee} ;;
     }
 
   measure: 2019_arr {
     label: "2019 ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${2019_total_arr_servicefee} + ${2019_arr_conveniencefee} + ${sel_orders_misclineitems.2019_total_arr_servicefee} + ${sel_memberships_sales.2019_total_membership_arr} + ${sel_giftcardissued.2019_total_servicefee_usd} ;;
+    sql: ${2019_total_arr_servicefee} + ${2019_arr_conveniencefee} + ${sel_orders_misclineitems.2019_total_arr_servicefee} + ${sel_memberships_sales.2019_total_membership_arr} + ${sel_giftcardissued.2019_total_servicefee_usd} + ${sel_donations.2019_donation_servicefee} ;;
   }
 
   measure: total_servicefee_usd {

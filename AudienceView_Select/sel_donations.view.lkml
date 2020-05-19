@@ -171,9 +171,44 @@ view: sel_donations {
 
   measure: donation_servicefee {
     label: "Total Donation Service Fee"
-    type: sum
+    type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+  }
+
+  measure: donation_servicefee_usd {
+    label: "Total Donation Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+            when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+            else 0 end ;;
+  }
+
+  measure: 2019_donation_servicefee {
+    label: "2019 Donation Service Fee"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+            when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+            else 0 end;;
+    filters: {
+      field: created_year
+      value: "2019"
+    }
+  }
+
+  measure: rollimg_donation_servicefee {
+    label: "Rolling Donation Service Fee"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+            when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+            else 0 end;;
+    filters: {
+      field: created_date
+      value: "12 months ago for 12 months"
+    }
   }
 
   dimension: settled {
