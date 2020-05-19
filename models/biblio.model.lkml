@@ -739,6 +739,13 @@ explore: sel_orders {
     sql_on: ${sel_members.memberid}=${sel_finance_arr.vam_member_id} ;;
   }
 
+  join: sel_2019_ytd_arr {
+    view_label: "Select ARR"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sel_2019_ytd_arr.member_id} ;;
+  }
+
   join: sel_nps_scores {
     view_label: "Select NPS Scores"
     type: left_outer
