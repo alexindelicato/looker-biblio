@@ -581,7 +581,7 @@ explore: sel_members {
     view_label: "AV Select Transactions"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${sel_members.memberid}=${sel_transactions.memberid};;
+    sql_on: ${sel_orders.id}=${sel_transactions.orderid} ;;
   }
 
   join: sel_refunds {
@@ -595,7 +595,7 @@ explore: sel_members {
     view_label: "AV Select Orders"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${sel_orders.id}=${sel_transactions.orderid} and ${sel_orders.testmode} = "N" ;;
+    sql_on: ${sel_orders.memberid}=${sel_members.memberid} and ${sel_orders.testmode} = "N" ;;
   }
 
   join: sel_memberships_sales {
