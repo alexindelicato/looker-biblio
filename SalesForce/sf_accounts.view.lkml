@@ -248,6 +248,13 @@ view: sf_accounts {
     sql: ${TABLE}.annual_subscription_fee_c ;;
   }
 
+  measure: measure_annual_subscription_fee_c {
+    type: number
+    value_format_name: usd
+    sql: ${TABLE}.annual_subscription_fee_c ;;
+  }
+
+
   dimension: select_contract_type {
     type: string
     label: "Contract Type"
