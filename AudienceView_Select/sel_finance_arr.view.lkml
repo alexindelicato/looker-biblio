@@ -67,6 +67,7 @@ view: sel_finance_arr {
     type: number
     value_format_name: usd
     sql: ${TABLE}.rolling_arr ;;
+    required_fields: [rolling_arr]
   }
 
 #   dimension: arr_usd{
