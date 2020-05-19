@@ -81,6 +81,24 @@ view: sel_transactions {
     sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2) END ;;
   }
 
+  measure: 2019_total_commissionableconveniencefee {
+    label: "2019 Revenue Convenience Fee (VMA)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2) END ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
+  measure: 2019_cc_processing_convenience_fee {
+    label: "2019 CC Proceessing Convinence Fee (VMA)"
+    type: number
+    value_format_name: usd
+    sql: ${2019_arr_conveniencefee}-${2019_total_commissionableconveniencefee} ;;
+  }
+
   measure: cc_processing_convenience_fee {
     label: "CC Proceessing Convinence Fee (VMA)"
     type: number
@@ -98,6 +116,31 @@ view: sel_transactions {
     type: sum_distinct
     value_format_name: usd
     sql: case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2) end;;
+  }
+
+  measure: 2019_total_commissionableservicefee {
+    label: "2019 Revenue Service Fee (VMA)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2) end;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
+  measure: 2019_cc_processing_service_fee {
+    label: "2019 CC Proceessing Service Fee (VMA)"
+    type: number
+    value_format_name: usd
+    sql: ${2019_total_arr_servicefee}-${2019_total_commissionableservicefee} ;;
+  }
+
+  measure: 2019_net_arr {
+    label: "2019 NET ARR (USD)"
+    type: number
+    value_format_name: usd
+    sql: ${2019_total_commissionableconveniencefee}+${2019_total_commissionableservicefee} ;;
   }
 
   measure: cc_processing_service_fee {
@@ -490,7 +533,7 @@ view: sel_transactions {
   }
 
   measure: 2019_total_arr_servicefee {
-    label: "2019 Rolling ARR Service Fee"
+    label: "2019 ARR Service Fee (USD)"
     type: sum_distinct
     value_format_name: usd
     sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
