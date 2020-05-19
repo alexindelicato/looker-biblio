@@ -527,10 +527,7 @@ view: sel_transactions {
     type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
-    filters: {
-      field: transactiontype
-      value: "not 4"
-    }
+
   }
 
   measure: refund_total_amount {
