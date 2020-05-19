@@ -35,7 +35,32 @@ view: sel_giftcardissued {
 
   dimension: commissionableservicefee {
     type: number
-    sql: ${TABLE}.commissionableservicefee ;;
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2) ;;
+  }
+
+  measure: sum_commissionableservicefee {
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*0.7673
+      when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*1 END ;;
+  }
+
+  measure: 2019_commissionableservicefee {
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*0.7673
+      when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*1 END ;;
+    filters: {
+      field: issuedon_year
+      value: "2019"
+    }
+  }
+
+  measure: 2019_cc_processing_service_fee {
+    type: number
+    value_format_name: usd
+    sql: ${2019_total_servicefee_usd}-${2019_commissionableservicefee} ;;
   }
 
   dimension: expireson {

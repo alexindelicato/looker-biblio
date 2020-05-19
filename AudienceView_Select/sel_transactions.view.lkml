@@ -144,7 +144,7 @@ view: sel_transactions {
     label: "2019 NET ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${2019_total_commissionableconveniencefee}+${2019_total_commissionableservicefee} + ${sel_donations.2019_commissionableservicefee} ;;
+    sql: ${2019_total_commissionableconveniencefee}+${2019_total_commissionableservicefee} + ${sel_donations.2019_commissionableservicefee} + ${sel_giftcardissued.2019_commissionableservicefee} + ${sel_orders_misclineitems.2019_commissionableservicefee} ;;
   }
 
   measure: cc_processing_service_fee {
