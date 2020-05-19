@@ -221,6 +221,19 @@ view: sel_donations {
     sql: ${TABLE}.tender ;;
   }
 
+  dimension: payment_type {
+    label: "Payment Type"
+    type: string
+    sql: case when ${tender} = 1 then "Credt Card"
+         when ${tender} = 2 then "Cash"
+         when ${tender} = 3 then "Check"
+        when ${tender} = 10 then "Payment in Kind"
+        when ${tender} = 11 then "Donation Stock Options"
+        when ${tender} = 12 then "Donation Volunteer"
+        when ${tender} = 13 then "Donation Planned Giving"
+        else "Research" end;;
+  }
+
   dimension: tenderdescription {
     type: string
     sql: ${TABLE}.tenderdescription ;;
