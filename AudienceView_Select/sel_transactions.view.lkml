@@ -494,7 +494,7 @@ view: sel_transactions {
     label: "Total Transaction ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${total_servicefee_usd} + ${total_conveniencefee} ;;
+    sql: ${total_servicefee_usd} + ${total_conveniencefee_usd} ;;
   }
 
   measure: total_arr {
