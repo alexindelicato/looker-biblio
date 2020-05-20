@@ -101,6 +101,7 @@ view: sel_performances {
       date,
       week,
       month,
+      month_name,
       quarter,
       year
     ]
