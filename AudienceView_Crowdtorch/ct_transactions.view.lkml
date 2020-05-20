@@ -428,14 +428,18 @@ view: ct_transactions {
     label: "2019 Net ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${2019_billing_service_fee_fx_rate} + ${2019_net_billing_credit_card_fee_fx_rate} ;;
+    required_fields: [sf_accounts.annual_subscription_fee_c]
+    sql: case when ${sf_accounts.measure_annual_subscription_fee_c} is NOT NULL then ${sf_accounts.measure_annual_subscription_fee_c} + ${2019_billing_service_fee_fx_rate} + ${2019_net_billing_credit_card_fee_fx_rate}
+        else ${2019_billing_service_fee_fx_rate} + ${2019_net_billing_credit_card_fee_fx_rate} END;;
   }
 
   measure: 2019_total_arr_usd_fx {
     label: "2019 Total ARR (FX Rate USD)"
     type: number
     value_format_name: usd
-    sql: ${2019_billing_service_fee_fx_rate} + ${2019_billing_credit_card_fee_fx_rate} + ${2019_billingrecoupablefee_fx_rate} ;;
+    required_fields: [sf_accounts.annual_subscription_fee_c]
+    sql: case when ${sf_accounts.measure_annual_subscription_fee_c} is NOT NULL then ${sf_accounts.measure_annual_subscription_fee_c} +  ${2019_billing_service_fee_fx_rate} + ${2019_billing_credit_card_fee_fx_rate} + ${2019_billingrecoupablefee_fx_rate}
+          else ${2019_billing_service_fee_fx_rate} + ${2019_billing_credit_card_fee_fx_rate} + ${2019_billingrecoupablefee_fx_rate} END ;;
   }
 
 #   measure: total_arr_dimension {
