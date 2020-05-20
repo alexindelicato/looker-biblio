@@ -600,6 +600,19 @@ view: sel_transactions {
     required_fields: [sf_accounts.annual_subscription_fee_c]
   }
 
+
+  measure: 2019_net_arr_junetodec {
+    label: "2019 NET ARR Prorated (USD)"
+    type: number
+    value_format_name: usd
+    sql:  case when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "Y" then ${2019_arr}
+          when  ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "Y" then ${2019_arr}
+          when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "N" then ${2019_arr}
+          when ${2019_arr_junetodec} <> 0 then (${2019_net_arr}/${2019_arr_junetodec})* ${2019_arr}
+         else 0 end;;
+  }
+
+
   measure: total_servicefee_usd {
     label: "Total Service Fee (USD)"
     type: sum_distinct
