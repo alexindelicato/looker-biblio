@@ -237,6 +237,19 @@ view: sel_donations {
     }
   }
 
+  measure: junetodec_total_arr_servicefee {
+    label: "June 2019 to Dec 2019 ARR Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: created_date
+      value: "2019/06/01 to 2020/01/01"
+    }
+  }
+
   dimension: settled {
     type: number
     sql: ${TABLE}.settled ;;

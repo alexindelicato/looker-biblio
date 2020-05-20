@@ -70,6 +70,19 @@ view: sel_memberships_sales {
     }
   }
 
+  measure: junetodec_total_arr_conveniencefee {
+    label: "June 2019 to Dec 2019 ARR Conveniencefee Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_date
+      value: "2019/06/01 to 2020/01/01"
+    }
+  }
+
   measure: rolling_arr_conveniencefee {
     type: sum_distinct
     value_format_name: usd
@@ -179,6 +192,19 @@ view: sel_memberships_sales {
     }
   }
 
+  measure: junetodec_total_arr_servicefee {
+    label: "June 2019 to Dec 2019 ARR Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_date
+      value: "2019/06/01 to 2020/01/01"
+    }
+  }
+
   measure: total_membership_arr {
     type: number
     value_format_name: usd
@@ -195,6 +221,12 @@ view: sel_memberships_sales {
     type: number
     value_format_name: usd
     sql: ${2019_arr_conveniencefee}+${2019_arr_servicefee} ;;
+  }
+
+  measure: junetodec_total_membership_arr {
+    type: number
+    value_format_name: usd
+    sql: ${junetodec_total_arr_conveniencefee}+${junetodec_total_arr_servicefee} ;;
   }
 
   measure: rolling_total_membership_arr {
