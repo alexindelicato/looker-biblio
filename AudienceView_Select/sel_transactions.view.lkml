@@ -94,11 +94,31 @@ view: sel_transactions {
     }
   }
 
+  measure: junetodec_total_commissionableconveniencefee {
+    label: "June 2019 to Dec 2019 Revenue Convenience Fee (VMA)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2)*0.7673
+      when  ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableconveniencefee as FLOAT64), 2)*1 END ;;
+    filters: {
+      field: date_date
+      value: "2019/06/01 to 2020/01/01"
+    }
+  }
+
   measure: 2019_cc_processing_convenience_fee {
     label: "2019 CC Proceessing Convinence Fee (VMA)"
     type: number
     value_format_name: usd
     sql: ${2019_arr_conveniencefee}-${2019_total_commissionableconveniencefee} ;;
+  }
+
+
+  measure: junetodec_cc_processing_convenience_fee {
+    label: "June 2019 to Dec 2019 CC Proceessing Convinence Fee (VMA)"
+    type: number
+    value_format_name: usd
+    sql: ${junetodec_arr_conveniencefee}-${junetodec_total_commissionableconveniencefee} ;;
   }
 
   measure: cc_processing_convenience_fee {
@@ -121,6 +141,18 @@ view: sel_transactions {
           when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*1 END  ;;
   }
 
+  measure: junetodec_total_commissionableservicefee {
+    label: "June 2019 to Dec 2019 Revenue Service Fee (VMA)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*0.7673
+      when  ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*1 END ;;
+    filters: {
+      field: date_date
+      value: "2019/06/01 to 2020/01/01"
+    }
+  }
+
   measure: 2019_total_commissionableservicefee {
     label: "2019 Revenue Service Fee (VMA)"
     type: sum_distinct
@@ -140,6 +172,14 @@ view: sel_transactions {
     sql: ${2019_total_arr_servicefee}-${2019_total_commissionableservicefee} ;;
   }
 
+  measure: junetodec_cc_processing_service_fee {
+    label: "June 2019 to Dec 2019 CC Proceessing Service Fee (VMA)"
+    type: number
+    value_format_name: usd
+    sql: ${junetodec_total_arr_servicefee}-${junetodec_total_commissionableservicefee} ;;
+  }
+
+
   measure: 2019_net_arr {
     label: "2019 NET ARR (USD)"
     type: number
@@ -149,6 +189,24 @@ view: sel_transactions {
          when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "N" then ${2019_arr}
          else ${2019_total_commissionableconveniencefee}+${2019_total_commissionableservicefee} + ${sel_donations.2019_commissionableservicefee} + ${sel_giftcardissued.2019_commissionableservicefee} + ${sel_orders_misclineitems.2019_commissionableservicefee} end ;;
          required_fields: [sel_members.useinternetma, sel_members.useretailma]
+  }
+
+  measure: junetodec_net_arr {
+    label: "June 2019 to Dec 2019 NET ARR (USD)"
+    type: number
+    value_format_name: usd
+    sql: case when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "Y" then ${2019_arr_junetodec}
+         when  ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "Y" then ${2019_arr_junetodec}
+         when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "N" then ${2019_arr_junetodec}
+         else ${junetodec_total_commissionableconveniencefee}+${junetodec_total_commissionableservicefee} + ${sel_donations.2019_commissionableservicefee} + ${sel_giftcardissued.2019_commissionableservicefee} + ${sel_orders_misclineitems.2019_commissionableservicefee} end ;;
+    required_fields: [sel_members.useinternetma, sel_members.useretailma]
+  }
+
+  measure: junetodec_total_cc_processing_fee {
+    label: "June 2019 to Dec 2019 Total CC Proceessing Fee (VMA)"
+    type: number
+    value_format_name: usd
+    sql: ${junetodec_cc_processing_service_fee}+${junetodec_cc_processing_convenience_fee}+${sel_donations.junetodec_cc_processing_service_fee}+${sel_giftcardissued.junetodec_cc_processing_service_fee} + ${sel_orders_misclineitems.junetodec_cc_processing_service_fee} ;;
   }
 
   measure: cc_processing_service_fee {

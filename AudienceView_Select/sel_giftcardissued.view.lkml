@@ -57,10 +57,28 @@ view: sel_giftcardissued {
     }
   }
 
+  measure: junetodec_total_commissionableservicefee {
+    label: "June 2019 to Dec 2019 Revenue Service Fee (VMA)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*0.7673
+      when  ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*1 END ;;
+    filters: {
+      field: issuedon_date
+      value: "2019/06/01 to 2020/01/01"
+    }
+  }
+
   measure: 2019_cc_processing_service_fee {
     type: number
     value_format_name: usd
     sql: ${2019_total_servicefee_usd}-${2019_commissionableservicefee} ;;
+  }
+
+  measure: junetodec_cc_processing_service_fee {
+    type: number
+    value_format_name: usd
+    sql: ${junetodec_total_arr_servicefee}-${junetodec_total_commissionableservicefee} ;;
   }
 
   dimension: expireson {
