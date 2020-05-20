@@ -435,9 +435,9 @@ view: sel_members {
     sql: ${TABLE}.leadsourceextra ;;
   }
 
-  dimension: livemodedate {
-    type: number
-    sql: ${TABLE}.livemodedate ;;
+  dimension_group: livemodedate {
+    type: time
+    sql: timestamp_seconds(${TABLE}.livemodedate) ;;
   }
 
   dimension: longitude {
