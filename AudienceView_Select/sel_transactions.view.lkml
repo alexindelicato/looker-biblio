@@ -608,8 +608,8 @@ view: sel_transactions {
     sql:  case when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "Y" then ${2019_arr}
           when  ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "Y" then ${2019_arr}
           when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "N" then ${2019_arr}
-          when ${2019_arr_junetodec} <> 0 then (${2019_net_arr}/${2019_arr_junetodec})* ${2019_arr}
-         else 0 end;;
+          when ${2019_arr_junetodec} = 0 or ${2019_net_arr} = 0 then ${2019_arr}
+          else (${2019_net_arr}/${2019_arr_junetodec})* ${2019_arr} END ;;
   }
 
 
