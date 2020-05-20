@@ -341,10 +341,20 @@ view: sel_transactions {
     sql: ${TABLE}.quantity ;;
   }
 
+  measure: total_gross_quantity {
+    label: "# of Gross Tickets"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+  }
+
   measure: total_quantity {
     label: "# of Tickets"
     type: sum_distinct
     sql: ${TABLE}.quantity ;;
+    filters: {
+      field: voided
+      value: "NULL"
+    }
   }
 
   measure: 2020_total_quantity {
@@ -578,6 +588,18 @@ view: sel_transactions {
     type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    filters: {
+      field: transactiontype
+      value: "NOT 4"
+    }
+  }
+
+  measure: total_amount_usd {
+    label: "Total Admission Amount (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+         else round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72*1 End ;;
     filters: {
       field: transactiontype
       value: "NOT 4"
