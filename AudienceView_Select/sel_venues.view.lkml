@@ -38,6 +38,7 @@ dimension: venue_type  {
   sql: case when ${TABLE}.admission = 'G' then 'General Admission'
         when  ${TABLE}.admission = 'R' then 'Reserved'
         when ${TABLE}.admission = 'F' then  'Mixed'
+        when ${TABLE}.admission = 'I' then  'Import'
        END ;;
 }
 
