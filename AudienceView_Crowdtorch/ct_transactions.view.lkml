@@ -964,6 +964,14 @@ dimension: transtype {
     sql: ${TABLE}.grandtotal ;;
   }
 
+  measure: CC_grand_total_fx {
+    label: "CC_Total_USD"
+    value_format_name: usd
+    type: sum
+    sql: ${TABLE}.grandtotal * ${ct_fx_rates_bs.fx_rate_bs};;
+    required_fields: [ct_fx_rates_bs.fx_rate_bs]
+  }
+
   measure: refund_sum_grand_total {
     label: "Refund Grand Total"
     value_format_name: usd
