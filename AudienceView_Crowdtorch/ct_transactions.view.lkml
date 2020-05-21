@@ -466,8 +466,8 @@ dimension: transtype {
     label: "AP_Amt_USD"
     type: number
     value_format_name: usd
-    sql: (${sum_grand_total} - ${billing_service_fee} - ${billing_credit_card_fee} - ${sum_billingrecoupablefee})*${ct_fx_rates.fx_rate} ;;
-    required_fields: [ct_fx_rates.fx_rate]
+    sql: (${sum_grand_total} - ${billing_service_fee} - ${billing_credit_card_fee} - ${sum_billingrecoupablefee})*${ct_fx_rates_bs.fx_rate_bs} ;;
+    required_fields: [ct_fx_rates_bs.fx_rate_bs]
   }
 
 

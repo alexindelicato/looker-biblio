@@ -1039,6 +1039,16 @@ explore: ct_transactions {
     and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates.currency} ;;
     }
 
+  join: ct_fx_rates_bs {
+    view_label: "CT FX Rate BS"
+    type: inner
+    relationship: one_to_one
+    sql_on:
+    EXTRACT(MONTH FROM ${ct_transactions.transactiontime_raw}) = ${ct_fx_rates_bs.periodid}
+    and ${ct_transactions.transactiontime_year} = ${ct_fx_rates_bs.yearid}
+    and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates_bs.currency} ;;
+  }
+
   join: ct_master_list {
     view_label: "CT Client Facts"
     type: left_outer
