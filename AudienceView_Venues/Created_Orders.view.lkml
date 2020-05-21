@@ -133,7 +133,7 @@ UNION ALL
 SELECT
       sel_performances.performanceid as UUID,
       'Select' as product_name,
-      sel_orders.id as client_name,
+      CAST( sel_orders.id as STRING) as client_name,
       '' as venue_name,
       sel_events.title as performance_series_name,
       sel_events.title as performance_short_description,
