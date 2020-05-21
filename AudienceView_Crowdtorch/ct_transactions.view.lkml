@@ -336,6 +336,7 @@ view: ct_transactions {
 
   measure:: sum_billingrecoupablefee {
     type: sum
+    value_format_name: usd
     sql: ${TABLE}.billingrecoupablefee ;;
   }
 
