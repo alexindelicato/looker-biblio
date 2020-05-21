@@ -835,6 +835,13 @@ explore: sel_orders {
     relationship: one_to_many
     sql_on: ${sel_performances.eventid}=${sel_events.eventid} AND  ${sel_events.deleted} IS NULL ;;
   }
+
+  join: sel_venues {
+    view_label: "AV Select Venues"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_events.venueid}=${sel_venues.venueid} AND  ${sel_venues.deleted} IS NULL ;;
+  }
 }
 
   #Select Donation Report
