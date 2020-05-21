@@ -198,7 +198,7 @@ view: sel_transactions {
     sql: case when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "Y" then ${2019_arr_junetodec}
          when  ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "Y" then ${2019_arr_junetodec}
          when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "N" then ${2019_arr_junetodec}
-         else ${junetodec_total_commissionableconveniencefee}+${junetodec_total_commissionableservicefee} + ${sel_donations.2019_commissionableservicefee} + ${sel_giftcardissued.2019_commissionableservicefee} + ${sel_orders_misclineitems.2019_commissionableservicefee} end ;;
+         else ${junetodec_total_commissionableconveniencefee}+${junetodec_total_commissionableservicefee} + ${sel_donations.junetodec_total_commissionableservicefee} + ${sel_giftcardissued.junetodec_total_commissionableservicefee} + ${sel_orders_misclineitems.junetodec_total_commissionableservicefee} end ;;
     required_fields: [sel_members.useinternetma, sel_members.useretailma]
   }
 
@@ -596,7 +596,7 @@ view: sel_transactions {
     type: number
     value_format_name: usd
     sql: case when ${sf_accounts.measure_annual_subscription_fee_c} is NOT NULL then  ${junetodec_total_arr_servicefee} + ${junetodec_arr_conveniencefee} + ${sel_orders_misclineitems.junetodec_total_arr_servicefee} + ${sel_memberships_sales.junetodec_total_membership_arr} + ${sel_giftcardissued.junetodec_total_arr_servicefee} + ${sel_donations.junetodec_total_arr_servicefee} + ${sf_accounts.measure_annual_subscription_fee_c}
-      else ${junetodec_total_arr_servicefee} + ${junetodec_arr_conveniencefee} + ${sel_orders_misclineitems.2019_total_arr_servicefee} + ${sel_memberships_sales.junetodec_total_membership_arr} + ${sel_giftcardissued.junetodec_total_arr_servicefee} + ${sel_donations.junetodec_total_arr_servicefee} end;;
+      else ${junetodec_total_arr_servicefee} + ${junetodec_arr_conveniencefee} + ${sel_orders_misclineitems.junetodec_total_arr_servicefee} + ${sel_memberships_sales.junetodec_total_membership_arr} + ${sel_giftcardissued.junetodec_total_arr_servicefee} + ${sel_donations.junetodec_total_arr_servicefee} end;;
     required_fields: [sf_accounts.annual_subscription_fee_c]
   }
 
@@ -609,7 +609,7 @@ view: sel_transactions {
           when  ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "Y" then ${2019_arr}
           when  ${sel_members.useinternetma} = "Y" and ${sel_members.useretailma} = "N" then ${2019_arr}
           when ${2019_arr_junetodec} = 0 or ${2019_net_arr} = 0 then ${2019_arr}
-          else (${2019_net_arr}/${2019_arr_junetodec})* ${2019_arr} END ;;
+          else (${junetodec_net_arr}/${2019_arr_junetodec})* ${2019_arr} END ;;
   }
 
 
