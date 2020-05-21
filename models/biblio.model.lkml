@@ -828,6 +828,13 @@ explore: sel_orders {
     relationship: one_to_many
     sql_on: ${sel_transactions.performanceid}=${sel_performances.performanceid} AND  ${sel_performances.deleted} IS NULL  ;;
   }
+
+  join: sel_events {
+    view_label: "AV Select Series"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_performances.eventid}=${sel_events.eventid} AND  ${sel_events.deleted} IS NULL ;;
+  }
 }
 
   #Select Donation Report

@@ -28,6 +28,23 @@ view: sel_orders {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
+  dimension_group: current_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
+
   dimension: agentid {
     type: string
     sql: ${TABLE}.agentid ;;
@@ -161,6 +178,12 @@ view: sel_orders {
     type: string
     sql: ${TABLE}.voucherredeemedagentid ;;
   }
+
+  measure: count_orders {
+    type: count_distinct
+    sql: id ;;
+    drill_fields: [id, transactions.count, refunds.count, exchanges.count, orders_misclineitems.count, sel_members.organizationname,sel_events.title,sel_performances.starttime_time]
+    }
 
   measure: count {
     type: count
