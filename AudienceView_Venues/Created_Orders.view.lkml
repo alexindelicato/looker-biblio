@@ -129,44 +129,44 @@ default_currency
 
 UNION ALL
 
+
 SELECT
-      purchase_stats.performanceid as UUID,
+      sel_performances.performanceid as UUID,
       'Select' as product_name,
-      members.organizationname as client_name,
+      sel_orders.id as client_name,
       '' as venue_name,
-      events.title as performance_series_name,
-      events.title as performance_short_description,
-      events.title as performance_name,
-    CAST( Performance_Date as DATETIME) as performance_start_date,
-    CAST( Performance_Date as TIMESTAMP) as performance_date,
-    CAST( Purchase_Date as DATETIME) as order_create_audit_time,
-    CAST( Purchase_Date as TIMESTAMP) as order_create_date,
-
-      SUM(Order_Count) as orders_created,
-      SUM(Ticket_Quantity) as admissions_sold,
-      SUM(Total_Sales__) as admissions_sold_amount,
+      sel_events.title as performance_series_name,
+      sel_events.title as performance_short_description,
+      sel_events.title as performance_name,
+      CAST( timestamp_seconds(sel_performances.starttime) as DATETIME) as performance_start_date,
+      CAST( timestamp_seconds(sel_performances.starttime) as TIMESTAMP) as performance_date,
+      CAST( timestamp_seconds(sel_orders.date) as DATETIME) as order_create_audit_time,
+      CAST( timestamp_seconds(sel_orders.date) as TIMESTAMP) as order_create_date,
+      COUNT(DISTINCT(sel_orders.id)) as orders_created,
+      COUNT(DISTINCT(sel_transactions.transactionid)) as admissions_sold,
+      SUM( SAFE_CAST( sel_transactions.total as FLOAT64 )) as admissions_sold_amount,
       'USD' as default_currency,
-      SUM(Total_Sales__) as admissions_sold_amount_usd
+      SUM( SAFE_CAST( sel_transactions.total as FLOAT64 )) as admissions_sold_amount_usd
 
-      FROM mysql_service.purchase_stats
-      INNER JOIN mysql_service.performances on performances.performanceid = purchase_stats.performanceid
-      INNER JOIN mysql_service.events on events.eventid = performances.eventid
-      INNER JOIN mysql_service.members on members.memberid = purchase_stats.memberid
+FROM `fivetran-ovation-tix-warehouse.mysql_service.orders` AS sel_orders
+LEFT JOIN `fivetran-ovation-tix-warehouse.mysql_service.transactions` AS sel_transactions
+     ON sel_orders.id=sel_transactions.orderid and sel_orders.testmode = "N"
+LEFT JOIN `fivetran-ovation-tix-warehouse.mysql_service.performances`  AS sel_performances
+     ON sel_transactions.performanceid=sel_performances.performanceid AND  sel_performances.deleted IS NULL
+LEFT JOIN `fivetran-ovation-tix-warehouse.mysql_service.events`  AS sel_events
+     ON sel_events.eventid = sel_performances.eventid
+
 WHERE 1 = 1
 
 GROUP BY
-UUID,
-product_name,
-client_name,
-venue_name,
-performance_series_name,
-performance_short_description,
-performance_name,
-performance_date,
-performance_start_date,
-order_create_date,
-order_create_audit_time,
-default_currency
+      sel_performances.performanceid,
+      sel_orders.id,
+      sel_events.title,
+      CAST( timestamp_seconds(sel_performances.starttime) as DATETIME),
+      CAST( timestamp_seconds(sel_performances.starttime) as TIMESTAMP),
+      CAST( timestamp_seconds(sel_orders.date) as DATETIME),
+      CAST( timestamp_seconds(sel_orders.date) as TIMESTAMP)
+
 
 UNION ALL
 
