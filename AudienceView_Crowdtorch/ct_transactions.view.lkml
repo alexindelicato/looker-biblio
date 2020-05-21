@@ -21,6 +21,23 @@ view: ct_transactions {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
+  dimension_group: current_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
+
   dimension: accountingid {
     type: string
     sql: ${TABLE}.accountingid ;;
@@ -1747,6 +1764,7 @@ view: ct_transactions {
       month,
       month_name,
       quarter,
+      week_of_year,
       year
     ]
     sql: CAST(${TABLE}.transactiontime AS TIMESTAMP) ;;
