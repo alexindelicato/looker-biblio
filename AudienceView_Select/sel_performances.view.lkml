@@ -32,6 +32,28 @@ view: sel_performances {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
+  measure: max_performance_date {
+    type: time
+    sql: max(${sel_performances.starttime_raw}) ;;
+  }
+
+  dimension_group: current_time {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      quarter_of_year,
+      week_of_year,
+      year
+    ]
+    sql: CURRENT_TIMESTAMP() ;;
+  }
+
   dimension: creation {
     type: number
     sql: ${TABLE}.creation ;;
