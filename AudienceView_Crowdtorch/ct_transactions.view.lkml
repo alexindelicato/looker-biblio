@@ -101,6 +101,15 @@ view: ct_transactions {
     sql: ${TABLE}.billingadditionalfee ;;
   }
 
+  measure: sum_billingadditionalfee {
+    label: "Recoup_amt"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.billingadditionalfee ;;
+  }
+
+
+
 #   dimension: billingcity {
 #     type: string
 #     sql: ${TABLE}.billingcity ;;
@@ -459,14 +468,14 @@ dimension: transtype {
     label: "AP_Amt"
     type: number
     value_format_name: usd
-    sql: ${sum_grand_total} - ${billing_service_fee} - ${billing_credit_card_fee} - ${sum_billingrecoupablefee} ;;
+    sql: ${sum_grand_total} - ${billing_service_fee} - ${billing_credit_card_fee} - ${sum_billingadditionalfee} ;;
   }
 
   measure: ap_amount_fx {
     label: "AP_Amt_USD"
     type: number
     value_format_name: usd
-    sql: (${sum_grand_total} - ${billing_service_fee} - ${billing_credit_card_fee} - ${sum_billingrecoupablefee})*${ct_fx_rates_bs.fx_rate_bs} ;;
+    sql: (${sum_grand_total} - ${billing_service_fee} - ${billing_credit_card_fee} - ${sum_billingadditionalfee})*${ct_fx_rates_bs.fx_rate_bs} ;;
     required_fields: [ct_fx_rates_bs.fx_rate_bs]
   }
 
