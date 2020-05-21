@@ -1,4 +1,4 @@
-view: ct__ar_transmap {
+view: ct_ar_transmap {
   sql_table_name: `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_transmap`
     ;;
 

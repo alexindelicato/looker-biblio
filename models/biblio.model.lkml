@@ -1020,7 +1020,7 @@ explore: ct_transactions {
   label: "CT Client Transactions"
   group_label: "Project Biblio"
   view_label: "CT Client Transactions"
-  sql_always_where: ${dataset} IN ('donationFund', 'donationFundRefund','ticketOrder', 'ticketRefundOrder') and (CAST(${ct_transactions.transactiontime_date} AS TIMESTAMP)  >= TIMESTAMP('2018-01-01 00:00:00')) and ${clientid} NOT IN (15,10353725) ;;
+  sql_always_where: ${dataset} IN ('donationFund', 'donationFundRefund','ticketOrder', 'ticketRefundOrder', 'merchandiseRefundOrder', 'merchandiseOrder') and (CAST(${ct_transactions.transactiontime_date} AS TIMESTAMP)  >= TIMESTAMP('2018-01-01 00:00:00')) and ${clientid} NOT IN (15,10353725) ;;
 
   join: ct_clientvenues {
     view_label: "CT Client Venues"
@@ -1038,6 +1038,16 @@ explore: ct_transactions {
     and ${ct_transactions.transactiontime_year} = ${ct_fx_rates.yearid}
     and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates.currency} ;;
     }
+
+  join: ct_fx_rates_bs {
+    view_label: "CT FX Rate BS"
+    type: inner
+    relationship: one_to_one
+    sql_on:
+    EXTRACT(MONTH FROM ${ct_transactions.transactiontime_raw}) = ${ct_fx_rates_bs.periodid}
+    and ${ct_transactions.transactiontime_year} = ${ct_fx_rates_bs.yearid}
+    and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates_bs.currency} ;;
+  }
 
   join: ct_master_list {
     view_label: "CT Client Facts"
