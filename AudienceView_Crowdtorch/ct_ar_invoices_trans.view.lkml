@@ -1,4 +1,4 @@
-view: tbl_ticketing_ar_invoices_trans {
+view: ct_ar_invoices_trans {
   sql_table_name: `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_invoices_trans`
     ;;
 
