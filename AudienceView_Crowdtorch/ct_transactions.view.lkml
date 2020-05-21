@@ -421,6 +421,11 @@ view: ct_transactions {
     }
   }
 
+dimension: transtype {
+  type: string
+  sql: case when ${istmgateway} then "Direct Revenue"
+       else "Indirect Revenue" end;;
+}
   measure: total_arr {
     label: "Total ARR"
     type: number
