@@ -144,6 +144,13 @@ view: ct_transactions {
     sql: ${TABLE}.billingcreditcardprocessingfee ;;
   }
 
+  measure: billing_credit_card_fee_fx {
+    type: sum
+    label: "Total Credit Card Fee (USD) FX"
+    value_format_name: usd
+    sql: ${TABLE}.billingcreditcardprocessingfee * ${ct_fx_rates.fx_rate} ;;
+  }
+
   measure: billing_credit_card_fee_usd {
     type: sum
     label: "Total Credit Card Fee (USD)"
@@ -418,6 +425,13 @@ view: ct_transactions {
     sql: ${TABLE}.billingservicefee ;;
   }
 
+  measure: billing_service_fee_fx {
+    type: sum
+    label: "Total Service Fee (USD) FX"
+    value_format_name: usd
+    sql: ${TABLE}.billingservicefee * ${ct_fx_rates.fx_rate} ;;
+  }
+
   measure: billing_service_fee_usd {
     type: sum
     label: "Total Service Fee (USD)"
@@ -450,6 +464,13 @@ dimension: transtype {
   sql: case when ${istmgateway} then "Direct Revenue"
        else "Indirect Revenue" end;;
 }
+
+  dimension: transtype_check {
+    label: "TransType"
+    type: string
+    sql:"Direct Revenue Check" ;;
+    }
+
   measure: total_arr {
     label: "Total ARR"
     type: number
@@ -490,11 +511,18 @@ dimension: transtype {
 
 
   measure: total_arr_usd {
-    label: "Total ARR (USD)"
+    label: "Total ARR (USD) Non FX"
     type: number
     value_format_name: usd
     sql: ${billing_service_fee_usd} + ${billing_credit_card_fee_usd} ;;
   }
+
+  measure: total_arr_usd_fx {
+    label: "Total ARR (USD)"
+    type: number
+    value_format_name: usd
+    sql: ${billing_service_fee_fx} + ${billing_credit_card_fee_fx} ;;
+    }
 
   measure: 2019_total_arr_usd {
     label: "2019 Total ARR (USD)"
