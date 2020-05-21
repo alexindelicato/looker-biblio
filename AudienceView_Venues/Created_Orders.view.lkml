@@ -235,8 +235,6 @@ default_currency
 
 ORDER BY order_create_date, performance_date
 
--- limit 100
-
             ;;
 
       sql_trigger_value: select max(order_create_audit_time) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_orders_summary`;;
