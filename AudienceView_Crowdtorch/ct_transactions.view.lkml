@@ -108,6 +108,14 @@ view: ct_transactions {
     sql: ${TABLE}.billingadditionalfee ;;
   }
 
+  measure: sum_billingadditionalfee_fx {
+    label: "Recoup_amt USD"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.billingadditionalfee * ${ct_fx_rates_bs.fx_rate_bs} ;;
+    required_fields: [ct_fx_rates_bs.fx_rate_bs]
+  }
+
 
 
 #   dimension: billingcity {
