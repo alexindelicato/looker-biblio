@@ -346,6 +346,13 @@ view: ct_transactions {
     sql: ${TABLE}.billingrebate ;;
   }
 
+  measure: sum_billingrebate {
+    label: "Billing Rebate"
+    type: sum
+    sql: ${TABLE}.billingrebate ;;
+  }
+
+
   dimension: billingrecoupablefee {
     type: number
     sql: ${TABLE}.billingrecoupablefee ;;
