@@ -451,7 +451,7 @@ dimension: transtype {
     label: "AP_Amt"
     type: number
     value_format_name: usd
-    sql: ${sum_grand_total} - ${billing_service_fee} - ${billing_credit_card_fee} ;;
+    sql: ${sum_grand_total} - ${billing_service_fee} - ${billing_credit_card_fee} - ${sum_billingrecoupablefee} ;;
   }
 
 
@@ -936,6 +936,13 @@ dimension: transtype {
 
   measure: sum_grand_total {
     label: "Sum Grand Total"
+    value_format_name: usd
+    type: sum
+    sql: ${TABLE}.grandtotal ;;
+  }
+
+  measure: CC_grand_total {
+    label: "CC_Total"
     value_format_name: usd
     type: sum
     sql: ${TABLE}.grandtotal ;;
