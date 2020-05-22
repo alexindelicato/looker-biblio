@@ -405,8 +405,10 @@ view: sel_transactions {
   }
 
   dimension: price {
-    type: string
-    sql: ${TABLE}.price ;;
+    label: "Ticket Price"
+    type: number
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.price as FLOAT64), 2) ;;
   }
 
   dimension: pricescaleid {

@@ -129,6 +129,7 @@ view: sel_orders_misclineitems {
   }
 
   dimension: name {
+    label: "MLI Item"
     type: string
     sql: ${TABLE}.name ;;
   }

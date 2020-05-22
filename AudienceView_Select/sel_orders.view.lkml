@@ -93,7 +93,7 @@ view: sel_orders {
 
   dimension: deliveryprice {
     type: number
-    sql: ${TABLE}.deliveryprice ;;
+    sql: round(safe_cast(${TABLE}.deliveryprice as FLOAT64), 2) ;;
   }
 
   dimension: memberid {

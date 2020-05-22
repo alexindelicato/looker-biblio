@@ -212,6 +212,7 @@ view: sel_donations {
 
   dimension: servicefee {
     type: number
+    value_format_name: usd
     sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
   }
 
