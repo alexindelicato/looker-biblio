@@ -232,7 +232,7 @@ view: sel_donations {
   }
 
   measure: 2019_donation_servicefee {
-    label: "2019 Donation Service Fee"
+    label: "2019 Donation Service Fee (USD)"
     type: sum_distinct
     value_format_name: usd
     sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
@@ -242,6 +242,33 @@ view: sel_donations {
       field: created_year
       value: "2019"
     }
+  }
+
+  measure: 2020_donation_servicefee {
+    label: "2020 Donation Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+            when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+            else 0 end;;
+    filters: {
+      field: created_year
+      value: "2020"
+    }
+  }
+
+  measure: 2019_total_donation_service_fee{
+    label: "2019 Contributed Income Service Fee (USD)"
+    type: number
+    value_format_name: usd
+    sql: ${2019_donation_servicefee}+${sel_orders_misclineitems.2019_total_tipjar_servicefee} ;;
+  }
+
+  measure: 2020_total_donation_service_fee{
+    label: "2020 Contributed Income Service Fee (USD)"
+    type: number
+    value_format_name: usd
+    sql: ${2020_donation_servicefee}+${sel_orders_misclineitems.2020_total_tipjar_servicefee} ;;
   }
 
   measure: rollimg_donation_servicefee {

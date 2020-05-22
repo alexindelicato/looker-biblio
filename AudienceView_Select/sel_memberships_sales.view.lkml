@@ -38,6 +38,32 @@ view: sel_memberships_sales {
     sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
   }
 
+  measure: 2019_sum_amount {
+    label: "2019 Membership Sales (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*1
+                else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
+  measure: 2020_sum_amount {
+    label: "2020 Membership Sales (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*1
+                else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2020"
+    }
+  }
+
   dimension: conveniencefee {
     type: number
     value_format_name: usd
@@ -59,6 +85,7 @@ view: sel_memberships_sales {
   }
 
   measure: 2019_arr_conveniencefee {
+    label: "2019 Total Membership Convenience Fee (USD)"
     type: sum_distinct
     value_format_name: usd
     sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
@@ -67,6 +94,19 @@ view: sel_memberships_sales {
     filters: {
       field: date_year
       value: "2019"
+    }
+  }
+
+  measure: 2020_arr_conveniencefee {
+    label: "2020 Total Membership Convenience Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2020"
     }
   }
 
@@ -169,6 +209,7 @@ view: sel_memberships_sales {
   }
 
   measure: 2019_arr_servicefee {
+    label: "2019 Total Membership Service Fee (USD)"
     type: sum_distinct
     value_format_name: usd
     sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
@@ -177,6 +218,19 @@ view: sel_memberships_sales {
     filters: {
       field: date_year
       value: "2019"
+    }
+  }
+
+  measure: 2020_arr_servicefee {
+    label: "2020 Total Membership Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2020"
     }
   }
 
@@ -255,6 +309,26 @@ view: sel_memberships_sales {
     type: string
     sql: ${TABLE}.voidbenefits ;;
   }
+  measure: 2020_count {
+    label: "2020 Number of Membership Sales"
+    type: count_distinct
+    sql: ${membershipid} ;;
+    filters: {
+      field: date_year
+      value: "2020"
+    }
+  }
+
+  measure: 2019_count {
+    label: "2019 Number of Membership Sales"
+    type: count_distinct
+    sql: ${membershipid} ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
 
   measure: count {
     type: count

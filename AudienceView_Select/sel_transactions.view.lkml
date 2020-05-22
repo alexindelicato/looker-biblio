@@ -253,7 +253,7 @@ view: sel_transactions {
   }
 
   measure: 2019_arr_conveniencefee {
-    label: "2019 Rolling ARR Convenience Fee (USD)"
+    label: "2019 Ticket Convenience Fee (USD)"
     type: sum_distinct
     value_format_name: usd
     sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
@@ -263,7 +263,20 @@ view: sel_transactions {
       field: date_year
       value: "2019"
     }
-  }
+    }
+
+    measure: 2020_arr_conveniencefee {
+      label: "2020 Ticket Convenience Fee (USD)"
+      type: sum_distinct
+      value_format_name: usd
+      sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+      filters: {
+        field: date_year
+        value: "2020"
+      }
+    }
 
   measure: junetodec_arr_conveniencefee {
     label: "June 2019 to Dec 2019 Rolling ARR Convenience Fee (USD)"
@@ -648,7 +661,7 @@ view: sel_transactions {
   }
 
   measure: 2019_total_arr_servicefee {
-    label: "2019 ARR Service Fee (USD)"
+    label: "2019 Ticket Service Fee (USD)"
     type: sum_distinct
     value_format_name: usd
     sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
@@ -657,6 +670,19 @@ view: sel_transactions {
     filters: {
       field: date_year
       value: "2019"
+    }
+  }
+
+  measure: 2020_total_arr_servicefee {
+    label: "2020 Ticket Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2020"
     }
   }
 

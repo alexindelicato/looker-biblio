@@ -225,6 +225,73 @@ view: sel_orders_misclineitems {
       value: "Y"
     }
   }
+  measure: 2019_total_tipjar_servicefee {
+    label: "2019 Total Tipjar Service Fee"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+
+    filters: {
+      field: donation
+      value: "Y"
+    }
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
+  measure: 2020_total_servicefee {
+    label: "2020 Total MLI Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+
+    filters: {
+      field: donation
+      value: "N"
+    }
+    filters: {
+      field: date_year
+      value: "2020"
+    }
+  }
+
+  measure: 2019_total_servicefee {
+    label: "2019 Total MLI Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end  ;;
+
+    filters: {
+      field: donation
+      value: "N"
+    }
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
+  measure: 2020_total_tipjar_servicefee {
+    label: "2020 Total Tipjar Service Fee"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end  ;;
+
+    filters: {
+      field: donation
+      value: "Y"
+    }
+    filters: {
+      field: date_year
+      value: "2020"
+    }
+  }
 
   measure: junetodec_total_arr_servicefee {
     label: "June 2019 to Dec 2019 ARR Service Fee (USD)"

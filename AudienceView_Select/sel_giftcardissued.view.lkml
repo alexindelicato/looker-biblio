@@ -157,6 +157,7 @@ view: sel_giftcardissued {
   }
 
   measure: 2019_total_servicefee_usd {
+    label: "2019 Total Gift Card Service Fee (USD)"
     type: sum_distinct
     value_format_name: usd
     sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
@@ -167,6 +168,20 @@ view: sel_giftcardissued {
       value: "2019"
     }
   }
+
+  measure: 2020_total_servicefee_usd {
+    label: "2020 Total Gift Card Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: issuedon_year
+      value: "2020"
+    }
+  }
+
 
   measure: rolling_arr_servicefee_usd {
     type: sum_distinct
@@ -212,7 +227,7 @@ view: sel_giftcardissued {
   measure: 2020_count {
     label: "2020 Number of Gift Cards"
     type: count_distinct
-    sql: uid ;;
+    sql: ${uid} ;;
   filters: {
     field: issuedon_year
     value: "2020"
@@ -222,7 +237,7 @@ view: sel_giftcardissued {
   measure: 2019_count {
     label: "2019 Number of Gift Cards"
     type: count_distinct
-    sql: uid ;;
+    sql: ${uid} ;;
     filters: {
       field: issuedon_year
       value: "2019"
