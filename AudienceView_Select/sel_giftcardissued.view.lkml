@@ -30,7 +30,42 @@ view: sel_giftcardissued {
 
   dimension: amount {
     type: number
-    sql: ${TABLE}.amount ;;
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64),2);;
+  }
+
+  measure: sum_amount {
+    label: "Gift Card Amount (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*0.72
+    when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*1
+          else 0 end ;;
+  }
+
+  measure: 2019_sum_amount {
+    label: "2019 Gift Card Amount (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*1
+                else 0 end ;;
+    filters: {
+      field: issuedon_year
+      value: "2019"
+    }
+  }
+
+  measure: 2020_sum_amount {
+    label: "2020 Gift Card Amount (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*1
+                else 0 end ;;
+    filters: {
+      field: issuedon_year
+      value: "2020"
+    }
   }
 
   dimension: commissionableservicefee {
@@ -172,6 +207,26 @@ view: sel_giftcardissued {
   dimension: uid {
     type: string
     sql: ${TABLE}.uid ;;
+  }
+
+  measure: 2020_count {
+    label: "2020 Number of Gift Cards"
+    type: count_distinct
+    sql: uid ;;
+  filters: {
+    field: issuedon_year
+    value: "2020"
+  }
+  }
+
+  measure: 2019_count {
+    label: "2019 Number of Gift Cards"
+    type: count_distinct
+    sql: uid ;;
+    filters: {
+      field: issuedon_year
+      value: "2019"
+    }
   }
 
   measure: count {

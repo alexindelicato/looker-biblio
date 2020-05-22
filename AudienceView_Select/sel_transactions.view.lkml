@@ -429,7 +429,7 @@ view: sel_transactions {
   }
 
   measure: 2020_total_quantity {
-    label: "2020 # of Tickets"
+    label: "2020 Number of Tickets"
     type: sum_distinct
     sql: ${TABLE}.quantity ;;
     filters: {
@@ -444,7 +444,7 @@ view: sel_transactions {
   }
 
   measure: 2019_total_quantity {
-    label: "2019 # of Tickets"
+    label: "2019 Number of Tickets"
     type: sum_distinct
     sql: ${TABLE}.quantity ;;
     filters: {
