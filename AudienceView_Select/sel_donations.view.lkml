@@ -49,7 +49,8 @@ view: sel_donations {
     label: "2019 Contributed Income (USD)"
     type: sum_distinct
     value_format_name: usd
-    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)* 0.72
+         else round(safe_cast(${TABLE}.amount as FLOAT64), 2) *1 END ;;
 
     filters: {
       field: created_year
@@ -65,14 +66,14 @@ view: sel_donations {
   }
 
   measure: 2019_total_donation_amoount{
-    label: "2019 Total Donations (including tipjar)"
+    label: "2019 Contributed Income (USD)"
     type: number
     value_format_name: usd
     sql: ${2019_sum_donation_amount}+${sel_orders_misclineitems.2019_total_tipjar} ;;
   }
 
   measure: 2020_total_donation_amoount{
-    label: "2020 Total Donations (including tipjar)"
+    label: "2020 Contributed Income (USD)"
     type: number
     value_format_name: usd
     sql: ${2020_sum_donation_amount}+${sel_orders_misclineitems.2020_total_tipjar} ;;
@@ -83,7 +84,8 @@ view: sel_donations {
     label: "2020 Contributed Income (USD)"
     type: sum_distinct
     value_format_name: usd
-    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)* 0.72
+         else round(safe_cast(${TABLE}.amount as FLOAT64), 2) *1 END;;
 
     filters: {
       field: created_year

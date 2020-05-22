@@ -705,7 +705,7 @@ view: sel_transactions {
     type: sum_distinct
     value_format_name: usd
     sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
-         else round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72*1 End ;;
+         else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
     filters: {
       field: transactiontype
       value: "NOT 4"
@@ -742,10 +742,11 @@ view: sel_transactions {
 
 
   measure: 2019_total_amount {
-    label: "2019 Total Admission Amount"
+    label: "2019 Earned Income (USD)"
     type: sum_distinct
     value_format_name: usd
-    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+         else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
     filters: {
       field: date_year
       value: "2019"
@@ -757,10 +758,11 @@ view: sel_transactions {
   }
 
   measure: 2020_total_amount {
-    label: "2020 Total Admission Amount"
+    label: "2020 Earned Income (USD)"
     type: sum_distinct
     value_format_name: usd
-    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+         else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
     filters: {
       field: date_year
       value: "2020"

@@ -274,7 +274,8 @@ view: sel_orders_misclineitems {
     label: "2019 Total Tipjar Donation"
     type: sum_distinct
     value_format_name: usd
-    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+         else round(safe_cast(${TABLE}.total as FLOAT64), 2) *1 END;;
 
     filters: {
       field: donation
@@ -291,7 +292,8 @@ view: sel_orders_misclineitems {
     label: "2020 Total Tipjar Donation"
     type: sum_distinct
     value_format_name: usd
-    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+         else round(safe_cast(${TABLE}.total as FLOAT64), 2) *1 END;;
 
     filters: {
       field: donation
