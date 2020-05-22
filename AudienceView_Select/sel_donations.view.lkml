@@ -46,7 +46,7 @@ view: sel_donations {
   }
 
   measure: 2019_sum_donation_amount {
-    label: "2019 Contributed Income (USD)"
+    label: "2019 Donation Income (USD)"
     type: sum_distinct
     value_format_name: usd
     sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)* 0.72
@@ -81,7 +81,7 @@ view: sel_donations {
 
 
   measure: 2020_sum_donation_amount {
-    label: "2020 Contributed Income (USD)"
+    label: "2020 Donation Income (USD)"
     type: sum_distinct
     value_format_name: usd
     sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)* 0.72
@@ -306,6 +306,34 @@ view: sel_donations {
   dimension: type {
     type: string
     sql: ${TABLE}.type ;;
+  }
+
+  measure: count_2019_donations {
+    type: count_distinct
+    sql: ${donationid} ;;
+    filters: {
+      field: created_year
+      value: "2019"
+    }
+  }
+
+  measure: count_2020_donations {
+    type: count_distinct
+    sql: ${donationid} ;;
+    filters: {
+      field: created_year
+      value: "2020"
+    }
+  }
+
+  measure: 2019_total_number_donations {
+    type:  number
+    sql:  ${count_2019_donations} + ${sel_orders_misclineitems.count_2019_tipjar};;
+  }
+
+  measure: 2020_total_number_donations {
+    type:  number
+    sql:  ${count_2020_donations} + ${sel_orders_misclineitems.count_2020_tipjar};;
   }
 
   measure: count {

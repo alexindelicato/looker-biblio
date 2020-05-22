@@ -270,6 +270,90 @@ view: sel_orders_misclineitems {
     }
   }
 
+  measure: total_mlm {
+    label: "Total MLM (exclusing tipjar)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)*1
+          else 0 end ;;
+
+    filters: {
+      field: donation
+      value: "N"
+    }
+  }
+
+  measure: 2019_total_mlm {
+    label: "2019 Total MLI (USD excludes tipjar)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)*1
+          else 0 end  ;;
+
+    filters: {
+      field: donation
+      value: "N"
+    }
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
+  measure: 2020_total_mli {
+    label: "2020 Total MLI (USD excludes tipjar)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)*1
+          else 0 end ;;
+
+    filters: {
+      field: donation
+      value: "N"
+    }
+    filters: {
+      field: date_year
+      value: "2020"
+    }
+  }
+
+
+  measure: count_2019_mli {
+    label: "2019 Number of MLI (excludes tipjar)"
+    type: count_distinct
+    sql: ${id} ;;
+    drill_fields: [id, name, orders.id, exchanges.exchangeid]
+    filters: {
+      field: donation
+      value: "N"
+    }
+
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  }
+
+  measure: count_2020_mli {
+    label: "2020 Number of MLI (excludes tipjar)"
+    type: count_distinct
+    sql: ${id} ;;
+    drill_fields: [id, name, orders.id, exchanges.exchangeid]
+    filters: {
+      field: donation
+      value: "N"
+    }
+
+    filters: {
+      field: date_year
+      value: "2020"
+    }
+  }
+
+
   measure: 2019_total_tipjar {
     label: "2019 Total Tipjar Donation"
     type: sum_distinct
@@ -295,6 +379,36 @@ view: sel_orders_misclineitems {
     sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
          else round(safe_cast(${TABLE}.total as FLOAT64), 2) *1 END;;
 
+    filters: {
+      field: donation
+      value: "Y"
+    }
+
+    filters: {
+      field: date_year
+      value: "2020"
+    }
+  }
+
+ measure: count_2019_tipjar {
+    type: count_distinct
+    sql: ${id} ;;
+        drill_fields: [id, name, orders.id, exchanges.exchangeid]
+  filters: {
+    field: donation
+    value: "Y"
+  }
+
+  filters: {
+    field: date_year
+    value: "2019"
+  }
+}
+
+  measure: count_2020_tipjar {
+    type: count_distinct
+    sql: ${id} ;;
+    drill_fields: [id, name, orders.id, exchanges.exchangeid]
     filters: {
       field: donation
       value: "Y"
