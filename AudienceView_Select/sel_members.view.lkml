@@ -440,6 +440,11 @@ view: sel_members {
     sql: timestamp_seconds(${TABLE}.livemodedate) ;;
   }
 
+  dimension: is_new {
+    type: yesno
+    sql: ${livemodedate_date}  between '2019-04-01' and '2020-05-22'  ;;
+  }
+
   dimension: longitude {
     type: number
     sql: ${TABLE}.longitude ;;

@@ -212,7 +212,8 @@ view: sf_accounts {
   measure:: annual_contract_value {
     type: number
     value_format_name: usd
-    sql: ${TABLE}.annual_contract_value_c ;;
+    sql: ${annual_contract_value_conversion} ;;
+    required_fields: [annual_contract_value_conversion,sf_accounts.currency_iso_code,sf_accounts.annual_contract_value_c ]
   }
 
   dimension: annual_email_fees_c {
@@ -297,6 +298,12 @@ view: sf_accounts {
   dimension: ar_days_owing_c {
     type: string
     sql: ${TABLE}.ar_days_owing_c ;;
+  }
+
+  dimension: arr_c {
+    label: "ARR"
+    type: number
+    sql: ${TABLE}.arr_c ;;
   }
 
   dimension: arts_conferences_c {

@@ -81,6 +81,11 @@ view: sel_orders {
     sql: timestamp_seconds(${TABLE}.date) ;;
   }
 
+  measure: max_order_date {
+    type: time
+    sql: max${date_raw} ;;
+  }
+
   dimension: deliveryid {
     type: string
     sql: ${TABLE}.deliveryid ;;
