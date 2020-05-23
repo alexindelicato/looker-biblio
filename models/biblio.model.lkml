@@ -1070,6 +1070,9 @@ explore: ct_transactions {
     sql_on: ${ct_transactions.clientid} = cast(${sf_accounts.ct_client_id_c} as INT64) AND ${sf_accounts.is_deleted}= FALSE and ${sf_accounts.ct_client_id_c} is NOT NULL ;;
   }
 }
+
+#CT Invoice Reports
+
 #Select Purchase Stats
 explore: sel_purchase_stats {
   label: "AV Select Purchase Stats"
