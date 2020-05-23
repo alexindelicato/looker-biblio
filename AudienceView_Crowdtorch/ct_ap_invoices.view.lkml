@@ -26,6 +26,16 @@ view: ct_ap_invoices {
     sql: ${TABLE}.advances ;;
   }
 
+  dimension: transtype {
+    type: string
+    sql: "A/P Other Charges" ;;
+  }
+
+  dimension: blank {
+    type: string
+    sql: " " ;;
+  }
+
   dimension: ap_id {
     type: number
     sql: ${TABLE}.ap_id ;;

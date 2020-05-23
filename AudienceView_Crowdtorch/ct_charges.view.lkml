@@ -59,9 +59,61 @@ view: ct_charges {
   }
 
   dimension: chargeamt {
+    label: "Orig_ChargeAmt"
+    value_format_name: usd
     type: number
     sql: ${TABLE}.chargeamt ;;
   }
+
+  measure: AP {
+    label: "AP"
+    value_format_name: usd
+    type: number
+    sql: round(${TABLE}.chargeamt * ${ct_fx_rates_bs.fx_rate_bs},2) ;;
+  }
+
+  measure: Rev_adj {
+    type: number
+    value_format_name: usd
+    sql: case when ${ct_charges_glnumber.glnumber} = '4804' then round(${TABLE}.chargeamt * ${ct_fx_rates.fx_rate},2) END ;;
+    required_fields: [ct_charges_glnumber.glnumber,ct_fx_rates.fx_rate]
+  }
+
+  measure: Exp_adj {
+    type: number
+    value_format_name: usd
+    sql: case when ${ct_charges_glnumber.glnumber} = '5215' then round(${TABLE}.chargeamt * ${ct_fx_rates.fx_rate},2) END ;;
+    required_fields: [ct_charges_glnumber.glnumber,ct_fx_rates.fx_rate]
+  }
+
+  measure: Gift_Cert {
+    type: number
+    value_format_name: usd
+    sql: case when ${ct_charges_glnumber.glnumber} = '1211.6' then round(${TABLE}.chargeamt * ${ct_fx_rates_bs.fx_rate_bs},2) END ;;
+    required_fields: [ct_charges_glnumber.glnumber,ct_fx_rates_bs.fx_rate_bs]
+  }
+
+  measure: Recoup {
+    type: number
+    value_format_name: usd
+    sql: case when ${ct_charges_glnumber.glnumber} = '1211.7' then round(${TABLE}.chargeamt * ${ct_fx_rates_bs.fx_rate_bs},2) END ;;
+    required_fields: [ct_charges_glnumber.glnumber,ct_fx_rates_bs.fx_rate_bs]
+  }
+
+  measure: AR {
+    type: number
+    value_format_name: usd
+    sql: case when ${ct_charges_glnumber.glnumber} = '1211.1' then round(${TABLE}.chargeamt * ${ct_fx_rates_bs.fx_rate_bs},2) END ;;
+    required_fields: [ct_charges_glnumber.glnumber,ct_fx_rates_bs.fx_rate_bs]
+  }
+
+  measure: Chargebacks {
+    type: number
+    value_format_name: usd
+    sql: case when ${ct_charges_glnumber.glnumber} = '1211.3' then round(${TABLE}.chargeamt * ${ct_fx_rates_bs.fx_rate_bs},2) END ;;
+    required_fields: [ct_charges_glnumber.glnumber,ct_fx_rates_bs.fx_rate_bs]
+  }
+
 
   dimension_group: chargedate {
     type: time

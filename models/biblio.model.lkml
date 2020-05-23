@@ -1076,6 +1076,7 @@ explore: ct_ap_invoices {
   label: "CT Invoice Statements"
   group_label: "Project Biblio"
   view_label: "CT AP Invoices"
+  sql_always_where: ${ct_charges.module} = "AP" and ${ct_charges.serviceid} Not In (80, 95, 96, 98, 99);;
 
   join: ct_charges {
     view_label: "CT Client Charges"
