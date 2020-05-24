@@ -21,6 +21,11 @@ view: ct_ar_payments {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
+  dimension: transtype {
+    type: string
+    sql: "Manual CM" ;;
+  }
+
   dimension: bankid {
     type: number
     value_format_name: id
@@ -70,20 +75,38 @@ view: ct_ar_payments {
   }
 
   dimension: pmtamt {
+    value_format_name: usd
     type: number
     sql: ${TABLE}.pmtamt ;;
   }
 
+  measure: measure_pmtamt {
+    label: "AR_Amt"
+    value_format_name: usd
+    type: number
+    sql: ${TABLE}.pmtamt ;;
+    required_fields: [pmtamt]
+  }
+
+  measure: bs_usd {
+    label: "BS_USD"
+    value_format_name: usd
+    type: number
+    sql: round(${TABLE}.pmtamt *  ${ct_fx_rates_bs.fx_rate_bs}, 2);;
+    required_fields: [ct_fx_rates_bs.fx_rate_bs]
+  }
+
+  measure: is_usd {
+    label: "IS_USD"
+    value_format_name: usd
+    type: number
+    sql: round(${TABLE}.pmtamt *  ${ct_fx_rates.fx_rate}, 2);;
+    required_fields: [ct_fx_rates.fx_rate]
+  }
+
+
   dimension_group: pmtdate {
     type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     convert_tz: no
     datatype: date
     sql: ${TABLE}.pmtdate ;;
