@@ -1121,6 +1121,40 @@ explore: ct_ap_invoices {
   }
 }
 
+#CT AR Payments
+explore: ct_ar_payments {
+  label: "CT AR Payments"
+  group_label: "Project Biblio"
+  view_label: "CT AR Payments"
+
+  join: ct_clientvenues {
+    view_label: "CT Client Venues"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_ar_payments.clientid} = ${ct_clientvenues.clientid} and ${ct_clientvenues.venueid} = ${ct_ar_payments.venueid} ;;
+  }
+
+  join: ct_fx_rates {
+    view_label: "CT FX Rate"
+    type: inner
+    relationship: one_to_one
+    sql_on:
+    EXTRACT(MONTH FROM ${ct_ar_payments.pmtdate_raw}) = ${ct_fx_rates.periodid}
+    and ${ct_ar_payments.pmtdate_year} = ${ct_fx_rates.yearid}
+    and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates.currency} ;;
+  }
+
+  join: ct_fx_rates_bs {
+    view_label: "CT FX Rate BS"
+    type: inner
+    relationship: one_to_one
+    sql_on:
+    EXTRACT(MONTH FROM ${ct_ar_payments.pmtdate_raw}) = ${ct_fx_rates_bs.periodid}
+    and ${ct_ar_payments.pmtdate_year} = ${ct_fx_rates_bs.yearid}
+    and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates_bs.currency} ;;
+  }
+}
+
 #Select Purchase Stats
 explore: sel_purchase_stats {
   label: "AV Select Purchase Stats"
