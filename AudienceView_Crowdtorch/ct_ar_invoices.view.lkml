@@ -109,6 +109,7 @@ view: ct_ar_invoices {
 
   dimension: invnum {
     type: number
+    value_format_name: id
     sql: ${TABLE}.invnum ;;
   }
 
@@ -119,14 +120,6 @@ view: ct_ar_invoices {
 
   dimension_group: invoicedate {
     type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
     convert_tz: no
     datatype: date
     sql: ${TABLE}.invoicedate ;;

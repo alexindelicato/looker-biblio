@@ -80,6 +80,20 @@ view: ct_transactions {
     sql: ${TABLE}.affiliateuserid ;;
   }
 
+  measure: other_rev {
+    label: "OtherRev"
+    type:  number
+    value_format_name: usd
+    sql: 0 ;;
+  }
+
+  measure: other_rev_usd {
+    label: "OtherRev_USD"
+    type:  number
+    value_format_name: usd
+    sql: 0 ;;
+  }
+
   dimension: alreadypaid {
     type: yesno
     sql: ${TABLE}.alreadypaid ;;
@@ -462,7 +476,7 @@ view: ct_transactions {
 dimension: transtype {
   type: string
   sql: case when ${istmgateway} then "Direct Revenue"
-       else "Indirect Revenue" end;;
+       else "Billed Indirect Revenue" end;;
 }
 
   dimension: transtype_check {
@@ -498,6 +512,28 @@ dimension: transtype {
     type: number
     value_format_name: usd
     sql: ${sum_grand_total} - ${billing_service_fee} - ${billing_credit_card_fee} - ${sum_billingadditionalfee} ;;
+  }
+  measure: ar_amount {
+    label: "AR_Amt"
+    type: number
+    value_format_name: usd
+    sql: ${billing_service_fee} + ${billing_credit_card_fee} + ${sum_billingadditionalfee} ;;
+  }
+
+  measure: ar_amount_fx {
+    label: "AR_Amt_USD"
+    type: number
+    value_format_name: usd
+    sql:(${billing_service_fee} + ${billing_credit_card_fee} + ${sum_billingadditionalfee}) * ${ct_fx_rates_bs.fx_rate_bs} ;;
+    required_fields: [ct_fx_rates_bs.fx_rate_bs]
+  }
+
+
+  measure: cm_revenue {
+    label: "CM_Revenue"
+    type: number
+    value_format_name: usd
+    sql: ${billing_service_fee} + ${billing_credit_card_fee} ;;
   }
 
   measure: ap_amount_fx {

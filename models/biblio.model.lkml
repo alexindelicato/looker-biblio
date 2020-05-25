@@ -1049,6 +1049,20 @@ explore: ct_transactions {
     and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates_bs.currency} ;;
   }
 
+  join: ct_ar_transmap {
+    view_label: "CT AR Transmap"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_transactions.datatransactionid} = ${ct_ar_transmap.datatransactionid}  ;;
+  }
+
+  join: ct_ar_invoices {
+    view_label: "CT AR Invoices"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_ar_invoices.ar_id} = ${ct_ar_transmap.ar_id}  ;;
+  }
+
   join: ct_master_list {
     view_label: "CT Client Facts"
     type: left_outer

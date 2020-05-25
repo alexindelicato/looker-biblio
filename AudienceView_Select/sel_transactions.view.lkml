@@ -604,7 +604,7 @@ view: sel_transactions {
     sql: case when ${sf_accounts.additional_data_import_information_c} = "new" then ${sf_accounts.annual_contract_value}
          when ${sf_accounts.measure_annual_subscription_fee_c} is NOT NULL then  ${2019_total_arr_servicefee} + ${2019_arr_conveniencefee} + ${sel_orders_misclineitems.2019_total_arr_servicefee} + ${sel_memberships_sales.2019_total_membership_arr} + ${sel_giftcardissued.2019_total_servicefee_usd} + ${sel_donations.2019_donation_servicefee} + ${sf_accounts.measure_annual_subscription_fee_c}
          else ${2019_total_arr_servicefee} + ${2019_arr_conveniencefee} + ${sel_orders_misclineitems.2019_total_arr_servicefee} + ${sel_memberships_sales.2019_total_membership_arr} + ${sel_giftcardissued.2019_total_servicefee_usd} + ${sel_donations.2019_donation_servicefee} end;;
-    required_fields: [sf_accounts.annual_subscription_fee_c]
+    required_fields: [sf_accounts.annual_subscription_fee_c,sf_accounts.additional_data_import_information_c]
  }
 
   measure: 2019_arr_junetodec {
