@@ -181,6 +181,16 @@ dimension: venue_type  {
     sql: ${TABLE}.zip ;;
   }
 
+  measure: count_venues {
+    type: count_distinct
+    sql: ${TABLE}.name ;;
+    drill_fields: [venueid, name, events.count]
+    filters: {
+      field: name
+      value: "-NULL"
+    }
+  }
+
   measure: count {
     type: count
     drill_fields: [venueid, name, events.count]
