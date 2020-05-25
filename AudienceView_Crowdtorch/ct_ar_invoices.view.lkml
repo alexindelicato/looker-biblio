@@ -28,7 +28,12 @@ view: ct_ar_invoices {
 
   measure: max_ar_id {
     type: max
-    sql: ${TABLE}.ar_id ;;
+    sql: case when ${invoicedate_date} <= DATE("2020-05-25 00:00:00") then ${TABLE}.ar_id END ;;
+  }
+
+  measure: ar_id_comparison {
+    type: string
+    sql: case when ${ar_id} is NULL or ${ar_id} > ${max_ar_id} then "Yes" END  ;;
   }
 
   dimension_group: beginperiod {
