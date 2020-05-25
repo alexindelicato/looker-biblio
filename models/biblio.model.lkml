@@ -1063,6 +1063,13 @@ explore: ct_transactions {
     sql_on: ${ct_ar_invoices.ar_id} = ${ct_ar_transmap.ar_id}  ;;
   }
 
+  join: ct_ar_showdatevenues {
+    view_label: "CT AR Show/Date Venues"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_transactions.clientid} = ${ct_ar_showdatevenues.clientid} and ${ct_ar_showdatevenues.venueid} = ${ct_transactions.venueid} ;;
+  }
+
   join: ct_master_list {
     view_label: "CT Client Facts"
     type: left_outer
