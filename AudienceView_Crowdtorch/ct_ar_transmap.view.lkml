@@ -25,7 +25,6 @@ view: ct_ar_transmap {
 
   dimension: ar_id {
     type: number
-    hidden: yes
     sql: ${TABLE}.ar_id ;;
   }
 
