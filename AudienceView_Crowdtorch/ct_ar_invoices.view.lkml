@@ -26,6 +26,11 @@ view: ct_ar_invoices {
     sql: ${TABLE}.ar_id ;;
   }
 
+  measure: max_ar_id {
+    type: max
+    sql: ${TABLE}.ar_id ;;
+  }
+
   dimension_group: beginperiod {
     type: time
     timeframes: [

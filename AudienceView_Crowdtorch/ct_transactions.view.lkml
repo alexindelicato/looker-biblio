@@ -485,6 +485,12 @@ dimension: transtype {
     sql:"Direct Revenue Check" ;;
     }
 
+    dimension: transtype_unbilled {
+      label: "TransType"
+      type: string
+      sql: "Unbilled Indirect revenue - Transaction Date" ;;
+    }
+
   measure: total_arr {
     label: "Total ARR"
     type: number

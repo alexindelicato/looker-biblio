@@ -1223,6 +1223,12 @@ explore: ct_ar_invoices_trans {
   }
   }
 
+explore: ct_unbilled_indirect_revenue {
+  label: "CT Unbilled Indirect Revenue"
+  group_label: "Project Biblio"
+  view_label: "CT Unbillted Indirect Revenue"
+  }
+
 #Select Purchase Stats
 explore: sel_purchase_stats {
   label: "AV Select Purchase Stats"

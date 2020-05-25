@@ -43,9 +43,9 @@ view: ct_ar_showdatevenues {
     sql: ${TABLE}.domain ;;
   }
 
-  dimension: showdate {
-    type: number
-    sql: ${TABLE}.showdate ;;
+  dimension_group: showdate {
+    type: time
+    sql: timestamp_seconds(${TABLE}.showdate) ;;
   }
 
   dimension: venueid {
