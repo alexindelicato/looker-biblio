@@ -21,9 +21,65 @@ view: ct_ar_invoices_trans {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
+  dimension: transtype {
+    type: string
+    sql: "Billed Services - Other" ;;
+  }
+
   dimension: ar_amt {
     type: number
     sql: ${TABLE}.ar_amt ;;
+  }
+
+  measure: measure_ar_amt {
+    label: "Revenue"
+    type: sum
+    value_format_name: usd
+    sql: round(${TABLE}.ar_amt,2) ;;
+  }
+
+  measure: measure_ar_amt_usd {
+    label: "AR_USD"
+    type: sum
+    value_format_name: usd
+    sql: round(${TABLE}.ar_amt,2) *  ${ct_fx_rates_bs.fx_rate_bs} ;;
+    required_fields: [ct_fx_rates_bs.fx_rate_bs]
+  }
+
+  measure: sum_revenue {
+    label: "Revenue_USD"
+    type: sum
+    value_format_name: usd
+    sql: round(${ar_amt},2) * ${ct_fx_rates.fx_rate} ;;
+    filters: {
+      field: ct_charges_glnumber.glnumber
+      value: "4804"
+    }
+    required_fields: [ct_fx_rates.fx_rate]
+  }
+
+  measure: sum_chargeback {
+    label: "Chargeback"
+    type: sum
+    value_format_name: usd
+    sql: round(${ar_amt},2) * ${ct_fx_rates_bs.fx_rate_bs} ;;
+    filters: {
+      field: ct_charges_glnumber.glnumber
+      value: "1211.3"
+    }
+    required_fields: [ct_fx_rates_bs.fx_rate_bs]
+  }
+
+  measure: sum_ap_recovery {
+    label: "AP_Recovery"
+    type: sum
+    value_format_name: usd
+    sql: round(${ar_amt},2) * ${ct_fx_rates_bs.fx_rate_bs} ;;
+    filters: {
+      field: ct_charges_glnumber.glnumber
+      value: "2002"
+    }
+    required_fields: [ct_fx_rates_bs.fx_rate_bs]
   }
 
   dimension: ar_id {
@@ -143,6 +199,25 @@ view: ct_ar_invoices_trans {
     type: number
     sql: ${TABLE}.revenue ;;
   }
+
+#   measure: measure_revenue {
+#     label: "AR_Amt"
+#     type: sum
+#     value_format_name: usd
+#     sql: round(${TABLE}.revenue,2) ;;
+#   }
+#
+#   measure: sum_revenue {
+#     label: "Revenue_USD"
+#     type: sum
+#     value_format_name: usd
+#     sql: round(${revenue},2) * ${ct_fx_rates.fx_rate} ;;
+#     filters: {
+#       field: ct_charges_glnumber.glnumber
+#       value: "4804"
+#     }
+#     required_fields: [ct_fx_rates.fx_rate]
+#   }
 
   dimension: saletype {
     type: string

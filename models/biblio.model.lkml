@@ -1087,7 +1087,7 @@ explore: ct_transactions {
 
 #CT Invoice Reports
 explore: ct_ap_invoices {
-  label: "CT Invoice Statements"
+  label: "CT AP Invoice Statements"
   group_label: "Project Biblio"
   view_label: "CT AP Invoices"
   sql_always_where: ${ct_charges.module} = "AP" and ${ct_charges.serviceid} Not In (80, 95, 96, 98, 99);;
@@ -1168,6 +1168,53 @@ explore: ct_ar_payments {
     and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates_bs.currency} ;;
   }
 }
+
+#CT AR Invoices
+explore: ct_ar_invoices_trans {
+  label: "CT AR Invoice Statements"
+  group_label: "Project Biblio"
+  view_label: "CT AR Transmap Invoices"
+  sql_always_where: ${bsf_perticket} is NULL ;;
+
+  join: ct_clientvenues {
+    view_label: "CT Client Venues"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_ar_invoices_trans.clientid} = ${ct_clientvenues.clientid} and ${ct_clientvenues.venueid} = ${ct_ar_invoices_trans.venueid} ;;
+  }
+
+  join: ct_ar_invoices {
+    view_label: "CT AR Invoices"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_ar_invoices_trans.ar_id}=${ct_ar_invoices.ar_id}  ;;
+  }
+  join: ct_fx_rates {
+    view_label: "CT FX Rate"
+    type: inner
+    relationship: one_to_one
+    sql_on:
+    EXTRACT(MONTH FROM ${ct_ar_invoices.invoicedate_raw}) = ${ct_fx_rates.periodid}
+    and ${ct_ar_invoices.invoicedate_year} = ${ct_fx_rates.yearid}
+    and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates.currency} ;;
+  }
+
+  join: ct_fx_rates_bs {
+    view_label: "CT FX Rate BS"
+    type: inner
+    relationship: one_to_one
+    sql_on:
+    EXTRACT(MONTH FROM ${ct_ar_invoices.invoicedate_raw}) = ${ct_fx_rates_bs.periodid}
+    and ${ct_ar_invoices.invoicedate_year} = ${ct_fx_rates_bs.yearid}
+    and ${ct_clientvenues.billingcurrency} = ${ct_fx_rates_bs.currency} ;;
+  }
+  join: ct_charges_glnumber {
+    view_label: "CT Client Charges GL Number"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_charges_glnumber.serviceid} = ${ct_ar_invoices_trans.saletypeid} ;;
+  }
+  }
 
 #Select Purchase Stats
 explore: sel_purchase_stats {
