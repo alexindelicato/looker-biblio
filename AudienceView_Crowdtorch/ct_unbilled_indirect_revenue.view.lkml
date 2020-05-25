@@ -2,89 +2,176 @@ view: ct_unbilled_indirect_revenue {
   derived_table: {
     sql:
 SELECT
-  ct_fx_rates.fx_rate  AS ct_fx_rates_fx_rate,
-  ct_fx_rates_bs.fx_rate_bs  AS ct_fx_rates_bs_fx_rate_bs,
-  "Unbilled Indirect revenue - Transaction Date"  AS ct_transactions_transtype_unbilled,
-  ct_transactions.clientid  AS ct_transactions_clientid,
-  ct_transactions.clientname  AS ct_transactions_clientname,
-  ct_transactions.venueid  AS ct_transactions_venueid,
-  ct_transactions.venuename  AS ct_transactions_venuename,
-  ct_clientvenues.domain  AS ct_clientvenues_domain,
-  ct_clientvenues.billingcurrency  AS ct_clientvenues_billingcurrency,
-  ct_ar_invoices.ar_id  AS ct_ar_invoices_ar_id,
-  (COALESCE(SUM(ct_transactions.billingservicefee ), 0)) + (COALESCE(SUM(ct_transactions.billingcreditcardprocessingfee ), 0))  AS ct_transactions_total_revenue,
-  (COALESCE(SUM(ct_transactions.billingservicefee ), 0)) + (COALESCE(SUM(ct_transactions.billingcreditcardprocessingfee ), 0)) + (COALESCE(SUM(ct_transactions.billingadditionalfee ), 0))  AS ct_transactions_ar_amount,
-  ((COALESCE(SUM(ct_transactions.billingservicefee ), 0)) + (COALESCE(SUM(ct_transactions.billingcreditcardprocessingfee ), 0)))*ct_fx_rates.fx_rate  AS ct_transactions_total_revenue_fx,
-  ((COALESCE(SUM(ct_transactions.billingservicefee ), 0)) + (COALESCE(SUM(ct_transactions.billingcreditcardprocessingfee ), 0)) + (COALESCE(SUM(ct_transactions.billingadditionalfee ), 0))) * ct_fx_rates_bs.fx_rate_bs  AS ct_transactions_ar_amount_fx
-FROM `fivetran-ovation-tix-warehouse.crowdtorch_dbo.data_transactions`
-     AS ct_transactions
-LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_clientvenues`
-     AS ct_clientvenues ON ct_transactions.clientid = ct_clientvenues.clientid and ct_clientvenues.venueid = ct_transactions.venueid
-INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_fx_rates`
-     AS ct_fx_rates ON EXTRACT(MONTH FROM (CAST(ct_transactions.transactiontime AS TIMESTAMP))) = ct_fx_rates.periodid
-    and (EXTRACT(YEAR FROM CAST(ct_transactions.transactiontime AS TIMESTAMP) )) = ct_fx_rates.yearid
-    and ct_clientvenues.billingcurrency = ct_fx_rates.currency
-INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_fx_rates_bs`
-     AS ct_fx_rates_bs ON EXTRACT(MONTH FROM (CAST(ct_transactions.transactiontime AS TIMESTAMP))) = ct_fx_rates_bs.periodid
-    and (EXTRACT(YEAR FROM CAST(ct_transactions.transactiontime AS TIMESTAMP) )) = ct_fx_rates_bs.yearid
-    and ct_clientvenues.billingcurrency = ct_fx_rates_bs.currency
-LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_transmap`
-     AS ct_ar_transmap ON ct_transactions.datatransactionid = ct_ar_transmap.datatransactionid
-LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_invoices`
-     AS ct_ar_invoices ON ct_ar_invoices.ar_id = ct_ar_transmap.ar_id
-LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_showdatevenues`
-     AS ct_ar_showdatevenues ON ct_transactions.clientid = ct_ar_showdatevenues.clientid and ct_ar_showdatevenues.venueid = ct_transactions.venueid
+    TransType,
+--  TransactionTime,
+    clientID,
+    clientName,
+    venueID,
+    venueName,
+    domain,
+    billingCurrency,
+    AR_ID,
+    Round(sum(billingServiceFee + billingCreditCardProcessingFee),2) as Revenue,
+    Round(sum(billingServiceFee + billingCreditCardProcessingFee),2) as AR_Amt,
+    Round(sum((billingServiceFee + billingCreditCardProcessingFee) * revenue_FX_Rate),2) as Revenue_USD,
+    Round(sum((billingServiceFee + billingCreditCardProcessingFee) * ar_FX_Rate),2) as AR_USD
+FROM
+(
+SELECT 'Unbilled Indirect revenue - Transaction Date' as TransType,
+    TransactionTime,
+    a.clientID,
+    b.clientName,
+    a.venueID,
+    b.venueName,
+    b.domain,
+    b.billingCurrency,
+    AR_ID,
+    billingServiceFee,
+    billingCreditCardProcessingFee,
+    c.FX_Rate as revenue_fx_rate,
+    d.FX_Rate_BS as ar_fx_rate,
+    a.dataset,
+    a.isTMGateway
+FROM `fivetran-ovation-tix-warehouse.crowdtorch_dbo.data_transactions` a
+INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_clientvenues` b
+    on a.clientID = b.clientID and a.venueID = b.venueID
+INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_fx_rates` c
+    on EXTRACT(MONTH FROM a.transactiontime) = c.PeriodID
+    and EXTRACT(YEAR FROM transactiontime) = c.YearID
+    and b.billingCurrency = c.Currency
+INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_fx_rates_bs` d
+    on EXTRACT(MONTH FROM a.transactiontime) = d.PeriodID
+    and EXTRACT(YEAR FROM transactiontime) = d.YearID
+    and b.billingCurrency = d.Currency
+LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_showdatevenues` e
+    on a.clientID = e.clientID and a.venueID = e.venueID
+LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_transmap` f
+    on a.dataTransactionID = f.dataTransactionID
+WHERE 1 = 1
+    AND e.clientID is null
+AND Cast(TransactionTime as Date) between '2020-03-01' and '2020-04-01'
+UNION ALL
+SELECT 'Unbilled Indirect revenue - Show Date' as TransType,
+    TransactionTime,
+    a.clientID,
+    b.clientName,
+    a.venueID,
+    b.venueName,
+    b.domain,
+    b.billingCurrency,
+    AR_ID,
+    billingServiceFee,
+    billingCreditCardProcessingFee,
+    c.FX_Rate as revenue_fx_rate,
+    d.FX_Rate_BS as ar_fx_rate,
+    a.dataset,
+    a.isTMGateway
+FROM `fivetran-ovation-tix-warehouse.crowdtorch_dbo.data_transactions` a
+INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_clientvenues` b
+    on a.clientID = b.clientID and a.venueID = b.venueID
+INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_fx_rates` c
+    ON EXTRACT(MONTH FROM a.transactiontime) = c.PeriodID
+    AND EXTRACT(YEAR FROM transactiontime) = c.YearID
+    AND b.billingCurrency = c.Currency
+INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_fx_rates_bs` d
+    ON EXTRACT(MONTH FROM a.transactiontime) = d.PeriodID
+    AND EXTRACT(YEAR FROM transactiontime) = d.YearID
+    AND b.billingCurrency = d.Currency
+INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_showdatevenues` e
+    on a.clientID = e.clientID and a.venueID = e.venueID
+LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_transmap` f
+    on a.dataTransactionID = f.dataTransactionID
+Where 1 = 1
+AND Cast(TransactionTime as Date) between '2015-01-01' and '2020-04-01'
+) as t1
+WHERE 1 = 1
+    AND dataset IN ('ticketOrder', 'ticketRefundOrder')
+--  AND Cast(TransactionTime as Date) between '2020-03-01' and '2020-04-01'
+--  AND clientID is null
+  AND isTMGateway = false
+    AND (AR_ID is null or AR_ID >
+        (
+        Select Max(AR_ID) as Last_AR_ID
+        From `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_invoices`
+        Where InvoiceDate <= '2020-04-01'
+        )
+    )
+GROUP BY
+    TransType,
+--  TransactionTime,
+    clientID,
+    clientName,
+    venueID,
+    venueName,
+    domain,
+    billingCurrency,
+    AR_ID ;;
+  }
 
-WHERE ((ct_transactions.dataset  IN ('ticketOrder', 'ticketRefundOrder'))) AND (NOT COALESCE(ct_transactions.istmgateway , FALSE)) AND ((((CAST(ct_transactions.transactiontime AS TIMESTAMP) ) >= (TIMESTAMP('2020-03-01 00:00:00')) AND (CAST(ct_transactions.transactiontime AS TIMESTAMP) ) < (TIMESTAMP('2020-04-01 00:00:00'))))) AND (ct_ar_showdatevenues.clientid  IS NULL)
-GROUP BY 1,2,3,4,5,6,7,8,9,10
+  dimension: ar_id {
+    type: string
+    sql: ${TABLE}.AR_ID ;;
+  }
 
-    UNION ALL
+  dimension: arid_null {
+    type: string
+    sql: "NULL" ;;
+  }
 
-    SELECT
-  ct_fx_rates.fx_rate  AS ct_fx_rates_fx_rate,
-  ct_fx_rates_bs.fx_rate_bs  AS ct_fx_rates_bs_fx_rate_bs,
-  "Unbilled Indirect revenue - Show Date"  AS ct_transactions_transtype_unbilled,
-  ct_transactions.clientid  AS ct_transactions_clientid,
-  ct_transactions.clientname  AS ct_transactions_clientname,
-  ct_transactions.venueid  AS ct_transactions_venueid,
-  ct_transactions.venuename  AS ct_transactions_venuename,
-  ct_clientvenues.domain  AS ct_clientvenues_domain,
-  ct_clientvenues.billingcurrency  AS ct_clientvenues_billingcurrency,
-  ct_ar_invoices.ar_id  AS ct_ar_invoices_ar_id,
-  (COALESCE(SUM(ct_transactions.billingservicefee ), 0)) + (COALESCE(SUM(ct_transactions.billingcreditcardprocessingfee ), 0))  AS ct_transactions_total_revenue,
-  (COALESCE(SUM(ct_transactions.billingservicefee ), 0)) + (COALESCE(SUM(ct_transactions.billingcreditcardprocessingfee ), 0)) + (COALESCE(SUM(ct_transactions.billingadditionalfee ), 0))  AS ct_transactions_ar_amount,
-  ((COALESCE(SUM(ct_transactions.billingservicefee ), 0)) + (COALESCE(SUM(ct_transactions.billingcreditcardprocessingfee ), 0)))*ct_fx_rates.fx_rate  AS ct_transactions_total_revenue_fx,
-  ((COALESCE(SUM(ct_transactions.billingservicefee ), 0)) + (COALESCE(SUM(ct_transactions.billingcreditcardprocessingfee ), 0)) + (COALESCE(SUM(ct_transactions.billingadditionalfee ), 0))) * ct_fx_rates_bs.fx_rate_bs  AS ct_transactions_ar_amount_fx
-FROM `fivetran-ovation-tix-warehouse.crowdtorch_dbo.data_transactions`
-     AS ct_transactions
-LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_clientvenues`
-     AS ct_clientvenues ON ct_transactions.clientid = ct_clientvenues.clientid and ct_clientvenues.venueid = ct_transactions.venueid
-INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_fx_rates`
-     AS ct_fx_rates ON EXTRACT(MONTH FROM (CAST(ct_transactions.transactiontime AS TIMESTAMP))) = ct_fx_rates.periodid
-    and (EXTRACT(YEAR FROM CAST(ct_transactions.transactiontime AS TIMESTAMP) )) = ct_fx_rates.yearid
-    and ct_clientvenues.billingcurrency = ct_fx_rates.currency
-INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_fx_rates_bs`
-     AS ct_fx_rates_bs ON EXTRACT(MONTH FROM (CAST(ct_transactions.transactiontime AS TIMESTAMP))) = ct_fx_rates_bs.periodid
-    and (EXTRACT(YEAR FROM CAST(ct_transactions.transactiontime AS TIMESTAMP) )) = ct_fx_rates_bs.yearid
-    and ct_clientvenues.billingcurrency = ct_fx_rates_bs.currency
-LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_transmap`
-     AS ct_ar_transmap ON ct_transactions.datatransactionid = ct_ar_transmap.datatransactionid
-LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_invoices`
-     AS ct_ar_invoices ON ct_ar_invoices.ar_id = ct_ar_transmap.ar_id
-LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_showdatevenues`
-     AS ct_ar_showdatevenues ON ct_transactions.clientid = ct_ar_showdatevenues.clientid and ct_ar_showdatevenues.venueid = ct_transactions.venueid
+  dimension: client_name {
+    type: string
+    sql: ${TABLE}.clientName ;;
+  }
 
-WHERE ((ct_transactions.dataset  IN ('ticketOrder', 'ticketRefundOrder'))) AND (NOT COALESCE(ct_transactions.istmgateway , FALSE)) AND ((((CAST(ct_transactions.transactiontime AS TIMESTAMP) ) >= (TIMESTAMP('2015-01-01 00:00:00')) AND (CAST(ct_transactions.transactiontime AS TIMESTAMP) ) < (TIMESTAMP('2020-04-01 00:00:00'))))) AND (ct_ar_transmap.ar_id  IS NULL)  AND (ct_ar_showdatevenues.clientid  IS NULL)
-GROUP BY 1,2,3,4,5,6,7,8,9,10 ;;
-    }
+  dimension: client_id {
+    type: string
+    sql: ${TABLE}.clientid ;;
+  }
 
-    dimension: ct_transactions_transtype_unbilled  {
-      type: string
-      sql: ${TABLE}.ct_transactions_transtype_unbilled ;;
-    }
+  dimension: transtype {
+    type: string
+    sql: ${TABLE}.transtype ;;
+  }
 
-    dimension: ct_transactions_clientname {
-      type: string
-      sql: ${TABLE}.ct_transactions_clientname ;;
-    }
-    }
+  dimension: venueid {
+    type: string
+    sql: ${TABLE}.venueid ;;
+  }
+  dimension: venuename {
+    type: string
+    sql: ${TABLE}.venuename ;;
+  }
+
+  dimension: domain {
+    type: string
+    sql: ${TABLE}.domain ;;
+  }
+
+  dimension: billingcurrency {
+    type: string
+    sql: ${TABLE}.billingcurrency ;;
+  }
+
+  dimension: revenue {
+    type: number
+    value_format_name: usd
+    sql: ${TABLE}.revenue ;;
+  }
+
+  dimension: AR_Amt {
+    type: number
+    value_format_name: usd
+    sql: ${TABLE}.ar_amt ;;
+  }
+
+  dimension: Revenue_USD {
+    type: number
+    value_format_name: usd
+    sql: ${TABLE}.Revenue_USD ;;
+  }
+  dimension: AR_USD {
+    type: number
+    value_format_name: usd
+    sql: ${TABLE}.AR_USD ;;
+  }
+  }
