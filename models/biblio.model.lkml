@@ -1181,7 +1181,6 @@ explore: ct_ar_invoices_trans {
   label: "CT AR Invoice Statements"
   group_label: "Project Biblio"
   view_label: "CT AR Transmap Invoices"
-  sql_always_where: ${bsf_perticket} is NULL ;;
 
   join: ct_clientvenues {
     view_label: "CT Client Venues"
