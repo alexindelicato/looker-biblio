@@ -3,7 +3,7 @@ view: ct_unbilled_indirect_revenue {
     sql:
 SELECT
     TransType,
---  TransactionTime,
+ --   cast(TransactionTime as DATE) as TransactionTime,
     clientID,
     clientName,
     venueID,
@@ -98,7 +98,7 @@ WHERE 1 = 1
     )
 GROUP BY
     TransType,
---  TransactionTime,
+ --   TransactionTime,
     clientID,
     clientName,
     venueID,
@@ -108,12 +108,18 @@ GROUP BY
     AR_ID ;;
   }
 
+  dimension_group: TransactionTime {
+    type: time
+    sql: ${TABLE}.TransactionTime ;;
+  }
+
   dimension: ar_id {
     type: string
     sql: ${TABLE}.AR_ID ;;
   }
 
   dimension: arid_null {
+    label: "AR_ID"
     type: string
     sql: "NULL" ;;
   }
@@ -158,10 +164,24 @@ GROUP BY
     sql: ${TABLE}.revenue ;;
   }
 
+  measure: measure_revenue {
+    label: "Revenue"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.revenue ;;
+  }
+
   dimension: AR_Amt {
     type: number
     value_format_name: usd
     sql: ${TABLE}.ar_amt ;;
+  }
+
+  measure: measure_AR_Amt  {
+    label: "AR_Amt "
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.AR_Amt ;;
   }
 
   dimension: Revenue_USD {
@@ -169,8 +189,21 @@ GROUP BY
     value_format_name: usd
     sql: ${TABLE}.Revenue_USD ;;
   }
+
+  measure: m_Revenue_USD {
+    label: "Revenue_USD"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.Revenue_USD ;;
+  }
   dimension: AR_USD {
     type: number
+    value_format_name: usd
+    sql: ${TABLE}.AR_USD ;;
+  }
+  measure: m_AR_USD {
+    type: sum
+    label: "AR_USD"
     value_format_name: usd
     sql: ${TABLE}.AR_USD ;;
   }
