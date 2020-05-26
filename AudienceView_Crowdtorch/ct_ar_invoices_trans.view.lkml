@@ -119,8 +119,30 @@ view: ct_ar_invoices_trans {
   }
 
   dimension: bsf_perticket {
+    label: "FeeMetric"
     type: number
     sql: ${TABLE}.bsf_perticket ;;
+  }
+
+  measure: measure_bsf_perticket {
+    label: "FeeMetric"
+    type: number
+    value_format_name: usd
+    sql: ${TABLE}.bsf_perticket ;;
+    required_fields: [bsf_perticket]
+  }
+
+  measure: sum_bsf_perticket {
+    label: "FeeTotal"
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.bsf_perticket ;;
+  }
+
+  dimension: fee_type {
+    label: "FeeType"
+    type: string
+    sql: "Per Ticket" ;;
   }
 
   dimension: chargeid {
@@ -194,6 +216,13 @@ view: ct_ar_invoices_trans {
     type: number
     sql: ${TABLE}.qty ;;
   }
+
+  measure: sum_qty {
+    label: "Amount"
+    type: sum
+    sql: ${TABLE}.qty ;;
+  }
+
 
   dimension: revenue {
     type: number
