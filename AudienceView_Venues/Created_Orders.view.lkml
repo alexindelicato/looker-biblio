@@ -298,6 +298,7 @@ ORDER BY order_create_date, performance_date
   set: order_summary_fields {
     fields: [
       product_name,
+      client_name,
       performance_date_month_name,
       total_orders_created,
       total_admissions_sold,
