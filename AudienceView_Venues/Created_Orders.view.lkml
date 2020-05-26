@@ -7,6 +7,7 @@ UUID,
 product_name,
 client_name,
 venue_name,
+state,
 performance_series_name,
 performance_short_description,
 performance_name,
@@ -27,6 +28,7 @@ SELECT
       'Unlimited' as product_name,
       orders.client_name as client_name,
 venue_name,
+'research' as state,
 performance_series_name,
 performance_short_description,
 performance_name,
@@ -56,6 +58,7 @@ UUID,
 product_name,
 client_name,
 venue_name,
+state,
 performance_series_name,
 performance_short_description,
 performance_name,
@@ -72,6 +75,7 @@ SELECT
     'Professional' as product_name,
     client_name,
     '' as venue_name,
+    client.address_state  AS state,
     prod_name as performance_series_name,
     prod_name as performance_short_description,
     prod_name as performance_name,
@@ -118,6 +122,7 @@ UUID,
 product_name,
 client_name,
 venue_name,
+state,
 performance_series_name,
 performance_short_description,
 performance_name,
@@ -135,6 +140,7 @@ SELECT
       'Select' as product_name,
       CAST( sel_orders.id as STRING) as client_name,
       '' as venue_name,
+      sel_members.state  AS state,
       sel_events.title as performance_series_name,
       sel_events.title as performance_short_description,
       sel_events.title as performance_name,
@@ -155,6 +161,8 @@ LEFT JOIN `fivetran-ovation-tix-warehouse.mysql_service.performances`  AS sel_pe
      ON sel_transactions.performanceid=sel_performances.performanceid AND  sel_performances.deleted IS NULL
 LEFT JOIN `fivetran-ovation-tix-warehouse.mysql_service.events`  AS sel_events
      ON sel_events.eventid = sel_performances.eventid
+LEFT JOIN mysql_service.members  AS sel_members
+      ON sel_members.memberid=sel_orders.memberid and  sel_members.testmode="N" and sel_members.active="Y"
 
 WHERE 1 = 1
 
@@ -162,6 +170,7 @@ GROUP BY
       sel_performances.performanceid,
       sel_orders.id,
       sel_events.title,
+      state,
       CAST( timestamp_seconds(sel_performances.starttime) as DATETIME),
       CAST( timestamp_seconds(sel_performances.starttime) as TIMESTAMP),
       CAST( timestamp_seconds(sel_orders.date) as DATETIME),
@@ -175,6 +184,7 @@ SELECT
       'CrowdTorch' as product_name,
       clientName as client_name,
       '' as venue_name,
+      'research' as state,
       brandProperty as performance_series_name,
       showName as performance_short_description,
       showName as performance_name,
@@ -203,6 +213,7 @@ UUID,
 product_name,
 client_name,
 venue_name,
+state,
 performance_series_name,
 performance_short_description,
 performance_name,
@@ -224,6 +235,7 @@ UUID,
 product_name,
 client_name,
 venue_name,
+state,
 performance_series_name,
 performance_short_description,
 performance_name,
@@ -241,6 +253,7 @@ ORDER BY order_create_date, performance_date
     }
 
     dimension:  UUID  { type: string sql: ${TABLE}.UUID  ;; }
+    dimension:  state  { type: string sql: ${TABLE}.state  ;; }
     dimension:  client_name { type: string sql: ${TABLE}.client_name ;; }
     dimension:  product_name { type: string sql: ${TABLE}.product_name ;; }
     dimension:  venue_name { type: string sql: ${TABLE}.venue_name ;; }
