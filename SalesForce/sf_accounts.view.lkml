@@ -2208,6 +2208,7 @@ view: sf_accounts {
   }
 
   dimension: preferred_language_c {
+    label: "Preferred Language"
     type: string
     sql: ${TABLE}.preferred_language_c ;;
   }
