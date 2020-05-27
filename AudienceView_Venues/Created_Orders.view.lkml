@@ -28,7 +28,7 @@ SELECT
       'Unlimited' as product_name,
       orders.client_name as client_name,
 venue_name,
-IFNULL(facts.sf_billing_state, 'N/A') as state,
+IFNULL(facts.sf_billing_state, 'UK/Europe') as state,
 performance_series_name,
 performance_short_description,
 performance_name,
