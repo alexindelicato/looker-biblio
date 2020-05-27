@@ -940,6 +940,15 @@ view: sf_accounts {
     sql: ${TABLE}.current_version_c ;;
   }
 
+  dimension: current_version_substring {
+    label: "Version 7 or 6"
+    type: number
+    sql:  case when STARTS_WITH(sf_accounts.current_production_software_version_c,'7.')
+     then  CAST( SUBSTR(sf_accounts.current_production_software_version_c, 1, 1) AS FLOAT64)
+     when  STARTS_WITH(sf_accounts.current_production_software_version_c,'6.')
+     then  CAST( SUBSTR(sf_accounts.current_production_software_version_c, 1, 1) AS FLOAT64) end ;;
+  }
+
   dimension: customer_code_c {
     type: string
     sql: ${TABLE}.customer_code_c ;;
