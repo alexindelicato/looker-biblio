@@ -108,6 +108,7 @@ view: sf_accounts {
           WHEN ${TABLE}.type = "Client - CrowdTorch" THEN "CrowdTorch"
           WHEN ${TABLE}.type = "Client - AudienceView Campus" THEN "AudienceView Campus"
           WHEN ${TABLE}.type = "Client - AudienceView Grad" THEN "AudienceView Grad"
+          WHEN ${TABLE}.type = "Client - Boxxo" THEN "Boxxo"
           ELSE "Research" END;;
   }
 
