@@ -307,6 +307,12 @@ view: sf_accounts {
     sql: ${TABLE}.arr_c ;;
   }
 
+  measure: arr {
+    label: "ARR"
+    type: sum
+    sql: ${TABLE}.arr_c ;;
+  }
+
   dimension: arts_conferences_c {
     type: string
     sql: ${TABLE}.arts_conferences_c ;;
@@ -882,6 +888,22 @@ view: sf_accounts {
     else ${TABLE}.current_acv_c
     end;;
 }
+
+  measure: sum_converted_acv {
+    type:  sum
+    value_format_name: usd
+    label: "Current ACV (USD)"
+    sql: case
+      when ${currency_iso_code} = "USD" THEN ${annual_contract_value_c} * 1.00
+      when ${currency_iso_code} = "CAD" THEN ${annual_contract_value_c} * 0.76
+      when ${currency_iso_code} = "GBP" THEN ${annual_contract_value_c} * 1.32
+      when ${currency_iso_code} = "PHP" THEN ${annual_contract_value_c} * 0.020
+      when ${currency_iso_code} = "EUR" THEN ${annual_contract_value_c} * 1.11
+      when ${currency_iso_code} = "COP" THEN ${annual_contract_value_c} * 0.00029
+    else ${TABLE}.annual_contract_value_c
+    end;;
+    drill_fields: [name, product_name,sum_converted_acv]
+  }
 
   dimension: current_printer_c {
     type: string
