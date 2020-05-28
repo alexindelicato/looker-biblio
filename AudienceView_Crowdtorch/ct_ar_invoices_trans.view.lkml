@@ -145,6 +145,13 @@ view: ct_ar_invoices_trans {
     sql: "Per Ticket" ;;
   }
 
+  measure: measure_fee_type {
+    label: "FeeType"
+    type: string
+    sql: "Per Ticket" ;;
+    required_fields: [fee_type]
+  }
+
   dimension: chargeid {
     type: number
     value_format_name: id
@@ -262,6 +269,11 @@ view: ct_ar_invoices_trans {
   dimension: servicetype {
     type: string
     sql: ${TABLE}.servicetype ;;
+  }
+
+  dimension: servicename {
+    type: string
+    sql: case when ${saletypeid} > 7 then "Tickets" END ;;
   }
 
   dimension_group: transdate {

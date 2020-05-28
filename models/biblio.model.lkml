@@ -1189,6 +1189,20 @@ explore: ct_ar_invoices_trans {
     sql_on: ${ct_ar_invoices_trans.clientid} = ${ct_clientvenues.clientid} and ${ct_clientvenues.venueid} = ${ct_ar_invoices_trans.venueid} ;;
   }
 
+  join: ct_laughstub_venues {
+    view_label: "CT LS Venues"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_ar_invoices.venueid} = ${ct_laughstub_venues.venueid} ;;
+  }
+
+  join: ct_laughstub_servicesoffered {
+    view_label: "CT LS Venues"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ct_ar_invoices_trans.saletypeid} = ${ct_laughstub_servicesoffered.serviceid} ;;
+  }
+
   join: ct_ar_invoices {
     view_label: "CT AR Invoices"
     type: left_outer
