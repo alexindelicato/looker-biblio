@@ -1782,6 +1782,11 @@ view: sf_accounts {
     sql: ${TABLE}.merchant_processing_fee_ot_c ;;
   }
 
+  dimension: merchant_of_record__c {
+    type: yesno
+    sql: ${TABLE}.Merchant_of_Record__c ;;
+  }
+
   dimension: microsites_c {
     type: yesno
     sql: ${TABLE}.microsites_c ;;
