@@ -22,18 +22,18 @@ view: accountmanagement_support {
   }
 
   dimension: customer_conference {
-    type: number
-    sql: ${TABLE}.customer_conference ;;
+    type: string
+    sql: case when ${TABLE}.customer_conference = 1 then "Yes" Else NULL END ;;
   }
 
   dimension: included_24_x_7_support {
-    type: number
-    sql: ${TABLE}.included_24_x_7_support ;;
+    type: string
+    sql: case when ${TABLE}.included_24_x_7_support = 1 then "Yes" Else NULL END ;;
   }
 
   dimension: knowledge_base {
-    type: number
-    sql: ${TABLE}.knowledge_base ;;
+    type: string
+    sql: case when ${TABLE}.knowledge_base = 1 then "Yes" Else Null END ;;
   }
 
   dimension_group: last_modified {
@@ -51,48 +51,48 @@ view: accountmanagement_support {
   }
 
   dimension: no_cost_for_additional_users {
-    type: number
-    sql: ${TABLE}.no_cost_for_additional_users ;;
+    type: string
+    sql: case when ${TABLE}.no_cost_for_additional_users = 1 then "Yes" Else NULL END ;;
   }
 
   dimension: ongoing_live_training_via_web {
-    type: number
-    sql: ${TABLE}.ongoing_live_training_via_web ;;
+    type: string
+    sql: case when ${TABLE}.ongoing_live_training_via_web = 1 then "Yes" ELSE NULL ENd ;;
   }
 
   dimension: onsite_support_available {
-    type: number
-    sql: ${TABLE}.onsite_support_available ;;
+    type: string
+    sql: case when ${TABLE}.onsite_support_available = 1 then "Yes" Else Null End ;;
   }
 
   dimension: patron_box_office_support {
-    type: number
-    sql: ${TABLE}.patron_box_office_support ;;
+    type: string
+    sql: case when ${TABLE}.patron_box_office_support = 1 then "Yes" Else NULL END ;;
   }
 
   dimension: requires_didicated_it_staff {
-    type: number
-    sql: ${TABLE}.requires_didicated_it_staff ;;
+    type: string
+    sql: case when ${TABLE}.requires_didicated_it_staff = 1 then "Yes" ELse NULL END ;;
   }
 
   dimension: self_service_video_tutorials {
-    type: number
-    sql: ${TABLE}.self_service_video_tutorials ;;
+    type: string
+    sql: case when ${TABLE}.self_service_video_tutorials = 1 then "Yes" ELse NULL END ;;
   }
 
   dimension: sub_accounts {
-    type: number
-    sql: ${TABLE}.sub_accounts ;;
+    type: string
+    sql: case when ${TABLE}.sub_accounts= 1 then "Yes" ELse NULL END  ;;
   }
 
   dimension: unique_permissions_by_users {
-    type: number
-    sql: ${TABLE}.unique_permissions_by_users ;;
+    type: string
+    sql: case when ${TABLE}.unique_permissions_by_users= 1 then "Yes" ELse NULL END  ;;
   }
 
   dimension: unlimited_users_permitted {
-    type: number
-    sql: ${TABLE}.unlimited_users_permitted ;;
+    type: string
+    sql: case when ${TABLE}.unlimited_users_permitted = 1 then "Yes" else NULL End;;
   }
 
   measure: count {

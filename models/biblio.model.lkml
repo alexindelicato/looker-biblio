@@ -1303,5 +1303,36 @@ explore: ct_purchase_stats {
   view_label: "CT Purchase Stats"
 }
 
+#Competitor Feature Stats
+explore: competitor {
+  label: "Competitor Matrix"
+  group_label: "Project Biblio"
+  view_label: "Competitor"
+
+  join: accountmanagement_support {
+    view_label: "Acocunt Management Support"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${accountmanagement_support.competitor_name} = ${competitor.competitor_name} ;;
+  }
+  join: crm_donations {
+    view_label: "CRM Donations"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${crm_donations.competitor_name} = ${competitor.competitor_name} ;;
+  }
+  join: event_management {
+    view_label: "Event Management"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${event_management.competitor_name} = ${competitor.competitor_name} ;;
+  }
+  join: ticketing_onlinesales {
+    view_label: "Ticketing & Online Sales"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ticketing_onlinesales.competitor_name} = ${competitor.competitor_name} ;;
+  }
+}
 
   #-----------------------
