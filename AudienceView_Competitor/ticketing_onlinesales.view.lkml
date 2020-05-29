@@ -187,7 +187,7 @@ view: ticketing_onlinesales {
 
   dimension: traditional_shopping_cart {
     type: string
-    sql:case when ${TABLE}.traditional_shopping_car= 1 then "Yes" Else NULL ENDt ;;
+    sql:case when ${TABLE}.traditional_shopping_cart= 1 then "Yes" Else NULL END ;;
   }
 
   dimension: view_from_seat {
