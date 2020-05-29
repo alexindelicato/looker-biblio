@@ -17,13 +17,13 @@ view: crm_donations {
   }
 
   dimension: activity_manager {
-    type: number
-    sql: ${TABLE}.activity_manager ;;
+    type: string
+    sql: case when ${TABLE}.activity_manager = 1 then "Yes" Else NULL END ;;
   }
 
   dimension: assigning_staff_to_individual_patrons {
-    type: number
-    sql: ${TABLE}.assigning_staff_to_individual_patrons ;;
+    type: string
+    sql: case when ${TABLE}.assigning_staff_to_individual_patrons = 1 then "Yes" Else NULL END  ;;
   }
 
   dimension: competitor_name {
@@ -32,18 +32,18 @@ view: crm_donations {
   }
 
   dimension: donation_campaigns_and_templates {
-    type: number
-    sql: ${TABLE}.donation_campaigns_and_templates ;;
+    type: string
+    sql: case when ${TABLE}.donation_campaigns_and_templates = 1 then "Yes" Else NULL END  ;;
   }
 
   dimension: donations_campaigns {
-    type: number
-    sql: ${TABLE}.donations_campaigns ;;
+    type: string
+    sql: case when ${TABLE}.donations_campaigns = 1 then "Yes" Else NULL END  ;;
   }
 
   dimension: joint_donations_ticket_database {
-    type: number
-    sql: ${TABLE}.joint_donations_ticket_database ;;
+    type: string
+    sql: case when ${TABLE}.joint_donations_ticket_database = 1 then "Yes" Else NULL END  ;;
   }
 
   dimension_group: last_modified {
@@ -61,28 +61,28 @@ view: crm_donations {
   }
 
   dimension: mobile_patron_crm {
-    type: number
-    sql: ${TABLE}.mobile_patron_crm ;;
+    type: string
+    sql: case when ${TABLE}.mobile_patron_crm = 1 then "Yes" Else NULL END  ;;
   }
 
   dimension: offer_ability_to_donate_at_checkout {
-    type: number
-    sql: ${TABLE}.offer_ability_to_donate_at_checkout ;;
+    type: string
+    sql: case when ${TABLE}.offer_ability_to_donate_at_checkout = 1 then "Yes" Else NULL END  ;;
   }
 
   dimension: patron_crm {
-    type: number
-    sql: ${TABLE}.patron_crm ;;
+    type: string
+    sql:case when  ${TABLE}.patron_crm  = 1 then "Yes" Else NULL END ;;
   }
 
   dimension: recurring_donations {
-    type: number
-    sql: ${TABLE}.recurring_donations ;;
+    type: string
+    sql: case when ${TABLE}.recurring_donations = 1 then "Yes" Else NULL END  ;;
   }
 
   dimension: stats_view_to_show_all_patron_transactions {
-    type: number
-    sql: ${TABLE}.stats_view_to_show_all_patron_transactions ;;
+    type: string
+    sql: case when ${TABLE}.stats_view_to_show_all_patron_transactions = 1 then "Yes" Else NULL END  ;;
   }
 
   measure: count {
