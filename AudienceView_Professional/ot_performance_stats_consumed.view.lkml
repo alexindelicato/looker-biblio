@@ -65,6 +65,11 @@ measure: total_sold_capacity_percent {
   {% endif %};;
 }
 
+measure: available_seats {
+  type: number
+  sql: ${ot_performance_stats_total.total_venue_capacity}-${ot_performance_stats_consumed.total_sold_seats}-${ot_performance_stats_consumed.total_held_seats} ;;
+}
+
   dimension: performance_id {
     type: number
     sql: ${TABLE}.performance_id ;;
