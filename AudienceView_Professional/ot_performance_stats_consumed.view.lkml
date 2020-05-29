@@ -41,6 +41,15 @@ view: ot_performance_stats_consumed {
         value: "SOLD" }
     }
 
+  measure: total_held_seats {
+    type: sum_distinct
+    sql: ${TABLE}.count ;;
+
+    filters: {
+      field: ticket_status
+      value: "PATN" }
+  }
+
 measure: total_sold_capacity_percent {
   label: "Sold Capacity"
   type: number
