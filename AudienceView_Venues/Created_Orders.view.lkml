@@ -183,9 +183,14 @@ UNION ALL
 SELECT
   CAST(datatransactionid as string) as UUID,
   'Crowdtorch' as product_name,
-  clientname as client_name,
-  venuename as venue_name,
-  billingstate as state,
+  data_transactions.clientname as client_name,
+  data_transactions.venuename as venue_name,
+  (Case when ct_clientvenues.venuestate = "Florida" then "FL"
+   when ct_clientvenues.venuestate = "New York" then "NY"
+   when ct_clientvenues.venuestate = "North Carolina" then "NC"
+   when ct_clientvenues.venuestate = "Quebec" then "QC"
+   when ct_clientvenues.venuestate = "Québec" then "QC"
+   when ct_clientvenues.venuestate = "Quintana Roo" then "QROO"Else ct_clientvenues.venuestate END) as state,
   brandproperty as performance_series_name,
   showname as performance_short_description,
   showname as performance_name,
@@ -209,7 +214,9 @@ SELECT
   ELSE 0
   END) as admissions_sold_amount_usd
 
-FROM `fivetran-ovation-tix-warehouse.crowdtorch_dbo.data_transactions`
+FROM `fivetran-ovation-tix-warehouse.crowdtorch_dbo.data_transactions` as data_transactions
+LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_clientvenues` AS ct_clientvenues
+      ON data_transactions.clientid = ct_clientvenues.clientid and ct_clientvenues.venueid = data_transactions.venueid
 
 WHERE dataset IN
 (
@@ -220,7 +227,7 @@ WHERE dataset IN
 --'merchandiseRefundOrder',
 --'merchandiseOrder'
 )
-AND clientid NOT IN (15,10353725)
+AND data_transactions.clientid NOT IN (15,10353725)
 
 GROUP BY
 UUID,
