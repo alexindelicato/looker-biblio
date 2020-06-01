@@ -179,34 +179,48 @@ GROUP BY
 
 UNION ALL
 
-SELECT
-      CAST(purchase_stats.clientID as STRING) as UUID,
-      'CrowdTorch' as product_name,
-      clientName as client_name,
-      '' as venue_name,
-      'research' as state,
-      brandProperty as performance_series_name,
-      showName as performance_short_description,
-      showName as performance_name,
-    CAST( showDateTime as DATETIME) as performance_start_date,
-    CAST( showDateTime as TIMESTAMP) as performance_date,
-    CAST( PurchaseDate as DATETIME) as order_create_audit_time,
-    CAST( PurchaseDate as TIMESTAMP) as order_create_date,
-      SUM(Order_Count) as orders_created,
-      SUM(Quantity_tickets) as admissions_sold,
-      SUM(Grand_Total) as admissions_sold_amount,
-      billingCurrency as default_currency,
-        SUM(CASE
-          WHEN billingCurrency = 'CAD' THEN Grand_Total * 0.76
-          WHEN billingCurrency = 'COP' THEN Grand_Total * 0.00029
-          WHEN billingCurrency = 'GBP' THEN Grand_Total * 1.32
-          WHEN billingCurrency = 'PHP' THEN Grand_Total * 0.020
-          WHEN billingCurrency = 'USD' THEN Grand_Total * 1
-          ELSE 0
-      END) as admissions_sold_amount_usd
 
-      FROM crowd_torch.purchase_stats
-WHERE 1 = 1
+SELECT
+  CAST(datatransactionid as string) as UUID,
+  'Crowdtorch' as product_name,
+  clientname as client_name,
+  venuename as venue_name,
+  billingstate as state,
+  brandproperty as performance_series_name,
+  showname as performance_short_description,
+  showname as performance_name,
+  CAST( showDateTime as DATETIME) as performance_start_date,
+  CAST( showDateTime as TIMESTAMP) as performance_date,
+  CAST( transactiontime as DATETIME) as order_create_audit_time,
+  CAST( transactiontime as TIMESTAMP) as order_create_date,
+  SUM(CASE
+    WHEN dataset = 'ticketOrder' THEN 1
+    ELSE 0
+  END) as orders_created,
+  SUM(quantity) as admissions_sold,
+  SUM(grandtotal) as admissions_sold_amount,
+  currencycode as default_currency,
+  SUM(CASE
+  WHEN currencycode = 'CAD' THEN grandtotal * 0.76
+  WHEN currencycode = 'COP' THEN grandtotal * 0.00029
+  WHEN currencycode = 'GBP' THEN grandtotal * 1.32
+  WHEN currencycode = 'PHP' THEN grandtotal * 0.020
+  WHEN currencycode = 'USD' THEN grandtotal * 1
+  ELSE 0
+  END) as admissions_sold_amount_usd
+
+FROM `fivetran-ovation-tix-warehouse.crowdtorch_dbo.data_transactions`
+
+WHERE dataset IN
+(
+--'donationFund',
+--'donationFundRefund',
+'ticketOrder',
+'ticketRefundOrder'
+--'merchandiseRefundOrder',
+--'merchandiseOrder'
+)
+AND clientid NOT IN (15,10353725)
 
 GROUP BY
 UUID,
