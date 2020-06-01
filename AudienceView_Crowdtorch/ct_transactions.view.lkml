@@ -1998,12 +1998,19 @@ dimension: transtype {
   measure: count {
     type: count
     drill_fields: [detail*]
+    filters:{
+      field: dataset
+      value: "ticketOrder"
+    }
   }
 
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
       tiername,
+      paymentid,
+      transactionid,
+      transactiontime_date,
       groupname,
       recognitionname,
       fundname,
@@ -2012,6 +2019,7 @@ dimension: transtype {
       venuename,
       affiliatefirstname,
       showname,
+      showdatetime_date,
       productname,
       operatorfirstname,
       clientname,
