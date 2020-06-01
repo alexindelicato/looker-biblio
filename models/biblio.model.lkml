@@ -1092,6 +1092,13 @@ explore: ct_transactions {
   }
 }
 
+
+explore: ct_ar_invoices_dt {
+  label: "CT Invoices (Derived Table)"
+  group_label: "Project Biblio"
+  view_label: "CT Invoices (Derived Table)"
+}
+
 #CT Invoice Reports
 explore: ct_ap_invoices {
   label: "CT AP Invoice Statements"
