@@ -71,6 +71,7 @@ view: accountmanagement_support {
   }
 
   dimension: requires_didicated_it_staff {
+    label: "Requires Dedicated IT Staff"
     type: string
     sql: case when ${TABLE}.requires_didicated_it_staff = 1 then "Yes" ELse NULL END ;;
   }
