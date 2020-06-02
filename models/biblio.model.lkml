@@ -1094,9 +1094,9 @@ explore: ct_transactions {
 
 
 explore: ct_ar_invoices_dt {
-  label: "CT Invoices (Derived Table)"
+  label: "CT Invoice Export"
   group_label: "Project Biblio"
-  view_label: "CT Invoices (Derived Table)"
+  view_label: "CT Invoice Export"
 }
 
 #CT Invoice Reports
