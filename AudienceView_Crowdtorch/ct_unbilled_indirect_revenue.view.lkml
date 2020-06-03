@@ -108,9 +108,20 @@ GROUP BY
     AR_ID ;;
   }
 
-  dimension_group: TransactionTime {
+  dimension_group: transactiontime {
     type: time
-    sql: ${TABLE}.TransactionTime ;;
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      month_name,
+      quarter,
+      week_of_year,
+      year
+    ]
+    sql: CAST(${TABLE}.transactiontime AS TIMESTAMP) ;;
   }
 
   dimension: ar_id {
