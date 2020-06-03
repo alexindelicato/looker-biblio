@@ -3,7 +3,7 @@ view: ct_unbilled_indirect_revenue {
     sql:
 SELECT
     TransType,
- --   cast(TransactionTime as DATE) as TransactionTime,
+  --  TransactionTime,
     clientID,
     clientName,
     venueID,
@@ -49,7 +49,7 @@ LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_transm
     on a.dataTransactionID = f.dataTransactionID
 WHERE 1 = 1
     AND e.clientID is null
-AND Cast(TransactionTime as Date) between '2020-03-01' and '2020-04-01'
+AND Cast(TransactionTime as Date) between '2020-04-01' and '2020-04-30'
 UNION ALL
 SELECT 'Unbilled Indirect revenue - Show Date' as TransType,
     TransactionTime,
@@ -82,7 +82,7 @@ INNER JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_showd
 LEFT JOIN `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_transmap` f
     on a.dataTransactionID = f.dataTransactionID
 Where 1 = 1
-AND Cast(TransactionTime as Date) between '2015-01-01' and '2020-04-01'
+AND Cast(TransactionTime as Date) between '2015-01-01' and '2020-04-30'
 ) as t1
 WHERE 1 = 1
     AND dataset IN ('ticketOrder', 'ticketRefundOrder')
@@ -93,7 +93,7 @@ WHERE 1 = 1
         (
         Select Max(AR_ID) as Last_AR_ID
         From `fivetran-ovation-tix-warehouse.crowdtorch_dbo.tbl_ticketing_ar_invoices`
-        Where InvoiceDate <= '2020-04-01'
+        Where InvoiceDate <= '2020-04-30'
         )
     )
 GROUP BY

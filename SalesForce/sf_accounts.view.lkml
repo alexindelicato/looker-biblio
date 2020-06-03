@@ -102,8 +102,11 @@ view: sf_accounts {
     label: "Product Name"
     type:  string
     sql:  case when ${TABLE}.type = 'Client - AudienceView Professional' THEN "AudienceView Professional"
+          when ${TABLE}.type = 'Client Child - AudienceView Professional' THEN "AudienceView Professional"
           WHEN ${TABLE}.type = "Client - AudienceView Unlimited" THEN "AudienceView Unlimited"
+          WHEN ${TABLE}.type = "Client Child - AudienceView Unlimited" THEN "AudienceView Unlimited"
           WHEN ${TABLE}.type = "Client - AudienceView Select" THEN "AudienceView Select"
+          WHEN ${TABLE}.type = "Client Child - AudienceView Select" THEN "AudienceView Select"
           WHEN ${TABLE}.type = "Live Mode" THEN "AudienceView Select"
           WHEN ${TABLE}.type = "Client - CrowdTorch" THEN "CrowdTorch"
           WHEN ${TABLE}.type = "Client - AudienceView Campus" THEN "AudienceView Campus"
@@ -1784,7 +1787,7 @@ view: sf_accounts {
 
   dimension: merchant_of_record__c {
     type: yesno
-    sql: ${TABLE}.Merchant_of_Record__c ;;
+    sql: ${TABLE}.Merchant_of_Record_c ;;
   }
 
   dimension: microsites_c {
