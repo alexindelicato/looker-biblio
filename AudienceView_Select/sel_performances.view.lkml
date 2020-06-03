@@ -11,6 +11,7 @@ view: sel_performances {
   measure: count_performanceid {
     type: count_distinct
     sql: ${TABLE}.performanceid ;;
+    drill_fields: [sel_members.organizationname, sel_events.title, starttime_time]
   }
 
   dimension: _fivetran_deleted {
