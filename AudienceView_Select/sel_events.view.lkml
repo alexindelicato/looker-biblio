@@ -206,6 +206,12 @@ view: sel_events {
     sql: timestamp_seconds(${TABLE}.starttimetl) ;;
   }
 
+
+  dimension: on_sale {
+    type: string
+    sql: case when current_date < ${sel_performances.starttime_date} and ${starttimetl_date} < ${sel_performances.starttime_date} and ${notforsaletl} is NULL then "On-Sale" Else "Not On-Sale" End ;;
+  }
+
   dimension: suspended {
     type: string
     sql: ${TABLE}.suspended ;;
