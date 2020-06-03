@@ -478,6 +478,7 @@ view: ot_client {
   measure: count_client {
     type: count_distinct
     sql: ${client_id} ;;
+    drill_fields: [detail*]
   }
 
   measure: count {

@@ -441,7 +441,7 @@ view: ot_orders {
       ot_client.lastname,
       ot_client.perspective_name,
       ot_client.firstname,
-      ot_client.client_name,
+      ot_credit_card_transactions.cc_type,
       ot_client.verisign_username,
       time_date,
       sum_total,

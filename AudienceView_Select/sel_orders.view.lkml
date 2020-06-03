@@ -162,6 +162,7 @@ view: sel_orders {
     type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.totalcost as FLOAT64), 2) ;;
+    drill_fields: [sel_members.organizationname,id]
   }
 
   dimension: totaldiscount {
