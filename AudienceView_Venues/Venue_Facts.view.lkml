@@ -44,7 +44,7 @@ view: audienceview_venue_facts {
       events.sf_account_name as sf_account_name,
       events.sf_account_id as sf_account_id,
       events.venue_name as venue_name,
-      NULL as venue_type,
+      venue_admission_type as venue_type,
       venue_location.venue_address_street as venue_address_street,
       venue_location.venue_address_city as venue_address_city,
       venue_location.venue_address_state as venue_address_state,
