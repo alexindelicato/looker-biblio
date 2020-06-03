@@ -4,11 +4,13 @@ view: sel_thermalprinters_members {
 
   dimension: _fivetran_deleted {
     type: yesno
+    hidden: yes
     sql: ${TABLE}._fivetran_deleted ;;
   }
 
   dimension_group: _fivetran_synced {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -23,26 +25,31 @@ view: sel_thermalprinters_members {
 
   dimension: created {
     type: number
+    hidden: yes
     sql: ${TABLE}.created ;;
   }
 
   dimension: deleted {
     type: number
+    hidden: yes
     sql: ${TABLE}.deleted ;;
   }
 
   dimension: isdefault {
     type: string
+    hidden: yes
     sql: ${TABLE}.isdefault ;;
   }
 
   dimension: memberid {
     type: string
+    hidden: yes
     sql: ${TABLE}.memberid ;;
   }
 
   dimension_group: modifieddate {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -58,12 +65,13 @@ view: sel_thermalprinters_members {
   dimension: thermalprinterid {
     type: number
     value_format_name: id
-    # hidden: yes
+     hidden: yes
     sql: ${TABLE}.thermalprinterid ;;
   }
 
   measure: count {
     type: count
+    hidden: yes
     drill_fields: [thermalprinters.name, thermalprinters.id]
   }
 }

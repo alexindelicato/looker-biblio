@@ -542,6 +542,20 @@ explore: sel_members {
     sql_on: ${sel_feature_control.featurecontrolid}=${sel_feature_control_members.featurecontrolid}  ;;
   }
 
+  join: sel_thermalprinters_members {
+    view_label: "AV Select Thermal Printers to Members"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_members.memberid}=${sel_thermalprinters_members.memberid}  ;;
+  }
+
+  join: sel_thermalprinters {
+    view_label: "AV Select Thermal Printers"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_thermalprinters.id}=${sel_thermalprinters_members.thermalprinterid} AND ${sel_thermalprinters.deleted} IS NULL  ;;
+  }
+
   join: sel_agents {
     view_label: "AV Select Agents"
     type: left_outer
