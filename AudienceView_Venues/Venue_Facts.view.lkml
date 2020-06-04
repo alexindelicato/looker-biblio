@@ -8,6 +8,7 @@ view: audienceview_venue_facts {
     sf_account_name,
     sf_account_id,
     venue_name,
+    venue_type,
     venue_address_street,
     venue_address_city,
     venue_address_state,
@@ -43,6 +44,7 @@ view: audienceview_venue_facts {
       events.sf_account_name as sf_account_name,
       events.sf_account_id as sf_account_id,
       events.venue_name as venue_name,
+      venue_admission_type as venue_type,
       venue_location.venue_address_street as venue_address_street,
       venue_location.venue_address_city as venue_address_city,
       venue_location.venue_address_state as venue_address_state,
@@ -72,6 +74,12 @@ UNION ALL
       NULL as sf_account_name,
       members.memberid as sf_account_id,
       venues.name as venue_name,
+      CASE
+        WHEN venues.admission = 'G' then 'General Admission'
+        WHEN venues.admission = 'R' then 'Reserved'
+        WHEN venues.admission = 'F' then  'Mixed'
+        WHEN venues.admission = 'I' then  'Import'
+       END AS venue_type,
       venues.street as venue_address_street,
       venues.city as venue_address_city,
       venues.state as venue_address_state,
@@ -122,6 +130,7 @@ UNION ALL
       members.organizationname,
       members.memberid,
       venues.name,
+      venue_type,
       venues.street,
       venues.city,
       venues.state,
@@ -139,6 +148,18 @@ UNION ALL
     NULL as sf_account_name,
     crm_id as sf_account_id,
     venue_location.venue_name as venue_name,
+
+    (
+      SELECT
+        CASE
+          WHEN reserved_seating = 'T' THEN 'Reserved'
+          ELSE 'General Admission'
+        END
+      FROM trs_trs.seating_chart AS vt_seating_chart
+      WHERE 1 = 1
+      AND vt_seating_chart.seating_chart_id = production.seating_chart_id
+    ) as venue_type,
+
     venue_location.venue_address_street as venue_address_street,
     venue_location.venue_address_city as venue_address_city,
     venue_location.venue_address_state as venue_address_state,
@@ -194,6 +215,7 @@ UNION ALL
     crm.id,
     sf_account_id,
     venue_location.venue_name,
+    venue_type,
     venue_location.venue_address_street,
     venue_location.venue_address_city,
     venue_location.venue_address_state,
@@ -210,6 +232,7 @@ UNION ALL
     sf_account_name,
     sf_account_id,
     venue_name,
+    venue_type,
     venue_address_street,
     venue_address_city,
     venue_address_state,
@@ -331,6 +354,11 @@ UNION ALL
   dimension: venue_name {
     type: string
     sql: ${TABLE}.venue_name ;;
+  }
+
+  dimension: venue_type {
+    type: string
+    sql: ${TABLE}.venue_type ;;
   }
 
   dimension: venue_address_city {
