@@ -1469,7 +1469,13 @@ view: sf_accounts {
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "Higher Edu US"
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "Higher Edu US"
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Live Music" then "Live Music"
-          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Live Music" then "Live Music" End;;
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Live Music" then "Live Music"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c < 5000 then "Other (low ACV <5K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c < 5000 then "Other (low ACV <5K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c >= 5000 then "Other (ARR >5K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c >= 5000 then "Other (ARR >5K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "Sports"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "Sports" End;;
   }
 
   dimension: cohort_id {
@@ -1494,7 +1500,13 @@ view: sf_accounts {
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "13"
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "14"
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Live Music" then "15"
-          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Live Music" then "16" END ;;
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Live Music" then "16"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c < 5000 then "17"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c < 5000 then "18"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c >= 5000 then "19"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c >= 5000 then "20"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "21"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "22" END ;;
   }
 
 
