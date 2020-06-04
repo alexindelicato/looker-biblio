@@ -1484,7 +1484,17 @@ view: sf_accounts {
           when ${TABLE}.billing_country IN ("Canada", "Jamaica") and ${TABLE}.Merchant_of_Record_c  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c < 25000 then "Live Music & Other non-US - Low ACV (<25K)"
           when ${TABLE}.billing_country IN ("Canada", "Jamaica") and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c >= 25000 then "Live Music & Other non-US - High ACV (25K+)"
           when ${TABLE}.Merchant_of_Record_c IS FALSE and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Sports"  then "Sports"
-          when ${TABLE}.Merchant_of_Record_c and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Sports"  then "Sports" End;;
+          when ${TABLE}.Merchant_of_Record_c and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Sports"  then "Sports"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c IS FALSE and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c <= 5000 then "Performing Arts US (ARR <=5K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c <= 5000 then "Performing Arts US (ARR <=5K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c IS FALSE and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c > 5000 then "Performing Arts US (ARR 5K+)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c > 5000 then "Performing Arts US (ARR 5K+)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c IS FALSE  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Live Music" then "Live Music US"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Live Music" then "Live Music US"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c IS FALSE and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c <= 5000 then "Other US (low ACV <5K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c <= 5000 then "Other US (low ACV <5K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c IS FALSE and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c > 5000 then "Other US (ARR >5K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c > 5000 then "Other US (ARR >5K)" End;;
   }
 
   dimension: cohort_id {
@@ -1524,7 +1534,17 @@ view: sf_accounts {
           when ${TABLE}.billing_country IN ("Canada", "Jamaica") and ${TABLE}.Merchant_of_Record_c  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c <= 25000 then "32.1"
           when ${TABLE}.billing_country IN ("Canada", "Jamaica") and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c >= 25000 then "33"
           when ${TABLE}.Merchant_of_Record_c IS FALSE and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Sports"  then "34"
-          when ${TABLE}.Merchant_of_Record_c and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Sports"  then "34.1" END ;;
+          when ${TABLE}.Merchant_of_Record_c and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Sports"  then "34.1"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c IS FALSE and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c <= 5000 then "35"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c <= 5000 then "35.1"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c IS FALSE and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c > 5000 then "36"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c > 5000 then "36.1"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c IS FALSE  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Live Music"  then "37"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Live Music"  then "37.1"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c IS FALSE and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c <= 5000 then "38"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c <= 5000 then "38.1"
+           when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c IS FALSE and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c > 5000 then "39"
+           when ${TABLE}.billing_country = "United States" and ${TABLE}.Merchant_of_Record_c and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c > 5000 then "39.1" END ;;
   }
 
 
