@@ -117,6 +117,11 @@ view: sel_performances {
     sql: ${TABLE}.settled ;;
   }
 
+  dimension: future_performance {
+    type: yesno
+    sql: ${starttime_date} > current_date ;;
+  }
+
   dimension_group: starttime {
     type: time
     timeframes: [
