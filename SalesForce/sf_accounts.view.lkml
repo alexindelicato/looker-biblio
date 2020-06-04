@@ -1475,7 +1475,16 @@ view: sf_accounts {
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c >= 5000 then "Other (ARR >5K)"
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c >= 5000 then "Other (ARR >5K)"
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "Sports"
-          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "Sports" End;;
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "Sports"
+          when ${TABLE}.Merchant_of_Record_c IS FALSE and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Higher Education" then "Higher Edu (All)"
+          when ${TABLE}.Merchant_of_Record_c and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Higher Education" then "Higher Edu (All)"
+          when ${TABLE}.billing_country = "Canada"  and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c < 25000 then "Performing Arts in Canada  - Low ACV (<25K)"
+          when ${TABLE}.billing_country = "Canada" and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c >= 25000 then "Performing Arts in Canada - High ACV (25K+)"
+          when ${TABLE}.billing_country IN ("Canada", "Jamaica") and ${TABLE}.Merchant_of_Record_c IS FALSE and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c < 25000 then "Live Music & Other non-US - Low ACV (<25K)"
+          when ${TABLE}.billing_country IN ("Canada", "Jamaica") and ${TABLE}.Merchant_of_Record_c  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c < 25000 then "Live Music & Other non-US - Low ACV (<25K)"
+          when ${TABLE}.billing_country IN ("Canada", "Jamaica") and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c >= 25000 then "Live Music & Other non-US - High ACV (25K+)"
+          when ${TABLE}.Merchant_of_Record_c IS FALSE and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Sports"  then "Sports"
+          when ${TABLE}.Merchant_of_Record_c and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Sports"  then "Sports" End;;
   }
 
   dimension: cohort_id {
@@ -1506,7 +1515,16 @@ view: sf_accounts {
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c >= 5000 then "19"
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Other" and ${TABLE}.arr_c >= 5000 then "20"
           when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "21"
-          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "22" END ;;
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "22"
+          when ${TABLE}.Merchant_of_Record_c IS FALSE and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Higher Education" then "29A"
+          when ${TABLE}.Merchant_of_Record_c and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Higher Education" then "29B"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c < 25000 then "30"
+          when ${TABLE}.billing_country = "Canada" and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c >= 25000 then "31"
+          when ${TABLE}.billing_country IN ("Canada", "Jamaica") and ${TABLE}.Merchant_of_Record_c IS FALSE and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c <= 25000 then "32"
+          when ${TABLE}.billing_country IN ("Canada", "Jamaica") and ${TABLE}.Merchant_of_Record_c  and  ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c <= 25000 then "32.1"
+          when ${TABLE}.billing_country IN ("Canada", "Jamaica") and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c >= 25000 then "33"
+          when ${TABLE}.Merchant_of_Record_c IS FALSE and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Sports"  then "34"
+          when ${TABLE}.Merchant_of_Record_c and ${TABLE}.type = "Client - CrowdTorch" and ${TABLE}.vertical_new_c = "Sports"  then "34.1" END ;;
   }
 
 
