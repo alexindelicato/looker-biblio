@@ -48,6 +48,7 @@ view: sel_refunds {
     type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+    drill_fields: [sel_members.organizationname,orderid,sel_performances.startime_date,date_date]
   }
 
   measure:: 2020_total_refund_amount {

@@ -1447,6 +1447,57 @@ view: sf_accounts {
     sql: ${TABLE}.id ;;
   }
 
+  dimension: cohorts {
+    type: string
+    sql: case when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts"  and ${TABLE}.arr_c >= 25000 then "Performing Arts in Canada - High ACV (25K+)"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts"  and ${TABLE}.arr_c >= 25000 then "Performing Arts in Canada - High ACV (25K+)"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c >= 25000 then "Live Music & Other in Canada - High ACV (25K+)"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c < 25000 then "Performing Arts in Canada - Low ACV (<25K)"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c < 25000 then "Performing Arts in Canada - Low ACV (<25K)"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c < 25000 then "Live Music & Other in Canada - Low ACV (<25K)"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c < 25000 then "Live Music & Other in Canada - Low ACV (<25K)"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "Sports in Canada (All)"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "Sports in Canada (All)"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "Higher Edu in Canada (All)"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "Higher Edu in Canada (All)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c <= 5000 then "Performing Arts US (ARR <=5K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c <= 5000 then "Performing Arts US (ARR <=5K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c > 5000 and ${TABLE}.arr_c < 30000 then "Performing Arts US (>=5K to <30K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c > 5000 and ${TABLE}.arr_c < 30000 then "Performing Arts US (>=5K to <30K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c >= 30000 then "Performing Arts US (ARR >= 30K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c >= 30000 then "Performing Arts US (ARR >= 30K)"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "Higher Edu US"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "Higher Edu US"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Live Music" then "Live Music"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Live Music" then "Live Music" End;;
+  }
+
+  dimension: cohort_id {
+    type: string
+    sql: case when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts"  and ${TABLE}.arr_c > 25000 then "1.1"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts"  and ${TABLE}.arr_c > 25000 then "2.1"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c > 25000 then "1.2"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c < 25000 then "3.1"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c < 25000 then "4.1"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c < 25000 then "3.2"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c IN ("Live Music", "Other") and ${TABLE}.arr_c < 25000 then "4.2"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "3.3"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Sports" then "4.3"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "5"
+          when ${TABLE}.billing_country = "Canada" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "6"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c <= 5000 then "7"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c <= 5000 then "8"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c > 5000 and ${TABLE}.arr_c < 30000 then "9"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c > 5000 and ${TABLE}.arr_c < 30000 then "10"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c >= 30000 then "11"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Performing Arts" and ${TABLE}.arr_c >= 30000 then "12"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "13"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Higher Education" then "14"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  IN ("MMA", "MMA With Failover") and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Live Music" then "15"
+          when ${TABLE}.billing_country = "United States" and ${TABLE}.tl_gateway_c  = "VMA" and ${TABLE}.type = "Client - AudienceView Select" and ${TABLE}.vertical_new_c = "Live Music" then "16" END ;;
+  }
+
+
   dimension: inactive_wot_c {
     type: yesno
     sql: ${TABLE}.inactive_wot_c ;;
