@@ -187,7 +187,7 @@ view: sel_orders {
 
   measure: count_orders {
     type: count_distinct
-    sql: id ;;
+    sql: ${TABLE}.id ;;
     drill_fields: [id, transactions.count, refunds.count, exchanges.count, orders_misclineitems.count, sel_members.organizationname,sel_events.title,sel_performances.starttime_time]
     }
 
