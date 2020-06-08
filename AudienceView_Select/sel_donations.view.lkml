@@ -194,6 +194,12 @@ view: sel_donations {
     sql: ${TABLE}.patronid ;;
   }
 
+  measure: count_patronid {
+    type: count_distinct
+    sql: ${TABLE}.patronid ;;
+    drill_fields: [sel_members.organizationname,orderid,amount]
+  }
+
   dimension: recognitiondescription {
     type: string
     sql: ${TABLE}.recognitiondescription ;;
@@ -334,6 +340,12 @@ view: sel_donations {
   dimension: type {
     type: string
     sql: ${TABLE}.type ;;
+  }
+
+  dimension: donation_type {
+    type: string
+    sql: case when ${TABLE}.type = "1" then "One Time Donation"
+         when ${TABLE}.type = "2" then "Recurring Donation" Else "Research" End;;
   }
 
   measure: count_2019_donations {
