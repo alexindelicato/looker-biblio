@@ -33,9 +33,9 @@ view: sel_transactions_scans {
     sql: ${TABLE}.agentid ;;
   }
 
-  dimension: lastscan {
-    type: number
-    sql: ${TABLE}.lastscan ;;
+  dimension_group: lastscan {
+    type: time
+    sql: timestamp_seconds(${TABLE}.lastscan) ;;
   }
 
   dimension: orderid {
@@ -51,6 +51,11 @@ view: sel_transactions_scans {
 
   measure: count {
     type: count
+    drill_fields: [transactions_scansid]
+  }
+  measure: count_scans {
+    type: count_distinct
+    sql: ${TABLE}.transactions_scansid  ;;
     drill_fields: [transactions_scansid]
   }
 }

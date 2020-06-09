@@ -560,6 +560,20 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_agent_to_members.memberid}  ;;
   }
 
+  join: sel_members_scanners {
+    view_label: "AV Select Members to Scanners"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sel_members_scanners.memberid}  ;;
+  }
+
+  join: sel_ticket_scans {
+    view_label: "AV Select Scans"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members_scanners.scannerid}=${sel_ticket_scans.scannerid}  ;;
+  }
+
   join: sel_feature_control_members {
     view_label: "AV Select Feature to Members"
     type: left_outer

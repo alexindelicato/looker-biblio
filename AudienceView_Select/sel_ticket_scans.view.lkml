@@ -63,4 +63,10 @@ view: sel_ticket_scans {
     type: count
     drill_fields: []
   }
+
+  measure: count_ticket_scans {
+    type: count_distinct
+    sql: ${TABLE}.ticketscanid ;;
+    drill_fields: []
+  }
 }
