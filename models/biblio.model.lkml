@@ -150,6 +150,13 @@ explore: pro_overage_orders {
     relationship: one_to_many
     sql_on: ${sf_accounts.id} = ${pro_overage_orders.sf_account_id} AND ${sf_accounts.is_deleted}= FALSE;;
   }
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+  }
+
  }
 
 #--OVATIONTIX JOINS--
@@ -350,6 +357,12 @@ explore: ot_orders {
     relationship: one_to_many
     sql_on: ${sf_accounts.salesforce_account_id_c} = ${ot_report_crm.crm_id} AND ${sf_accounts.is_deleted}= FALSE;;
   }
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+  }
   join: sf_contact {
     view_label: "SF Contact"
     type: left_outer
@@ -495,6 +508,12 @@ explore: ot_client {
     relationship: one_to_many
     sql_on: ${sf_accounts.salesforce_account_id_c} = ${ot_report_crm.crm_id} AND ${sf_accounts.is_deleted}= FALSE;;
   }
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+  }
   }
 
 #------------------------
@@ -510,6 +529,12 @@ explore: av_qbr {
     type: left_outer
     relationship: one_to_one
     sql_on: ${av_qbr.sf_client_id}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
   }
   }
   #--------------------------
@@ -645,6 +670,13 @@ explore: sel_members {
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
+
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
   }
 
   join: sel_select_audit {
@@ -793,6 +825,12 @@ explore: sel_orders {
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
   }
 
   join: sel_transactions {
@@ -945,7 +983,12 @@ explore: sel_orders {
       relationship: one_to_one
       sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
     }
-
+    join: sf_net_arr_2019 {
+      view_label: "Salesforce 2019 NET ARR"
+      type: left_outer
+      relationship: one_to_many
+      sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+    }
 
  }
 
@@ -967,6 +1010,12 @@ explore: sel_orders {
       type: left_outer
       relationship: one_to_one
       sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
+    }
+    join: sf_net_arr_2019 {
+      view_label: "Salesforce 2019 NET ARR"
+      type: left_outer
+      relationship: one_to_many
+      sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
     }
 
     join: sf_contact {
@@ -1022,6 +1071,12 @@ explore: ct_performance_stats {
     type: left_outer
     relationship: one_to_one
     sql_on: ${ct_performance_stats.client_id}=${sf_accounts.ct_client_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
   }
 
   join: sf_contact {
@@ -1117,6 +1172,12 @@ explore: ct_transactions {
     type: left_outer
     relationship: one_to_one
     sql_on: ${ct_transactions.clientid} = cast(${sf_accounts.ct_client_id_c} as INT64) AND ${sf_accounts.is_deleted}= FALSE and ${sf_accounts.ct_client_id_c} is NOT NULL ;;
+  }
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
   }
 }
 
@@ -1328,6 +1389,12 @@ explore: ct_clients {
     type: left_outer
     relationship: one_to_one
     sql_on: ${sf_accounts.id} = ${sf_contact.account_id} ;;
+  }
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
   }
   }
 
