@@ -34,6 +34,13 @@ explore: sf_accounts {
     sql_on: ${sf_accounts.id}=${sf_opportunity.account_id} AND  ${sf_opportunity.is_deleted}= FALSE;;
   }
 
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+  }
+
   join: sf_case {
     view_label: "Salesforce Support Cases"
     type: left_outer
