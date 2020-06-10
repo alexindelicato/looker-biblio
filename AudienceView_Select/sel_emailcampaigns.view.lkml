@@ -89,7 +89,7 @@ view: sel_emailcampaigns {
 
   dimension_group: sendcomplete {
     type: time
-    sql: timetamp_seconds(${TABLE}.sendcomplete) ;;
+    sql: timestamp_seconds(${TABLE}.sendcomplete) ;;
   }
 
   dimension_group: senddate {
@@ -145,6 +145,12 @@ view: sel_emailcampaigns {
     drill_fields: [campaignname, fromname]
   }
 
+  measure: count_campaigns_email {
+    label: "# Of Email Campaigns Created"
+    type: count_distinct
+    sql: ${TABLE}.campaignid ;;
+    drill_fields: [campaignname, fromname]
+}
 
   measure: count_campaigns {
     label: "# Of Email Campaigns Sent"
@@ -153,7 +159,7 @@ view: sel_emailcampaigns {
     drill_fields: [campaignname, fromname]
 
     filters:  {
-      field: senddate_date
+      field: sendcomplete_date
       value: "NOT NULL"
     }
   }
