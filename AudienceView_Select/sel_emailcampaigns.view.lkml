@@ -37,9 +37,9 @@ view: sel_emailcampaigns {
     sql: ${TABLE}.campaignname ;;
   }
 
-  dimension: created {
-    type: number
-    sql: ${TABLE}.created ;;
+  dimension_group: created {
+    type: time
+    sql: timestamp_seconds(${TABLE}.created) ;;
   }
 
   dimension: deleted {
@@ -87,14 +87,14 @@ view: sel_emailcampaigns {
     sql: ${TABLE}.optedin ;;
   }
 
-  dimension: sendcomplete {
-    type: number
-    sql: ${TABLE}.sendcomplete ;;
+  dimension_group: sendcomplete {
+    type: time
+    sql: timetamp_seconds(${TABLE}.sendcomplete) ;;
   }
 
-  dimension: senddate {
-    type: number
-    sql: ${TABLE}.senddate ;;
+  dimension_group: senddate {
+    type: time
+    sql: timestamp_seconds(${TABLE}.senddate) ;;
   }
 
   dimension: sendpid {
@@ -136,5 +136,25 @@ view: sel_emailcampaigns {
   measure: count {
     type: count
     drill_fields: [campaignname, fromname]
+  }
+
+  measure: count_templates {
+    label: "# of Email Templates Created"
+    type: count_distinct
+    sql: ${TABLE}.template ;;
+    drill_fields: [campaignname, fromname]
+  }
+
+
+  measure: count_campaigns {
+    label: "# Of Email Campaigns Sent"
+    type: count_distinct
+    sql: ${TABLE}.campaignid ;;
+    drill_fields: [campaignname, fromname]
+
+    filters:  {
+      field: senddate_date
+      value: "NOT NULL"
+    }
   }
 }

@@ -560,6 +560,13 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_agent_to_members.memberid}  ;;
   }
 
+  join: sel_emailcampaigns {
+    view_label: "AV Select Email Campaigns"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid}=${sel_emailcampaigns.memberid} and ${sel_emailcampaigns.deleted} IS NULL  ;;
+  }
+
   join: sel_members_scanners {
     view_label: "AV Select Members to Scanners"
     type: left_outer
