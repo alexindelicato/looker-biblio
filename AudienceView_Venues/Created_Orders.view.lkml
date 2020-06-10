@@ -248,7 +248,7 @@ default_currency
 ) as t1
 
 WHERE order_create_date >= '2020-01-01 00:00:00'
-AND performance_date >= '2020-01-01 00:00:00'
+
 
 GROUP BY
 
