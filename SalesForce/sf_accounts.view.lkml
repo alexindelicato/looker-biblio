@@ -53,6 +53,7 @@ view: sf_accounts {
   dimension: BTI_2019_ARR__c {
     label: "2019 Net ARR (USD)"
     type: number
+    value_format_name: usd
     sql: ${TABLE}.BTI_2019_ARR_c ;;
   }
 
