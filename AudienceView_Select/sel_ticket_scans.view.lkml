@@ -26,9 +26,9 @@ view: sel_ticket_scans {
     sql: ${TABLE}.agentid ;;
   }
 
-  dimension: date {
-    type: number
-    sql: ${TABLE}.date ;;
+  dimension_group: date {
+    type: time
+    sql: timestamp_seconds(${TABLE}.date) ;;
   }
 
   dimension: inout {
