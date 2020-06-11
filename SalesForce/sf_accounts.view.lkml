@@ -40,8 +40,8 @@ view: sf_accounts {
 
   dimension: BTI_Cohort__c {
     label: "BTI Cohort Name"
-    type: number
-    sql: ${TABLE}.BTI_Cohort_c  ;;
+    type: string
+    sql: ${TABLE}.bti_cohort_name_c  ;;
   }
 
   dimension: BTI_Cohort__id {
