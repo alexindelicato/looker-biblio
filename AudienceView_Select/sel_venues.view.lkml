@@ -191,6 +191,39 @@ dimension: venue_type  {
     }
   }
 
+  measure: count_GA_venues_types {
+    label: "# of GA Venues"
+    type: count_distinct
+    sql: ${TABLE}.name ;;
+    drill_fields: [venueid, name, events.count]
+    filters: {
+      field: admission
+      value: "G"
+    }
+  }
+
+  measure: count_mixed_venues_types {
+    label: "# of Mixed Venues"
+    type: count_distinct
+    sql: ${TABLE}.name ;;
+    drill_fields: [venueid, name, events.count]
+    filters: {
+      field: admission
+      value: "F"
+    }
+  }
+
+  measure: count_reserved_venues_types {
+    label: "# of Reserved Venues"
+    type: count_distinct
+    sql: ${TABLE}.name ;;
+    drill_fields: [venueid, name, events.count]
+    filters: {
+      field: admission
+      value: "R"
+    }
+  }
+
   measure: count {
     type: count
     drill_fields: [venueid, name, events.count]
