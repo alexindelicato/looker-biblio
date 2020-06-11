@@ -38,6 +38,24 @@ view: sf_accounts {
     sql: ${TABLE}.account_acquisition_source_c ;;
   }
 
+  dimension: BTI_Cohort__c {
+    label: "BTI Cohort Name"
+    type: number
+    sql: ${TABLE}.BTI_Cohort_c  ;;
+  }
+
+  dimension: BTI_Cohort__id {
+    label: "BTI Cohort ID"
+    type: number
+    sql: ${TABLE}.BTI_ID_c  ;;
+  }
+
+  dimension: BTI_2019_ARR__c {
+    label: "2019 Net ARR (USD)"
+    type: number
+    sql: ${TABLE}.BTI_2019_ARR_c ;;
+  }
+
   dimension: account_description_c {
     type: string
     sql: ${TABLE}.account_description_c ;;
