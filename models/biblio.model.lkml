@@ -574,6 +574,13 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_emailcampaigns.memberid} and ${sel_emailcampaigns.deleted} IS NULL  ;;
   }
 
+  join: sel_email_campaigns_stats {
+    view_label: "AV Select Email Stats"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_email_campaigns_stats.campaignid}=${sel_emailcampaigns.campaignid}   ;;
+  }
+
   join: sel_members_scanners {
     view_label: "AV Select Members to Scanners"
     type: left_outer

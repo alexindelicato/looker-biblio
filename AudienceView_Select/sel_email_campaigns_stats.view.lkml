@@ -26,8 +26,14 @@ view: sel_email_campaigns_stats {
     sql: ${TABLE}.bounce_count ;;
   }
 
+  measure: total_bounce_count {
+    type: sum_distinct
+    sql: ${TABLE}.bounce_count ;;
+  }
+
   dimension: campaignid {
     type: number
+    primary_key: yes
     value_format_name: id
     sql: ${TABLE}.campaignid ;;
   }
@@ -144,6 +150,11 @@ view: sel_email_campaigns_stats {
 
   dimension: sent_count {
     type: number
+    sql: ${TABLE}.sent_count ;;
+  }
+
+  measure: total_sent_count {
+    type: sum_distinct
     sql: ${TABLE}.sent_count ;;
   }
 
