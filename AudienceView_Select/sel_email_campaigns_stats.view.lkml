@@ -123,9 +123,26 @@ view: sel_email_campaigns_stats {
     sql: ${TABLE}.open_count_total ;;
   }
 
+  measure: total_open_count_total {
+    type: sum_distinct
+    sql: ${TABLE}.open_count_total ;;
+  }
+
+
   dimension: open_count_unique {
     type: number
     sql: ${TABLE}.open_count_unique ;;
+  }
+
+  measure: total_open_count_unique {
+    type: sum_distinct
+    sql: ${TABLE}.open_count_unique ;;
+  }
+
+  measure: open_count_rate {
+    type: number
+    value_format_name: percent_2
+    sql: case when ${total_sent_count} <> 0 then ${total_open_count_unique} / ${total_sent_count} End;;
   }
 
   dimension: opt_out_count {
@@ -135,8 +152,16 @@ view: sel_email_campaigns_stats {
 
   dimension: purchase_amount_total {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.purchase_amount_total ;;
   }
+
+  measure: total_purchase_amount_total {
+    type: sum_distinct
+    value_format_name: usd
+    sql: ${TABLE}.purchase_amount_total ;;
+  }
+
 
   dimension: purchase_count_total {
     type: number
