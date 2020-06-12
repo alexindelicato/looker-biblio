@@ -791,6 +791,13 @@ explore: sel_members {
     sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL  ;;
   }
 
+  join: sel_performances_tickettypes_tieredprices {
+    view_label: "AV Select Performance Tiered Pricing"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_performances.performanceid}=${sel_performances_tickettypes_tieredprices.performanceid}   ;;
+  }
+
 
   join: sel_performance_inventory {
     view_label: "AV Select Performance Inventory"
