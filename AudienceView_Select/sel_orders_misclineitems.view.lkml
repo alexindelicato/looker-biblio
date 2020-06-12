@@ -458,6 +458,16 @@ view: sel_orders_misclineitems {
     }
   }
 
+  measure: count_tipjar {
+    type: count_distinct
+    sql: ${id} ;;
+    drill_fields: [id, name, orders.id, exchanges.exchangeid]
+    filters: {
+      field: donation
+      value: "Y"
+    }
+    }
+
  measure: count_2019_tipjar {
     type: count_distinct
     sql: ${id} ;;
