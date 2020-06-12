@@ -568,7 +568,7 @@ explore: sel_members {
   }
 
   join: sel_etickettemplates {
-    view_label: "AV Select Custom Forms"
+    view_label: "AV Select E-Ticket Templates"
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_members.memberid} = ${sel_etickettemplates.memberid} and ${sel_etickettemplates.deleted} IS NULL ;;
