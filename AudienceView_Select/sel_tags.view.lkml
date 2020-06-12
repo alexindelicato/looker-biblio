@@ -8,6 +8,12 @@ view: sel_tags {
     sql: ${TABLE}.tagid ;;
   }
 
+  measure: count_event_tags {
+    type: count_distinct
+    sql: ${TABLE}.tagid ;;
+    drill_fields: [tagid, name, tags_to_events.count]
+  }
+
   dimension: _fivetran_deleted {
     type: yesno
     sql: ${TABLE}._fivetran_deleted ;;

@@ -43,8 +43,15 @@ view: sel_performances_tags {
 
   dimension: performancestagid {
     type: number
+    primary_key: yes
     value_format_name: id
     sql: ${TABLE}.performancestagid ;;
+  }
+
+  measure: count_performancetag {
+    type: count_distinct
+    sql: ${TABLE}.performancestagid ;;
+    drill_fields: [name]
   }
 
   measure: count {

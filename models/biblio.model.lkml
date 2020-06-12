@@ -778,7 +778,7 @@ explore: sel_members {
   }
 
   join: sel_tags {
-    view_label: "AV Select Performance Tags"
+    view_label: "AV Select Event Tags"
     type: left_outer
     relationship: many_to_many
     sql_on: ${sel_tags_to_events.tagid}=${sel_tags.tagid} AND ${sel_tags.deleted} IS NULL ;;
@@ -790,6 +790,7 @@ explore: sel_members {
     relationship: one_to_many
     sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL  ;;
   }
+
 
   join: sel_performance_inventory {
     view_label: "AV Select Performance Inventory"
