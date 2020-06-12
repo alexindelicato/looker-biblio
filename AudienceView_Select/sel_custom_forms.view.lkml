@@ -28,9 +28,9 @@ view: sel_custom_forms {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
-  dimension: created {
-    type: number
-    sql: ${TABLE}.created ;;
+  dimension_group: created {
+    type: time
+    sql: timestamp_seconds(${TABLE}.created) ;;
   }
 
   dimension: deleted {
@@ -63,9 +63,9 @@ view: sel_custom_forms {
     sql: ${TABLE}.memberid ;;
   }
 
-  dimension: modified {
-    type: number
-    sql: ${TABLE}.modified ;;
+  dimension_group: modified {
+    type: time
+    sql: timestamp_seconds(${TABLE}.modified) ;;
   }
 
   dimension: name {
@@ -85,6 +85,12 @@ view: sel_custom_forms {
 
   measure: count {
     type: count
+    drill_fields: [id, name]
+  }
+
+  measure: count_id {
+    type: count_distinct
+    sql: ${TABLE}.id ;;
     drill_fields: [id, name]
   }
 }

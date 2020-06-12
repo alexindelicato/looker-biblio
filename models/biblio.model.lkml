@@ -560,6 +560,20 @@ explore: sel_members {
     sql_on: ${sel_members.memberid} = ${sel_arr.memberid} ;;
   }
 
+  join: sel_custom_forms {
+    view_label: "AV Select Custom Forms"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid} = ${sel_custom_forms.memberid} and ${sel_custom_forms.deleted} IS NULL ;;
+  }
+
+  join: sel_etickettemplates {
+    view_label: "AV Select Custom Forms"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid} = ${sel_etickettemplates.memberid} and ${sel_etickettemplates.deleted} IS NULL ;;
+  }
+
   join: sel_agent_to_members {
     view_label: "AV Select Agents to Members"
     type: left_outer

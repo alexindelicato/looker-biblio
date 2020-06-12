@@ -21,9 +21,9 @@ view: sel_etickettemplates {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
-  dimension: created {
-    type: number
-    sql: ${TABLE}.created ;;
+  dimension_group: created {
+    type: time
+    sql: timestamp_seconds(${TABLE}.created) ;;
   }
 
   dimension: deleted {
@@ -36,9 +36,9 @@ view: sel_etickettemplates {
     sql: ${TABLE}.memberid ;;
   }
 
-  dimension: modified {
-    type: number
-    sql: ${TABLE}.modified ;;
+  dimension_group: modified {
+    type: time
+    sql: timestamp_seconds(${TABLE}.modified) ;;
   }
 
   dimension: template1 {
@@ -68,6 +68,12 @@ view: sel_etickettemplates {
 
   measure: count {
     type: count
+    drill_fields: [templatename]
+  }
+
+  measure: count_ticket_template {
+    type: count_distinct
+    sql: ${TABLE}.templateid ;;
     drill_fields: [templatename]
   }
 }
