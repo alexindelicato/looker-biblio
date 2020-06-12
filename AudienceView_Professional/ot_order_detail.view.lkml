@@ -85,6 +85,15 @@ view: ot_order_detail {
     sql: ${TABLE}.donation_id ;;
   }
 
+  measure: count_donations {
+    type: count_distinct
+    sql: ${TABLE}.donation_id ;;
+    filters: {
+      field: donation_id
+      value: "NOT NULL"
+    }
+  }
+
   dimension: group_discount_id {
     type: number
     sql: ${TABLE}.group_discount_id ;;
