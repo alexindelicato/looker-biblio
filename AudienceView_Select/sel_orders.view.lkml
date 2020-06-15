@@ -123,6 +123,11 @@ view: sel_orders {
     sql: ${TABLE}.patronid ;;
   }
 
+  measure: count_patronid {
+    type: count_distinct
+    sql: ${TABLE}.patronid ;;
+  }
+
   dimension: patronphoneid {
     type: number
     value_format_name: id
