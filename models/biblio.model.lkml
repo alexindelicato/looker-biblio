@@ -627,7 +627,7 @@ explore: sel_members {
     view_label: "AV Select Ticket Templates to Members"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sel_members.memberid}=${sel_members_ticket_templates.memberid}  ;;
+    sql_on: ${sel_members.memberid}=${sel_members_ticket_templates.memberid} and ${sel_members_ticket_templates.isdefault} = "Y"  ;;
   }
 
   join: sel_ticket_templates {
