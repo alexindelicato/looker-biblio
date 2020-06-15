@@ -623,6 +623,20 @@ explore: sel_members {
     sql_on: ${sel_feature_control.featurecontrolid}=${sel_feature_control_members.featurecontrolid}  ;;
   }
 
+  join: sel_members_ticket_templates {
+    view_label: "AV Select Ticket Templates to Members"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_members.memberid}=${sel_members_ticket_templates.memberid}  ;;
+  }
+
+  join: sel_ticket_templates {
+    view_label: "AV Select Ticket Templates"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_ticket_templates.templateid}=${sel_members_ticket_templates.templateid} and ${sel_ticket_templates.deleted} is NULL  ;;
+  }
+
   join: sel_thermalprinters_members {
     view_label: "AV Select Thermal Printers to Members"
     type: left_outer
