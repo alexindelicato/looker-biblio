@@ -104,7 +104,7 @@ view: unlimited_payments_summary {
       }
 
   measure:total_transaction_count { type: sum sql: ${TABLE}.orderpayment_transaction_count ;; drill_fields: [payment_facts*] }
-  measure:total_transaction_amount { type: sum sql: ${TABLE}.payment_amount ;; drill_fields: [payment_facts*] }
+  measure:total_transaction_amount { type: sum value_format_name: decimal_2 sql: ${TABLE}.payment_amount ;; drill_fields: [payment_facts*] }
   measure:total_transaction_amount_usd { type: sum value_format_name: usd sql: ${TABLE}.payment_amount_usd ;; drill_fields: [payment_facts*] }
 
   measure:total_payment_transactions_count { type: sum sql: ${TABLE}.payment_transactions_count ;; drill_fields: [payment_facts*] }
