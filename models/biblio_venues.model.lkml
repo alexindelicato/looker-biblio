@@ -32,11 +32,16 @@ explore: created_orders {
   view_label: "AudienceView Created Orders"
   }
 
+explore: unlimited_payments_summary {
+  label: "Unlimited Payments Summary"
+  group_label: "Project Biblio"
+  view_label: "Unlimited Payments Summary"
+}
+
   explore: pos_usage {
     label: "Unlimited POS Usage"
     group_label: "Project Biblio"
     view_label: "Unlimited POS Usage"
-
   }
 
 #--------------------------
