@@ -9,6 +9,11 @@ view: sel_donationcampaigns {
     sql: ${TABLE}.donationcampaignid ;;
   }
 
+  measure: count_campaigns {
+    type: count_distinct
+    sql: ${TABLE}.donationcampaignid ;;
+  }
+
   dimension: _fivetran_deleted {
     type: yesno
     sql: ${TABLE}._fivetran_deleted ;;

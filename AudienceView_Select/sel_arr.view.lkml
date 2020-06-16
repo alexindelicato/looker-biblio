@@ -26,6 +26,12 @@ view: sel_arr {
     sql: ${TABLE}.net_prorated_arr_2019 ;;
   }
 
+  measure: sum_net_prorated_arr_2019 {
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.net_prorated_arr_2019 ;;
+  }
+
   dimension: rolling_arr_may_2020 {
     type: number
     value_format_name: usd

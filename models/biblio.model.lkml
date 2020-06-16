@@ -812,6 +812,13 @@ explore: sel_members {
     sql_on: ${sel_performances.performanceid}=${sel_performances_tickettypes_tieredprices.performanceid}   ;;
   }
 
+  join: sel_performances_tickettypes_prices {
+    view_label: "AV Select Performance Prices"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_performances.performanceid}=${sel_performances_tickettypes_prices.performanceid}   ;;
+  }
+
 
   join: sel_performance_inventory {
     view_label: "AV Select Performance Inventory"

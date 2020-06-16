@@ -31,14 +31,35 @@ view: sel_performances_tickettypes_prices {
     sql: ${TABLE}.price ;;
   }
 
+
+  measure: count_price {
+    label: "Count of Unqiue Pricing"
+    type: count_distinct
+    sql: ${TABLE}.price ;;
+  }
+
   dimension: priceid {
     type: number
     value_format_name: id
     sql: ${TABLE}.priceid ;;
   }
 
+  measure: count_priceid {
+    label: "Count of Price IDs"
+    type: count_distinct
+    value_format_name: id
+    sql: ${TABLE}.priceid ;;
+  }
+
   dimension: tickettypeid {
     type: number
+    value_format_name: id
+    sql: ${TABLE}.tickettypeid ;;
+  }
+
+  measure: count_tickettypeid {
+    label: "Count of Ticket Types"
+    type: count_distinct
     value_format_name: id
     sql: ${TABLE}.tickettypeid ;;
   }
