@@ -13,7 +13,7 @@ view: sel_members {
     label: "Count Member ID"
     type: count_distinct
     sql: ${TABLE}.memberid ;;
-    drill_fields: [memberid,organizationname]
+    drill_fields: [memberid,organizationname, sel_arr.net_prorated_arr_2019]
   }
 
   dimension: _fivetran_deleted {
