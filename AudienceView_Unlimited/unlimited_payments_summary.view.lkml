@@ -86,6 +86,8 @@ view: unlimited_payments_summary {
       dimension: refund_transactions_count { type: number sql: ${TABLE}.refund_transactions_count ;; }
       dimension: other_transactions_count { type: number sql: ${TABLE}.other_transactions_count ;; }
 
+      dimension: orderpayment_order_count { type: number sql: ${TABLE}.orderpayment_order_count ;; }
+
       dimension_group: current_time {
         type: time
         timeframes: [
@@ -110,6 +112,8 @@ view: unlimited_payments_summary {
   measure:total_payment_transactions_count { type: sum sql: ${TABLE}.payment_transactions_count ;; drill_fields: [payment_facts*] }
   measure:total_refund_transactions_count { type: sum sql: ${TABLE}.refund_transactions_count ;; drill_fields: [payment_facts*] }
   measure:total_other_transactions_count { type: sum sql: ${TABLE}.other_transactions_count ;; drill_fields: [payment_facts*] }
+
+  measure:total_orderpayment_order_count { type: sum sql: ${TABLE}.orderpayment_order_count ;; drill_fields: [payment_facts*] }
 
   set: payment_facts {
     fields: [
