@@ -10,10 +10,30 @@ view: unlimited_payments_summary {
           paymentmethod_name,
           userrole_name,
           paymentmethod_type,
-          orderpayment_payment_transaction_type,
+
+          CASE
+            WHEN orderpayment_payment_transaction_type = '0' THEN 'Payment'
+            WHEN orderpayment_payment_transaction_type = '1' THEN 'Refund'
+            ELSE 'Unknown'
+          END as orderpayment_payment_transaction_type,
+
           ( amount / 100.00 ) as payment_amount,
           orderpayment_transaction_count,
+          orderpayment_order_count,
           facts.default_currency as default_currency,
+          SUM(CASE
+              WHEN orderpayment_payment_transaction_type = '0' THEN 1
+              ELSE 0
+          END) as payment_transactions_count,
+          SUM(CASE
+              WHEN orderpayment_payment_transaction_type = '1' THEN 1
+              ELSE 0
+          END) as refund_transactions_count,
+          SUM(CASE
+              WHEN orderpayment_payment_transaction_type <> '0'
+                AND orderpayment_payment_transaction_type <> '1' THEN 1
+              ELSE 0
+          END) as other_transactions_count,
           SUM(CASE
               WHEN facts.default_currency = 'CAD' THEN amount * 0.76
               WHEN facts.default_currency = 'COP' THEN amount * 0.00029
@@ -39,6 +59,7 @@ view: unlimited_payments_summary {
           orderpayment_payment_transaction_type,
           amount,
           orderpayment_transaction_count,
+          orderpayment_order_count,
           facts.default_currency
 
           ;;
@@ -58,8 +79,12 @@ view: unlimited_payments_summary {
       dimension_group: payment_date { type: time sql: ${TABLE}.payment_date ;; }
 
       dimension: orderpayment_transaction_count { type: number sql: ${TABLE}.orderpayment_transaction_count ;; }
-      dimension: payment_amount { type: number value_format_name: usd sql: ${TABLE}.payment_amount ;; }
+      dimension: payment_amount { type: number sql: ${TABLE}.payment_amount ;; }
       dimension: payment_amount_usd { type: number value_format_name: usd sql: ${TABLE}.payment_amount_usd ;; }
+
+      dimension: payment_transactions_count { type: number sql: ${TABLE}.payment_transactions_count ;; }
+      dimension: refund_transactions_count { type: number sql: ${TABLE}.refund_transactions_count ;; }
+      dimension: other_transactions_count { type: number sql: ${TABLE}.other_transactions_count ;; }
 
       dimension_group: current_time {
         type: time
@@ -79,9 +104,12 @@ view: unlimited_payments_summary {
       }
 
   measure:total_transaction_count { type: sum sql: ${TABLE}.orderpayment_transaction_count ;; drill_fields: [payment_facts*] }
-  measure:total_transaction_amount { type: sum value_format_name: usd sql: ${TABLE}.payment_amount ;; drill_fields: [payment_facts*] }
+  measure:total_transaction_amount { type: sum sql: ${TABLE}.payment_amount ;; drill_fields: [payment_facts*] }
   measure:total_transaction_amount_usd { type: sum value_format_name: usd sql: ${TABLE}.payment_amount_usd ;; drill_fields: [payment_facts*] }
 
+  measure:total_payment_transactions_count { type: sum sql: ${TABLE}.payment_transactions_count ;; drill_fields: [payment_facts*] }
+  measure:total_refund_transactions_count { type: sum sql: ${TABLE}.refund_transactions_count ;; drill_fields: [payment_facts*] }
+  measure:total_other_transactions_count { type: sum sql: ${TABLE}.other_transactions_count ;; drill_fields: [payment_facts*] }
 
   set: payment_facts {
     fields: [
