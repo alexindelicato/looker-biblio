@@ -1042,6 +1042,7 @@ dimension: transtype {
     value_format_name: usd
     type: sum
     sql: ${TABLE}.grandtotal ;;
+    drill_fields: [paymentid,transactionid,transactiontime_date,showname,showdatetime_time,grandtotal]
   }
 
   measure: CC_grand_total {
@@ -1447,6 +1448,13 @@ dimension: transtype {
   dimension: pricingamount {
     type: number
     label: "pricingamount"
+    value_format_name: usd
+    sql: ${TABLE}.pricingamount ;;
+  }
+
+  measure: sum_pricingamount {
+    type: sum
+    label: "Total Pricing Amount"
     value_format_name: usd
     sql: ${TABLE}.pricingamount ;;
   }
