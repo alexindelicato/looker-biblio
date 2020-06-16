@@ -43,6 +43,12 @@ view: sel_performances_tickettypes_prices {
     sql: ${TABLE}.tickettypeid ;;
   }
 
+  measure: count_tickettypeid {
+    type: count_distinct
+    value_format_name: id
+    sql: ${TABLE}.tickettypeid ;;
+  }
+
   measure: count {
     type: count
     drill_fields: []
