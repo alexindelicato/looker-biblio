@@ -29,6 +29,7 @@ view: sel_venue_map_seat_views {
   dimension: fileid {
     type: number
     value_format_name: id
+    primary_key: yes
     sql: ${TABLE}.fileid ;;
   }
 
@@ -39,6 +40,13 @@ view: sel_venue_map_seat_views {
 
   dimension: seatviewid {
     type: number
+    value_format_name: id
+    sql: ${TABLE}.seatviewid ;;
+  }
+
+  measure: count_seatviewid {
+    label: "Number of Seat Views"
+    type: count_distinct
     value_format_name: id
     sql: ${TABLE}.seatviewid ;;
   }

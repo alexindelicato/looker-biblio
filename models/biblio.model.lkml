@@ -840,6 +840,20 @@ explore: sel_members {
     relationship: one_to_one
     sql_on: ${sel_events.venueid}=${sel_venues.venueid} AND  ${sel_venues.deleted} IS NULL ;;
   }
+
+  join: sel_venue_maps {
+    view_label: "AV Select Venue Maps"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_venue_maps.venueid}=${sel_venues.venueid} AND  ${sel_venue_maps.deleted} IS NULL ;;
+  }
+
+  join: sel_venue_map_seat_views {
+    view_label: "AV Select Venue Map Seat Views"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_venue_maps.venuemapid}=${sel_venue_map_seat_views.venuemapid}  ;;
+  }
   }
 
   #Select Transactions
