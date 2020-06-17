@@ -51,6 +51,18 @@ view: sel_refunds {
     drill_fields: [sel_members.organizationname,orderid,sel_performances.startime_date,date_date]
   }
 
+#   measure: partial_refund {
+#     type: yesno
+#     sql: ${total_refund_amount} <> ${sel_orders.sum_totalcost} and  ${total_refund_amount} > 0  ;;
+#     required_fields: [orderid]
+#   }
+
+  dimension: partial_refund {
+    type: yesno
+    sql: ${amount} <> ${sel_orders.totalcost} and  ${amount} > 0  ;;
+  }
+
+
   measure:: 2020_total_refund_amount {
     type: sum_distinct
     value_format_name: usd
@@ -223,6 +235,13 @@ view: sel_refunds {
   dimension: trans_id {
     type: string
     sql: ${TABLE}.trans_id ;;
+  }
+
+  measure: count_refund {
+    label: "Count of Partial Refunds Per Order"
+    type: count_distinct
+    sql: ${orderid} ;;
+    drill_fields: [refundid, sel_members.organizationname,sel_orders.id,sel_orders.totalcost,amount]
   }
 
   measure: count {
