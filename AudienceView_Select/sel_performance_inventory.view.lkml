@@ -63,6 +63,11 @@ view: sel_performance_inventory {
       sql: ${TABLE}.id ;;
     }
 
+  measure: count_performances {
+    type: count_distinct
+    sql: ${TABLE}.id ;;
+  }
+
     dimension: client_name {
       type: string
       sql: ${TABLE}.client_name ;;
