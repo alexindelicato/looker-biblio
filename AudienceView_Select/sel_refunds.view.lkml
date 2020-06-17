@@ -244,6 +244,23 @@ view: sel_refunds {
     drill_fields: [refundid, sel_members.organizationname,sel_orders.id,sel_orders.totalcost,amount]
   }
 
+  measure: 2019_count_refunds_donations {
+    label: "2019 Number of Ticket to Donation Conversions"
+    type: count_distinct
+    sql: ${refundid} ;;
+    drill_fields: [refundid, sel_members.organizationname,sel_orders.id,sel_orders.totalcost,amount]
+
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+
+    filters: {
+      field: refundtype
+      value: "15"
+    }
+  }
+
   measure: count {
     type: count
     drill_fields: [refundid, orders.id]
