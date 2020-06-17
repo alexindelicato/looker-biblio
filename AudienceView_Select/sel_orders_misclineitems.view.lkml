@@ -324,6 +324,7 @@ view: sel_orders_misclineitems {
     type: sum_distinct
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    drill_fields: [sel_members.organizationname,orderid,date_date,total]
   }
 
   measure: total_tipjar {
