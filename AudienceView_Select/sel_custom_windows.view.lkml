@@ -109,6 +109,12 @@ view: sel_custom_windows {
     sql: ${TABLE}.themeid ;;
   }
 
+  measure: count_windowsid {
+    type: count_distinct
+    sql: ${TABLE}.custom_windowsid ;;
+    drill_fields: [custom_windowsid, name]
+  }
+
   measure: count {
     type: count
     drill_fields: [custom_windowsid, name]

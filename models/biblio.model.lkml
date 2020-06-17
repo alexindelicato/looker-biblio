@@ -574,6 +574,13 @@ explore: sel_members {
     sql_on: ${sel_members.memberid} = ${sel_etickettemplates.memberid} and ${sel_etickettemplates.deleted} IS NULL ;;
   }
 
+  join: sel_custom_windows {
+    view_label: "AV Select Custom Windows"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid} = ${sel_custom_windows.memberid} and ${sel_custom_windows.deleted} IS NULL ;;
+  }
+
   join: sel_agent_to_members {
     view_label: "AV Select Agents to Members"
     type: left_outer
