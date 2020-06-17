@@ -239,6 +239,13 @@ view: sel_transactions {
             else 0 end ;;
   }
 
+  measure: 2019_total_conveniencefee_usd {
+    label: "2019 Total Convenience Fee (USD)"
+    type: number
+    value_format_name: usd
+    sql: ${2019_arr_conveniencefee}+${sel_memberships_sales.2019_arr_conveniencefee} ;;
+  }
+
   measure: total_arr_conveniencefee {
     label: "Rolling ARR Convenience Fee (USD)"
     type: sum_distinct
