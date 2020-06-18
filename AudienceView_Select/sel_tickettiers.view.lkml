@@ -69,12 +69,19 @@ view: sel_tickettiers {
   dimension: tierid {
     type: number
     value_format_name: id
+    primary_key: yes
     sql: ${TABLE}.tierid ;;
   }
 
   dimension: tiervisibility {
     type: string
     sql: ${TABLE}.tiervisibility ;;
+  }
+
+  measure: count_tiers_with_rules {
+    type: count_distinct
+    sql: ${TABLE}.tierid ;;
+    drill_fields: [name]
   }
 
   measure: count {
