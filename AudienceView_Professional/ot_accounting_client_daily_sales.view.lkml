@@ -552,6 +552,7 @@ measure: annual_recurring_revenue {
     type: sum
     sql: if(${is_sale}, ${item_ovationtix_fee}, 0) ;;
     value_format_name: usd
+    drill_fields: [ot_orders.order_id,credit_card_fees, ovationtix_service_fees,ovationtix_phone_room_fees, Total_fees]
   }
 
 
