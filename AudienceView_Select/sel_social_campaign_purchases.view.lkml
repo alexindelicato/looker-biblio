@@ -28,9 +28,9 @@ view: sel_social_campaign_purchases {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
-  dimension: created {
-    type: number
-    sql: ${TABLE}.created ;;
+  dimension_group: created {
+    type: time
+    sql: timestamp_seconds(${TABLE}.created) ;;
   }
 
   dimension: memberid {
@@ -39,7 +39,8 @@ view: sel_social_campaign_purchases {
   }
 
   dimension: orderid {
-    type: string
+    type: number
+    value_format_name: id
     sql: ${TABLE}.orderid ;;
   }
 
@@ -59,8 +60,15 @@ view: sel_social_campaign_purchases {
   }
 
   dimension: purchaseamount {
-    type: string
-    sql: ${TABLE}.purchaseamount ;;
+    type: number
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.purchaseamount as FLOAT64),2) ;;
+  }
+
+  measure: total_purchaseamount {
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.purchaseamount as FLOAT64),2) ;;
   }
 
   dimension: referrerpatronid {
@@ -76,6 +84,12 @@ view: sel_social_campaign_purchases {
   dimension: socialcampaignpurchasesid {
     type: string
     sql: ${TABLE}.socialcampaignpurchasesid ;;
+  }
+
+  measure: count_orders {
+    type: count_distinct
+    sql: safe_cast(${TABLE}.orderid as INT64) ;;
+    drill_fields: [social_campaign_purchasesid]
   }
 
   measure: count {
