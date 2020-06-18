@@ -40,6 +40,7 @@ view: sel_performances_tickettypes_prices {
 
   dimension: priceid {
     type: number
+    primary_key: yes
     value_format_name: id
     sql: ${TABLE}.priceid ;;
   }
