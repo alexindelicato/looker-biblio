@@ -9,7 +9,7 @@ view: ot_order_detail {
   measure: total_fees {
     label: "Total Fees"
     type: number
-    value_format_name: usd_0
+    value_format_name: usd
     sql:  ${ot_service_fee_total}+${processing_fee_total} ;;
   }
 
