@@ -553,6 +553,14 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_members_merchantaccounts.memberid} and ${sel_members_merchantaccounts.deleted} is NULL and ${sel_members_merchantaccounts.verified} = "Y"  ;;
   }
 
+  join: sel_patrons {
+    view_label: "AV Select Patron"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid} = ${sel_patrons.memberid} and ${sel_patrons.deleted} is NULL;;
+  }
+
+
   join: sel_arr {
     view_label: "AV Select ARR"
     type: left_outer
@@ -810,6 +818,13 @@ explore: sel_members {
     type: left_outer
     relationship: many_to_many
     sql_on: ${sel_tags_to_events.tagid}=${sel_tags.tagid} AND ${sel_tags.deleted} IS NULL ;;
+  }
+
+  join: sel_tickettiers {
+    view_label: "AV Select Ticket Tiers"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid} = ${sel_tickettiers.memberid} and ${sel_tickettiers.deleted} is NULL;;
   }
 
   join: sel_performances {
