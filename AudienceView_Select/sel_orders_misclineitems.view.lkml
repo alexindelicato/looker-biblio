@@ -226,6 +226,21 @@ view: sel_orders_misclineitems {
       value: "Y"
     }
   }
+
+  measure: total_tipjar_servicefee_usd {
+    label: "Total Tipjar Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end  ;;
+
+    filters: {
+      field: donation
+      value: "Y"
+    }
+  }
+
   measure: 2019_total_tipjar_servicefee {
     label: "2019 Total Tipjar Service Fee"
     type: sum_distinct
@@ -340,7 +355,7 @@ view: sel_orders_misclineitems {
   }
 
   measure: total_mlm {
-    label: "Total MLM (exclusing tipjar)"
+    label: "Total MLM (excluding tipjar)"
     type: sum_distinct
     value_format_name: usd
     sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)*0.72
@@ -405,6 +420,17 @@ view: sel_orders_misclineitems {
       value: "2019"
     }
   }
+
+  measure: count_mli {
+    label: "Number of MLI (excludes tipjar)"
+    type: count_distinct
+    sql: ${id} ;;
+    drill_fields: [id, name, orders.id, exchanges.exchangeid]
+    filters: {
+      field: donation
+      value: "N"
+    }
+    }
 
   measure: count_2020_mli {
     label: "2020 Number of MLI (excludes tipjar)"

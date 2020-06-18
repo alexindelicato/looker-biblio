@@ -224,6 +224,12 @@ view: sel_giftcardissued {
     sql: ${TABLE}.uid ;;
   }
 
+  measure: count_gift_cards {
+    label: "Number of Gift Cards"
+    type: count_distinct
+    sql: ${uid} ;;
+    }
+
   measure: 2020_count {
     label: "2020 Number of Gift Cards"
     type: count_distinct

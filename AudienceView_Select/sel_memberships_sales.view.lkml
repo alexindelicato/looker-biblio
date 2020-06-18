@@ -38,6 +38,15 @@ view: sel_memberships_sales {
     sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
   }
 
+  measure: sum_membership_amount_usd {
+    label: "Total Membership Amount (USD)"
+    value_format_name: usd
+    type: sum_distinct
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*1
+                else 0 end ;;
+  }
+
   measure: 2019_sum_amount {
     label: "2019 Membership Sales (USD)"
     type: sum_distinct
@@ -329,6 +338,12 @@ view: sel_memberships_sales {
     }
   }
 
+  measure: count_membership_sales {
+    label: "# of Memberships Sold"
+    type: count_distinct
+    sql: ${TABLE}.membershipsaleid ;;
+    drill_fields: [orderid]
+  }
 
   measure: count {
     type: count

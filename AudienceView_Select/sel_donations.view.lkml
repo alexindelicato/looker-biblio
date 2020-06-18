@@ -9,6 +9,12 @@ view: sel_donations {
     sql: ${TABLE}.donationid ;;
   }
 
+  measure: count_donationid {
+    label: "# of Donations"
+    type: count_distinct
+    sql: ${TABLE}.donationid ;;
+  }
+
   dimension: _fivetran_deleted {
     type: yesno
     sql: ${TABLE}._fivetran_deleted ;;
@@ -40,9 +46,18 @@ view: sel_donations {
   }
 
   measure: sum_donation_amount {
+    label: "Total Donation Amount"
     type: sum
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+  }
+
+  measure: sum_donation_amount_usd {
+    label: "Total Donation Amount (USD)"
+    type: sum
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)* 0.72
+         else round(safe_cast(${TABLE}.amount as FLOAT64), 2) *1 END ;;
   }
 
   measure: 2019_sum_donation_amount {
