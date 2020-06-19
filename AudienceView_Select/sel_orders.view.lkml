@@ -50,6 +50,13 @@ view: sel_orders {
     sql: ${TABLE}.agentid ;;
   }
 
+  dimension: sold_by {
+    type: string
+    sql: case when ${TABLE}.agentid is NULL then "Ticket Line"
+         when ${TABLE}.agentid is NOT NULL then "Ticket Agent"
+        Else "Research" End;;
+  }
+
   dimension: billingreminded {
     type: string
     sql: ${TABLE}.billingreminded ;;
