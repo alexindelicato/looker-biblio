@@ -560,6 +560,13 @@ explore: sel_members {
     sql_on: ${sel_members.memberid} = ${sel_patrons.memberid} and ${sel_patrons.deleted} is NULL;;
   }
 
+  join: sel_patrons_groups {
+    view_label: "AV Select Patron Groups"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_patrons_groups.patronid} = ${sel_patrons.patronid} and ${sel_patrons_groups.deleted} is NULL;;
+  }
+
 
   join: sel_arr {
     view_label: "AV Select ARR"

@@ -10,7 +10,7 @@ view: sel_patrons_groups {
   }
 
   measure: count_patrons_groupsid {
-    label: "Number of Patron Groups Created"
+    label: "Number of Unique Patron Groups Created"
     type: count_distinct
     sql: ${TABLE}.patrons_groupsid ;;
   }
@@ -46,6 +46,13 @@ view: sel_patrons_groups {
 
   dimension: patrongroupid {
     type: number
+    value_format_name: id
+    sql: ${TABLE}.patrongroupid ;;
+  }
+
+  measure:: count_patrongroupid {
+    label: "Number of Patron Groups"
+    type: count_distinct
     value_format_name: id
     sql: ${TABLE}.patrongroupid ;;
   }

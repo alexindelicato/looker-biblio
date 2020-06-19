@@ -55,6 +55,7 @@ view: sel_patrons {
   }
 
   measure: count {
+    label: "Total # of Patrons"
     type: count
     drill_fields: [patronid]
   }
