@@ -892,6 +892,12 @@ view: sel_transactions {
     sql: ${TABLE}.type ;;
   }
 
+  measure: count_type {
+    label: "# of Price Types Sold"
+    type: count_distinct
+    sql: ${TABLE}.type ;;
+  }
+
   dimension: venueid {
     type: string
     sql: ${TABLE}.venueid ;;
