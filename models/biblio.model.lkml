@@ -806,6 +806,13 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_events.memberid} AND  ${sel_events.deleted} IS NULL ;;
   }
 
+  join: sel_tickettypes {
+    view_label: "AV Select Price Types"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_tickettypes.eventid}=${sel_events.eventid} ;;
+  }
+
   join: sel_tags_to_events {
     view_label: "AV Select Event Tag Join"
     type: left_outer
