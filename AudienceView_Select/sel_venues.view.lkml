@@ -214,6 +214,12 @@ dimension: venue_type  {
     }
   }
 
+  measure: count_venueid {
+    type: count_distinct
+    sql: ${TABLE}.venueid ;;
+    drill_fields: [venueid, name, events.count]
+  }
+
   measure: count_GA_venues_types {
     label: "# of GA Venues"
     type: count_distinct
