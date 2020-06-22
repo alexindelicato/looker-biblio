@@ -561,10 +561,17 @@ explore: sel_members {
   }
 
   join: sel_patrons_groups {
-    view_label: "AV Select Patron Groups"
+    view_label: "AV Select Patron Groups Join"
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_patrons_groups.patronid} = ${sel_patrons.patronid} and ${sel_patrons_groups.deleted} is NULL;;
+  }
+
+  join: sel_patrongroups {
+    view_label: "AV Select Patron Groups"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_patrons_groups.patrongroupid} = ${sel_patrongroups.patrongroupid} ;;
   }
 
 
