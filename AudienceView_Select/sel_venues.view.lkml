@@ -73,6 +73,29 @@ dimension: venue_type  {
     sql: ${TABLE}.dateformatpermissions ;;
   }
 
+  measure: count_non_standard_venue_times {
+    type: count_distinct
+    sql: ${TABLE}.venueid ;;
+    drill_fields: [venueid,name,custom_date]
+    filters: {
+      field: dateformatpermissions
+      value: "NOT 0"
+    }
+  }
+
+  dimension: custom_date {
+    type: string
+    sql: case when ${TABLE}.dateformatpermissions = 0 then "Standard"
+         when ${TABLE}.dateformatpermissions = 1 then "PERFORMANCE_DATE_FORMAT_HAS_END_TIME"
+         when ${TABLE}.dateformatpermissions = 2 then "PERFORMANCE_DATE_FORMAT_HIDE_TIME"
+         when ${TABLE}.dateformatpermissions = 3 then "PERFORMANCE_DATE_FORMAT_HAS_END_TIME and PERFORMANCE_DATE_FORMAT_HIDE_TIME"
+         when ${TABLE}.dateformatpermissions = 4 then "PERFORMANCE_DATE_FORMAT_CUSTOM_MESSAGE"
+         when ${TABLE}.dateformatpermissions = 5 then "PERFORMANCE_DATE_FORMAT_CUSTOM_MESSAGE and PERFORMANCE_DATE_FORMAT_HAS_END_TIME"
+         when ${TABLE}.dateformatpermissions = 6 then "PERFORMANCE_DATE_FORMAT_CUSTOM_MESSAGE and PERFORMANCE_DATE_FORMAT_HIDE_TIME"
+         when ${TABLE}.dateformatpermissions = 7 then "PERFORMANCE_DATE_FORMAT_CUSTOM_MESSAGE and PERFORMANCE_DATE_FORMAT_HAS_END_TIME and PERFORMANCE_DATE_FORMAT_HIDE_TIME"
+    else 'research' end;;
+  }
+
   dimension: deleted {
     type: number
     sql: ${TABLE}.deleted ;;
