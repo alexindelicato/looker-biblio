@@ -62,7 +62,8 @@ view: unlimited_payments_summary {
               WHEN facts.default_currency = 'PHP' THEN amount * 0.020
               WHEN facts.default_currency = 'USD' THEN amount * 1
               ELSE 0
-          END)/100 as payment_amount_usd
+          END)/100 as payment_amount_usd,
+          paymentmethod_gateway
           FROM audienceview.unlimited_payments_summary as payments
           INNER JOIN audienceview.unlimited_client_facts as facts on facts.client_name = payments.client_name
 
@@ -81,7 +82,8 @@ view: unlimited_payments_summary {
           amount,
           orderpayment_transaction_count,
           orderpayment_order_count,
-          facts.default_currency
+          facts.default_currency,
+          paymentmethod_gateway
 
           ;;
 
@@ -92,6 +94,8 @@ view: unlimited_payments_summary {
       dimension: client_name { type: string sql: ${TABLE}.client_name ;; }
       dimension: sf_client_name { type: string sql: ${TABLE}.sf_client_name ;; }
       dimension: paymentmethod_name { type: string sql: ${TABLE}.paymentmethod_name ;; }
+      dimension: paymentmethod_gateway { type: string sql: ${TABLE}.paymentmethod_gateway ;; }
+
       dimension: userrole_name { type: string sql: ${TABLE}.userrole_name ;; }
       dimension: paymentmethod_type { type: string sql: ${TABLE}.paymentmethod_type ;; }
       dimension: default_currency { type: string sql: ${TABLE}.default_currency ;; }
