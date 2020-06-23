@@ -556,14 +556,14 @@ dimension: transtype {
     label: "Total ARR (USD) Non FX"
     type: number
     value_format_name: usd
-    sql: ${billing_service_fee_usd} + ${billing_credit_card_fee_usd} ;;
+    sql: ${billing_service_fee_usd} + ${billing_credit_card_fee_usd}  ;;
   }
 
   measure: total_arr_usd_fx {
     label: "Total ARR (USD)"
     type: number
     value_format_name: usd
-    sql: ${billing_service_fee_fx} + ${billing_credit_card_fee_fx} ;;
+    sql: ${billing_service_fee_fx} + ${billing_credit_card_fee_fx}  ;;
     }
 
   measure: 2019_total_arr_usd {
