@@ -92,7 +92,8 @@ view: unlimited_payments_summary {
 
       dimension: UUID  { type: string sql: ${TABLE}.UUID  ;; }
       dimension: client_name { type: string sql: ${TABLE}.client_name ;; }
-      dimension: sf_client_name { type: string sql: ${TABLE}.sf_client_name ;; }
+      dimension: sf_account_name { type: string sql: ${TABLE}.sf_account_name ;; }
+      dimension: sf_account_id { type: string sql: ${TABLE}.sf_account_id ;; }
       dimension: paymentmethod_name { type: string sql: ${TABLE}.paymentmethod_name ;; }
       dimension: paymentmethod_gateway { type: string sql: ${TABLE}.paymentmethod_gateway ;; }
 
