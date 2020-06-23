@@ -27,7 +27,7 @@ view: sel_arr {
   }
 
   measure: sum_net_prorated_arr_2019 {
-    type: sum
+    type: sum_distinct
     value_format_name: usd
     sql: ${TABLE}.net_prorated_arr_2019 ;;
   }
