@@ -590,6 +590,13 @@ view: sel_transactions {
     sql: ${total_servicefee_usd} + ${total_conveniencefee_usd} ;;
   }
 
+  measure: total_arr_local {
+    label: "Total ARR (Local Currency)"
+    type: number
+    value_format_name: usd
+    sql: ${total_servicefee} + ${total_conveniencefee} + ${sel_orders_misclineitems.total_servicefee} + ${sel_memberships_sales.total_membership_arr} + ${sel_donations.donation_servicefee} ;;
+  }
+
   measure: total_arr {
     label: "Total ARR (USD)"
     type: number
