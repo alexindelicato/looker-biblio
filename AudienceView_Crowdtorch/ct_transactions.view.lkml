@@ -1930,6 +1930,11 @@ dimension: transtype {
     sql: CAST(${TABLE}.transactiontime AS TIMESTAMP) ;;
   }
 
+  measure: min_order_date {
+    type: date
+    sql: MIN(${transactiontime_raw}) ;;
+  }
+
   measure: last_order_date {
     label: "Last Order Date"
     type: date
