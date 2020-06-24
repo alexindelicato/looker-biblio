@@ -93,6 +93,11 @@ view: sel_orders {
     sql: max${date_raw} ;;
   }
 
+  measure: min_order_date {
+    type: time
+    sql: min${date_raw} ;;
+  }
+
   dimension: deliveryid {
     type: string
     sql: ${TABLE}.deliveryid ;;
