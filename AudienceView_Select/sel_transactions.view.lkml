@@ -272,6 +272,19 @@ view: sel_transactions {
     }
     }
 
+  measure: 2018_arr_conveniencefee {
+    label: "2018 Ticket Convenience Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2018"
+    }
+  }
+
     measure: 2020_arr_conveniencefee {
       label: "2020 Ticket Convenience Fee (USD)"
       type: sum_distinct
@@ -479,6 +492,20 @@ view: sel_transactions {
     }
   }
 
+  measure: 2018_total_quantity {
+    label: "2018 Number of Tickets"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+    filters: {
+      field: voided
+      value: "NULL"
+    }
+    filters: {
+      field: date_year
+      value: "2018"
+    }
+  }
+
   measure: total_quantity_refunded {
     label: "# of Tickets Refunded"
     type: sum_distinct
@@ -621,6 +648,16 @@ view: sel_transactions {
     required_fields: [sf_accounts.annual_subscription_fee_c,sf_accounts.additional_data_import_information_c]
  }
 
+  measure: 2018_arr {
+    label: "2018 ARR (USD)"
+    type: number
+    value_format_name: usd
+    sql: case when ${sf_accounts.additional_data_import_information_c} = "new" then ${sf_accounts.annual_contract_value}
+         when ${sf_accounts.measure_annual_subscription_fee_c} is NOT NULL then  ${2018_total_arr_servicefee} + ${2018_arr_conveniencefee} + ${sel_orders_misclineitems.2018_total_arr_servicefee} + ${sel_memberships_sales.2018_total_membership_arr} + ${sel_giftcardissued.2018_total_servicefee_usd} + ${sel_donations.2018_donation_servicefee} + ${sf_accounts.measure_annual_subscription_fee_c}
+         else ${2018_total_arr_servicefee} + ${2018_arr_conveniencefee} + ${sel_orders_misclineitems.2018_total_arr_servicefee} + ${sel_memberships_sales.2018_total_membership_arr} + ${sel_giftcardissued.2018_total_servicefee_usd} + ${sel_donations.2018_donation_servicefee} end;;
+    required_fields: [sf_accounts.annual_subscription_fee_c,sf_accounts.additional_data_import_information_c]
+  }
+
   measure: 2019_arr_junetodec {
     label: "June 2019 to Dec 2019 ARR (USD)"
     type: number
@@ -686,6 +723,19 @@ view: sel_transactions {
     filters: {
       field: date_year
       value: "2019"
+    }
+  }
+
+  measure: 2018_total_arr_servicefee {
+    label: "2019 Ticket Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2018"
     }
   }
 
@@ -796,6 +846,22 @@ view: sel_transactions {
     filters: {
       field: date_year
       value: "2019"
+    }
+    filters: {
+      field: transactiontype
+      value: "not 4"
+    }
+  }
+
+  measure: 2018_total_amount {
+    label: "2018 Earned Income (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+      else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
+    filters: {
+      field: date_year
+      value: "2018"
     }
     filters: {
       field: transactiontype

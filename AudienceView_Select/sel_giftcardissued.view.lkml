@@ -169,6 +169,20 @@ view: sel_giftcardissued {
     }
   }
 
+  measure: 2018_total_servicefee_usd {
+    label: "2018 Total Gift Card Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: issuedon_year
+      value: "2018"
+    }
+  }
+
+
   measure: 2020_total_servicefee_usd {
     label: "2020 Total Gift Card Service Fee (USD)"
     type: sum_distinct

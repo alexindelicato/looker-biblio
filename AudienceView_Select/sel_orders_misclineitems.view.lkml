@@ -203,7 +203,7 @@ view: sel_orders_misclineitems {
   }
 
   measure: 2019_total_arr_servicefee {
-    label: "Rolling  Misc Item Service Fee (USD)"
+    label: "2019 Rolling  Misc Item Service Fee (USD)"
     type: sum_distinct
     value_format_name: usd
     sql:    case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
@@ -214,6 +214,20 @@ view: sel_orders_misclineitems {
       value: "2019"
     }
   }
+
+  measure: 2018_total_arr_servicefee {
+    label: "2018 Rolling  Misc Item Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:    case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end  ;;
+    filters: {
+      field: date_year
+      value: "2018"
+    }
+  }
+
 
   measure: total_tipjar_servicefee {
     label: "Total Tipjar Service Fee"
@@ -254,6 +268,22 @@ view: sel_orders_misclineitems {
     filters: {
       field: date_year
       value: "2019"
+    }
+  }
+
+  measure: 2018_total_tipjar_servicefee {
+    label: "2018 Total Tipjar Service Fee"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.servicefee as FLOAT64), 2) ;;
+
+    filters: {
+      field: donation
+      value: "Y"
+    }
+    filters: {
+      field: date_year
+      value: "2018"
     }
   }
 
@@ -464,6 +494,24 @@ view: sel_orders_misclineitems {
     filters: {
       field: date_year
       value: "2019"
+    }
+  }
+
+  measure: 2018_total_tipjar {
+    label: "2018 Total Tipjar Donation"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+      else round(safe_cast(${TABLE}.total as FLOAT64), 2) *1 END;;
+
+    filters: {
+      field: donation
+      value: "Y"
+    }
+
+    filters: {
+      field: date_year
+      value: "2018"
     }
   }
 

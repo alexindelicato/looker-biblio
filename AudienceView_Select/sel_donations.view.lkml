@@ -73,6 +73,19 @@ view: sel_donations {
     }
   }
 
+  measure: 2018_sum_donation_amount {
+    label: "2018 Donation Income (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)* 0.72
+      else round(safe_cast(${TABLE}.amount as FLOAT64), 2) *1 END ;;
+
+    filters: {
+      field: created_year
+      value: "2018"
+    }
+  }
+
   measure: total_donation_amoount{
     label: "Total Donations (including tipjar)"
     type: number
@@ -85,6 +98,13 @@ view: sel_donations {
     type: number
     value_format_name: usd
     sql: ${2019_sum_donation_amount}+${sel_orders_misclineitems.2019_total_tipjar} ;;
+  }
+
+  measure: 2018_total_donation_amoount{
+    label: "2018 Contributed Income (USD)"
+    type: number
+    value_format_name: usd
+    sql: ${2018_sum_donation_amount}+${sel_orders_misclineitems.2018_total_tipjar} ;;
   }
 
   measure: 2020_total_donation_amoount{
@@ -131,6 +151,17 @@ view: sel_donations {
     }
   }
 
+  measure: 2018_commissionableservicefee {
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*0.7673
+      when ${sel_members.useinternetma} = "N" and ${sel_members.useretailma} = "N"  and ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.commissionableservicefee as FLOAT64), 2)*1 END ;;
+    filters: {
+      field: created_year
+      value: "2018"
+    }
+  }
+
   measure: junetodec_total_commissionableservicefee {
     label: "June 2019 to Dec 2019 Revenue Service Fee (VMA)"
     type: sum_distinct
@@ -144,6 +175,12 @@ view: sel_donations {
   }
 
   measure: 2019_cc_processing_service_fee {
+    type: number
+    value_format_name: usd
+    sql: ${2019_donation_servicefee}-${2019_commissionableservicefee} ;;
+  }
+
+  measure: 2018_cc_processing_service_fee {
     type: number
     value_format_name: usd
     sql: ${2019_donation_servicefee}-${2019_commissionableservicefee} ;;
@@ -263,6 +300,19 @@ view: sel_donations {
     filters: {
       field: created_year
       value: "2019"
+    }
+  }
+
+  measure: 2018_donation_servicefee {
+    label: "2019 Donation Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+            when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+            else 0 end;;
+    filters: {
+      field: created_year
+      value: "2018"
     }
   }
 
