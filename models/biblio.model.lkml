@@ -1100,6 +1100,20 @@ explore: sel_orders {
       sql_on: ${sel_members.memberid}=${sel_payments_donations.memberid} AND ${sel_members.testmode}="N" AND ${sel_members.active}="Y" ;;
     }
 
+    join: sel_performances {
+      view_label: "AV Select Performances"
+      type: left_outer
+      relationship: one_to_many
+      sql_on: ${sel_performances.performanceid}=${sel_performances.eventid}  ;;
+    }
+
+    join: sel_events {
+      view_label: "AV Select Series"
+      type: left_outer
+      relationship: one_to_many
+      sql_on: ${sel_members.memberid}=${sel_events.memberid} ;;
+    }
+
     join: sel_transactions {
       view_label: "AV Select Transactions"
       type: left_outer

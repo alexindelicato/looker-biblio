@@ -208,6 +208,26 @@ view: sel_orders {
     drill_fields: [id, transactions.count, refunds.count, exchanges.count, orders_misclineitems.count, sel_members.organizationname,sel_events.title,sel_performances.starttime_time]
     }
 
+  measure: count_past_orders {
+    type: count_distinct
+    sql: ${TABLE}.id ;;
+    drill_fields: [id, transactions.count, refunds.count, exchanges.count, orders_misclineitems.count, sel_members.organizationname,sel_events.title,sel_performances.starttime_time]
+    filters: {
+      field: date_date
+      value: "before today"
+    }
+  }
+
+  measure: count_present_orders {
+    type: count_distinct
+    sql: ${TABLE}.id ;;
+    drill_fields: [id, transactions.count, refunds.count, exchanges.count, orders_misclineitems.count, sel_members.organizationname,sel_events.title,sel_performances.starttime_time]
+    filters: {
+      field: sel_performances.starttime_date
+      value: "after today"
+    }
+  }
+
   measure: count {
     type: count
     drill_fields: [id, transactions.count, refunds.count, exchanges.count, orders_misclineitems.count]
