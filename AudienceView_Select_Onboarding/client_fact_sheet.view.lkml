@@ -98,7 +98,7 @@ view: client_fact_sheet {
   }
 
   dimension: sf_accounts_client_name {
-    label: "CLient Name"
+    label: "Client Name"
     type: string
     sql: ${TABLE}.sf_accounts_client_name ;;
   }
