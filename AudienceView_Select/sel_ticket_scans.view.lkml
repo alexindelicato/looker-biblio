@@ -69,4 +69,13 @@ view: sel_ticket_scans {
     sql: ${TABLE}.ticketscanid ;;
     drill_fields: []
   }
+  measure: count_ticket_scans_2019 {
+    label: "Scan Count in 2019"
+    type: count_distinct
+    sql: ${TABLE}.ticketscanid ;;
+  filters: {
+    field: date_year
+    value: "2019"
+  }
+  }
 }

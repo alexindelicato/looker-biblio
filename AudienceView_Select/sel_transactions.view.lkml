@@ -492,6 +492,34 @@ view: sel_transactions {
     }
   }
 
+  measure: total_future_ticket {
+    label: "Number of Tickets for a Future Performance"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+    filters: {
+      field: voided
+      value: "NULL"
+    }
+    filters: {
+      field: sel_performances.starttime_date
+      value: "after today"
+    }
+  }
+
+  measure: total_past_ticket {
+    label: "Number of Tickets for a Past Performance"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+    filters: {
+      field: voided
+      value: "NULL"
+    }
+    filters: {
+      field: sel_performances.starttime_date
+      value: "before today"
+    }
+  }
+
   measure: 2018_total_quantity {
     label: "2018 Number of Tickets"
     type: sum_distinct

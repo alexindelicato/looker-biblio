@@ -15,6 +15,28 @@ view: sel_performances {
     drill_fields: [sel_members.organizationname, sel_events.title, starttime_time]
   }
 
+  measure: count_past_performanceid {
+    label: "Past Performance"
+    type: count_distinct
+    sql: ${TABLE}.performanceid ;;
+    drill_fields: [sel_members.organizationname, sel_events.title, starttime_time]
+    filters: {
+      field: starttime_date
+      value: "before today"
+    }
+  }
+
+  measure: count_future_performanceid {
+    label: "Future Performance"
+    type: count_distinct
+    sql: ${TABLE}.performanceid ;;
+    drill_fields: [sel_members.organizationname, sel_events.title, starttime_time]
+    filters: {
+      field: starttime_date
+      value: "after today"
+    }
+  }
+
   dimension: _fivetran_deleted {
     type: yesno
     sql: ${TABLE}._fivetran_deleted ;;
