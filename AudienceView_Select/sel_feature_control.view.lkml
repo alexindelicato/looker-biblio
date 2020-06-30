@@ -47,6 +47,12 @@ view: sel_feature_control {
     sql: ${TABLE}.name ;;
   }
 
+  dimension: has_website_manager {
+    label: "Has Website Manager"
+    type: yesno
+    sql: ${TABLE}.name = 'SiteLine 2.0' ;;
+  }
+
   measure: feature_list {
     type: list
     list_field: name
