@@ -21,6 +21,12 @@ view: sel_website_manager {
     sql: ${TABLE}.av_select_feature_name ;;
   }
 
+  dimension: has_website_manager {
+    label: "Has Website Manager"
+    type: yesno
+    sql: ${TABLE}.av_select_feature_name = 'SiteLine 2.0' ;;
+  }
+
   dimension: sf_accounts_salesforce_id {
     type: string
     sql: ${TABLE}.sf_accounts_salesforce_id ;;
