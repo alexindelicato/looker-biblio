@@ -86,6 +86,20 @@ view: sel_donations {
     }
   }
 
+  measure: sum_donation_amount_three_years {
+    label: "Donation Income (Last 3 Years)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)* 0.72
+      else round(safe_cast(${TABLE}.amount as FLOAT64), 2) *1 END ;;
+
+    filters: {
+      field: created_year
+      value: "3 years"
+    }
+  }
+
+
   measure: total_donation_amoount{
     label: "Total Donations (including tipjar)"
     type: number
@@ -251,6 +265,34 @@ view: sel_donations {
     sql: ${TABLE}.patronid ;;
     drill_fields: [sel_members.organizationname,orderid,amount]
   }
+
+  measure: count_recurring_patronid {
+    label: "# of Patrons with Recurring Donations"
+    type: count_distinct
+    sql: ${TABLE}.patronid ;;
+    drill_fields: [sel_members.organizationname,orderid,amount]
+    filters: {
+      field: donation_type
+      value: "Recurring Donation"
+    }
+  }
+
+  measure: count_recurring_patronid_three_years {
+    label: "# of Patrons with Recurring Donations (Last 3 years)"
+    type: count_distinct
+    sql: ${TABLE}.patronid ;;
+    drill_fields: [sel_members.organizationname,orderid,amount]
+    filters: {
+      field: donation_type
+      value: "Recurring Donation"
+    }
+    filters: {
+      field: created_year
+      value: "3 years"
+    }
+  }
+
+
 
   dimension: recognitiondescription {
     type: string
