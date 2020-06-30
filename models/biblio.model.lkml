@@ -1614,4 +1614,25 @@ explore: competitor {
   }
 }
 
+#Select On Boarding
+explore: client_fact_sheet {
+  label: "AV Select On-Boarding"
+  group_label: "Project Biblio"
+  view_label: "Select Client Fact"
+
+  join: order_fact_sheet {
+    view_label: "Select Order Fact"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${client_fact_sheet.sf_accounts_salesforce_id} = ${order_fact_sheet.sf_accounts_salesforce_id} ;;
+  }
+  join: sel_website_manager {
+    view_label: "Select Website Fact"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${client_fact_sheet.sf_accounts_salesforce_id} = ${sel_website_manager.sf_accounts_salesforce_id} ;;
+  }
+
+}
+
   #-----------------------
