@@ -28,9 +28,9 @@ view: sel_patrons {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
-  dimension: created {
-    type: number
-    sql: ${TABLE}.created ;;
+  dimension_group: created {
+    type: time
+    sql: timestamp_seconds(${TABLE}.created) ;;
   }
 
   dimension: deleted {
@@ -52,6 +52,17 @@ view: sel_patrons {
     type: number
     value_format_name: id
     sql: ${TABLE}.patronnumid ;;
+  }
+
+  measure: count_created_patrons {
+    label: "Total # of Patrons (Past 3 Years)"
+    type: count
+    drill_fields: [patronid]
+
+    filters: {
+      field: created_year
+      value: "3 years"
+    }
   }
 
   measure: count {
