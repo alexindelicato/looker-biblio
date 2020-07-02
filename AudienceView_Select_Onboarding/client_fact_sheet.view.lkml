@@ -40,6 +40,12 @@ view: client_fact_sheet {
     sql: ${TABLE}.av_select_login_days_inactive ;;
   }
 
+  dimension: has_laughstub {
+    label: "Has LaughStub Integration"
+    type: string
+    sql: ${TABLE}.has_laughstub ;;
+  }
+
   dimension_group: av_select_login_last_login {
     label: "Last login Date"
     type: time
