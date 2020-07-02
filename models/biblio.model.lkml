@@ -1632,6 +1632,12 @@ explore: client_fact_sheet {
     relationship: one_to_one
     sql_on: ${client_fact_sheet.sf_accounts_salesforce_id} = ${sel_website_manager.sf_accounts_salesforce_id} ;;
   }
+  join: sel_donation_campaigns_facts {
+    view_label: "Select Donation Fact"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${client_fact_sheet.sf_accounts_salesforce_id} = ${sel_donation_campaigns_facts.sf_accounts_salesforce_id} ;;
+  }
 
 }
 
