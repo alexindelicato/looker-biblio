@@ -255,6 +255,17 @@ view: sel_donations {
     sql: ${TABLE}.orderid ;;
   }
 
+  measure: count_donation_orders {
+    label: "Count 2019 Orders with Donations"
+    type: count_distinct
+    value_format_name: id
+    sql: ${TABLE}.orderid ;;
+    filters: {
+      field: created_year
+      value: "2019"
+    }
+  }
+
   dimension: patronid {
     type: string
     sql: ${TABLE}.patronid ;;
