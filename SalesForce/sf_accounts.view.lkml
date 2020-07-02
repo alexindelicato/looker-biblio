@@ -643,6 +643,11 @@ view: sf_accounts {
     sql: ${TABLE}.cohort_c ;;
   }
 
+  dimension: BTI_cohort_c {
+    type: string
+    sql: ${TABLE}.BTI_Cohort_c ;;
+  }
+
   dimension_group: completed_on_boarding_date_c {
     type: time
     timeframes: [
