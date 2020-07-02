@@ -644,6 +644,7 @@ view: sf_accounts {
   }
 
   dimension: BTI_cohort_c {
+    label: "BTI Cohort Object ID"
     type: string
     sql: ${TABLE}.BTI_Cohort_c ;;
   }
