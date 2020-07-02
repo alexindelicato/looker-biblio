@@ -46,6 +46,12 @@ view: client_fact_sheet {
     sql: ${TABLE}.has_laughstub ;;
   }
 
+  dimension: payment_processing {
+    label: "Payment Processing"
+    type: string
+    sql: ${TABLE}.payment_processing ;;
+  }
+
   dimension_group: av_select_login_last_login {
     label: "Last login Date"
     type: time
