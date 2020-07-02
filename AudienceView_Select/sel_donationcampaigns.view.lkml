@@ -10,8 +10,19 @@ view: sel_donationcampaigns {
   }
 
   measure: count_campaigns {
+    label: "Number of Donation Campaigns Created"
     type: count_distinct
     sql: ${TABLE}.donationcampaignid ;;
+  }
+
+  measure: count_campaigns_three_years {
+    label: "Number of Donation Campaigns Created (Last 3 Years)"
+    type: count_distinct
+    sql: ${TABLE}.donationcampaignid ;;
+   filters: {
+    field: created_year
+    value: "3 years"
+  }
   }
 
   dimension: _fivetran_deleted {
@@ -43,10 +54,12 @@ view: sel_donationcampaigns {
     sql: ${TABLE}.companylogoid ;;
   }
 
-  dimension: created {
-    type: number
-    sql: ${TABLE}.created ;;
+  dimension_group: created {
+    type: time
+    sql: timestamp_seconds(${TABLE}.created) ;;
   }
+
+
 
   dimension: deleted {
     type: number
