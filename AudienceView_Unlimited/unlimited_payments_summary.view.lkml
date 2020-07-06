@@ -142,7 +142,6 @@ view: unlimited_payments_summary {
 
   measure:total_amount { type: sum value_format_name: decimal_2 sql: ${TABLE}.payment_processed_amount + ${TABLE}.refund_processed_amount;; drill_fields: [payment_facts*] }
 
-
   measure:total_payment_transactions_count { type: sum sql: ${TABLE}.payment_transactions_count ;; drill_fields: [payment_facts*] }
   measure:total_refund_transactions_count { type: sum sql: ${TABLE}.refund_transactions_count ;; drill_fields: [payment_facts*] }
   measure:total_other_transactions_count { type: sum sql: ${TABLE}.other_transactions_count ;; drill_fields: [payment_facts*] }
