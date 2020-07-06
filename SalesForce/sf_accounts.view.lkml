@@ -230,6 +230,14 @@ view: sf_accounts {
     sql: ${TABLE}.annual_contract_value_c ;;
   }
 
+  measure: sum_annual_contract_value_c {
+    type: sum_distinct
+    value_format_name: usd
+    label: "Sum Annual Contract Value"
+    sql: ${TABLE}.annual_contract_value_c ;;
+  }
+
+
   dimension: annual_contract_value_conversion {
     type: number
     value_format_name: usd
@@ -340,6 +348,16 @@ view: sf_accounts {
     type: number
     sql: ${TABLE}.arr_c ;;
   }
+
+  measure: acv_arr {
+    label: "ACV/ARR"
+    type: number
+    sql: case when ${TABLE}.type = "Client - AudiencView Unlimited" then ${sum_annual_contract_value_c}
+     when ${TABLE}.type IN ("Client - AudiencView Unlimited", "Client - AudienceView Professional") then ${arr} end;;
+    value_format_name: usd
+    required_fields: [sf_accounts.type]
+  }
+
 
   measure: arr {
     label: "ARR"
