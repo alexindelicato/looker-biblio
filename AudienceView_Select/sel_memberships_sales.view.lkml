@@ -60,6 +60,19 @@ view: sel_memberships_sales {
     }
   }
 
+  measure: 2018_sum_amount {
+    label: "2018 Membership Sales (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)*1
+                else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2018"
+    }
+  }
+
   measure: 2020_sum_amount {
     label: "2020 Membership Sales (USD)"
     type: sum_distinct
@@ -367,6 +380,16 @@ view: sel_memberships_sales {
     filters: {
       field: date_year
       value: "2019"
+    }
+  }
+
+  measure: 2018_count {
+    label: "2018 Number of Membership Sales"
+    type: count_distinct
+    sql: ${membershipid} ;;
+    filters: {
+      field: date_year
+      value: "2018"
     }
   }
 

@@ -755,7 +755,7 @@ view: sel_transactions {
   }
 
   measure: 2018_total_arr_servicefee {
-    label: "2019 Ticket Service Fee (USD)"
+    label: "2018 Ticket Service Fee (USD)"
     type: sum_distinct
     value_format_name: usd
     sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673

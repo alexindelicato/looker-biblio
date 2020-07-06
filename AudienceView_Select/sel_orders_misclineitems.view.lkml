@@ -321,6 +321,24 @@ view: sel_orders_misclineitems {
     }
   }
 
+  measure: 2018_total_servicefee {
+    label: "2018 Total MLI Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end  ;;
+
+      filters: {
+        field: donation
+        value: "N"
+      }
+      filters: {
+        field: date_year
+        value: "2018"
+      }
+    }
+
   measure: 2020_total_tipjar_servicefee {
     label: "2020 Total Tipjar Service Fee"
     type: sum_distinct
@@ -416,6 +434,24 @@ view: sel_orders_misclineitems {
     }
   }
 
+  measure: 2018_total_mlm {
+    label: "2018 Total MLI (USD excludes tipjar)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)*1
+          else 0 end  ;;
+
+      filters: {
+        field: donation
+        value: "N"
+      }
+      filters: {
+        field: date_year
+        value: "2018"
+      }
+    }
+
   measure: 2020_total_mli {
     label: "2020 Total MLI (USD excludes tipjar)"
     type: sum_distinct
@@ -448,6 +484,22 @@ view: sel_orders_misclineitems {
     filters: {
       field: date_year
       value: "2019"
+    }
+  }
+
+  measure: count_2018_mli {
+    label: "2018 Number of MLI (excludes tipjar)"
+    type: count_distinct
+    sql: ${id} ;;
+    drill_fields: [id, name, orders.id, exchanges.exchangeid]
+    filters: {
+      field: donation
+      value: "N"
+    }
+
+    filters: {
+      field: date_year
+      value: "2018"
     }
   }
 
@@ -557,6 +609,21 @@ view: sel_orders_misclineitems {
     value: "2019"
   }
 }
+
+  measure: count_2018_tipjar {
+    type: count_distinct
+    sql: ${id} ;;
+    drill_fields: [id, name, orders.id, exchanges.exchangeid]
+    filters: {
+      field: donation
+      value: "Y"
+    }
+
+    filters: {
+      field: date_year
+      value: "2018"
+    }
+  }
 
   measure: count_2020_tipjar {
     type: count_distinct

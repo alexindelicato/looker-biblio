@@ -357,7 +357,7 @@ view: sel_donations {
   }
 
   measure: 2018_donation_servicefee {
-    label: "2019 Donation Service Fee (USD)"
+    label: "2018 Donation Service Fee (USD)"
     type: sum_distinct
     value_format_name: usd
     sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
@@ -482,6 +482,20 @@ view: sel_donations {
       field: created_year
       value: "2020"
     }
+  }
+
+  measure: count_2018_donations {
+    type: count_distinct
+    sql: ${donationid} ;;
+    filters: {
+      field: created_year
+      value: "2018"
+    }
+  }
+
+  measure: 2018_total_number_donations {
+    type:  number
+    sql:  ${count_2018_donations} + ${sel_orders_misclineitems.count_2018_tipjar};;
   }
 
   measure: 2019_total_number_donations {
