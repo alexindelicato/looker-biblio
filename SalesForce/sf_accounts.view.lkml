@@ -50,6 +50,18 @@ view: sf_accounts {
     sql: ${TABLE}.BTI_ID_c  ;;
   }
 
+  dimension: Default_Migration_Path__c {
+    label: "Default Migration Path"
+    type: string
+    sql: ${TABLE}.Default_Migration_Path_c  ;;
+  }
+
+  dimension: bti_default_migration_path_c {
+    label: "BTI Default Migration Path"
+    type: string
+    sql: ${TABLE}.bti_default_migration_path_c;;
+  }
+
   dimension: BTI_2019_ARR__c {
     label: "2019 Net ARR (USD)"
     type: number
