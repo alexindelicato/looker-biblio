@@ -145,6 +145,12 @@ view: client_fact_sheet {
     sql: ${TABLE}.sf_accounts_region_state ;;
   }
 
+  dimension: Default_Migration_Path__c {
+    label: "Default Migration Path"
+    type: string
+    sql: ${TABLE}.default_migration_path  ;;
+  }
+
   dimension: sf_accounts_salesforce_id {
     label: "Salesforce ID"
     type: string
