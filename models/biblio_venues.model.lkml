@@ -32,6 +32,12 @@ explore: created_orders {
   view_label: "AudienceView Created Orders"
   }
 
+explore: av_arr_acv {
+  label: "AudienceView  ARR/ACV by State"
+  group_label: "Project Biblio"
+  view_label: "AudienceView  ARR/ACV by State"
+}
+
 explore: unlimited_payments_summary {
   label: "Unlimited Payments Summary"
   group_label: "Project Biblio"

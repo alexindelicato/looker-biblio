@@ -59,6 +59,7 @@ dimension: state {
 
   dimension: arr {
     type: number
+    label: "Total ARR/ACV by State"
     value_format_name: usd
     sql: ${TABLE}.arr ;;
   }
