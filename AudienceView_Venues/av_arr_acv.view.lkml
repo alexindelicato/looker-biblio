@@ -17,9 +17,7 @@ ELSE 0
 END AS annual_contract_value_c,
 CASE WHEN
  sf_accounts.type  IN
- ('Client - AudienceView Campus',
- 'Client - AudienceView Grad',
- 'Client - AudienceView Professional')
+ ('Client - AudienceView Professional')
 THEN COALESCE(SUM(sf_accounts.arr_c ), 0)
 ELSE 0
 END AS arr_c,
