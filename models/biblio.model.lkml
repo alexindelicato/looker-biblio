@@ -222,6 +222,20 @@ explore: ot_orders {
     sql_on: ${ot_orders.order_id}=${ot_order_detail.order_id} ;;
   }
 
+  join: pro_consumer_package {
+    view_label: "AV Pro Consumer Package"
+    type: left_outer
+    relationship: many_to_many
+    sql_on: ${ot_orders.consumer_id}=${pro_consumer_package.consumer_id} ;;
+  }
+
+  join: pro_package_price_point {
+    view_label: "AV Pro Package Price Point"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${pro_package_price_point.package_id}=${pro_consumer_package.package_id} ;;
+  }
+
 
   join: pro_ticket {
     view_label: "AV Pro Tickets"
