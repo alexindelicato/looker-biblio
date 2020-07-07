@@ -291,6 +291,14 @@ explore: ot_orders {
     relationship: one_to_many
     sql_on: ${ot_performance.id}=${ot_order_detail.performance_id} ;;
   }
+
+  join: pro_performance_settlement {
+    view_label: "AV Pro Performance Settlement"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_performance.id}=${pro_performance_settlement.performance_id} ;;
+  }
+
   join: ot_production {
     view_label: "AV Pro Production"
     type: left_outer
