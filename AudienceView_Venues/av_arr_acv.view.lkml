@@ -5,7 +5,7 @@ view: av_arr_acv{
 state,
 SUM(annual_contract_value_c) as annual_contract_value_c,
 SUM(arr_c) as arr_c,
-SUM(annual_contract_value_c + arr_c ) AS ARR
+SUM(annual_contract_value_c + arr_c + net_arr_2019 ) AS ARR
 FROM
 (
 SELECT
@@ -19,11 +19,16 @@ CASE WHEN
  sf_accounts.type  IN
  ('Client - AudienceView Campus',
  'Client - AudienceView Grad',
- 'Client - AudienceView Professional',
- 'Client - AudienceView Select', 'Client - CrowdTorch')
+ 'Client - AudienceView Professional')
 THEN COALESCE(SUM(sf_accounts.arr_c ), 0)
 ELSE 0
-END AS arr_c
+END AS arr_c,
+CASE WHEN
+ sf_accounts.type  IN
+ ('Client - AudienceView Select', 'Client - CrowdTorch')
+THEN COALESCE(SUM(sf_accounts.BTI_2019_ARR_c ), 0)
+ELSE 0
+END AS net_arr_2019
 FROM `fivetran-ovation-tix-warehouse.new_salesforce.account`  AS sf_accounts
 WHERE 1 = 1
 AND (sf_accounts.billing_country = 'United States')
