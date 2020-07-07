@@ -97,6 +97,12 @@ view: ot_payment_segment {
     sql: ${TABLE}.payment_type_id ;;
   }
 
+  dimension: payment_type {
+    type: string
+    sql: case when ${TABLE}.payment_type_id IN (1,2,3) then "Credit Card"
+    Else "Local" End;;
+  }
+
   dimension: pn_ref {
     type: string
     sql: ${TABLE}.pn_ref ;;

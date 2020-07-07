@@ -323,6 +323,13 @@ explore: ot_orders {
     relationship: many_to_one
     sql_on: ${ot_payment_segment.order_id}=${ot_orders.order_id};;
   }
+
+  join: pro_paymenttype {
+    view_label: "AV Pro Payment Type"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_payment_segment.payment_type_id}=${pro_paymenttype.paymenttype_id};;
+  }
   join: ot_report_crm {
     view_label: "AV Pro Report CRM"
     type: left_outer
