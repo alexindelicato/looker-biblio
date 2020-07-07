@@ -222,6 +222,13 @@ explore: ot_orders {
     sql_on: ${ot_orders.order_id}=${ot_order_detail.order_id} ;;
   }
 
+  join: pro_ticket_type {
+    view_label: "AV Pro Ticket Type"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${pro_ticket_type.ticket_type_id}=${ot_order_detail.ticket_type_id} ;;
+  }
+
   join: pro_consumer_package {
     view_label: "AV Pro Consumer Package"
     type: left_outer
