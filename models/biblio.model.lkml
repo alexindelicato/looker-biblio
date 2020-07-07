@@ -225,8 +225,8 @@ explore: ot_orders {
   join: pro_consumer_package {
     view_label: "AV Pro Consumer Package"
     type: left_outer
-    relationship: many_to_many
-    sql_on: ${ot_orders.consumer_id}=${pro_consumer_package.consumer_id} ;;
+    relationship: one_to_one
+    sql_on: ${ot_order_detail.consumer_pac_id}=${pro_consumer_package.id} ;;
   }
 
   join: pro_package_price_point {
