@@ -340,6 +340,18 @@ view: ot_production {
     sql: ${TABLE}.version ;;
   }
 
+  dimension: to_publish_to_cp {
+    label: "Publish to Listing Service"
+    type: yesno
+    sql: ${TABLE}.to_publish_to_cp = 1 ;;
+  }
+
+  dimension: to_publish_by_scheduler {
+    label: "Publish to Listing Service Via Scheduler"
+    type: yesno
+    sql: ${TABLE}.to_publish_by_scheduler = 1 ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
