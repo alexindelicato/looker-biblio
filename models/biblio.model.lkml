@@ -510,6 +510,47 @@ explore: ot_client {
     sql_on: ${pro_department.client_id}= ${ot_client.client_id};;
   }
 
+  join: ot_production {
+    view_label: "AV Pro Production"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ot_production.client_id}=${ot_client.client_id} ;;
+  }
+
+  join: ot_performance {
+    view_label: "AV Pro Performance"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${ot_performance.production_id}=${ot_production.production_id} ;;
+  }
+
+  join: ot_performance_stats_consumed {
+    view_label: "AV Pro Performance Sold Seat Manifest"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_performance.id}=${ot_performance_stats_consumed.performance_id} AND ${ot_performance_stats_consumed._fivetran_deleted} = false ;;
+  }
+
+  join: ot_performance_stats_total {
+    view_label: "AV Pro Performance Seat Manifest"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_performance.id}=${ot_performance_stats_total.performance_id} AND ${ot_performance_stats_total._fivetran_deleted} = false ;;
+  }
+
+  join: pro_production_genre {
+    view_label: "AV Pro Production Genre"
+    type:  left_outer
+    relationship: one_to_one
+    sql_on: ${pro_production_genre.production_id}=${ot_production.production_id} ;;
+  }
+  join: pro_genres {
+    view_label: "AV Pro Genre"
+    type:  left_outer
+    relationship: one_to_one
+    sql_on: ${pro_production_genre.genre_id}=${pro_genres.genre_id} ;;
+  }
+
   join: ot_client_enabled_feature {
     view_label: "AV Pro Client Features"
     type:left_outer
