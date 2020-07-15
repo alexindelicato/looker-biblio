@@ -517,6 +517,20 @@ explore: ot_client {
     sql_on: ${ot_production.client_id}=${ot_client.client_id} ;;
   }
 
+  join: pro_production_experience_type {
+    view_label: "AV Pro Production/Experience Join"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ot_production.production_id}=${pro_production_experience_type.production_id} ;;
+  }
+
+  join: pro_experience_types {
+    view_label: "AV Pro Experience"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${pro_experience_types.experience_type_id}=${pro_production_experience_type.experience_type_id} ;;
+  }
+
   join: ot_performance {
     view_label: "AV Pro Performance"
     type: left_outer
