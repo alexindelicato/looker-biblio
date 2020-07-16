@@ -149,11 +149,31 @@ view: sample {
   measure: count_cases {
     type: count_distinct
     sql: ${TABLE}.case_id ;;
-    drill_fields: []
+    drill_fields: [detail*]
   }
 
   measure: count {
     type: count
-    drill_fields: []
+    drill_fields: [detail*]
+  }
+  set: detail {
+    fields: [
+      case_id,
+      age,
+      country,
+      date_report_date,
+      health_region,
+      locally_acquired,
+      method_note,
+      province,
+      provincial_case_id,
+      report_week_time,
+      sex,
+      travel_history_country,
+      travel_yn,
+      additional_info,
+      additional_source,
+      case_source
+    ]
   }
 }
