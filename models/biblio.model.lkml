@@ -1733,3 +1733,11 @@ explore: client_fact_sheet {
 }
 
   #-----------------------
+
+
+
+explore: sample {
+  label: "Sample Work"
+  group_label: "Project Biblio"
+  view_label: "Cases"
+}
