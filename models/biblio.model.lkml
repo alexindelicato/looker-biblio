@@ -1740,4 +1740,11 @@ explore: sample {
   label: "Sample Work"
   group_label: "Project Biblio"
   view_label: "Cases"
+
+  join: symptoms {
+    view_label: "Symptoms"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${symptoms.case_identifier_number} = ${sample.case_id} ;;
+  }
 }
