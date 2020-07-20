@@ -479,7 +479,7 @@ view: sel_transactions {
   }
 
   measure: 2019_total_quantity {
-    label: "2019 Number of Tickets"
+    label: "2019 Number of Tickets (With Comps)"
     type: sum_distinct
     sql: ${TABLE}.quantity ;;
     filters: {
@@ -490,6 +490,30 @@ view: sel_transactions {
       field: date_year
       value: "2019"
     }
+  }
+
+
+  measure: 2019_total_quantity_no_comps {
+    label: "2019 Number of Tickets (Without Comps)"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+    filters: {
+      field: voided
+      value: "NULL"
+    }
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  filters: {
+    field: transactiontype
+    value: "NOT 4"
+  }
+  }
+
+  measure: 2019_total_comps {
+    type: number
+    sql: ${2019_total_quantity}-${2019_total_quantity_no_comps} ;;
   }
 
   measure: total_future_ticket {
@@ -521,7 +545,7 @@ view: sel_transactions {
   }
 
   measure: 2018_total_quantity {
-    label: "2018 Number of Tickets"
+    label: "2018 Number of Tickets (With Comps)"
     type: sum_distinct
     sql: ${TABLE}.quantity ;;
     filters: {
@@ -532,6 +556,29 @@ view: sel_transactions {
       field: date_year
       value: "2018"
     }
+  }
+
+  measure: 2018_total_quantity_without_comps {
+    label: "2018 Number of Tickets (Without Comps)"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+    filters: {
+      field: voided
+      value: "NULL"
+    }
+    filters: {
+      field: date_year
+      value: "2018"
+    }
+    filters: {
+      field: transactiontype
+      value: "NOT 4"
+    }
+  }
+
+  measure: 2018_total_comps {
+    type: number
+    sql: ${2018_total_quantity}-${2018_total_quantity_without_comps} ;;
   }
 
   measure: total_quantity_refunded {
