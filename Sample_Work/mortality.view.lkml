@@ -71,7 +71,7 @@ view: mortality {
 
   measure: mortality_rate {
     type: number
-    sql: (${count_cases} / ${canada_population})*1000000 ;;
+    sql: (${count_deaths} / ${canada_population})*1000000 ;;
     value_format_name: decimal_2
   }
 
@@ -95,7 +95,8 @@ view: mortality {
     drill_fields: []
   }
 
-  measure: count_cases {
+  measure: count_deaths {
+    label: "Count Deaths"
     type: count_distinct
     sql: ${case_id} ;;
     drill_fields: []
