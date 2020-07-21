@@ -64,6 +64,17 @@ view: mortality {
     sql: ${TABLE}.health_region ;;
   }
 
+  dimension: canada_population {
+    type: number
+    sql: 37590000 ;;
+  }
+
+  measure: mortality_rate {
+    type: number
+    sql: (${count_cases} / ${canada_population})*1000000 ;;
+    value_format_name: decimal_2
+  }
+
   dimension: province {
     type: string
     sql: ${TABLE}.province ;;

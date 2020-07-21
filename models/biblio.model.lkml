@@ -1747,4 +1747,10 @@ explore: sample {
     relationship: one_to_one
     sql_on: ${symptoms.case_identifier_number} = ${sample.case_id} ;;
   }
+  join: mortality {
+    view_label: "Mortality"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${mortality.case_id} = ${sample.case_id} ;;
+  }
 }
