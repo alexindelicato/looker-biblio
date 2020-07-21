@@ -1430,6 +1430,12 @@ dimension: transtype {
     sql: ${TABLE}.paymentid ;;
   }
 
+  measure: count_paymentid {
+    label: "Count Orders"
+    type: count_distinct
+    sql: ${TABLE}.paymentid ;;
+  }
+
   dimension: paymenttype {
     type: string
     sql: ${TABLE}.paymenttype ;;
@@ -1901,6 +1907,11 @@ dimension: transtype {
 
   dimension: transactionid {
     type: string
+    sql: ${TABLE}.transactionid ;;
+  }
+
+  measure: count_transactionid {
+    type: count_distinct
     sql: ${TABLE}.transactionid ;;
   }
 
