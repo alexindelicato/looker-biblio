@@ -296,6 +296,7 @@ view: sf_accounts {
     type: number
     value_format_name: usd
     sql: ${TABLE}.annual_subscription_fee_c ;;
+    required_fields: [annual_subscription_fee_c]
   }
 
 
