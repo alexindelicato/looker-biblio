@@ -45,7 +45,7 @@ view: sel_agents {
 
   dimension_group: deleted {
     type: time
-    sql: timestamp_seconds${TABLE}.deleted ;;
+    sql: timestamp_seconds(${TABLE}.deleted) ;;
   }
 
   dimension: email {
