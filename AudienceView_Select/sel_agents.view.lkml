@@ -43,9 +43,9 @@ view: sel_agents {
     sql: ${TABLE}.defaulttaeventview ;;
   }
 
-  dimension: deleted {
-    type: number
-    sql: ${TABLE}.deleted ;;
+  dimension_group: deleted {
+    type: time
+    sql: timestamp_seconds${TABLE}.deleted ;;
   }
 
   dimension: email {
