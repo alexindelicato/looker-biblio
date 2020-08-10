@@ -400,6 +400,11 @@ view: sel_members {
     sql: ${TABLE}.isticketagent ;;
   }
 
+  dimension: full_name {
+    type: string
+    sql: concat( ${TABLE}.firstname, " ", ${TABLE}.lastname)  ;;
+  }
+
   dimension_group: last {
     type: time
     sql: timestamp_seconds(${TABLE}.last) ;;
@@ -408,6 +413,16 @@ view: sel_members {
   measure: max_last_login {
     type: time
     sql: MAX(${last_raw}) ;;
+  }
+
+  measure: count_admin_logins {
+    type: count_distinct
+    sql: ${full_name} ;;
+    drill_fields: [firstname, lastname, organizationname]
+    filters: {
+      field: last_date
+      value: "last 14 days"
+    }
   }
 
   dimension: lastdonationdate {

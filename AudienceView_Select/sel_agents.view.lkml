@@ -141,6 +141,23 @@ view: sel_agents {
     sql: ${TABLE}.visits ;;
   }
 
+
+  measure: count_agents {
+    type: count_distinct
+    sql: ${TABLE}.agentid ;;
+    drill_fields: [agentid, firstname, lastname, agent_to_members.count]
+    filters: {
+      field: last_date
+      value: "last 14 days"
+    }
+  }
+
+  measure: count_all_users {
+    type: number
+    sql: ${count} + 1 ;;
+    drill_fields: [agentid, firstname, lastname, agent_to_members.count]
+  }
+
   measure: count {
     type: count
     drill_fields: [agentid, firstname, lastname, agent_to_members.count]
