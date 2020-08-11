@@ -85,6 +85,20 @@ explore: sf_opportunity {
   view_label: "Salesforce Opportunity"
   fields: [ALL_FIELDS*]
   sql_always_where: ${sf_opportunity.is_deleted}= FALSE;;
+
+  join: sf_accounts {
+    view_label: "Salesforce Accounts"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_opportunity.account_id} and ${sf_accounts.is_deleted} = FALSE;;
+  }
+
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+  }
 }
 
 # salesforce campaign explore as primary table
