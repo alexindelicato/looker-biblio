@@ -2454,6 +2454,16 @@ dimension: contract_agreement_c {
   sql: ${TABLE}.contract_agreement_c ;;
 }
 
+  dimension: split_product_gaps_risks_c {
+    type: string
+    sql: With vd as (SELECT id,
+          split(sf_risk_opp.product_gaps_and_risks_c, ";")  AS risk
+      FROM `fivetran-ovation-tix-warehouse.new_salesforce.opportunity` as sf_risk_opp
+      )
+
+          select id, v as ve from vd, unnest(risk) v;;
+  }
+
 set: detail {
   fields: [
     id,

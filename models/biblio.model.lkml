@@ -86,6 +86,12 @@ explore: sf_opportunity {
   fields: [ALL_FIELDS*]
   sql_always_where: ${sf_opportunity.is_deleted}= FALSE;;
 
+  join: sf_risk_list {
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_opportunity.id} = ${sf_risk_list.id} ;;
+  }
+
   join: sf_accounts {
     view_label: "Salesforce Accounts"
     type: left_outer
