@@ -664,6 +664,13 @@ explore: sel_members {
     sql_on: ${sel_members.memberid}=${sel_members_merchantaccounts.memberid} and ${sel_members_merchantaccounts.deleted} is NULL and ${sel_members_merchantaccounts.verified} = "Y"  ;;
   }
 
+  join: sel_members_merchantaccounts_params {
+    view_label: "AV Select Merchant Accounts"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members_merchantaccounts.membermerchantaccountid} = ${sel_members_merchantaccounts_params.membermerchantaccountid} ;;
+  }
+
   join: sel_patrons {
     view_label: "AV Select Patron"
     type: left_outer
