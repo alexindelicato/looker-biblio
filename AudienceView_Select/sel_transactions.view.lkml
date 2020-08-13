@@ -1005,6 +1005,10 @@ view: sel_transactions {
       field: transactiontype
       value: "NOT 4"
     }
+    filters: {
+      field: sel_refunds.refundid
+      value: "NULL"
+    }
   }
 
   measure: total_amount_usd {
