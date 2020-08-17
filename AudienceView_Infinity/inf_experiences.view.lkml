@@ -60,6 +60,7 @@ view: inf_experiences {
   }
 
   dimension: name {
+    label: "Experience Name"
     type: string
     sql: ${TABLE}.name ;;
   }

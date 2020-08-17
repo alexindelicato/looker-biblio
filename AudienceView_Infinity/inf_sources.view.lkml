@@ -29,6 +29,7 @@ view: inf_sources {
   }
 
   dimension: name {
+    label: "Source Name"
     type: string
     sql: ${TABLE}.name ;;
   }

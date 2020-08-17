@@ -45,6 +45,7 @@ view: inf_places {
   }
 
   dimension: name {
+    label: "Venue Name"
     type: string
     sql: ${TABLE}.name ;;
   }
