@@ -1757,6 +1757,69 @@ explore: client_fact_sheet {
     relationship: one_to_one
     sql_on: ${client_fact_sheet.sf_accounts_salesforce_id} = ${sel_donation_campaigns_facts.sf_accounts_salesforce_id} ;;
   }
+}
+
+#Infinity Project
+  explore: inf_listings {
+    label: "AV Infinity"
+    group_label: "Project Biblio"
+    view_label: "Infinity Listings"
+
+    join: inf_experiences {
+      view_label: "Infinity Experiences"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${inf_listings.experience_id} = ${inf_experiences.experience_id} ;;
+    }
+    join: inf_experiences_to_sources {
+      view_label: "Infinity Experiences To Sources"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${inf_experiences.experience_id} = ${inf_experiences_to_sources.experience_id} ;;
+    }
+    join: inf_sources {
+      view_label: "Infinity Sources"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${inf_sources.source_id} = ${inf_experiences_to_sources.source_id} ;;
+    }
+    join: inf_organizations {
+      view_label: "Infinity Organizations"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${inf_organizations.organization_id} = ${inf_listings.organization_id} ;;
+    }
+    join: inf_experiences_types {
+      view_label: "Infinity Experience Types"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${inf_experiences.experience_id} = ${inf_experiences_types.experience_id} ;;
+    }
+    join: inf_places_to_sources {
+      view_label: "Infinity Places to Sources"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${inf_places_to_sources.source_id} = ${inf_sources.source_id} ;;
+    }
+    join: inf_places{
+      view_label: "Infinity Places"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${inf_places_to_sources.place_id} = ${inf_places.place_id} ;;
+    }
+    join: sf_accounts {
+      view_label: "SF Accounts"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${inf_organizations.remote_tenant_id}=${sf_accounts.looker_join_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
+    }
+    join: sf_net_arr_2019 {
+      view_label: "Salesforce 2019 NET ARR"
+      type: left_outer
+      relationship: one_to_many
+      fields: []
+      sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+    }
 
 }
 
