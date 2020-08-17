@@ -1805,7 +1805,7 @@ explore: client_fact_sheet {
       view_label: "Infinity Places"
       type: left_outer
       relationship: one_to_one
-      sql_on: ${inf_places_to_sources.place_id} = ${inf_places.place_id} ;;
+      sql_on: ${inf_places.place_id} = ${inf_experiences.place_id} ;;
     }
     join: sf_accounts {
       view_label: "SF Accounts"

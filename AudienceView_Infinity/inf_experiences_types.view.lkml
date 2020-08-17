@@ -38,6 +38,11 @@ view: inf_experiences_types {
     sql: ${TABLE}.type ;;
   }
 
+  measure: list_types {
+    type: list
+    list_field: type
+  }
+
   measure: count {
     type: count
     drill_fields: [experiences.experience_id, experiences.name, organizations.organization_id]

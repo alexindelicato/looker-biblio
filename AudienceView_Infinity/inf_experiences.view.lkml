@@ -49,11 +49,13 @@ view: inf_experiences {
 
   dimension: maximum_price {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.maximum_price ;;
   }
 
   dimension: minimum_price {
     type: number
+    value_format_name: usd
     sql: ${TABLE}.minimum_price ;;
   }
 
