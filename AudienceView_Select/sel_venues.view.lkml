@@ -223,7 +223,7 @@ dimension: venue_type  {
   measure: count_GA_venues_types {
     label: "# of GA Venues"
     type: count_distinct
-    sql: ${TABLE}.name ;;
+    sql: ${TABLE}.venueid ;;
     drill_fields: [venueid, name, events.count]
     filters: {
       field: admission
@@ -234,7 +234,7 @@ dimension: venue_type  {
   measure: count_mixed_venues_types {
     label: "# of Mixed Venues"
     type: count_distinct
-    sql: ${TABLE}.name ;;
+    sql: ${TABLE}.venueid ;;
     drill_fields: [venueid, name, events.count]
     filters: {
       field: admission
@@ -245,7 +245,7 @@ dimension: venue_type  {
   measure: count_reserved_venues_types {
     label: "# of Reserved Venues"
     type: count_distinct
-    sql: ${TABLE}.name ;;
+    sql: ${TABLE}.venueid ;;
     drill_fields: [venueid, name, events.count]
     filters: {
       field: admission

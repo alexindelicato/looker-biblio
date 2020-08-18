@@ -41,7 +41,18 @@ view: inf_organizations {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
+    drill_fields: [remote_tenant_id,sf_accounts.name,inf_exaperiences.name,inf_sources.name]
+  }
+
+  measure: count_organization {
+    type: count_distinct
+    sql: ${TABLE}.organization_id ;;
+    drill_fields: [remote_tenant_id,sf_accounts.name,inf_experiences.name,inf_sources.name]
+  }
+
+  dimension: client_count {
+    type: string
+    sql: "Total" ;;
   }
 
   # ----- Sets of fields for drilling ------

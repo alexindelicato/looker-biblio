@@ -1820,6 +1820,12 @@ explore: client_fact_sheet {
       fields: []
       sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
     }
+    join: sf_total_client_count {
+      view_label: "SF Total Clients"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${inf_organizations.client_count}=${sf_total_client_count.sf_accounts_client_count} ;;
+    }
 
 }
 

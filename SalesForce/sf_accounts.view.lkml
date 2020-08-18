@@ -3383,4 +3383,18 @@ view: sf_accounts {
     type: count
     drill_fields: [name, product_name,unlimited_version]
   }
+
+  dimension: client_count {
+    type: string
+    sql: "Total" ;;
+  }
+  measure: count_total_clients {
+    label: "Total Client Count"
+    type: count
+    drill_fields: [name, product_name,unlimited_version]
+    filters: {
+      field: type
+      value: "Client - AudienceView Campus,Client - AudienceView Grad,Client - AudienceView Professional,Client - AudienceView Select,Client - AudienceView Unlimited,Client - CrowdTorch,Client - Boxxo"
+    }
+  }
 }
