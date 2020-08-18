@@ -34,6 +34,13 @@ view: inf_sources {
     sql: ${TABLE}.name ;;
   }
 
+  dimension: sf_product_join {
+    label: "Product"
+    type: string
+    sql: case when ${source_id} = "3d6e25ec-19e3-42ab-a21e-b804554511e7" then "AudienceView Professional"
+         when ${source_id} = "3de7dccc-dd44-46de-bf5a-6fcdd0c94fbb" then "AudienceView Select" end;;
+  }
+
   measure: count {
     type: count
     drill_fields: [source_id, name, places_to_sources.count, organizations.count, experiences_to_sources.count]
