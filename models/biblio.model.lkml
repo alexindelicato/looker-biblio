@@ -1811,7 +1811,8 @@ explore: client_fact_sheet {
       view_label: "SF Accounts"
       type: left_outer
       relationship: one_to_one
-      sql_on: ${inf_organizations.remote_tenant_id}=${sf_accounts.looker_join_id_c} AND ${sf_accounts.is_deleted}= FALSE and ${inf_sources.sf_product_join} = ${sf_accounts.current_ticketing_solution_c} ;;
+      sql_on: ${inf_organizations.remote_tenant_id}=${sf_accounts.looker_join_id_c} AND ${sf_accounts.is_deleted}= FALSE;;
+#       and ${inf_sources.sf_product_join} = ${sf_accounts.current_ticketing_solution_c}
     }
     join: sf_net_arr_2019 {
       view_label: "Salesforce 2019 NET ARR"
