@@ -50,6 +50,20 @@ view: inf_organizations {
     drill_fields: [remote_tenant_id,sf_accounts.name,inf_experiences.name,inf_sources.name]
   }
 
+  measure: count_enhanced_organizations {
+    type: count_distinct
+    sql: ${TABLE}.organization_id ;;
+    drill_fields: [remote_tenant_id,sf_accounts.name,inf_experiences.name,inf_sources.name]
+    filters: {
+      field: inf_experiences.thumbnail
+      value: "-NULL"
+    }
+    filters: {
+      field: inf_experiences.status
+      value: "PUBLISHED"
+    }
+  }
+
   dimension: client_count {
     type: string
     sql: "Total" ;;
