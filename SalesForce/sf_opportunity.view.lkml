@@ -54,11 +54,11 @@ measure: count {
     type: sum
     value_format_name: usd
     sql: CASE
-          WHEN ${TABLE}.currency_iso_code = 'CAD' THEN ${TABLE}.new_annual_contract_value_c  * 0.76
-          WHEN ${TABLE}.currency_iso_code = 'COP' THEN ${TABLE}.new_annual_contract_value_c  * 0.00029
-          WHEN ${TABLE}.currency_iso_code = 'GBP' THEN ${TABLE}.new_annual_contract_value_c  * 1.32
-          WHEN ${TABLE}.currency_iso_code = 'PHP' THEN ${TABLE}.new_annual_contract_value_c  * 0.020
-          WHEN ${TABLE}.currency_iso_code = 'USD' THEN ${TABLE}.new_annual_contract_value_c  * 1
+          WHEN ${TABLE}.currency_iso_code = 'CAD' THEN ${sf_bti.actual_2019_total_fee_revenue_c}  * 0.76
+          WHEN ${TABLE}.currency_iso_code = 'COP' THEN ${sf_bti.actual_2019_total_fee_revenue_c}  * 0.00029
+          WHEN ${TABLE}.currency_iso_code = 'GBP' THEN ${sf_bti.actual_2019_total_fee_revenue_c}  * 1.32
+          WHEN ${TABLE}.currency_iso_code = 'PHP' THEN ${sf_bti.actual_2019_total_fee_revenue_c}  * 0.020
+          WHEN ${TABLE}.currency_iso_code = 'USD' THEN ${sf_bti.actual_2019_total_fee_revenue_c}  * 1
           ELSE 0
       END ;;
     filters: {

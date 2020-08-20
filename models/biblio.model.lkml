@@ -76,6 +76,12 @@ explore: sf_accounts {
     relationship: one_to_many
     sql_on: ${sf_user.id}=${sf_accounts.owner_id};;
   }
+  join: sf_bti {
+    view_label: "Salesforce BTI"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.id}=${sf_bti.account_c} ;;
+  }
 }
 
 # salesforce opportunity explore as primary table
@@ -104,6 +110,12 @@ explore: sf_opportunity {
     type: left_outer
     relationship: one_to_many
     sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+  }
+  join: sf_bti {
+    view_label: "Salesforce BTI"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.id}=${sf_bti.account_c} ;;
   }
 }
 
