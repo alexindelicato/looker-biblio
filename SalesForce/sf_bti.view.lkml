@@ -190,6 +190,7 @@ view: sf_bti {
 
   dimension: actual_2019_total_fee_revenue_c {
     type: number
+    label: "2019 ARR (USD)"
     value_format_name: usd
     sql: ${TABLE}.actual_2019_total_fee_revenue_c ;;
   }
