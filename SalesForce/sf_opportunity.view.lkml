@@ -31,7 +31,14 @@ measure: count {
   measure: acv_sum {
     type: sum
     value_format_name: usd
-    sql: ${TABLE}.new_annual_contract_value_c ;;
+    sql: CASE
+          WHEN ${TABLE}.currency_iso_code = 'CAD' THEN ${TABLE}.new_annual_contract_value_c  * 0.76
+          WHEN ${TABLE}.currency_iso_code = 'COP' THEN ${TABLE}.new_annual_contract_value_c  * 0.00029
+          WHEN ${TABLE}.currency_iso_code = 'GBP' THEN ${TABLE}.new_annual_contract_value_c  * 1.32
+          WHEN ${TABLE}.currency_iso_code = 'PHP' THEN ${TABLE}.new_annual_contract_value_c  * 0.020
+          WHEN ${TABLE}.currency_iso_code = 'USD' THEN ${TABLE}.new_annual_contract_value_c  * 1
+          ELSE 0
+      END ;;
     filters: {
       field: name
       value: "%BTI 2020%"
@@ -40,6 +47,7 @@ measure: count {
       field: stage_name
       value: "Closed Won"
     }
+    drill_fields: [detail*]
   }
 
   measure: acv_total_2019 {
@@ -2049,6 +2057,27 @@ dimension: new_total_contract_value_c {
   type: number
   sql: ${TABLE}.new_total_contract_value_c ;;
 }
+
+  measure: total_BTI_contract_value_c {
+    type: sum
+    value_format_name: usd
+    sql: CASE
+          WHEN ${TABLE}.currency_iso_code = 'CAD' THEN ${TABLE}.new_total_contract_value_c  * 0.76
+          WHEN ${TABLE}.currency_iso_code = 'COP' THEN ${TABLE}.new_total_contract_value_c  * 0.00029
+          WHEN ${TABLE}.currency_iso_code = 'GBP' THEN ${TABLE}.new_total_contract_value_c  * 1.32
+          WHEN ${TABLE}.currency_iso_code = 'PHP' THEN ${TABLE}.new_total_contract_value_c  * 0.020
+          WHEN ${TABLE}.currency_iso_code = 'USD' THEN ${TABLE}.new_total_contract_value_c  * 1
+          ELSE 0
+      END ;;
+    filters: {
+      field: name
+      value: "%BTI 2020%"
+    }
+    filters: {
+      field: stage_name
+      value: "Closed Won"
+    }
+  }
 
 dimension: next_step_2_c {
   type: string
