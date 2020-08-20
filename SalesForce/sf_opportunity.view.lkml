@@ -6,6 +6,48 @@ measure: count {
   drill_fields: [detail*]
 }
 
+  measure: count_won_bti {
+    type: count
+    drill_fields: [detail*]
+    filters: {
+      field: name
+      value: "%BTI 2020%"
+    }
+    filters: {
+      field: stage_name
+      value: "Closed Won"
+    }
+  }
+
+  measure: count_bti {
+    type: count
+    drill_fields: [detail*]
+    filters: {
+      field: name
+      value: "%BTI 2020%"
+    }
+  }
+
+  measure: acv_sum {
+    type: sum
+    value_format_name: usd
+    sql: ${TABLE}.new_annual_contract_value_c ;;
+    filters: {
+      field: name
+      value: "%BTI 2020%"
+    }
+    filters: {
+      field: stage_name
+      value: "Closed Won"
+    }
+  }
+
+  measure: acv_total_2019 {
+    type: number
+    value_format_name: usd
+    sql: 22000000 ;;
+  }
+
 dimension: id {
   type: string
   primary_key: yes
@@ -1704,6 +1746,7 @@ dimension: legacy_org_c {
 
 dimension: new_annual_contract_value_c {
   type: number
+  value_format_name: usd
   sql: ${TABLE}.new_annual_contract_value_c ;;
 }
 
