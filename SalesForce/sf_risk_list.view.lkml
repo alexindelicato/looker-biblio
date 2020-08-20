@@ -29,8 +29,8 @@ view: sf_risk_list {
     type: string
     label: "Product Gaps and Risks"
     sql: ${TABLE}.ve ;;
-    html:
-    <b><p style="color: red; background-color: #FFFFFF; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b> ;;
+#     html:
+#     <b><p style="color: red; background-color: #FFFFFF; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b> ;;
   }
 
   set: detail {

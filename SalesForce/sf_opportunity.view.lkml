@@ -2464,12 +2464,18 @@ dimension: contract_agreement_c {
           select id, v as ve from vd, unnest(risk) v;;
   }
 
+
+
 set: detail {
   fields: [
     id,
-    _fivetran_synced_time,
-    account_id,
-    contract_agreement_c
+    contract_agreement_c,
+    sf_accounts.name,
+    stage_name,
+    sf_risk_list.ve,
+    loss_picklist_new_saa_s_c,
+    win_loss_reason_c,
+    new_annual_contract_value_c
   ]
 }
 }
