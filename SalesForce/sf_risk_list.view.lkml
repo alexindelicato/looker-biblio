@@ -33,6 +33,15 @@ view: sf_risk_list {
 #     <b><p style="color: red; background-color: #FFFFFF; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b> ;;
   }
 
+  dimension: product_risks {
+    type: string
+    label: "Product Limitations"
+    sql: case when ${sf_opportunity.name} LIKE "%BTI 2020%" and ${TABLE}.ve IS NULL then "None"
+         else "Product Limitation" END;;
+#     html:
+#     <b><p style="color: red; background-color: #FFFFFF; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p></b> ;;
+  }
+
   set: detail {
     fields: [id, ve]
   }
