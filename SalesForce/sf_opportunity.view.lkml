@@ -2571,7 +2571,7 @@ set: detail {
     loss_picklist_new_saa_s_c,
     win_loss_reason_c,
     sf_bti.actual_2019_total_fee_revenue_c,
-    new_annual_contract_value_c
+    amount
   ]
 }
 }
