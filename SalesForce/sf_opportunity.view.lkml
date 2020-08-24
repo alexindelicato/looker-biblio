@@ -206,7 +206,7 @@ dimension: arr_c {
 }
 
 dimension: at_risk_c {
-  type: string
+  type: yesno
   sql: ${TABLE}.at_risk_c ;;
 }
 
