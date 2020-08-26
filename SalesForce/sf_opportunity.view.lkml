@@ -1867,6 +1867,7 @@ dimension: gclid_c {
 }
 
 dimension: loss_picklist_new_saa_s_c {
+  label: "At Risk/Loss Reason"
   type: string
   sql: ${TABLE}.loss_picklist_new_saa_s_c ;;
 }
