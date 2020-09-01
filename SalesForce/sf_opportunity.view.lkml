@@ -75,7 +75,7 @@ measure: count {
   measure: acv_total_2019 {
     type: number
     value_format_name: usd
-    sql: 22000000 ;;
+    sql: 14260000 ;;
   }
 
 dimension: id {
@@ -1867,6 +1867,7 @@ dimension: gclid_c {
 }
 
 dimension: loss_picklist_new_saa_s_c {
+  label: "At Risk/Loss Reason"
   type: string
   sql: ${TABLE}.loss_picklist_new_saa_s_c ;;
 }
@@ -2567,9 +2568,11 @@ set: detail {
     contract_agreement_c,
     sf_accounts.name,
     stage_name,
+    product_fit_c,
     sf_risk_list.ve,
     loss_picklist_new_saa_s_c,
     win_loss_reason_c,
+    functional_gaps_c,
     sf_bti.actual_2019_total_fee_revenue_c,
     amount
   ]
