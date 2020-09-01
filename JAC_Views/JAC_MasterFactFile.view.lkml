@@ -1,7 +1,7 @@
 # If necessary, uncomment the line below to include explore_source.
 
 
-# include: "biblio.model.lkml"
+include: "/models/biblio.model.lkml"
 
 view: JAC_MasterFactFile {
   derived_table: {
@@ -34,7 +34,7 @@ view: JAC_MasterFactFile {
         value: "Client - AudienceView Select"
       }
     }
-    sql_trigger_value: SELECT date_sub(CURRENT_DATE(), INTERVAL MOD(EXTRACT(DAYOFWEEK FROM CURRENT_DATE())+4,7) DAY) ;;
+    #sql_trigger_value: SELECT date_sub(CURRENT_DATE(), INTERVAL MOD(EXTRACT(DAYOFWEEK FROM CURRENT_DATE())+4,7) DAY) ;;
   }
   dimension: id {
     label: "SF Accounts Salesforce ID"
