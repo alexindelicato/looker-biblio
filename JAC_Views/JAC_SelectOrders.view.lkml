@@ -8,11 +8,11 @@ view: JAC_SelectOrders {
       column: id { field: sf_accounts.id }
       column: count_recurring_patronid { field: sel_donations.count_recurring_patronid }
       column: count_recurring_patronid_three_years { field: sel_donations.count_recurring_patronid_three_years }
-      column: 2019_sum_donation_amount { field: sel_donations.2019_sum_donation_amount }
+      column: sum_donation_amount_2019 { field: sel_donations.2019_sum_donation_amount }
       column: sum_donation_amount_three_years { field: sel_donations.sum_donation_amount_three_years }
       column: count_past_orders {}
       column: count_present_orders {}
-      column: 2019_total_quantity { field: sel_transactions.2019_total_quantity }
+      column: total_quantity_2019 { field: sel_transactions.2019_total_quantity }
       column: total_future_ticket { field: sel_transactions.total_future_ticket }
       column: total_past_ticket { field: sel_transactions.total_past_ticket }
       column: count_future_performanceid { field: sel_performances.count_future_performanceid }
@@ -36,7 +36,7 @@ view: JAC_SelectOrders {
     label: "AV Select Donations # of Patrons with Recurring Donations (Last 3 years)"
     type: number
   }
-  dimension: 2019_sum_donation_amount {
+  dimension: sum_donation_amount_2019 {
     label: "AV Select Donations 2019 Donation Income (USD)"
     value_format: "$#,##0.00"
     type: number
@@ -54,7 +54,7 @@ view: JAC_SelectOrders {
     label: "AV Select Orders Count Present Orders"
     type: number
   }
-  dimension: 2019_total_quantity {
+  dimension: total_quantity_2019 {
     label: "AV Select Transactions 2019 Number of Tickets"
     type: number
   }
