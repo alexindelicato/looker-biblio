@@ -26,8 +26,8 @@ view: JAC_MasterFactFile {
       column: count_GA_venues_types { field: JAC_MasterFactFile_2.count_GA_venues_types }
       column: count_mixed_venues_types { field: JAC_MasterFactFile_2.count_mixed_venues_types }
       column: count_reserved_venues_types { field: JAC_MasterFactFile_2.count_reserved_venues_types }
-      column: sel_emailcampaigns_count_campaigns { field: JAC_MasterFactFile_3.sel_emailcampaigns_count_campaigns }
-      column: sel_email_campaigns_stats_total_sent_count { field: JAC_MasterFactFile_3.sel_email_campaigns_stats_total_sent_count }
+      column: count_campaigns { field: JAC_MasterFactFile_3.sel_emailcampaigns_count_campaigns }
+      column: total_sent_count { field: JAC_MasterFactFile_3.sel_email_campaigns_stats_total_sent_count }
     }
     sql_trigger_value: SELECT date_sub(CURRENT_DATE(), INTERVAL MOD(EXTRACT(DAYOFWEEK FROM CURRENT_DATE())+4,7) DAY) ;;
   }
