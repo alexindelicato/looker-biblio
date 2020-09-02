@@ -24,6 +24,7 @@ view: JAC_MasterFactFile_1 {
       column: count { field: sel_patrons.count }
       column: count_created_patrons { field: sel_patrons.count_created_patrons }
       column: tl_gateway_c { field: sf_accounts.tl_gateway_c }
+      column: Default_Migration_Path { field: sf_accounts.Default_Migration_Path__c }
       column: count_patrongroupid { field: sel_patrons_groups.count_patrongroupid }
       filters: {
         field: sf_accounts.type
@@ -87,6 +88,9 @@ view: JAC_MasterFactFile_1 {
   }
   dimension: tl_gateway_c {
     label: "SF Accounts Payment Processing"
+  }
+  dimension: Default_Migration_Path {
+    label: "Default Migration Path"
   }
   dimension: count_patrongroupid {
     label: "AV Select Patron Groups Join Number of Patron Groups"
