@@ -16,14 +16,14 @@ view: JAC_SelectDonations {
     sql_trigger_value: SELECT date_sub(CURRENT_DATE(), INTERVAL MOD(EXTRACT(DAYOFWEEK FROM CURRENT_DATE())+4,7) DAY) ;;
   }
   dimension: count_campaigns {
-    label: "AV Select Donations Campaigns Number of Donation Campaigns Created"
+    label: "Number of Donation Campaigns Created"
     type: number
   }
   dimension: id {
     label: "SF Accounts Salesforce ID"
   }
   dimension: count_campaigns_three_years {
-    label: "AV Select Donations Campaigns Number of Donation Campaigns Created (Last 3 Years)"
+    label: "Number of Donation Campaigns Created (Last 3 Years)"
     type: number
   }
 }

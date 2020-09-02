@@ -26,38 +26,48 @@ view: JAC_MasterFactFile {
       column: count_GA_venues_types { field: JAC_MasterFactFile_2.count_GA_venues_types }
       column: count_mixed_venues_types { field: JAC_MasterFactFile_2.count_mixed_venues_types }
       column: count_reserved_venues_types { field: JAC_MasterFactFile_2.count_reserved_venues_types }
-      column: count_campaigns { field: JAC_MasterFactFile_3.count_campaigns }
-      column: total_sent_count { field: JAC_MasterFactFile_3.total_sent_count }
+      column: sel_emailcampaigns_count_campaigns { field: JAC_MasterFactFile_3.sel_emailcampaigns_count_campaigns }
+      column: sel_email_campaigns_stats_total_sent_count { field: JAC_MasterFactFile_3.sel_email_campaigns_stats_total_sent_count }
     }
     sql_trigger_value: SELECT date_sub(CURRENT_DATE(), INTERVAL MOD(EXTRACT(DAYOFWEEK FROM CURRENT_DATE())+4,7) DAY) ;;
   }
   dimension: net_prorated_arr_2019 {
-    label: "AV Select ARR Net Prorated Arr 2019"
+    label: "2019 Net Prorated ARR"
     value_format: "$#,##0.00"
     type: number
   }
   dimension: number_of_days_inactive {
-    label: "AV Select Login Days Inactive"
+    label: "# of Days Inactive"
     type: number
   }
-  dimension: max_last_login_date {
-    label: "AV Select Login Last Login Date"
-    type: date
+
+  dimension_group: max_last_login_date {
+    label: "Last login Date"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
   }
   dimension: gateway {
-    label: "AV Select Merchant Accounts Gateway"
+    label: "Gateway"
   }
   dimension: count_patrongroupid {
-    label: "AV Select Patron Groups Join Number of Patron Groups"
+    label: "# Of Patron Tags"
     value_format: "0"
     type: number
   }
   dimension: count {
-    label: "AV Select Patron Total # of Patrons"
+    label: "Total # of Patrons"
     type: number
   }
   dimension: count_created_patrons {
-    label: "AV Select Patron Total # of Patrons (Past 3 Years)"
+    label: "Total # of Patrons (Past 3 Years)"
     type: number
   }
   dimension: name {
@@ -82,7 +92,7 @@ view: JAC_MasterFactFile {
     label: "Region/State"
   }
   dimension: id {
-    label: "SF Accounts Salesforce ID"
+    label: "Salesforce ID"
   }
   dimension: segment_new_c {
     label: "Segment"
@@ -94,23 +104,23 @@ view: JAC_MasterFactFile {
     label: "Vertical"
   }
   dimension: count_GA_venues_types {
-    label: "Venues AV Select Venues # of GA Venues"
+    label: "# of GA Venues"
     type: number
   }
   dimension: count_mixed_venues_types {
-    label: "Venues AV Select Venues # of Mixed Venues"
+    label: "# of Mixed Venues"
     type: number
   }
   dimension: count_reserved_venues_types {
-    label: "Venues AV Select Venues # of Reserved Venues"
+    label: "# of Reserved Venues"
     type: number
   }
   dimension: count_campaigns {
-    label: "Emails AV Select Email Campaigns # Of Email Campaigns Sent"
+    label: "# Of Campaign Emails Sent"
     type: number
   }
   dimension: total_sent_count {
-    label: "Emails AV Select Email Stats Total Sent Count"
+    label: "# of Total Emails Sent to Patrons"
     type: number
   }
 }

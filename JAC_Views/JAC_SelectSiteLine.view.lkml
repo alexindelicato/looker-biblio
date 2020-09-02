@@ -14,6 +14,12 @@ view: JAC_SelectSiteLine {
     }
     sql_trigger_value: SELECT date_sub(CURRENT_DATE(), INTERVAL MOD(EXTRACT(DAYOFWEEK FROM CURRENT_DATE())+4,7) DAY) ;;
   }
+
+  dimension: has_website_manager {
+    label: "Has Website Manager"
+    type: yesno
+    sql: ${TABLE}.av_select_feature_name = 'SiteLine 2.0' ;;
+  }
   dimension: id {
     label: "SF Accounts Salesforce ID"
   }

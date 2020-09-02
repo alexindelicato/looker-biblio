@@ -26,56 +26,56 @@ view: JAC_SelectOrders {
     sql_trigger_value: SELECT date_sub(CURRENT_DATE(), INTERVAL MOD(EXTRACT(DAYOFWEEK FROM CURRENT_DATE())+4,7) DAY) ;;
   }
   dimension: id {
-    label: "SF Accounts Salesforce ID"
+    label: "Salesforce ID"
   }
   dimension: count_recurring_patronid {
-    label: "AV Select Donations # of Patrons with Recurring Donations"
+    label: "# of Patrons with Recurring Donations"
     type: number
   }
   dimension: count_recurring_patronid_three_years {
-    label: "AV Select Donations # of Patrons with Recurring Donations (Last 3 years)"
+    label: "# of Patrons with Recurring Donations (Last 3 years)"
     type: number
   }
   dimension: sum_donation_amount_2019 {
-    label: "AV Select Donations 2019 Donation Income (USD)"
+    label: "2019 Donation Income (USD)"
     value_format: "$#,##0.00"
     type: number
   }
   dimension: sum_donation_amount_three_years {
-    label: "AV Select Donations Donation Income (Last 3 Years)"
+    label: "Donation Income (Last 3 Years)"
     value_format: "$#,##0.00"
     type: number
   }
   dimension: count_past_orders {
-    label: "AV Select Orders Count Past Orders"
+    label: "# of Past Orders"
     type: number
   }
   dimension: count_present_orders {
-    label: "AV Select Orders Count Present Orders"
+    label: "Count Present Orders"
     type: number
   }
   dimension: total_quantity_2019 {
-    label: "AV Select Transactions 2019 Number of Tickets"
+    label: "2019 Number of Tickets"
     type: number
   }
   dimension: total_future_ticket {
-    label: "AV Select Transactions Number of Tickets for a Future Performance"
+    label: "Number of Tickets for a Future Performance"
     type: number
   }
   dimension: total_past_ticket {
-    label: "AV Select Transactions Number of Tickets for a Past Performance"
+    label: "Number of Tickets for a Past Performance"
     type: number
   }
   dimension: count_future_performanceid {
-    label: "AV Select Performances Future Performance"
+    label: "# of Future Performance"
     type: number
   }
   dimension: count_past_performanceid {
-    label: "AV Select Performances Past Performance"
+    label: "# of Past Performance"
     type: number
   }
   dimension: count_ticket_scans_2019 {
-    label: "AV Select Scans Scan Count in 2019"
+    label: "2019 Total Scan Count"
     type: number
   }
 }
