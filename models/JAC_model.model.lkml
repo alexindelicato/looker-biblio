@@ -42,6 +42,12 @@ explore: JAC_MasterFactFile {
     relationship: one_to_one
     sql_on: ${JAC_SelectOrders.id} = ${JAC_SelectSiteLine.id} ;;
   }
+  join: JAC_SelectLaughStub {
+    view_label: "Select LaughStub Fact"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${JAC_SelectOrders.id} = ${JAC_SelectLaughStub.id} ;;
+  }
   join: JAC_SelectDonations {
     view_label: "Select Donation Fact"
     type: left_outer
