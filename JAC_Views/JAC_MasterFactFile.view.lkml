@@ -22,6 +22,7 @@ view: JAC_MasterFactFile {
       column: id {}
       column: segment_new_c {}
       column: type {}
+      column: Default_Migration_Path {}
       column: vertical_new_c {}
       column: count_GA_venues_types { field: JAC_MasterFactFile_2.count_GA_venues_types }
       column: count_mixed_venues_types { field: JAC_MasterFactFile_2.count_mixed_venues_types }
@@ -99,6 +100,9 @@ view: JAC_MasterFactFile {
   }
   dimension: type {
     label: "Type"
+  }
+  dimension: Default_Migration_Path {
+    label: "Default Migration Path"
   }
   dimension: vertical_new_c {
     label: "Vertical"
