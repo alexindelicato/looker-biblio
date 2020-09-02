@@ -18,7 +18,7 @@ view: JAC_SelectSiteLine {
   dimension: has_website_manager {
     label: "Has Website Manager"
     type: yesno
-    sql: ${TABLE}.av_select_feature_name = 'SiteLine 2.0' ;;
+    sql: ${TABLE}.name = 'SiteLine 2.0' ;;
   }
   dimension: id {
     label: "SF Accounts Salesforce ID"

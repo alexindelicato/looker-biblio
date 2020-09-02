@@ -51,7 +51,7 @@ view: JAC_SelectOrders {
     type: number
   }
   dimension: count_present_orders {
-    label: "Count Present Orders"
+    label: "# of Orders with Future Performances"
     type: number
   }
   dimension: total_quantity_2019 {
