@@ -9,7 +9,7 @@ view: JAC_SelectLaughStub {
       }
       filters: {
         field: sel_feature_control.name
-        value: "LaughStub sale Channel"
+        value: "LaughStub sale channel"
       }
     }
     sql_trigger_value: SELECT date_sub(CURRENT_DATE(), INTERVAL MOD(EXTRACT(DAYOFWEEK FROM CURRENT_DATE())+4,7) DAY) ;;
