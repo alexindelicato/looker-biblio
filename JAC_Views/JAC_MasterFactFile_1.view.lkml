@@ -27,8 +27,8 @@ view: JAC_MasterFactFile_1 {
       column: Default_Migration_Path { field: sf_accounts.Default_Migration_Path__c }
       column: count_patrongroupid { field: sel_patrons_groups.count_patrongroupid }
       filters: {
-        field: sf_accounts.type
-        value: "Client - AudienceView Select"
+        field: sf_accounts.vam_member_id_c
+        value: "-NULL"
       }
     }
   }
