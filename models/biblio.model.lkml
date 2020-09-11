@@ -117,6 +117,20 @@ explore: sf_opportunity {
     relationship: one_to_one
     sql_on: ${sf_accounts.id}=${sf_bti.account_c} ;;
   }
+
+  join: sf_opportunity_businessrisk {
+    view_label: "Salesforce Opportunity Business Risks"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_opportunity_businessrisk.id}=${sf_opportunity.id};;
+  }
+
+  join: sf_opportunity_featuregap {
+    view_label: "Salesforce Opportunity Feature Gaps"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_opportunity_featuregap.id}=${sf_opportunity.id};;
+  }
 }
 
 # salesforce campaign explore as primary table

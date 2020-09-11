@@ -2550,6 +2550,16 @@ dimension: contract_agreement_c {
   sql: ${TABLE}.contract_agreement_c ;;
 }
 
+  dimension: RiskReason {
+    label: "Risk Reason"
+    sql: CASE
+        WHEN ${TABLE}.business_risk_detail_c is null and ${TABLE}.feature_gap_c is null THEN 'Unspecified Reason'
+        WHEN ${TABLE}.business_risk_detail_c is not null and ${TABLE}.feature_gap_c is null THEN 'Business Risk Only'
+        WHEN ${TABLE}.business_risk_detail_c is null and ${TABLE}.feature_gap_c is not null THEN 'Product Risk Only'
+        ELSE 'Product And Business Risk'
+        END ;;
+  }
+
   dimension: split_product_gaps_risks_c {
     type: string
     sql: With vd as (SELECT id,
