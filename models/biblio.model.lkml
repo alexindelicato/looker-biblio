@@ -131,6 +131,13 @@ explore: sf_opportunity {
     relationship: one_to_many
     sql_on: ${sf_opportunity_featuregap.id}=${sf_opportunity.id};;
   }
+
+  join: sf_opportunity_combinedRisks {
+    view_label: "Salesforce Opportunity Combined Risks"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_opportunity_combinedRisks.id}=${sf_opportunity.id};;
+  }
 }
 
 # salesforce campaign explore as primary table
