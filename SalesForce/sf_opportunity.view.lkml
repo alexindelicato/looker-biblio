@@ -1877,6 +1877,10 @@ dimension: account_phone_number_c {
   sql: ${TABLE}.account_phone_number_c ;;
 }
 
+dimension: BTI_Opp_c {
+    type: yesno
+    sql: ${TABLE}.BTI_Opp_c ;;
+  }
 dimension: acct_name_c {
   type: string
   sql: ${TABLE}.acct_name_c ;;
@@ -2433,11 +2437,6 @@ dimension: quote_c {
 dimension: activity_metric_id {
   type: string
   sql: ${TABLE}.activity_metric_id ;;
-}
-
-dimension: bti_opp_c {
-  type: string
-  sql: ${TABLE}.bti_opp_c ;;
 }
 
 dimension: bti_target_c {

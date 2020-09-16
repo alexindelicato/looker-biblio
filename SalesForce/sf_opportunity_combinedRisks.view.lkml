@@ -31,5 +31,7 @@ view: sf_opportunity_combinedRisks {
 
   measure: count {
     type: count
+    sql: ${Risk} ;;
+
   }
 }
