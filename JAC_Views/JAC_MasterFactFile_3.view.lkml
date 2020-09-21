@@ -8,10 +8,10 @@ view: JAC_MasterFactFile_3 {
       column: id { field: sf_accounts.id }
       column: sel_emailcampaigns_count_campaigns { field: sel_emailcampaigns.count_campaigns }
       column: sel_email_campaigns_stats_total_sent_count { field: sel_email_campaigns_stats.total_sent_count }
-      filters: {
-        field: sf_accounts.type
-        value: "Client - AudienceView Select"
-      }
+ filters: {
+  field: sf_accounts.vam_member_id_c
+  value: "-NULL"
+}
     }
   }
   dimension: id {

@@ -18,10 +18,10 @@ view: JAC_SelectOrders {
       column: count_future_performanceid { field: sel_performances.count_future_performanceid }
       column: count_past_performanceid { field: sel_performances.count_past_performanceid }
       column: count_ticket_scans_2019 { field: sel_ticket_scans.count_ticket_scans_2019 }
-      filters: {
-        field: sf_accounts.type
-        value: "Client - AudienceView Select"
-      }
+ filters: {
+  field: sf_accounts.vam_member_id_c
+  value: "-NULL"
+}
     }
     sql_trigger_value: SELECT date_sub(CURRENT_DATE(), INTERVAL MOD(EXTRACT(DAYOFWEEK FROM CURRENT_DATE())+4,7) DAY) ;;
   }

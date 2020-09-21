@@ -3,10 +3,10 @@ view: JAC_SelectSiteLine {
     explore_source: sel_members {
       column: id { field: sf_accounts.id }
       column: name { field: sel_feature_control.name }
-      filters: {
-        field: sf_accounts.type
-        value: "Client - AudienceView Select"
-      }
+ filters: {
+  field: sf_accounts.vam_member_id_c
+  value: "-NULL"
+}
       filters: {
         field: sel_feature_control.name
         value: "SiteLine 2.0"

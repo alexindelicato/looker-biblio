@@ -9,8 +9,8 @@ view: JAC_SelectDonations {
       column: id { field: sf_accounts.id }
       column: count_campaigns_three_years { field: sel_donationcampaigns.count_campaigns_three_years }
       filters: {
-        field: sf_accounts.type
-        value: "Client - AudienceView Select"
+        field: sf_accounts.vam_member_id_c
+        value: "-NULL"
       }
     }
     sql_trigger_value: SELECT date_sub(CURRENT_DATE(), INTERVAL MOD(EXTRACT(DAYOFWEEK FROM CURRENT_DATE())+4,7) DAY) ;;
