@@ -38,6 +38,12 @@ view: sf_accounts {
     sql: ${TABLE}.account_acquisition_source_c ;;
   }
 
+  dimension: BTI_Client_Tier__c {
+    label: "BTI Client Tier"
+    type: string
+    sql: ${TABLE}.bti_client_tier_c  ;;
+  }
+
   dimension: BTI_Cohort__c {
     label: "BTI Cohort Name"
     type: string
