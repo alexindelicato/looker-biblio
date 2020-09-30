@@ -223,6 +223,18 @@ view: sel_events {
     sql: ${TABLE}.suspended ;;
   }
 
+  dimension: WebSuspended {
+    type: string
+    label:"Online Sales Channel"
+    sql: case when ${TABLE}.suspended='Y' or ${TABLE}.suspended = 'L' then "Not On-Sale" Else "On-Sale" End ;;
+  }
+
+  dimension: AgentSuspended {
+    type: string
+    label:"TicketAgent Sales Channel"
+    sql: case when ${TABLE}.suspended='Y' or ${TABLE}.suspended = 'A' then "Not On-Sale" Else "On-Sale" End ;;
+  }
+
   dimension: themeid {
     type: string
     sql: ${TABLE}.themeid ;;

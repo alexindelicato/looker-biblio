@@ -17,12 +17,18 @@ view: JAC_FutureOrders {
         on t.performanceid = p.performanceid
       left join mysql_service.transactions_refunds tr
         on tr.transactionid  = t.transactionid
+        and t.voided is not null
       left join mysql_service.refunds r
         on r.orderid = t.orderId and r.trans_id is null
+        and t.voided is not null
       left join mysql_service.transactions_exchanges te
-        on te.transactionId =t.transactionId
+        on te.transactionId = t.transactionId
+        and t.voided is not null
+
       left join mysql_service.exchanges e
-        on e.orderid = t.orderId and e.trans_id is null
+        on e.orderid = t.orderId
+        and e.trans_id is null
+        and t.voided is not null
 
       where TIMESTAMP_SECONDS(p.starttime) > CURRENT_TIMESTAMP()
       group by 1,2,3,4,5 ;;
@@ -56,7 +62,7 @@ view: JAC_FutureOrders {
   dimension: primary_key {
 
     primary_key: yes
-    sql: CONCAT(${TABLE}.orderid, ${TABLE}.eventid, ${TABLE}.refundId, ${TABLE}.exchangeid) ;;
+    sql: CONCAT(${TABLE}.orderid, ${TABLE}.eventid, ifnull(${TABLE}.refundId,0), ifnull(${TABLE}.exchangeid,0)) ;;
   }
 
   measure: count {
