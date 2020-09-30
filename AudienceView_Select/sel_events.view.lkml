@@ -112,6 +112,12 @@ view: sel_events {
     sql: ${TABLE}.firstperformancedate ;;
   }
 
+  dimension: firstperformancedateDate {
+    type: date
+    label: "First Performance Date"
+    sql: TIMESTAMP_SECONDS(${TABLE}.firstperformancedate) ;;
+  }
+
   dimension: glaccount {
     type: string
     sql: ${TABLE}.glaccount ;;

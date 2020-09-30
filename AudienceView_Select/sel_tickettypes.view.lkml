@@ -36,11 +36,13 @@ view: sel_tickettypes {
 
   dimension: allowagentsale {
     type: string
+    label: "Allow Agent Sale"
     sql: ${TABLE}.allowagentsale ;;
   }
 
   dimension: allowwebsale {
     type: string
+    label: "Allow Web Sale"
     sql: ${TABLE}.allowwebsale ;;
   }
 
