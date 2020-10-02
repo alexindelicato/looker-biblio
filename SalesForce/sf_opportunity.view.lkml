@@ -1,10 +1,16 @@
 view: sf_opportunity {
   sql_table_name: new_salesforce.opportunity ;;
 
-measure: count {
-  type: count
-  drill_fields: [detail*]
-}
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
+
+  measure: AtRiskCount {
+    type: count
+    label: "At Risk Count"
+    drill_fields: [name, stage_name]
+  }
 
   measure: count_won_bti {
     type: count
