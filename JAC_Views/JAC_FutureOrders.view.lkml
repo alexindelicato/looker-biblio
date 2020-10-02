@@ -3,7 +3,7 @@ view: JAC_FutureOrders {
     sql:
         select o.id orderid
           , TIMESTAMP_SECONDS(o.date) date
-          , p.eventid
+          , p.performanceid
           , ifnull(events.memberid, o.memberid) memberid
           , ifnull(tr.refundid, r.refundid) refundId
           , ifnull(te.exchangeid, e.exchangeid) exchangeid
@@ -46,8 +46,8 @@ view: JAC_FutureOrders {
     label: "Member Id"
   }
 
-  dimension: eventid {
-    label: "Event Id"
+  dimension: performanceid {
+    label: "Performance Id"
   }
 
   dimension: refundId {
@@ -70,35 +70,31 @@ view: JAC_FutureOrders {
   dimension: primary_key {
 
     primary_key: yes
-    sql: CONCAT(${TABLE}.orderid, ifnull(${TABLE}.eventid, ""), ifnull(${TABLE}.refundId,0), ifnull(${TABLE}.exchangeid,0)) ;;
+    sql: CONCAT(${TABLE}.orderid, ifnull(${TABLE}.performanceid, ""), ifnull(${TABLE}.refundId,0), ifnull(${TABLE}.exchangeid,0)) ;;
   }
 
   measure: count {
     type: count_distinct
     label: "Total Count"
     sql: ${orderid} ;;
-    drill_fields: [eventid, orderid]
   }
 
   measure: SalesCount {
     type: count
     label: "Sales Count"
     filters: [refundId: "NULL", exchangeid: "NULL", payments: ">0"]
-    drill_fields: [eventid, orderid]
   }
 
   measure: InvoiceCount {
     type: count
     label: "Invoice Count"
     filters: [refundId: "NULL", exchangeid: "NULL", payments: "0"]
-    drill_fields: [eventid, orderid]
   }
 
   measure: RefundCount {
     type: count
     label: "Refund Count"
     filters: [refundId: "-NULL"]
-    drill_fields: [eventid, orderid]
   }
 
   measure: ExchangeCount {
@@ -106,7 +102,6 @@ view: JAC_FutureOrders {
     label: "Exchange Count"
     sql: ${orderid} ;;
     filters: [exchangeid: "-NULL", refundId: "NULL"]
-    drill_fields: [eventid, orderid]
   }
 
   measure: RecentOrders {
@@ -114,7 +109,6 @@ view: JAC_FutureOrders {
     label: "Orders > than 90days"
     sql: ${orderid} ;;
     filters: [date: "90 days"]
-    drill_fields: [eventid, orderid]
   }
 
 

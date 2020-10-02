@@ -64,11 +64,18 @@ explore: JAC_FutureOrders {
   group_label: "Test JAC Explores"
   view_label: "Select Order Fact"
 
+  join: sel_performances {
+    view_label: "Select Performances"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_performances.performanceid} = ${JAC_FutureOrders.performanceid} ;;
+  }
+
   join: sel_events {
     view_label: "Select Events"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sel_events.eventid} = ${JAC_FutureOrders.eventid} ;;
+    sql_on: ${sel_events.eventid} = ${sel_performances.eventid} ;;
   }
 
   join: sel_tickettypes {
