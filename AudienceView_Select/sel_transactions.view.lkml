@@ -1011,6 +1011,62 @@ view: sel_transactions {
     }
   }
 
+  measure: nonvoided_total_amount {
+    label: "Non-Voided Earned Income (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+      else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
+    filters: {
+      field: transactiontype
+      value: "not 4"
+    }
+    filters: {
+      field: voided
+      value: "NULL"
+    }
+  }
+
+
+  measure: 2019_nonvoided_total_amount {
+    label: "2019 Non-Voided Earned Income (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+      else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+    filters: {
+      field: transactiontype
+      value: "not 4"
+    }
+    filters: {
+      field: voided
+      value: "NULL"
+    }
+
+
+    measure: 2020_nonvoided_total_amount {
+      label: "2020 Non-Voided Earned Income (USD)"
+      type: sum_distinct
+      value_format_name: usd
+      sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+        else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
+      filters: {
+        field: date_year
+        value: "2020"
+      }
+      filters: {
+        field: transactiontype
+        value: "not 4"
+      }
+      filters: {
+        field: voided
+        value: "NULL"
+      }
+
   measure: total_amount_usd {
     label: "Total Admission Amount (USD)"
     type: sum_distinct
@@ -1051,13 +1107,12 @@ view: sel_transactions {
     }
   }
 
-
   measure: 2019_total_amount {
     label: "2019 Earned Income (USD)"
     type: sum_distinct
     value_format_name: usd
     sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
-         else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
+      else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
     filters: {
       field: date_year
       value: "2019"
