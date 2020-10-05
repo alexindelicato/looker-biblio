@@ -1046,6 +1046,7 @@ view: sel_transactions {
       field: voided
       value: "NULL"
     }
+  }
 
 
     measure: 2020_nonvoided_total_amount {
@@ -1066,6 +1067,7 @@ view: sel_transactions {
         field: voided
         value: "NULL"
       }
+  }
 
   measure: total_amount_usd {
     label: "Total Admission Amount (USD)"
