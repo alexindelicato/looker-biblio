@@ -1,11 +1,8 @@
-connection: "fivetran-bigquery"
+#connection: "fivetran-bigquery"
 
 # include: "*.view.lkml"                       # include all views in this project
 
 include: "/*/*.view"
-
-# include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
-
 
 explore: audienceview_venue_facts {
   label: "AudienceView Venue Facts"
@@ -32,6 +29,21 @@ explore: created_orders {
   view_label: "AudienceView Created Orders"
   }
 
+
+explore: created_orders_new {
+  label: "AudienceView Created Orders - New"
+  group_label: "Project Biblio"
+  view_label: "AudienceView Created Orders"
+
+  join: sf_accounts {
+    view_label: "SF Accounts"
+    type: inner
+    relationship: one_to_one
+    sql_on: ${created_orders_new.salesforceId}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
+
+
+}
 explore: av_arr_acv {
   label: "AudienceView  ARR/ACV by State"
   group_label: "Project Biblio"
