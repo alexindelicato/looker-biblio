@@ -25,7 +25,8 @@ WITH Unlimited AS (
       WHEN facts.default_currency = 'PHP' THEN admissions_sold_amount * 0.020
       WHEN facts.default_currency = 'USD' THEN admissions_sold_amount * 1
       ELSE 0
-    END)/100 as admissions_sold_amount_usd
+    END)/100 as admissions_sold_amount_usd,
+    null as comps
   FROM audienceview.unlimited_orders_summary as orders
   INNER JOIN audienceview.unlimited_client_facts as facts on facts.client_name = orders.client_name
 ), trs as (
@@ -43,16 +44,16 @@ WITH Unlimited AS (
     CAST(DATE( time )as TIMESTAMP) as order_create_date,
     COUNT(DISTINCT orders.order_id ) as orders_created,
 
-    SUM(
-      CASE WHEN order_detail.status_id in ( 2, 9 ) THEN 1 ELSE 0 END
-    ) as admissions_sold,
+    COUNTif(order_detail.status_id in ( 2, 9 )) as admissions_sold,
 
 
     COALESCE(ROUND(COALESCE(CAST( ( SUM(DISTINCT (CAST(ROUND(COALESCE(orders.total ,0)*(1/1000*1.0), 9) AS NUMERIC) + (cast(cast(concat('0x', substr(to_hex(md5(CAST(orders.order_id  AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST(orders.order_id  AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001 )) - SUM(DISTINCT (cast(cast(concat('0x', substr(to_hex(md5(CAST(orders.order_id  AS STRING))), 1, 15)) as int64) as numeric) * 4294967296 + cast(cast(concat('0x', substr(to_hex(md5(CAST(orders.order_id  AS STRING))), 16, 8)) as int64) as numeric)) * 0.000000001) )  / (1/1000*1.0) AS FLOAT64), 0), 6), 0) AS admissions_sold_amount,
     'USD' as  default_currency,
     SUM(
       order_detail.price
-    ) as admissions_sold_amount_usd
+    ) as admissions_sold_amount_usd,
+
+    COUNTif(order_detail.status_id in ( 2, 9 ) AND price=0) as comps
 
   FROM trs_trs.orders
   INNER JOIN trs_trs.client ON client.client_id = orders.client_id
@@ -96,11 +97,12 @@ WITH Unlimited AS (
     COUNT(DISTINCT(sel_transactions.transactionid)) as admissions_sold,
     SUM( SAFE_CAST( sel_transactions.total as FLOAT64 )) as admissions_sold_amount,
     'USD' as default_currency,
-    SUM( SAFE_CAST( sel_transactions.total as FLOAT64 )) as admissions_sold_amount_usd
+    SUM( SAFE_CAST( sel_transactions.total as FLOAT64 )) as admissions_sold_amount_usd,
+    countif(SAFE_CAST( sel_transactions.total as FLOAT64 ) = 0) as comps
 
   FROM mysql_service.orders AS sel_orders
   LEFT JOIN mysql_service.transactions AS sel_transactions
-    ON sel_orders.id=sel_transactions.orderid and sel_orders.testmode = "N"
+    ON sel_orders.id=sel_transactions.orderid and sel_orders.testmode = "N" and sel_transactions.voided IS NULL
   LEFT JOIN mysql_service.performances  AS sel_performances
     ON sel_transactions.performanceid=sel_performances.performanceid AND  sel_performances.deleted IS NULL
   LEFT JOIN mysql_service.events  AS sel_events
@@ -133,10 +135,7 @@ WITH Unlimited AS (
     CAST( showDateTime as TIMESTAMP) as performance_date,
     CAST( transactiontime as DATETIME) as order_create_audit_time,
     CAST( transactiontime as TIMESTAMP) as order_create_date,
-    SUM(CASE
-      WHEN dataset = 'ticketOrder' THEN 1
-      ELSE 0
-    END) as orders_created,
+    COUNTIF(dataset = 'ticketOrder') as orders_created,
     SUM(quantity) as admissions_sold,
     SUM(grandtotal) as admissions_sold_amount,
     currencycode as default_currency,
@@ -147,7 +146,9 @@ WITH Unlimited AS (
       WHEN currencycode = 'PHP' THEN grandtotal * 0.020
       WHEN currencycode = 'USD' THEN grandtotal * 1
       ELSE 0
-    END) as admissions_sold_amount_usd
+    END) as admissions_sold_amount_usd,
+    --SUMIF(quantity, grandtotal = 0) as comps
+    null as comps
 
   FROM crowdtorch_dbo.data_transactions as data_transactions
   LEFT JOIN crowdtorch_dbo.tbl_ticketing_clientvenues AS ct_clientvenues
@@ -221,7 +222,8 @@ SELECT
   SUM(orders_created) as orders_created,
   SUM(admissions_sold) as admissions_sold,
   SUM(admissions_sold_amount) as admissions_sold_amount,
-  SUM(admissions_sold_amount_usd) as admissions_sold_amount_usd
+  SUM(admissions_sold_amount_usd) as admissions_sold_amount_usd,
+  SUM(comps) as comps
 FROM Combined_records
 WHERE order_create_date >= '2019-01-01 00:00:00'
 GROUP BY
@@ -267,6 +269,9 @@ GROUP BY
   measure: total_admissions_sold { type: sum label: "Total Admissions Sold" sql: ${TABLE}.admissions_sold ;; drill_fields: [order_summary_fields*]}
   measure: total_admissions_sold_amount { type: sum value_format_name: usd label: "Total Admissions Sold Amount" sql: ${TABLE}.admissions_sold_amount ;; drill_fields: [order_summary_fields*]}
   measure: total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Total Admissions Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; drill_fields: [order_summary_fields*]}
+
+  #removed until we can get correct values for all systems.
+  #measure: comps { type: sum label: "Total Comp Admissions Sold" sql: ${TABLE}.comps ;; drill_fields: [order_summary_fields*]}
 
   dimension_group: current_time {
     type: time
