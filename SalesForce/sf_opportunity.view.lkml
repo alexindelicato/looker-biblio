@@ -38,6 +38,16 @@ view: sf_opportunity {
     }
   }
 
+  measure: lost_vs_won_bti {
+    label: "% Lost vs Won - BTI"
+    type: number
+    value_format_name: percent_2
+    drill_fields: [detail*]
+    sql: ${count_lost_bti}/ ${count_won_bti};;
+  }
+
+
+
   measure: count_bti {
     type: count
     drill_fields: [detail*]
