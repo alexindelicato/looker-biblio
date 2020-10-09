@@ -25,6 +25,19 @@ view: sf_opportunity {
     }
   }
 
+  measure: count_lost_bti {
+    type: count
+    drill_fields: [detail*]
+    filters: {
+      field: name
+      value: "%BTI 2020%"
+    }
+    filters: {
+      field: stage_name
+      value: "Closed Lost"
+    }
+  }
+
   measure: count_bti {
     type: count
     drill_fields: [detail*]
