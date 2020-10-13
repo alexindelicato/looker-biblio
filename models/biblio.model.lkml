@@ -31,7 +31,7 @@ explore: sf_accounts {
     view_label: "Salesforce Opportunitiy"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sf_accounts.id}=${sf_opportunity.account_id} AND  ${sf_opportunity.is_deleted}= FALSE;;
+    sql_on: ${sf_accounts.id}=${sf_opportunity.account_id} AND ${sf_opportunity.is_deleted}= FALSE;;
   }
 
   join: sf_net_arr_2019 {
@@ -91,6 +91,13 @@ explore: sf_opportunity {
   view_label: "Salesforce Opportunity"
   fields: [ALL_FIELDS*]
   sql_always_where: ${sf_opportunity.is_deleted}= FALSE;;
+
+  join: sf_BTI_opportunity_win_lose_history {
+    view_label: "Salesforce Opportunitiy Win/Loss History"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_BTI_opportunity_win_lose_history.opportunity_id}=${sf_opportunity.id} AND ${sf_opportunity.is_deleted}= FALSE;;
+  }
 
   join: sf_risk_list {
     type: left_outer

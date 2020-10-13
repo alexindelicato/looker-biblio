@@ -43,10 +43,8 @@ view: sf_opportunity {
     type: number
     value_format_name: percent_2
     drill_fields: [detail*]
-    sql: ${count_lost_bti}/ ${count_won_bti};;
+    sql: ${count_lost_bti}/ NULLIF(${count_won_bti},0);;
   }
-
-
 
   measure: count_bti {
     type: count
@@ -1906,10 +1904,16 @@ dimension: account_phone_number_c {
   sql: ${TABLE}.account_phone_number_c ;;
 }
 
-dimension: BTI_Opp_c {
+  dimension: BTI_Opp_c {
     type: yesno
     sql: ${TABLE}.BTI_Opp_c ;;
   }
+
+  dimension: not_in_current_bti_scope_c {
+    type: yesno
+    sql: ${TABLE}.not_in_current_bti_scope_c ;;
+  }
+
 dimension: acct_name_c {
   type: string
   sql: ${TABLE}.acct_name_c ;;
