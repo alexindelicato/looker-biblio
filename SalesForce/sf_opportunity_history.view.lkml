@@ -72,10 +72,10 @@ where rownumber = 1;;
   dimension:previous_stage_name {
     label: "Previous Stage Name"
     sql:CASE
-          WHEN ${TABLE}.stage_name = 'Qualified BTI' THEN 'Qualified'
-          WHEN ${TABLE}.stage_name = 'Short List' THEN 'Selected Vendor (Short List)'
-          WHEN ${TABLE}.stage_name = 'Selected Vendor' THEN 'Selected Vendor (Short List)'
-          ELSE ${TABLE}.stage_name
+          WHEN ${TABLE}.previous_stage_name = 'Qualified BTI' THEN 'Qualified'
+          WHEN ${TABLE}.previous_stage_name = 'Short List' THEN 'Selected Vendor (Short List)'
+          WHEN ${TABLE}.previous_stage_name = 'Selected Vendor' THEN 'Selected Vendor (Short List)'
+          ELSE ${TABLE}.previous_stage_name
           END ;;
 
       html:
@@ -90,13 +90,13 @@ where rownumber = 1;;
   dimension: previous_stage_order{
     hidden: yes
     sql: CASE
-            WHEN ${stage_name} = 'Qualified' THEN 1
-            WHEN ${stage_name} = 'Engaged' THEN 2
-            WHEN ${stage_name} = 'Evaluation' THEN 3
-            WHEN ${stage_name} = 'Selected Vendor (Short List)' THEN 4
-            WHEN ${stage_name} = 'Commercial Agreement' THEN 5
-            WHEN ${stage_name} = 'Closed Won' THEN 6
-            WHEN ${stage_name} = 'Closed Lost' THEN 7
+            WHEN ${previous_stage_name} = 'Qualified' THEN 1
+            WHEN ${previous_stage_name} = 'Engaged' THEN 2
+            WHEN ${previous_stage_name} = 'Evaluation' THEN 3
+            WHEN ${previous_stage_name} = 'Selected Vendor (Short List)' THEN 4
+            WHEN ${previous_stage_name} = 'Commercial Agreement' THEN 5
+            WHEN ${previous_stage_name} = 'Closed Won' THEN 6
+            WHEN ${previous_stage_name} = 'Closed Lost' THEN 7
             ELSE 99
             END ;;
   }
