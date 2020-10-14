@@ -270,6 +270,8 @@ GROUP BY
   measure: total_admissions_sold_amount { type: sum value_format_name: usd label: "Total Admissions Sold Amount" sql: ${TABLE}.admissions_sold_amount ;; drill_fields: [order_summary_fields*]}
   measure: total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Total Admissions Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; drill_fields: [order_summary_fields*]}
 
+  measure: Client_Count{ type: count_distinct label: "Total Clients" drill_fields: [order_summary_fields*] sql: ${TABLE}.client_name ;;}
+
   #removed until we can get correct values for all systems.
   #measure: comps { type: sum label: "Total Comp Admissions Sold" sql: ${TABLE}.comps ;; drill_fields: [order_summary_fields*]}
 
