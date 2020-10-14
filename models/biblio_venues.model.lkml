@@ -37,8 +37,8 @@ explore: created_orders_new {
 
   join: sf_accounts {
     view_label: "SF Accounts"
-    type: inner
-    relationship: one_to_one
+    type: left_outer
+    relationship: one_to_many
     sql_on: ${created_orders_new.salesforceId}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
   }
 
