@@ -126,4 +126,11 @@ where rownumber = 1;;
     label: "Total Days in State"
     sql: ${Days_In_State};;
   }
+
+  measure: avg_Days_In_State {
+    type: average
+    value_format: "0"
+    label: "Average Days in State"
+    sql: ${Days_In_State};;
+  }
 }
