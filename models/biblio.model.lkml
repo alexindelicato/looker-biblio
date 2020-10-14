@@ -96,7 +96,14 @@ explore: sf_opportunity {
     view_label: "Salesforce Opportunitiy Win/Loss History"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${sf_BTI_opportunity_win_lose_history.opportunity_id}=${sf_opportunity.id} AND ${sf_opportunity.is_deleted}= FALSE;;
+    sql_on: ${sf_BTI_opportunity_win_lose_history.opportunity_id}=${sf_opportunity.id};;
+  }
+
+  join: sf_opportunity_history {
+    view_label: "Salesforce Opportunitiy History"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_opportunity_history.opportunity_id}=${sf_opportunity.id};;
   }
 
   join: sf_risk_list {
