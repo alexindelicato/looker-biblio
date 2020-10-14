@@ -59,13 +59,23 @@ where rownumber = 1;;
 
   dimension:opportunity_id {}
 
-  dimension:stage_name {}
+  dimension:stage_name {
+    sql:CASE
+          WHEN ${TABLE}.stage_name = 'Qualified BTI' THEN 'Qualified'
+          WHEN ${TABLE}.stage_name = 'Short List' THEN 'Selected Vendor (Short List)'
+          WHEN ${TABLE}.stage_name = 'Selected Vendor' THEN 'Selected Vendor (Short List)'
+          ELSE ${TABLE}.stage_name
+          END ;;
+    order_by_field: stage_order
+  }
 
   dimension:previous_stage_name {
     label: "Previous Stage Name"
     sql:CASE
-          WHEN ${TABLE}.previous_stage_name = 'Qualified BTI' THEN 'Qualified'
-          ELSE coalesce(${TABLE}.previous_stage_name, 'No Previous Stage')
+          WHEN ${TABLE}.stage_name = 'Qualified BTI' THEN 'Qualified'
+          WHEN ${TABLE}.stage_name = 'Short List' THEN 'Selected Vendor (Short List)'
+          WHEN ${TABLE}.stage_name = 'Selected Vendor' THEN 'Selected Vendor (Short List)'
+          ELSE ${TABLE}.stage_name
           END ;;
 
       html:
@@ -77,19 +87,36 @@ where rownumber = 1;;
 
   dimension:next_createdDate {}
 
-    dimension: previous_stage_order{
-      sql: CASE
-            WHEN ${previous_stage_name} = 'Qualified' THEN 1
-            WHEN ${previous_stage_name} = 'Engaged' THEN 2
-            WHEN ${previous_stage_name} = 'Evaluation' THEN 3
-            WHEN ${previous_stage_name} = 'Selected Vendor' THEN 4
-            WHEN ${previous_stage_name} = 'Commercial Agreement' THEN 5
-            ELSE 0
+  dimension: previous_stage_order{
+    hidden: yes
+    sql: CASE
+            WHEN ${stage_name} = 'Qualified' THEN 1
+            WHEN ${stage_name} = 'Engaged' THEN 2
+            WHEN ${stage_name} = 'Evaluation' THEN 3
+            WHEN ${stage_name} = 'Selected Vendor (Short List)' THEN 4
+            WHEN ${stage_name} = 'Commercial Agreement' THEN 5
+            WHEN ${stage_name} = 'Closed Won' THEN 6
+            WHEN ${stage_name} = 'Closed Lost' THEN 7
+            ELSE 99
             END ;;
-    }
+  }
+
+  dimension: stage_order{
+    hidden: yes
+    sql: CASE
+            WHEN ${stage_name} = 'Qualified' THEN 1
+            WHEN ${stage_name} = 'Engaged' THEN 2
+            WHEN ${stage_name} = 'Evaluation' THEN 3
+            WHEN ${stage_name} = 'Selected Vendor (Short List)' THEN 4
+            WHEN ${stage_name} = 'Commercial Agreement' THEN 5
+            WHEN ${stage_name} = 'Closed Won' THEN 6
+            WHEN ${stage_name} = 'Closed Lost' THEN 7
+            ELSE 99
+            END ;;
+  }
 
   dimension: Days_In_State{
-    sql: diff_days(${created_date}, ${next_createdDate});;
+    sql: TIMESTAMP_DIFF(${next_createdDate}, ${created_date}, DAY);;
   }
 
   measure: count {}
