@@ -1560,7 +1560,36 @@ dimension: staffing_days_c {
 dimension: stage_name {
   type: string
   sql: ${TABLE}.stage_name ;;
+  order_by_field: stage_order
 }
+
+  dimension:merged_stage_name {
+    label: "Merged Stage Name"
+    sql:CASE
+          WHEN ${TABLE}.stage_name = 'Qualified BTI' THEN 'Qualified'
+          WHEN ${TABLE}.stage_name = 'Short List' THEN 'Selected Vendor (Short List)'
+          WHEN ${TABLE}.stage_name = 'Selected Vendor' THEN 'Selected Vendor (Short List)'
+          ELSE ${TABLE}.stage_name
+          END ;;
+
+    order_by_field: stage_order
+  }
+
+  dimension: stage_order{
+    hidden: yes
+    sql: CASE
+          WHEN ${stage_name} = 'Qualified' THEN 1
+          WHEN ${stage_name} = 'Qualified BTI' THEN 1
+          WHEN ${stage_name} = 'Engaged' THEN 2
+          WHEN ${stage_name} = 'Evaluation' THEN 3
+          WHEN ${stage_name} = 'Selected Vendor' THEN 4
+          WHEN ${stage_name} = 'Short List' THEN 4
+          WHEN ${stage_name} = 'Commercial Agreement' THEN 5
+          WHEN ${stage_name} = 'Closed Won' THEN 6
+          WHEN ${stage_name} = 'Closed Lost' THEN 7
+          ELSE 99
+          END ;;
+  }
 
 dimension_group: start_date_c {
   type: time
@@ -2601,8 +2630,6 @@ dimension: contract_agreement_c {
 
           select id, v as ve from vd, unnest(risk) v;;
   }
-
-
 
 set: detail {
   fields: [
