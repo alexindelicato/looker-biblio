@@ -1,4 +1,4 @@
-# If necessary, uncomment the line below to include explore_source.
+# This report holds a lot of un-needed data from salesforce as it can be merged with salesforce in a later explore
 
 
 
