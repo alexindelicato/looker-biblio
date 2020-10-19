@@ -54,6 +54,32 @@ explore: JAC_MasterFactFile {
     relationship: one_to_one
     sql_on: ${JAC_MasterFactFile.id} = ${JAC_SelectDonations.id} ;;
   }
+
+  join: sf_accounts {
+    view_label: "SF Accounts"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${JAC_MasterFactFile.id}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
+
+  join: sf_opportunity {
+    view_label: "SF Opportunity"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.id}=${sf_opportunity.account_id}
+      AND ${sf_opportunity.is_deleted} = FALSE
+      AND ${sf_opportunity.BTI_Opp_c} = True
+      AND ${sf_opportunity.not_in_current_bti_scope_c} = False ;;
+  }
+
+  join: sf_engagement_request{
+    view_label: "SF Engagement Request"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_opportunity.id}=${sf_engagement_request.opportunity_id}
+      AND ${sf_engagement_request.is_deleted} = FALSE
+      AND ${sf_engagement_request.bti_opp} = True;;
+  }
 }
 
 

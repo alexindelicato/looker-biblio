@@ -2282,6 +2282,12 @@ view: sf_accounts {
     sql: ${TABLE}.owner_id ;;
   }
 
+  dimension: owner_name_text_c {
+    type: string
+    label: "Owner Name"
+    sql: ${TABLE}.owner_name_text_c ;;
+  }
+
   dimension: ownership {
     type: string
     sql: ${TABLE}.ownership ;;
