@@ -250,15 +250,15 @@ WHERE order_create_date >= '2019-01-01 00:00:00';;
   measure: total_admissions_sold_amount { type: sum value_format_name: usd label: "Total Admissions Sold Amount" sql: ${TABLE}.admissions_sold_amount ;; drill_fields: [order_summary_fields*]}
   measure: total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Total Admissions Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; drill_fields: [order_summary_fields*]}
 
-  measure: current_total_orders_created { type: sum label: "Current Orders Created" sql: ${orders_created};; filters:[OrderInPerformanceMonth: "Current"]}
-  measure: current_total_admissions_sold { type: sum label: "Current Admissions Sold" sql: ${TABLE}.admissions_sold;; filters:[OrderInPerformanceMonth: "Current"]}
-  measure: current_total_admissions_sold_amount { type: sum value_format_name: usd label: "Current Admissions Sold Amount" sql: ${TABLE}.admissions_sold_amount;; filters:[OrderInPerformanceMonth: "Current"]}
-  measure: current_total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Current Admissions Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; filters:[OrderInPerformanceMonth: "Current"]}
+  measure: current_total_orders_created { type: sum label: "Orders Created - Current Month" sql: ${orders_created};; filters:[OrderInPerformanceMonth: "Current"]}
+  measure: current_total_admissions_sold { type: sum label: "Admissions Sold - Current Month" sql: ${TABLE}.admissions_sold;; filters:[OrderInPerformanceMonth: "Current"]}
+  measure: current_total_admissions_sold_amount { type: sum value_format_name: usd label: "Admissions Sold Amount - Current Month" sql: ${TABLE}.admissions_sold_amount;; filters:[OrderInPerformanceMonth: "Current"]}
+  measure: current_total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Admissions Sold Amount (USD) - Current Month" sql: ${TABLE}.admissions_sold_amount_usd ;; filters:[OrderInPerformanceMonth: "Current"]}
 
-  measure: future_total_orders_created { type: sum label: "Future Orders Created" sql: ${orders_created};; filters:[OrderInPerformanceMonth: "Future"]}
-  measure: future_total_admissions_sold { type: sum label: "Future Admissions Sold" sql: ${TABLE}.admissions_sold;; filters:[OrderInPerformanceMonth: "Future"]}
-  measure: future_total_admissions_sold_amount { type: sum value_format_name: usd label: "Future Admissions Sold Amount" sql: ${TABLE}.admissions_sold_amount;; filters:[OrderInPerformanceMonth: "Future"]}
-  measure: future_total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Future Admissions Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; filters:[OrderInPerformanceMonth: "Future"]}
+  measure: future_total_orders_created { type: sum label: "Orders Created - Future Month" sql: ${orders_created};; filters:[OrderInPerformanceMonth: "Future"]}
+  measure: future_total_admissions_sold { type: sum label: "Admissions Sold - Future Month" sql: ${TABLE}.admissions_sold;; filters:[OrderInPerformanceMonth: "Future"]}
+  measure: future_total_admissions_sold_amount { type: sum value_format_name: usd label: "Admissions Sold Amount - Future Month" sql: ${TABLE}.admissions_sold_amount;; filters:[OrderInPerformanceMonth: "Future"]}
+  measure: future_total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Admissions Sold Amount (USD) - Future Month" sql: ${TABLE}.admissions_sold_amount_usd ;; filters:[OrderInPerformanceMonth: "Future"]}
 
   measure: Client_Count{ type: count_distinct label: "Total Clients" drill_fields: [order_summary_fields*] sql: ${TABLE}.client_name ;;}
   measure: Avg_LeadTime {
