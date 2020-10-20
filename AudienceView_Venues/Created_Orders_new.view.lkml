@@ -3,7 +3,7 @@ view: created_orders_new {
     sql:
 WITH Unlimited AS (
   SELECT facts.sf_account_id salesforceId,
-    orders.UID as UUID,
+    orders.UID as performance_id,
     'Unlimited' as product_name,
     orders.client_name as client_name,
     venue_name,
@@ -31,7 +31,7 @@ WITH Unlimited AS (
   INNER JOIN audienceview.unlimited_client_facts as facts on facts.client_name = orders.client_name
 ), trs as (
   SELECT sf_accounts.id salesforceId,
-    CAST(performance.id as STRING) as UUID,
+    CAST(performance.id as STRING) as performance_id,
     'Professional' as product_name,
     client_name,
     '' as venue_name,
@@ -67,7 +67,7 @@ WITH Unlimited AS (
 
   GROUP BY
     sf_accounts.id,
-    UUID,
+    performance_id,
     product_name,
     client_name,
     venue_name,
@@ -82,7 +82,7 @@ WITH Unlimited AS (
 
 ), sel as (
   SELECT sf_accounts.id salesforceId,
-    sel_performances.performanceid as UUID,
+    sel_performances.performanceid as performance_id,
     'Select' as product_name,
     sel_members.organizationname as client_name,
     '' as venue_name,
@@ -101,11 +101,11 @@ WITH Unlimited AS (
     countif(SAFE_CAST( sel_transactions.total as FLOAT64 ) = 0) as comps
 
   FROM mysql_service.orders AS sel_orders
-  LEFT JOIN mysql_service.transactions AS sel_transactions
-    ON sel_orders.id=sel_transactions.orderid and sel_orders.testmode = "N" and sel_transactions.voided IS NULL
-  LEFT JOIN mysql_service.performances  AS sel_performances
-    ON sel_transactions.performanceid=sel_performances.performanceid AND  sel_performances.deleted IS NULL
-  LEFT JOIN mysql_service.events  AS sel_events
+  INNER JOIN mysql_service.transactions AS sel_transactions
+    ON sel_orders.id=sel_transactions.orderid and sel_orders.testmode = "N" --and sel_transactions.voided IS NULL
+  INNER JOIN mysql_service.performances  AS sel_performances
+    ON sel_transactions.performanceid=sel_performances.performanceid --AND  sel_performances.deleted IS NULL
+  INNER JOIN mysql_service.events  AS sel_events
     ON sel_events.eventid = sel_performances.eventid
   LEFT JOIN mysql_service.members  AS sel_members
     ON sel_members.memberid=sel_orders.memberid AND sel_members.testmode="N" and sel_members.active="Y"
@@ -124,7 +124,7 @@ WITH Unlimited AS (
 
 ), crowdtorch as (
   SELECT sf_accounts.id salesforceId,
-    CAST(datatransactionid as string) as UUID,
+    CAST(datatransactionid as string) as performance_id,
     'Crowdtorch' as product_name,
     data_transactions.clientname as client_name,
     data_transactions.venuename as venue_name,
@@ -135,18 +135,18 @@ WITH Unlimited AS (
     CAST( showDateTime as TIMESTAMP) as performance_date,
     CAST( transactiontime as DATETIME) as order_create_audit_time,
     CAST( transactiontime as TIMESTAMP) as order_create_date,
-    COUNTIF(dataset = 'ticketOrder') as orders_created,
-    SUM(quantity) as admissions_sold,
-    SUM(grandtotal) as admissions_sold_amount,
+    case when dataset = 'ticketOrder' then 1 else 0 end as orders_created,
+    quantity as admissions_sold,
+    grandtotal as admissions_sold_amount,
     currencycode as default_currency,
-    SUM(CASE
+    CASE
       WHEN currencycode = 'CAD' THEN grandtotal * 0.76
       WHEN currencycode = 'COP' THEN grandtotal * 0.00029
       WHEN currencycode = 'GBP' THEN grandtotal * 1.32
       WHEN currencycode = 'PHP' THEN grandtotal * 0.020
       WHEN currencycode = 'USD' THEN grandtotal * 1
       ELSE 0
-    END) as admissions_sold_amount_usd,
+    END as admissions_sold_amount_usd,
     --SUMIF(quantity, grandtotal = 0) as comps
     null as comps
 
@@ -166,21 +166,6 @@ WITH Unlimited AS (
     --'merchandiseOrder'
     )
     AND data_transactions.clientid NOT IN (15,10353725)
-
-  GROUP BY
-    sf_accounts.id,
-    UUID,
-    product_name,
-    client_name,
-    venue_name,
-    performance_series_name,
-    performance_short_description,
-    performance_name,
-    performance_date,
-    performance_start_date,
-    order_create_date,
-    order_create_audit_time,
-    default_currency
 
 ), Combined_records as (
 
@@ -207,7 +192,7 @@ WITH Unlimited AS (
 
 SELECT
   salesforceId,
-  UUID,
+  performance_id,
   product_name,
   client_name,
   venue_name,
@@ -218,34 +203,21 @@ SELECT
   performance_start_date,
   order_create_date,
   order_create_audit_time,
+  DATE_DIFF(cast(performance_start_date as date), cast(order_create_audit_time as date), DAY) leadtime,
   default_currency,
-  SUM(orders_created) as orders_created,
-  SUM(admissions_sold) as admissions_sold,
-  SUM(admissions_sold_amount) as admissions_sold_amount,
-  SUM(admissions_sold_amount_usd) as admissions_sold_amount_usd,
-  SUM(comps) as comps
+  orders_created,
+  admissions_sold,
+  admissions_sold_amount,
+  admissions_sold_amount_usd,
+  comps
 FROM Combined_records
-WHERE order_create_date >= '2019-01-01 00:00:00'
-GROUP BY
-  salesforceId,
-  UUID,
-  product_name,
-  client_name,
-  venue_name,
-  performance_series_name,
-  performance_short_description,
-  performance_name,
-  performance_date,
-  performance_start_date,
-  order_create_date,
-  order_create_audit_time,
-  default_currency;;
+WHERE order_create_date >= '2019-01-01 00:00:00';;
 
     sql_trigger_value: SELECT CAST(CURRENT_TIMESTAMP() AS DATE);;
   }
 
   dimension:  salesforceId  { type: string sql: ${TABLE}.salesforceId  ;; }
-  dimension:  UUID  { type: string sql: ${TABLE}.UUID  ;; }
+  dimension:  performance_id  { type: string sql: ${TABLE}.performance_id  ;; }
   dimension:  product_name { type: string sql: ${TABLE}.product_name ;; }
   dimension:  client_name { type: string sql: ${TABLE}.client_name ;; }
   dimension:  venue_name { type: string sql: ${TABLE}.venue_name ;; }
@@ -259,6 +231,14 @@ GROUP BY
   dimension:  order_create_audit_time  { type: string sql: ${TABLE}.order_create_audit_time  ;; }
   dimension_group: order_create_date { type: time sql: ${TABLE}.order_create_date ;; }
 
+  dimension: OrderInPerformanceMonth{
+    type: string
+    sql: case when ${performance_date_month}=${order_create_date_month} Then 'Current'
+              when ${performance_date_month}<${order_create_date_month} Then 'Before'
+              else 'Future'
+          end;;
+  }
+
   dimension: default_currency { type: string sql: ${TABLE}.default_currency ;; }
   dimension: orders_created { type: number label: "Orders Created" sql: ${TABLE}.orders_created ;; }
   dimension: admisisons_sold { type: number label: "Admissions Sold" sql: ${TABLE}.admisisons_sold ;; }
@@ -270,8 +250,22 @@ GROUP BY
   measure: total_admissions_sold_amount { type: sum value_format_name: usd label: "Total Admissions Sold Amount" sql: ${TABLE}.admissions_sold_amount ;; drill_fields: [order_summary_fields*]}
   measure: total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Total Admissions Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; drill_fields: [order_summary_fields*]}
 
-  measure: Client_Count{ type: count_distinct label: "Total Clients" drill_fields: [order_summary_fields*] sql: ${TABLE}.client_name ;;}
+  measure: current_total_orders_created { type: sum label: "Current Orders Created" sql: ${orders_created};; filters:[OrderInPerformanceMonth: "Current"]}
+  measure: current_total_admissions_sold { type: sum label: "Current Admissions Sold" sql: ${TABLE}.admissions_sold;; filters:[OrderInPerformanceMonth: "Current"]}
+  measure: current_total_admissions_sold_amount { type: sum value_format_name: usd label: "Current Admissions Sold Amount" sql: ${TABLE}.admissions_sold_amount;; filters:[OrderInPerformanceMonth: "Current"]}
+  measure: current_total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Current Admissions Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; filters:[OrderInPerformanceMonth: "Current"]}
 
+  measure: future_total_orders_created { type: sum label: "Future Orders Created" sql: ${orders_created};; filters:[OrderInPerformanceMonth: "Future"]}
+  measure: future_total_admissions_sold { type: sum label: "Future Admissions Sold" sql: ${TABLE}.admissions_sold;; filters:[OrderInPerformanceMonth: "Future"]}
+  measure: future_total_admissions_sold_amount { type: sum value_format_name: usd label: "Future Admissions Sold Amount" sql: ${TABLE}.admissions_sold_amount;; filters:[OrderInPerformanceMonth: "Future"]}
+  measure: future_total_admissions_sold_amount_usd { type: sum value_format_name: usd label: "Future Admissions Sold Amount (USD)" sql: ${TABLE}.admissions_sold_amount_usd ;; filters:[OrderInPerformanceMonth: "Future"]}
+
+  measure: Client_Count{ type: count_distinct label: "Total Clients" drill_fields: [order_summary_fields*] sql: ${TABLE}.client_name ;;}
+  measure: Avg_LeadTime {
+    type:average sql:
+    ${TABLE}.leadtime ;;
+    value_format: "0"
+  }
   #removed until we can get correct values for all systems.
   #measure: comps { type: sum label: "Total Comp Admissions Sold" sql: ${TABLE}.comps ;; drill_fields: [order_summary_fields*]}
 

@@ -35,6 +35,14 @@ explore: created_orders_new {
   group_label: "Project Biblio"
   view_label: "AudienceView Created Orders"
 
+  join: performances {
+    view_label: "Performances"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${created_orders_new.product_name}=${performances.product_name}
+      AND  ${created_orders_new.performance_id}=${performances.PerformanceId};;
+  }
+
   join: sf_accounts {
     view_label: "SF Accounts"
     type: left_outer
