@@ -11,7 +11,10 @@ view: sf_engagement_request {
 
   dimension: bti_onboarding_train {sql: ${TABLE}.bti_onboarding_train_c ;;}
 
-  dimension: Cut_Over_Date {sql: ${TABLE}.cut_over_date_c ;;}
+  dimension: Cut_Over_Date {
+    sql: ${TABLE}.cut_over_date_c ;;
+    type: date
+  }
 
   dimension: actual_onboarding_start_date {
     sql: ${TABLE}.actual_onboarding_start_date_c ;;
