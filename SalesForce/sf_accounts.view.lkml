@@ -466,6 +466,7 @@ view: sf_accounts {
     type: string
     sql: case when ${TABLE}.billing_state is NULL then ${TABLE}.billing_city
          else  ${TABLE}.billing_state  END;;
+    map_layer_name: us_states
   }
 
 
