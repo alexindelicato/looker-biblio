@@ -431,6 +431,7 @@ view: sf_accounts {
     label: "Country"
     type: string
     sql: ${TABLE}.billing_country ;;
+    map_layer_name: countries
   }
 
   dimension: billing_geocode_accuracy {
