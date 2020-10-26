@@ -278,9 +278,11 @@ WHERE order_create_date >= '2019-01-01 00:00:00';;
       week,
       month,
       month_name,
+      month_num,
       quarter,
       quarter_of_year,
       week_of_year,
+      day_of_year,
       year
     ]
     sql: CURRENT_TIMESTAMP() ;;
