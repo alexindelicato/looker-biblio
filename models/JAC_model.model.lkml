@@ -80,8 +80,89 @@ explore: JAC_MasterFactFile {
       AND ${sf_engagement_request.is_deleted} = FALSE
       AND ${sf_engagement_request.bti_opp} = True;;
   }
+
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+  }
+  join: sf_bti {
+    view_label: "Salesforce BTI"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.id}=${sf_bti.account_c} ;;
+  }
 }
 
+#Select On JAC_MasterFactFile
+explore:JAC_MasterFactFile_new {
+  label: "JAC AV Select On-Boarding - Remastered"
+  group_label: "Test JAC Explores"
+  view_label: "SF Accounts"
+  from: sf_accounts
+
+  join: sf_opportunity {
+    view_label: "SF Opportunity"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${JAC_MasterFactFile_new.id}=${sf_opportunity.account_id}
+      AND ${sf_opportunity.is_deleted} = FALSE;;
+  }
+
+  join: sf_engagement_request{
+    view_label: "SF Engagement Request"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_opportunity.id}=${sf_engagement_request.opportunity_id}
+      AND ${sf_engagement_request.is_deleted} = FALSE;;
+  }
+
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${JAC_MasterFactFile_new.id}=${sf_net_arr_2019.id} ;;
+  }
+
+  join: JAC_MasterFactFile {
+    view_label: "Select Client Fact"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${JAC_MasterFactFile.id}=${JAC_MasterFactFile_new.id} AND ${JAC_MasterFactFile_new.is_deleted}= FALSE ;;
+  }
+
+  join: JAC_SelectOrders {
+    view_label: "Select Order Fact"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${JAC_MasterFactFile.id} = ${JAC_SelectOrders.id} ;;
+  }
+  join: JAC_SelectSiteLine {
+    view_label: "Select Website Fact"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${JAC_MasterFactFile.id} = ${JAC_SelectSiteLine.id} ;;
+  }
+  join: JAC_SelectLaughStub {
+    view_label: "Select LaughStub Fact"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${JAC_MasterFactFile.id} = ${JAC_SelectLaughStub.id} ;;
+  }
+  join: JAC_SelectDonations {
+    view_label: "Select Donation Fact"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${JAC_MasterFactFile.id} = ${JAC_SelectDonations.id} ;;
+  }
+  join: sf_bti {
+    view_label: "Salesforce BTI"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${JAC_MasterFactFile_new.id}=${sf_bti.account_c} ;;
+  }
+}
 
 
 #
@@ -124,5 +205,18 @@ explore: JAC_FutureOrders {
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
+  }
+
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+  }
+  join: sf_bti {
+    view_label: "Salesforce BTI"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.id}=${sf_bti.account_c} ;;
   }
 }

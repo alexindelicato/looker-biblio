@@ -50,6 +50,19 @@ explore: created_orders_new {
     sql_on: ${created_orders_new.salesforceId}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
   }
 
+  join: sf_net_arr_2019 {
+    view_label: "Salesforce 2019 NET ARR"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+  }
+  join: sf_bti {
+    view_label: "Salesforce BTI"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.id}=${sf_bti.account_c} ;;
+  }
+
 
 }
 explore: av_arr_acv {

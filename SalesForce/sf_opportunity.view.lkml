@@ -848,7 +848,7 @@ dimension: is_closed {
 }
 
 dimension: is_deleted {
-  type: string
+  type: yesno
   sql: ${TABLE}.is_deleted ;;
 }
 
@@ -1943,6 +1943,11 @@ dimension: account_phone_number_c {
     sql: ${TABLE}.not_in_current_bti_scope_c ;;
   }
 
+  dimension: not_in_current_bti_scope_string {
+    type: string
+    sql: cast(${TABLE}.not_in_current_bti_scope_c as string) ;;
+  }
+
 dimension: acct_name_c {
   type: string
   sql: ${TABLE}.acct_name_c ;;
@@ -2502,7 +2507,7 @@ dimension: activity_metric_id {
 }
 
 dimension: bti_target_c {
-  type: string
+  type: yesno
   sql: ${TABLE}.bti_target_c ;;
 }
 
