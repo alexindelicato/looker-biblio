@@ -44,6 +44,12 @@ view: sf_accounts {
     sql: ${TABLE}.bti_client_tier_c  ;;
   }
 
+  dimension: bti_onboarding_train {
+    label: "BTI Onboarding Train"
+    type: string
+    sql: ${TABLE}.bti_onboarding_train_c  ;;
+  }
+
   dimension: BTI_Cohort__c {
     label: "BTI Cohort Name"
     type: string
