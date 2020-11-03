@@ -93,6 +93,12 @@ explore: JAC_MasterFactFile {
     relationship: one_to_one
     sql_on: ${sf_accounts.id}=${sf_bti.account_c} ;;
   }
+  join: sf_bti_sequence {
+    view_label: "SF BTI Onboarding Train"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.bti_onboarding_train}=${sf_bti_sequence.id} ;;
+  }
 }
 
 #Select On JAC_MasterFactFile
@@ -161,6 +167,12 @@ explore:JAC_MasterFactFile_new {
     type: left_outer
     relationship: one_to_one
     sql_on: ${JAC_MasterFactFile_new.id}=${sf_bti.account_c} ;;
+  }
+  join: sf_bti_sequence {
+    view_label: "SF Accounts"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${JAC_MasterFactFile_new.bti_onboarding_train}=${sf_bti_sequence.id} ;;
   }
 }
 

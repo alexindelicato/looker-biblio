@@ -45,8 +45,8 @@ view: sf_accounts {
   }
 
   dimension: bti_onboarding_train {
-    label: "BTI Onboarding Train"
     type: string
+    hidden: yes
     sql: ${TABLE}.bti_onboarding_train_c  ;;
   }
 
