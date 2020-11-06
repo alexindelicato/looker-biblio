@@ -1162,11 +1162,18 @@ explore: sel_orders {
     sql_on: ${sel_orders.id}=${sel_transactions.orderid} and  ${testmode} = "N";;
   }
 
+  join: sel_transactions_refunds {
+    view_label: "AV Select Transaction Refunds"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_transactions.transactionid}=${sel_transactions_refunds.transactionid}  ;;
+  }
+
   join: sel_refunds {
     view_label: "AV Select Refunds"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${sel_orders.id}=${sel_refunds.orderid}  ;;
+    sql_on: ${sel_transactions_refunds.refundid}=${sel_refunds.refundid}  ;;
   }
 
   join: sel_exchanges {
