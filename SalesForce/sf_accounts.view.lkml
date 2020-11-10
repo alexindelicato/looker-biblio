@@ -62,6 +62,13 @@ view: sf_accounts {
     sql: ${TABLE}.BTI_ID_c  ;;
   }
 
+  dimension: BTI_Actual_Migration_Path {
+    label: "BTI Actual Migration Path"
+    type: string
+    sql: ${TABLE}.bti_actual_migration_path_c;;
+  }
+
+
   dimension: Default_Migration_Path__c {
     label: "Default Migration Path"
     type: string

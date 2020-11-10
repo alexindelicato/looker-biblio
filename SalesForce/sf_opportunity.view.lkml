@@ -181,6 +181,18 @@ dimension: amount {
   value_format_name: usd
   sql: ${TABLE}.amount ;;
 }
+  dimension: amount_USD {
+    label: "Opportinity Amount (USD)"
+    value_format_name: usd
+    sql: CASE
+          WHEN ${TABLE}.currency_iso_code = 'CAD' THEN ${TABLE}.amount  * 0.76
+          WHEN ${TABLE}.currency_iso_code = 'COP' THEN ${TABLE}.amount  * 0.00029
+          WHEN ${TABLE}.currency_iso_code = 'GBP' THEN ${TABLE}.amount  * 1.32
+          WHEN ${TABLE}.currency_iso_code = 'PHP' THEN ${TABLE}.amount  * 0.020
+          WHEN ${TABLE}.currency_iso_code = 'USD' THEN ${TABLE}.amount  * 1
+          ELSE 0
+      END ;;
+  }
 
 dimension: ancillary_ps_days_c {
   type: number
