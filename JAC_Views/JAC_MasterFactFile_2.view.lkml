@@ -5,6 +5,7 @@ view: JAC_MasterFactFile_2 {
       column: count_reserved_venues_types { field: sel_venues.count_reserved_venues_types }
       column: count_mixed_venues_types { field: sel_venues.count_mixed_venues_types }
       column: count_GA_venues_types { field: sel_venues.count_GA_venues_types }
+      column: active_members { field: sel_members.active_count }
 
       filters: {
         field: sf_accounts.vam_member_id_c
@@ -25,6 +26,11 @@ view: JAC_MasterFactFile_2 {
   }
   dimension: count_GA_venues_types {
     label: "AV Select Venues # of GA Venues"
+    type: number
+  }
+
+  dimension: active_members {
+    label: "# of Active Members"
     type: number
   }
 }

@@ -795,6 +795,12 @@ view: sel_members {
     drill_fields: [detail*]
   }
 
+  measure: active_count {
+    label: "# of Active Members"
+    type: count
+    filters: [active: "Y"]
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

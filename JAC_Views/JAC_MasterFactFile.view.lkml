@@ -17,6 +17,7 @@ view: JAC_MasterFactFile {
       column: count_GA_venues_types { field: JAC_MasterFactFile_2.count_GA_venues_types }
       column: count_mixed_venues_types { field: JAC_MasterFactFile_2.count_mixed_venues_types }
       column: count_reserved_venues_types { field: JAC_MasterFactFile_2.count_reserved_venues_types }
+      column: active_members { field: JAC_MasterFactFile_2.active_members }
 
       column: count_GA_events_types { field: JAC_MasterFactFile_4.count_GA_events_types }
       column: count_mixed_events_types { field: JAC_MasterFactFile_4.count_mixed_events_types }
@@ -105,6 +106,11 @@ view: JAC_MasterFactFile {
   }
   dimension: total_sent_count {
     label: "# of Total Emails Sent to Patrons"
+    type: number
+  }
+
+  dimension: active_members {
+    label: "# of Active Members"
     type: number
   }
 }
