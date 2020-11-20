@@ -18,9 +18,9 @@ view: JAC_MasterFactFile {
       column: count_mixed_venues_types { field: JAC_MasterFactFile_2.count_mixed_venues_types }
       column: count_reserved_venues_types { field: JAC_MasterFactFile_2.count_reserved_venues_types }
 
-      column: count_GA_events_types { field: JAC_MasterFactFile_2.count_GA_events_types }
-      column: count_mixed_events_types { field: JAC_MasterFactFile_2.count_mixed_events_types }
-      column: count_reserved_events_types { field: JAC_MasterFactFile_2.count_reserved_events_types }
+      column: count_GA_events_types { field: JAC_MasterFactFile_4.count_GA_events_types }
+      column: count_mixed_events_types { field: JAC_MasterFactFile_4.count_mixed_events_types }
+      column: count_reserved_events_types { field: JAC_MasterFactFile_4.count_reserved_events_types }
 
       column: count_campaigns { field: JAC_MasterFactFile_3.sel_emailcampaigns_count_campaigns }
       column: total_sent_count { field: JAC_MasterFactFile_3.sel_email_campaigns_stats_total_sent_count }
