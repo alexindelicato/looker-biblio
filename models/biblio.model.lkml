@@ -1340,6 +1340,13 @@ explore: sel_orders {
       sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
     }
 
+    join: sel_venues {
+      view_label: "AV Select Venues"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${sel_events.venueid}=${sel_venues.venueid} AND  ${sel_venues.deleted} IS NULL ;;
+    }
+
  }
 
   #Select performance stats explore for settlement issue
@@ -1400,7 +1407,14 @@ explore: sel_orders {
       relationship: one_to_many
       sql_on: ${sel_performances.eventid}=${sel_events.eventid} ;;
     }
+
+    join: sel_venues {
+      view_label: "AV Select Venues"
+      type: left_outer
+      relationship: one_to_one
+      sql_on: ${sel_events.venueid}=${sel_venues.venueid} AND  ${sel_venues.deleted} IS NULL ;;
     }
+  }
 
   #GA Conversion rate
   explore: ga_pro_conversion {

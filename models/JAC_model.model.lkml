@@ -231,4 +231,11 @@ explore: JAC_FutureOrders {
     relationship: one_to_one
     sql_on: ${sf_accounts.id}=${sf_bti.account_c} ;;
   }
+
+  join: sel_venues {
+    view_label: "AV Select Venues"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_events.venueid}=${sel_venues.venueid} AND  ${sel_venues.deleted} IS NULL ;;
+  }
 }

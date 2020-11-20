@@ -5,6 +5,11 @@ view: JAC_MasterFactFile_2 {
       column: count_reserved_venues_types { field: sel_venues.count_reserved_venues_types }
       column: count_mixed_venues_types { field: sel_venues.count_mixed_venues_types }
       column: count_GA_venues_types { field: sel_venues.count_GA_venues_types }
+
+      column: count_reserved_events_types { field: sel_events.count_reserved_events_types }
+      column: count_mixed_events_types { field: sel_events.count_mixed_events_types }
+      column: count_GA_events_types { field: sel_events.count_GA_events_types }
+
       filters: {
         field: sf_accounts.vam_member_id_c
         value: "-NULL"
@@ -24,6 +29,19 @@ view: JAC_MasterFactFile_2 {
   }
   dimension: count_GA_venues_types {
     label: "AV Select Venues # of GA Venues"
+    type: number
+  }
+
+  dimension: count_reserved_events_types {
+    label: "AV Select Events # of Reserved Venues"
+    type: number
+  }
+  dimension: count_mixed_events_types {
+    label: "AV Select Events # of Mixed Venues"
+    type: number
+  }
+  dimension: count_GA_events_types {
+    label: "AV Select Events # of GA Venues"
     type: number
   }
 }

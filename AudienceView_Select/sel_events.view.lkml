@@ -287,4 +287,36 @@ view: sel_events {
     type: count
     drill_fields: [eventid, venues.venueid, venues.name, performances.count]
   }
+
+
+  measure: count_GA_events_types {
+    label: "# of GA Events"
+    type: count_distinct
+    sql: ${TABLE}.eventid ;;
+    filters: {
+      field: sel_venues.admission
+      value: "G"
+    }
+  }
+
+  measure: count_mixed_events_types {
+    label: "# of Mixed Events"
+    type: count_distinct
+    sql: ${TABLE}.eventid ;;
+    filters: {
+      field: sel_venues.admission
+      value: "F"
+    }
+  }
+
+  measure: count_reserved_events_types {
+    label: "# of Reserved Events"
+    type: count_distinct
+    sql: ${TABLE}.eventid ;;
+    filters: {
+      field: sel_venues.admission
+      value: "R"
+    }
+  }
+
 }
