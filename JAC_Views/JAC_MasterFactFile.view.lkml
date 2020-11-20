@@ -12,18 +12,7 @@ view: JAC_MasterFactFile {
       column: count_patrongroupid {}
       column: count {}
       column: count_created_patrons {}
-      column: name {}
-      column: cohort_id {}
-      column: cohorts {}
-      column: billing_country {}
-      column: tl_gateway_c {}
-      column: preferred_language_c {}
-      column: state {}
       column: id {}
-      column: segment_new_c {}
-      column: type {}
-      column: Default_Migration_Path {}
-      column: vertical_new_c {}
       column: count_GA_venues_types { field: JAC_MasterFactFile_2.count_GA_venues_types }
       column: count_mixed_venues_types { field: JAC_MasterFactFile_2.count_mixed_venues_types }
       column: count_reserved_venues_types { field: JAC_MasterFactFile_2.count_reserved_venues_types }
@@ -71,41 +60,11 @@ view: JAC_MasterFactFile {
     label: "Total # of Patrons (Past 3 Years)"
     type: number
   }
-  dimension: name {
-    label: "Client Name"
-  }
-  dimension: cohort_id {
-    label: "Cohort ID"
-  }
-  dimension: cohorts {
-    label: "Cohorts"
-  }
   dimension: billing_country {
     label: "Country"
   }
-  dimension: tl_gateway_c {
-    label: "Payment Processing"
-  }
-  dimension: preferred_language_c {
-    label: "Preferred Language"
-  }
-  dimension: state {
-    label: "Region/State"
-  }
   dimension: id {
     label: "Salesforce ID"
-  }
-  dimension: segment_new_c {
-    label: "Segment"
-  }
-  dimension: type {
-    label: "Type"
-  }
-  dimension: Default_Migration_Path {
-    label: "Default Migration Path"
-  }
-  dimension: vertical_new_c {
-    label: "Vertical"
   }
   dimension: count_GA_venues_types {
     label: "# of GA Venues"
