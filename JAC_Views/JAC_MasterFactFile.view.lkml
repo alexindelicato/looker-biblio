@@ -81,24 +81,24 @@ view: JAC_MasterFactFile {
     type: number
   }
 
-
-  dimension: count_reserved_events_types {
-    label: "AV Select Events # of Reserved Venues"
-    type: number
-  }
-  dimension: count_mixed_events_types {
-    label: "AV Select Events # of Mixed Venues"
-    type: number
-  }
-  dimension: count_GA_events_types {
-    label: "AV Select Events # of GA Venues"
-    type: number
-  }
-
   dimension: count_reserved_venues_types {
     label: "# of Reserved Venues"
     type: number
   }
+
+  dimension: count_reserved_events_types {
+    label: "AV Select Future Events # of Reserved Venues"
+    type: number
+  }
+  dimension: count_mixed_events_types {
+    label: "AV Select Future Events # of Mixed Venues"
+    type: number
+  }
+  dimension: count_GA_events_types {
+    label: "AV Select Future Events # of GA Venues"
+    type: number
+  }
+
   dimension: count_campaigns {
     label: "# Of Campaign Emails Sent"
     type: number

@@ -22,6 +22,13 @@ explore: JAC_MasterFactFile_1 {
     relationship: one_to_one
     sql_on: ${JAC_MasterFactFile_1.id}=${JAC_MasterFactFile_3.id};;
   }
+
+  join: JAC_MasterFactFile_4 {
+    view_label: "JAC_MasterFactFile Emails"
+    type: inner
+    relationship: one_to_one
+    sql_on: ${JAC_MasterFactFile_1.id}=${JAC_MasterFactFile_4.id};;
+  }
 }
 
 #Select On JAC_MasterFactFile
