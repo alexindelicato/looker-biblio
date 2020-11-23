@@ -24,8 +24,8 @@ explore: JAC_MasterFactFile_1 {
   }
 
   join: JAC_MasterFactFile_4 {
-    view_label: "JAC_MasterFactFile Emails"
-    type: inner
+    view_label: "JAC_MasterFactFile Future Events"
+    type: left_outer
     relationship: one_to_one
     sql_on: ${JAC_MasterFactFile_1.id}=${JAC_MasterFactFile_4.id};;
   }
