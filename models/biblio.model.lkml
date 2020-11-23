@@ -714,7 +714,7 @@ explore: sel_members {
   join: sel_patrons {
     view_label: "AV Select Patron"
     type: left_outer
-    relationship: one_to_one
+    relationship: one_to_many
     sql_on: ${sel_members.memberid} = ${sel_patrons.memberid} and ${sel_patrons.deleted} is NULL;;
   }
 
@@ -892,6 +892,20 @@ explore: sel_members {
     type: left_outer
     relationship: one_to_one
     sql_on: ${sel_orders.memberid}=${sel_members.memberid} and ${sel_orders.testmode} = "N" ;;
+  }
+
+  join: sel_memberships {
+    view_label: "AV Select Memberships"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_memberships.memberid}=${sel_members.memberid} ;;
+  }
+
+  join: sel_patrons_memberships {
+    view_label: "AV Select Patron Memberships"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_patrons_memberships.membershipid}=${sel_memberships.membershipid} ;;
   }
 
   join: sel_memberships_sales {

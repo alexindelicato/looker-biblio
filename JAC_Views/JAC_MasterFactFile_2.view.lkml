@@ -6,6 +6,7 @@ view: JAC_MasterFactFile_2 {
       column: count_mixed_venues_types { field: sel_venues.count_mixed_venues_types }
       column: count_GA_venues_types { field: sel_venues.count_GA_venues_types }
       column: active_members { field: sel_members.active_count }
+      column: count_active_memberships { field: sel_patrons_memberships.count_active_memberships }
 
       filters: {
         field: sf_accounts.vam_member_id_c
@@ -31,6 +32,11 @@ view: JAC_MasterFactFile_2 {
 
   dimension: active_members {
     label: "# of Active Members"
+    type: number
+  }
+
+  dimension: count_active_memberships {
+    label: "Total # of Active Memberships"
     type: number
   }
 }
