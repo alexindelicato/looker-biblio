@@ -718,6 +718,14 @@ explore: sel_members {
     sql_on: ${sel_members.memberid} = ${sel_patrons.memberid} and ${sel_patrons.deleted} is NULL;;
   }
 
+
+  join: sel_members_statement_items {
+    view_label: "AV Select Member Statement Items"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_members_statement_items.memberid} = ${sel_members.memberid} and ${sel_members_statement_items._fivetran_deleted} = false;;
+  }
+
   join: sel_patrons_groups {
     view_label: "AV Select Patron Groups Join"
     type: left_outer
