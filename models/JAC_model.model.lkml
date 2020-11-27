@@ -181,6 +181,13 @@ explore:JAC_MasterFactFile_new {
     relationship: one_to_one
     sql_on: ${JAC_MasterFactFile_new.bti_onboarding_train}=${sf_bti_sequence.id} ;;
   }
+
+  join: sel_liability_report {
+    view_label: "Select Liability Report"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_liability_report.member_id}=${JAC_MasterFactFile_new.vam_member_id_c} ;;
+  }
 }
 
 
