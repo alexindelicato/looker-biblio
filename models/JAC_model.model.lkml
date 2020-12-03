@@ -188,6 +188,13 @@ explore:JAC_MasterFactFile_new {
     relationship: one_to_one
     sql_on: ${sel_liability_report.member_id}=${JAC_MasterFactFile_new.vam_member_id_c} ;;
   }
+
+  join: sel_OutstandingAR_Report {
+    view_label: "Select Outstanding AR Report"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_OutstandingAR_Report.member_id}=${JAC_MasterFactFile_new.vam_member_id_c} ;;
+  }
 }
 
 
