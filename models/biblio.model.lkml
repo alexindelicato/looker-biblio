@@ -34,6 +34,15 @@ explore: sf_accounts {
     sql_on: ${sf_accounts.id}=${sf_opportunity.account_id} AND ${sf_opportunity.is_deleted}= FALSE;;
   }
 
+
+  join: sf_engagement_request{
+    view_label: "Salesforce Engagement Request"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_opportunity.id}=${sf_engagement_request.opportunity_id}
+      AND ${sf_engagement_request.is_deleted} = FALSE;;
+  }
+
   join: sf_net_arr_2019 {
     view_label: "Salesforce 2019 NET ARR"
     type: left_outer
@@ -99,7 +108,16 @@ explore: sf_opportunity {
     sql_on: ${sf_opportunity_history.opportunity_id}=${sf_opportunity.id};;
   }
 
-  join: sf_risk_list {
+  join: sf_engagement_request{
+    view_label: "Salesforce Engagement Request"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_opportunity.id}=${sf_engagement_request.opportunity_id}
+      AND ${sf_engagement_request.is_deleted} = FALSE;;
+  }
+
+
+ join: sf_risk_list {
     type: left_outer
     relationship: one_to_many
     sql_on: ${sf_opportunity.id} = ${sf_risk_list.id} ;;
