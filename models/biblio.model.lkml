@@ -246,6 +246,13 @@ explore: ot_orders {
   fields: [ALL_FIELDS*]
   sql_always_where: ${ot_client.demo}=0 and ${ot_client.testing_mode}=0 and ${ot_client.client_id} NOT IN (35200,34918) and  ${ot_client.active} = 1 and ${imported}=0 and ${is_test_mode}=0 and ${status_id} != 11;;
 
+  join: pro_Accting {
+    view_label: "AV Pro Accting"
+    type:left_outer
+    relationship: many_to_many
+    sql_on: 1=1 ;;
+  }
+
   join: ot_client {
     view_label: "AV Pro Client"
     type:left_outer

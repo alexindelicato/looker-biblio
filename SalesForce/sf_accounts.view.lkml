@@ -98,6 +98,12 @@ view: sf_accounts {
     sql: ${TABLE}.account_legal_name_c ;;
   }
 
+  dimension: netsuite_id {
+    label: "Netsuite Id"
+    type: string
+    sql: ${TABLE}.netsuite_id_c ;;
+  }
+
 # not in use
 # dimension: account_name_source_c {
 #     type: string
