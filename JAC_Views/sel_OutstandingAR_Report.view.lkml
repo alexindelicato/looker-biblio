@@ -12,4 +12,9 @@ view: sel_OutstandingAR_Report {
     type: number
     value_format: "$0.00"
   }
+
+  dimension: date {
+    label: "Last Updated AR"
+    type: date
+  }
 }

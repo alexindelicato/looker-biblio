@@ -2,6 +2,7 @@ view: sel_liability_report {
   sql_table_name: mysql_service.Liability_Report ;;
 
   dimension: last_updated_ar_and_funds_held_date {
+    label: "Last Updated Liability Date"
     type: date
   }
 
