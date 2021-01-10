@@ -5,6 +5,7 @@ view: ot_orders {
   dimension: order_id {
     primary_key: yes
     type: number
+    value_format_name: id
     sql: ${TABLE}.order_id ;;
   }
 

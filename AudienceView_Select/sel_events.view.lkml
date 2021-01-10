@@ -112,6 +112,12 @@ view: sel_events {
     sql: ${TABLE}.firstperformancedate ;;
   }
 
+  dimension: firstperformancedateDate {
+    type: date
+    label: "First Performance Date"
+    sql: TIMESTAMP_SECONDS(${TABLE}.firstperformancedate) ;;
+  }
+
   dimension: glaccount {
     type: string
     sql: ${TABLE}.glaccount ;;
@@ -217,6 +223,18 @@ view: sel_events {
     sql: ${TABLE}.suspended ;;
   }
 
+  dimension: WebSuspended {
+    type: string
+    label:"Online Sales Channel"
+    sql: case when ${TABLE}.suspended='Y' or ${TABLE}.suspended = 'L' then "Not On-Sale" Else "On-Sale" End ;;
+  }
+
+  dimension: AgentSuspended {
+    type: string
+    label:"TicketAgent Sales Channel"
+    sql: case when ${TABLE}.suspended='Y' or ${TABLE}.suspended = 'A' then "Not On-Sale" Else "On-Sale" End ;;
+  }
+
   dimension: themeid {
     type: string
     sql: ${TABLE}.themeid ;;
@@ -269,4 +287,36 @@ view: sel_events {
     type: count
     drill_fields: [eventid, venues.venueid, venues.name, performances.count]
   }
+
+
+  measure: count_GA_events_types {
+    label: "# of GA Events"
+    type: count_distinct
+    sql: ${TABLE}.eventid ;;
+    filters: {
+      field: sel_venues.admission
+      value: "G"
+    }
+  }
+
+  measure: count_mixed_events_types {
+    label: "# of Mixed Events"
+    type: count_distinct
+    sql: ${TABLE}.eventid ;;
+    filters: {
+      field: sel_venues.admission
+      value: "F"
+    }
+  }
+
+  measure: count_reserved_events_types {
+    label: "# of Reserved Events"
+    type: count_distinct
+    sql: ${TABLE}.eventid ;;
+    filters: {
+      field: sel_venues.admission
+      value: "R"
+    }
+  }
+
 }

@@ -56,6 +56,7 @@ facts.default_currency               ;;
   dimension: default_currency { type: string sql: ${TABLE}.default_currency ;; }
   dimension: orders_created { type: number label: "Orders Created" sql: ${TABLE}.orders_created ;; }
   dimension: admisisons_sold { type: number label: "Admissions Sold" sql: ${TABLE}.admisisons_sold ;; }
+  measure: total_admisisons_sold { type: sum label: "Total Admissions Sold" sql: ${TABLE}.admisisons_sold ;; }
   dimension: admissions_sold_amount { type: number value_format_name: usd sql: ${TABLE}.admissions_sold_amount ;; }
   dimension: admissions_sold_amount_usd { type: number value_format_name: usd sql: ${TABLE}.admissions_sold_amount_usd ;; }
 

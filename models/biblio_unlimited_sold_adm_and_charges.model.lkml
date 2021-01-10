@@ -1,4 +1,4 @@
-connection: "fivetran-bigquery"
+#connection: "fivetran-bigquery"
 
 # include: "*.view.lkml"                       # include all views in this project
 

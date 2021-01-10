@@ -38,6 +38,18 @@ view: sf_accounts {
     sql: ${TABLE}.account_acquisition_source_c ;;
   }
 
+  dimension: BTI_Client_Tier__c {
+    label: "BTI Client Tier"
+    type: string
+    sql: ${TABLE}.bti_client_tier_c  ;;
+  }
+
+  dimension: bti_onboarding_train {
+    type: string
+    hidden: yes
+    sql: ${TABLE}.bti_onboarding_train_c  ;;
+  }
+
   dimension: BTI_Cohort__c {
     label: "BTI Cohort Name"
     type: string
@@ -49,6 +61,13 @@ view: sf_accounts {
     type: number
     sql: ${TABLE}.BTI_ID_c  ;;
   }
+
+  dimension: BTI_Actual_Migration_Path {
+    label: "BTI Actual Migration Path"
+    type: string
+    sql: ${TABLE}.bti_actual_migration_path_c;;
+  }
+
 
   dimension: Default_Migration_Path__c {
     label: "Default Migration Path"
@@ -77,6 +96,12 @@ view: sf_accounts {
   dimension: account_legal_name_c {
     type: string
     sql: ${TABLE}.account_legal_name_c ;;
+  }
+
+  dimension: netsuite_id {
+    label: "Netsuite Id"
+    type: string
+    sql: ${TABLE}.netsuite_id_c ;;
   }
 
 # not in use
@@ -256,7 +281,7 @@ view: sf_accounts {
     type: number
     value_format_name: usd
     sql: ${annual_contract_value_conversion} ;;
-    required_fields: [annual_contract_value_conversion,sf_accounts.currency_iso_code,sf_accounts.annual_contract_value_c ]
+    required_fields: [annual_contract_value_conversion,currency_iso_code,annual_contract_value_c ]
   }
 
   dimension: annual_email_fees_c {
@@ -296,6 +321,7 @@ view: sf_accounts {
     type: number
     value_format_name: usd
     sql: ${TABLE}.annual_subscription_fee_c ;;
+    required_fields: [annual_subscription_fee_c]
   }
 
 
@@ -355,7 +381,7 @@ view: sf_accounts {
     sql: case when ${TABLE}.type = "Client - AudiencView Unlimited" then ${sum_annual_contract_value_c}
      when ${TABLE}.type IN ("Client - AudiencView Unlimited", "Client - AudienceView Professional") then ${arr} end;;
     value_format_name: usd
-    required_fields: [sf_accounts.type]
+    required_fields: [type]
   }
 
 
@@ -424,6 +450,7 @@ view: sf_accounts {
     label: "Country"
     type: string
     sql: ${TABLE}.billing_country ;;
+    map_layer_name: countries
   }
 
   dimension: billing_geocode_accuracy {
@@ -458,6 +485,7 @@ view: sf_accounts {
     type: string
     sql: case when ${TABLE}.billing_state is NULL then ${TABLE}.billing_city
          else  ${TABLE}.billing_state  END;;
+    map_layer_name: us_states
   }
 
 
@@ -2034,20 +2062,20 @@ view: sf_accounts {
 # {% endif %};;
     link: {
       label: "Client Overview"
-      url: "{% if sf_accounts.product_name._value == 'AudienceView Select' %}/dashboards/49?Client Name={{sf_accounts.name._filterable_value    | url_encode}}
-            {% elsif sf_accounts.product_name._value == 'AudienceView Professional' %}/dashboards/47?Client Name={{sf_accounts.name._filterable_value   | url_encode }}
-            {% elsif sf_accounts.product_name._value == 'AudienceView Unlimited' %}/dashboards/57?Client Name={{sf_accounts.name._filterable_value | url_encode }}
-            {% elsif sf_accounts.product_name._value == 'AudienceView Campus' %}/dashboards/34?Product={{sf_accounts.product_name._value | url_encode }}
-            {% elsif sf_accounts.product_name._value == 'AudienceView Grad' %}/dashboards/34?Product={{sf_accounts.product_name._value | url_encode }} {% endif %}"
+      url: "{% if product_name._value == 'AudienceView Select' %}/dashboards/49?Client Name={{name._filterable_value    | url_encode}}
+            {% elsif product_name._value == 'AudienceView Professional' %}/dashboards/47?Client Name={{name._filterable_value   | url_encode }}
+            {% elsif product_name._value == 'AudienceView Unlimited' %}/dashboards/57?Client Name={{${name._filterable_value | url_encode }}
+            {% elsif product_name._value == 'AudienceView Campus' %}/dashboards/34?Product={{product_name._value | url_encode }}
+            {% elsif product_name._value == 'AudienceView Grad' %}/dashboards/34?Product={{product_name._value | url_encode }} {% endif %}"
       icon_url: "https://www.pngfind.com/pngs/m/383-3836953_overview-icon-wp-overview-icon-hd-png-download.png"
     }
     link: {
       label: "Client Insights"
-      url:  "{% if sf_accounts.product_name._value == 'AudienceView Select' %}/dashboards/46?Product={{sf_accounts.product_name._value }}&Client Name={{sf_accounts.name._filterable_value   | url_encode}}
-            {% elsif sf_accounts.product_name._value == 'AudienceView Professional' %}/dashboards/48?Client Name={{sf_accounts.name._filterable_value  | url_encode  }}
-            {% elsif sf_accounts.product_name._value == 'AudienceView Unlimited' %}/dashboards/58?Product Name={{sf_accounts.product_name._filterable_value | url_encode }}&Client Name={{sf_accounts.name._filterable_value | url_encode}}
-            {% elsif sf_accounts.product_name._value == 'AudienceView Campus' %}/dashboards/34?Product={{sf_accounts.product_name._value }}
-            {% elsif sf_accounts.product_name._value == 'AudienceView Grad' %}/dashboards/34?Product={{sf_accounts.product_name._value }} {% endif %}"
+      url:  "{% if product_name._value == 'AudienceView Select' %}/dashboards/46?Product={{product_name._value }}&Client Name={{name._filterable_value   | url_encode}}
+            {% elsif product_name._value == 'AudienceView Professional' %}/dashboards/48?Client Name={{name._filterable_value  | url_encode  }}
+            {% elsif product_name._value == 'AudienceView Unlimited' %}/dashboards/58?Product Name={{product_name._filterable_value | url_encode }}&Client Name={{name._filterable_value | url_encode}}
+            {% elsif product_name._value == 'AudienceView Campus' %}/dashboards/34?Product={{product_name._value }}
+            {% elsif product_name._value == 'AudienceView Grad' %}/dashboards/34?Product={{product_name._value }} {% endif %}"
       icon_url: "https://st4.depositphotos.com/4799321/26935/v/1600/depositphotos_269359362-stock-illustration-insight-icon-in-transparent-style.jpg"
     }
     link: {
@@ -2273,6 +2301,12 @@ view: sf_accounts {
   dimension: owner_id {
     type: string
     sql: ${TABLE}.owner_id ;;
+  }
+
+  dimension: owner_name_text_c {
+    type: string
+    label: "Owner Name"
+    sql: ${TABLE}.owner_name_text_c ;;
   }
 
   dimension: ownership {
@@ -3381,5 +3415,19 @@ view: sf_accounts {
   measure: count {
     type: count
     drill_fields: [name, product_name,unlimited_version]
+  }
+
+  dimension: client_count {
+    type: string
+    sql: "Total" ;;
+  }
+  measure: count_total_clients {
+    label: "Total Client Count"
+    type: count
+    drill_fields: [name, product_name,unlimited_version]
+    filters: {
+      field: type
+      value: "Client - AudienceView Campus,Client - AudienceView Grad,Client - AudienceView Professional,Client - AudienceView Select,Client - AudienceView Unlimited,Client - CrowdTorch,Client - Boxxo"
+    }
   }
 }

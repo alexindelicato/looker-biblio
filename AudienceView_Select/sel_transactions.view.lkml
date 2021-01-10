@@ -272,6 +272,40 @@ view: sel_transactions {
     }
     }
 
+  measure: 2019_without_comps_conveniencefee {
+    label: "2019 Ticket Convenience Fee (USD/Without COmps)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+    filters: {
+      field: transactiontype
+      value: "Not 4"
+    }
+  }
+
+  measure: 2019_comp_conveniencefee {
+    label: "2019 Comp Ticket Convenience Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+    filters: {
+      field: transactiontype
+      value: "4"
+    }
+  }
+
   measure: 2018_arr_conveniencefee {
     label: "2018 Ticket Convenience Fee (USD)"
     type: sum_distinct
@@ -282,6 +316,40 @@ view: sel_transactions {
     filters: {
       field: date_year
       value: "2018"
+    }
+  }
+
+  measure: 2018_without_comps_conveniencefee {
+    label: "2018 Ticket Convenience Fee (USD/Without Comps)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2018"
+    }
+    filters: {
+      field: transactiontype
+      value: "NOT 4"
+    }
+  }
+
+  measure: 2018_comp_conveniencefee {
+    label: "2018 Comp Ticket Convenience Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.conveniencefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2018"
+    }
+    filters: {
+      field: transactiontype
+      value: "4"
     }
   }
 
@@ -492,6 +560,30 @@ view: sel_transactions {
     }
   }
 
+
+  measure: 2019_total_quantity_no_comps {
+    label: "2019 Number of Tickets (Without Comps)"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+    filters: {
+      field: voided
+      value: "NULL"
+    }
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+  filters: {
+    field: transactiontype
+    value: "NOT 4"
+  }
+  }
+
+  measure: 2019_total_comps {
+    type: number
+    sql: ${2019_total_quantity}-${2019_total_quantity_no_comps} ;;
+  }
+
   measure: total_future_ticket {
     label: "Number of Tickets for a Future Performance"
     type: sum_distinct
@@ -532,6 +624,29 @@ view: sel_transactions {
       field: date_year
       value: "2018"
     }
+  }
+
+  measure: 2018_total_quantity_without_comps {
+    label: "2018 Number of Tickets (Without Comps)"
+    type: sum_distinct
+    sql: ${TABLE}.quantity ;;
+    filters: {
+      field: voided
+      value: "NULL"
+    }
+    filters: {
+      field: date_year
+      value: "2018"
+    }
+    filters: {
+      field: transactiontype
+      value: "NOT 4"
+    }
+  }
+
+  measure: 2018_total_comps {
+    type: number
+    sql: ${2018_total_quantity}-${2018_total_quantity_without_comps} ;;
   }
 
   measure: total_quantity_refunded {
@@ -754,6 +869,40 @@ view: sel_transactions {
     }
   }
 
+  measure: 2019_total_without_servicefee {
+    label: "2019 Ticket Service Fee (USD/Without Comps)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+    filters: {
+      field: transactiontype
+      value: "NOT 4"
+    }
+  }
+
+  measure: 2019_total_comp_servicefee {
+    label: "2019 Comp Ticket Service Fee"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+    filters: {
+      field: transactiontype
+      value: "4"
+    }
+  }
+
   measure: 2018_total_arr_servicefee {
     label: "2018 Ticket Service Fee (USD)"
     type: sum_distinct
@@ -764,6 +913,40 @@ view: sel_transactions {
     filters: {
       field: date_year
       value: "2018"
+    }
+  }
+
+  measure: 2018_total_arr_without_comps_servicefee {
+    label: "2018 Ticket Service Fee (USD/Without Comps)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2018"
+    }
+    filters: {
+      field: transactiontype
+      value: "Not 4"
+    }
+  }
+
+  measure: 2018_total_comp_servicefee {
+    label: "2018 Comp Ticket Service Fee (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql:   case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*0.7673
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.servicefee as FLOAT64), 2)*1
+          else 0 end ;;
+    filters: {
+      field: date_year
+      value: "2018"
+    }
+    filters: {
+      field: transactiontype
+      value: "4"
     }
   }
 
@@ -822,6 +1005,68 @@ view: sel_transactions {
       field: transactiontype
       value: "NOT 4"
     }
+    filters: {
+      field: sel_refunds.refundid
+      value: "NULL"
+    }
+  }
+
+  measure: nonvoided_total_amount {
+    label: "Non-Voided Earned Income (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+      else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
+    filters: {
+      field: transactiontype
+      value: "not 4"
+    }
+    filters: {
+      field: voided
+      value: "NULL"
+    }
+  }
+
+
+  measure: 2019_nonvoided_total_amount {
+    label: "2019 Non-Voided Earned Income (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+      else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
+    filters: {
+      field: date_year
+      value: "2019"
+    }
+    filters: {
+      field: transactiontype
+      value: "not 4"
+    }
+    filters: {
+      field: voided
+      value: "NULL"
+    }
+  }
+
+
+    measure: 2020_nonvoided_total_amount {
+      label: "2020 Non-Voided Earned Income (USD)"
+      type: sum_distinct
+      value_format_name: usd
+      sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
+        else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
+      filters: {
+        field: date_year
+        value: "2020"
+      }
+      filters: {
+        field: transactiontype
+        value: "not 4"
+      }
+      filters: {
+        field: voided
+        value: "NULL"
+      }
   }
 
   measure: total_amount_usd {
@@ -864,13 +1109,12 @@ view: sel_transactions {
     }
   }
 
-
   measure: 2019_total_amount {
     label: "2019 Earned Income (USD)"
     type: sum_distinct
     value_format_name: usd
     sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)* 0.72
-         else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
+      else round(safe_cast(${TABLE}.total as FLOAT64), 2)*1 End ;;
     filters: {
       field: date_year
       value: "2019"

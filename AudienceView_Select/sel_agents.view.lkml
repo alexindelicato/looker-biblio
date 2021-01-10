@@ -43,9 +43,9 @@ view: sel_agents {
     sql: ${TABLE}.defaulttaeventview ;;
   }
 
-  dimension: deleted {
-    type: number
-    sql: ${TABLE}.deleted ;;
+  dimension_group: deleted {
+    type: time
+    sql: timestamp_seconds(${TABLE}.deleted) ;;
   }
 
   dimension: email {
@@ -139,6 +139,23 @@ view: sel_agents {
   dimension: visits {
     type: number
     sql: ${TABLE}.visits ;;
+  }
+
+
+  measure: count_agents {
+    type: count_distinct
+    sql: ${TABLE}.agentid ;;
+    drill_fields: [agentid, firstname, lastname, agent_to_members.count]
+    filters: {
+      field: last_date
+      value: "last 14 days"
+    }
+  }
+
+  measure: count_all_users {
+    type: number
+    sql: ${count} + 1 ;;
+    drill_fields: [agentid, firstname, lastname, agent_to_members.count]
   }
 
   measure: count {

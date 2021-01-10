@@ -58,6 +58,11 @@ view: sel_patrongroups {
     sql: ${TABLE}.name ;;
   }
 
+  measure: name_list {
+    type: list
+    list_field: name
+  }
+
   dimension: showta {
     type: string
     sql: ${TABLE}.showta ;;

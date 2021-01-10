@@ -365,6 +365,31 @@ view: ot_client_enabled_feature {
     sql: ${TABLE}.wos_mailing_option ;;
   }
 
+  dimension: listing_on_consumer_sites_enabled {
+    type: yesno
+    sql: ${TABLE}.listing_on_consumer_sites_enabled = 1 ;;
+  }
+
+  measure: listing_on_consumer_sites_enabled_yes {
+    type: count
+    filters: {
+      field: listing_on_consumer_sites_enabled
+      value: "Yes" }
+  }
+
+  measure: listing_on_consumer_sites_enabled_no {
+    type: count
+    filters: {
+      field: listing_on_consumer_sites_enabled
+      value: "No" }
+  }
+
+  measure: percentage_to_listing_goal {
+    type:  number
+    value_format_name: percent_0
+    sql: ${listing_on_consumer_sites_enabled_yes}/${listing_on_consumer_sites_enabled_no} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [ot_client.client_id,sf_accounts.name]

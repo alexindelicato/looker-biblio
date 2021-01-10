@@ -54,6 +54,12 @@ view: sel_patrons {
     sql: ${TABLE}.patronnumid ;;
   }
 
+  dimension: patronextid {
+    type: string
+    value_format_name: id
+    sql: ${TABLE}.patronextid ;;
+  }
+
   measure: count_created_patrons {
     label: "Total # of Patrons (Past 3 Years)"
     type: count
