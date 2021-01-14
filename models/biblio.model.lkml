@@ -1064,14 +1064,16 @@ explore: sel_members {
     view_label: "AV Select Performance Tiered Pricing"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sel_performances.performanceid}=${sel_performances_tickettypes_tieredprices.performanceid}   ;;
+    sql_on: ${sel_performances.performanceid}=${sel_performances_tickettypes_tieredprices.performanceid}
+      and ${sel_tickettiers.tierid}=${sel_performances_tickettypes_tieredprices.tierid}
+      and ${sel_tickettypes.tickettypeid}=${sel_performances_tickettypes_tieredprices.tickettypeid};;
   }
 
   join: sel_performances_tickettypes_prices {
     view_label: "AV Select Performance Prices"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sel_performances.performanceid}=${sel_performances_tickettypes_prices.performanceid}   ;;
+    sql_on: ${sel_performances.performanceid}=${sel_performances_tickettypes_prices.performanceid} AND ${sel_tickettypes.tickettypeid}=${sel_performances_tickettypes_prices.tickettypeid};;
   }
 
 
