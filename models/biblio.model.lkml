@@ -1046,18 +1046,18 @@ explore: sel_members {
     sql_on: ${sel_tags_to_events.tagid}=${sel_tags.tagid} AND ${sel_tags.deleted} IS NULL ;;
   }
 
-  join: sel_tickettiers {
-    view_label: "AV Select Ticket Tiers"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${sel_members.memberid} = ${sel_tickettiers.memberid} and ${sel_tickettiers.deleted} is NULL;;
-  }
-
   join: sel_performances {
     view_label: "AV Select Performances"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL  ;;
+    sql_on: ${sel_events.eventid}=${sel_performances.eventid} AND  ${sel_performances.deleted} IS NULL;;
+  }
+
+  join: sel_tickettiers {
+    view_label: "AV Select Ticket Tiers"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_members.memberid} = ${sel_tickettiers.memberid} AND ${sel_tickettiers.deleted} is NULL AND ${sel_performances.performanceid}=${sel_tickettiers.performanceid};;
   }
 
   join: sel_performances_tickettypes_tieredprices {
