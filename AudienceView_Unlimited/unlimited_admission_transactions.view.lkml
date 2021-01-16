@@ -6,6 +6,7 @@ view: unlimited_admission_transactions {
       client_name,
       sf_account_name,
       sf_account_id,
+      audit_time,
       cast(audit_time as TIMESTAMP) as audit_date_time,
       YEAR,
       quarter,
@@ -13,30 +14,19 @@ view: unlimited_admission_transactions {
       userrole_group,
       single_admission_net_sold_amount,
       bundle_admission_net_sold_amount,
+      single_admission_charge_amount,
+      bundle_admission_charge_amount,
+      single_admission_gross_sold_amount,
+      bundle_admission_gross_sold_amount,
       single_admission_sold_volume,
       bundle_admission_sold_volume,
-      single_admission_net_paid_amount,
-      bundle_admission_net_paid_amount,
-      single_admission_paid_volume,
-      bundle_admission_paid_volume,
       single_admission_comp_volume,
       bundle_admission_comp_volume,
-      total_admission_comp_volume,
-      total_admission_sold_volume,
-      total_admission_net_sold_amount,
-      CHG1,
-      CHG2,
-      CHG3,
-      CHG4,
-      CHG5,
-      total_admission_gross_sold_amount,
       orderadmission_sale_action,
-      orderadmission_paid_action,
       orderadmission_record_state,
       orderadmission_sale_action_description,
-      orderadmission_paid_action_description,
-      orderadmission_record_state_description,
-      GROSS_USD
+      orderadmission_record_state_description
+
     FROM audienceview.unlimited_admission_transactions as admissions
 --    INNER JOIN audienceview.unlimited_client_facts as facts on facts.client_name = admissions.client_name
 
@@ -57,56 +47,26 @@ view: unlimited_admission_transactions {
     dimension:  userrole_group  { type: string sql: ${TABLE}.userrole_group ;; }
 
     dimension:  orderadmission_sale_action  { type: number sql: ${TABLE}.orderadmission_sale_action ;; }
-    dimension:  orderadmission_paid_action  { type: number sql: ${TABLE}.orderadmission_paid_action ;; }
     dimension:  orderadmission_record_state { type: string sql: ${TABLE}.orderadmission_record_state ;; }
     dimension:  orderadmission_sale_action_description  { type: string sql: ${TABLE}.orderadmission_sale_action_description ;; }
-    dimension:  orderadmission_paid_action_description  { type: string sql: ${TABLE}.orderadmission_paid_action_description ;; }
     dimension:  orderadmission_record_state_description { type: string sql: ${TABLE}.orderadmission_record_state_description ;; }
 
+    dimension: single_admission_net_sold_amount { type: number label: "Single Admission Sold Amount" sql: ${TABLE}.single_admission_net_sold_amount ;; }
+    dimension: bundle_admission_net_sold_amount { type: number label: "Bundle Admission Sold Amount" sql: ${TABLE}.bundle_admission_net_sold_amount ;; }
+    dimension: single_admission_charge_amount { type: number label: "Single Admission Charge Amount" sql: ${TABLE}.single_admission_charge_amount ;; }
+    dimension: bundle_admission_charge_amount { type: number label: "Bundle Admission Charge Amount" sql: ${TABLE}.bundle_admission_charge_amount ;; }
+    dimension: single_admission_gross_sold_amount { type: number label: "Single Admission Gross Amount" sql: ${TABLE}.single_admission_charge_amount ;; }
+    dimension: bundle_admission_gross_sold_amount { type: number label: "Bundle Admission Gross Amount" sql: ${TABLE}.bundle_admission_gross_sold_amount ;; }
+
     dimension: single_admission_sold_volume { type: number label: "Single Admission Sold Count" sql: ${TABLE}.single_admission_sold_volume ;; }
-    dimension: single_admission_paid_volume { type: number label: "Single Admission Paid Count" sql: ${TABLE}.single_admission_paid_volume ;; }
     dimension: bundle_admission_sold_volume { type: number label: "Bundle Admission Sold Count" sql: ${TABLE}.bundle_admission_sold_volume ;; }
-    dimension: bundle_admission_paid_volume { type: number label: "Bundle Admission Paid Count" sql: ${TABLE}.bundle_admission_paid_volume ;; }
-
-    dimension: single_admission_sold_amount { type: number label: "Single Admission Sold Amount" sql: ${TABLE}.single_admission_sold_amount ;; }
-    dimension: single_admission_paid_amount { type: number label: "Single Admission Paid Amount" sql: ${TABLE}.single_admission_net_paid_amount ;; }
-    dimension: bundle_admission_sold_amount { type: number label: "Bundle Admission Sold Amount" sql: ${TABLE}.bundle_admission_net_sold_amount ;; }
-    dimension: bundle_admission_paid_amount { type: number label: "Bundle Admission Paid Amount" sql: ${TABLE}.bundle_admission_net_paid_amount ;; }
-
     dimension: single_admission_comp_volume { type: number label: "Single Admission Comp Volume" sql: ${TABLE}.single_admission_comp_volume ;; }
     dimension: bundle_admission_comp_volume { type: number label: "Bundle Admission Comp Volume" sql: ${TABLE}.bundle_admission_comp_volume ;; }
 
-    dimension: total_admission_comp_volume { type: number label: "Total Admission Comp Volume" sql: ${TABLE}.single_admission_comp_volume ;; }
-    dimension: total_admission_sold_volume { type: number label: "Total Admission Sold Volume" sql: ${TABLE}.bundle_admission_comp_volume ;; }
-    dimension: total_admission_net_sold_amount { type: number label: "Total Admission Sold Amount (NET)" sql: ${TABLE}.single_admission_sold_amount ;; }
-    dimension: total_admission_gross_sold_amount { type: number label: "Total Admission Sold Amount (GROSS)" sql: ${TABLE}.total_admission_gross_sold_amount ;; }
-
-    measure: total_sold {
-      type: sum
-      label: "Total Sold"
-      sql:  SUM( ${TABLE}.total_admission_sold_volume + ${TABLE}.total_admission_comp_volume ) ;;
-
-      filters: {
-        field: orderadmission_sale_action
-        value: "1"
-      }
-    }
-
-    measure: total_returned {
-      type: sum
-      label: "Total Returned"
-      sql:  SUM( ${TABLE}.total_admission_sold_volume + ${TABLE}.total_admission_comp_volume ) ;;
-
-      filters: {
-        field: orderadmission_sale_action
-        value: "3"
-      }
-    }
-
-  measure: total_single_admission_sold {
+  measure: single_admissions_total_sold {
     type: sum
-    label: "Total Single Admission Sold"
-    sql:  ${TABLE}.single_admission_sold_volume ;;
+    label: "Single Admissions Sold (Less Comps)"
+    sql:  ${TABLE}.single_admission_sold_volume - ${TABLE}.single_admission_comp_volume ;;
 
     filters: {
       field: orderadmission_sale_action
@@ -114,10 +74,10 @@ view: unlimited_admission_transactions {
     }
   }
 
-  measure: total_single_admission_returned {
+  measure: single_admissions_total_returned {
     type: sum
-    label: "Total Single Admission Returned"
-    sql:  ${TABLE}.single_admission_sold_volume ;;
+    label: "Single Admissions Returned (Less Comps)"
+    sql:  ${TABLE}.single_admission_sold_volume - ${TABLE}.single_admission_comp_volume ;;
 
     filters: {
       field: orderadmission_sale_action
@@ -125,10 +85,48 @@ view: unlimited_admission_transactions {
     }
   }
 
-  measure: total_bundle_admission_sold {
+  measure: single_admissions_total_sold_net_value {
     type: sum
-    label: "Total Bundle Admission Sold"
-    sql:  ${TABLE}.bundle_admission_sold_volume ;;
+    label: "Single Admissions Net Sold Value"
+    filters: [orderadmission_sale_action: "0, 1, 2, 4, 5, 6"]
+    sql:  ${TABLE}.single_admission_net_sold_amount ;;
+  }
+
+  measure: single_admissions_total_sold_gross_value {
+    type: sum
+    label: "Single Admissions Gross Sold Value"
+    filters: [orderadmission_sale_action: "0, 1, 2, 4, 5, 6"]
+    sql:  ${TABLE}.single_admission_gross_sold_amount ;;
+  }
+
+  measure: single_admissions_total_returned_net_value {
+    type: sum
+    label: "Single Admissions Returned Net Value"
+    sql:  ${TABLE}.single_admission_net_sold_amount  ;;
+
+    filters: {
+      field: orderadmission_sale_action
+      value: "3"
+    }
+  }
+
+  measure: single_admissions_total_returned_gross_value {
+    type: sum
+    label: "Single Admissions Returned Sold Value"
+    filters: [orderadmission_sale_action: "3"]
+    sql:  ${TABLE}.single_admission_gross_sold_amount ;;
+  }
+
+  measure: single_admissions_total_value {
+    type: number
+    label: "Single Admissions Total"
+    sql:  ${single_admissions_total_sold_gross_value} + ${single_admissions_total_returned_gross_value} ;;
+  }
+
+  measure: single_admissions_total_sold_comps {
+    type: sum
+    label: "Single Admissions Comps"
+    sql:  ${TABLE}.single_admission_comp_volume ;;
 
     filters: {
       field: orderadmission_sale_action
@@ -136,10 +134,10 @@ view: unlimited_admission_transactions {
     }
   }
 
-  measure: total_bundle_admission_returned {
+  measure: single_admissions_total_sold_comps_returned {
     type: sum
-    label: "Total Bundle Admission Returned"
-    sql:  ${TABLE}.bundle_admission_sold_volume ;;
+    label: "Single Admissions Comps Returned"
+    sql:  ${TABLE}.single_admission_comp_volume ;;
 
     filters: {
       field: orderadmission_sale_action
@@ -148,11 +146,10 @@ view: unlimited_admission_transactions {
   }
 
 
-  measure: total_sold_amount {
+  measure: bundle_admissions_total_sold {
     type: sum
-    label: "Total Sold Amount"
-    value_format_name: usd
-    sql:  ${TABLE}.total_admission_sold_volume ;;
+    label: "Bundle Admissions Sold (Less Comps)"
+    sql:  ${TABLE}.bundle_admission_sold_volume - ${TABLE}.bundle_admission_comp_volume ;;
 
     filters: {
       field: orderadmission_sale_action
@@ -160,11 +157,20 @@ view: unlimited_admission_transactions {
     }
   }
 
-  measure: total_returned_amount {
+  measure: bundle_admissions_total_returned {
     type: sum
-    label: "Total Returned Amount"
-    value_format_name: usd
-    sql:  ${TABLE}.total_admission_sold_amount  ;;
+    label: "Bundle Admissions Returned (Less Comps)"
+    sql:  ${TABLE}.bundle_admission_sold_volume - ${TABLE}.bundle_admission_comp_volume ;;
+
+    filters: {
+      field: orderadmission_sale_action
+      value: "3"
+    }
+  }
+  measure: bundle_admissions_total_returned_value {
+    type: sum
+    label: "Bundle Admissions Returned Value"
+    sql:  ${TABLE}.bundle_admission_net_sold_amount ;;
 
     filters: {
       field: orderadmission_sale_action
@@ -172,11 +178,48 @@ view: unlimited_admission_transactions {
     }
   }
 
-  measure: total_single_admission_sold_amount {
+  measure: bundle_admissions_total_sold_net_value {
     type: sum
-    label: "Total Single Admission Sold Amount"
-    value_format_name: usd
-    sql:  ${TABLE}.single_admission_sold_amount ;;
+    label: "Bundle Admissions Net Sold Value"
+    filters: [orderadmission_sale_action: "0, 1, 2, 4, 5, 6"]
+    sql:  ${TABLE}.bundle_admission_net_sold_amount ;;
+  }
+
+  measure: bundle_admissions_total_sold_gross_value {
+    type: sum
+    label: "Bundle Admissions Gross Sold Value"
+    filters: [orderadmission_sale_action: "0, 1, 2, 4, 5, 6"]
+    sql:  ${TABLE}.bundle_admission_gross_sold_amount ;;
+  }
+
+  measure: bundle_admissions_total_returned_net_value {
+    type: sum
+    label: "Bundle Admissions Returned Net Value"
+    sql:  ${TABLE}.bundle_admission_net_sold_amount  ;;
+
+    filters: {
+      field: orderadmission_sale_action
+      value: "3"
+    }
+  }
+
+  measure: bundle_admissions_total_returned_gross_value {
+    type: sum
+    label: "Bundle Admissions Returned Sold Value"
+    filters: [orderadmission_sale_action: "3"]
+    sql:  ${TABLE}.bundle_admission_gross_sold_amount ;;
+  }
+
+  measure: bundle_admissions_total_value {
+    type: number
+    label: "Bundle Admissions Total"
+    sql:  ${bundle_admissions_total_sold_gross_value} + ${bundle_admissions_total_returned_gross_value} ;;
+  }
+
+  measure: bundle_admissions_total_sold_comps {
+    type: sum
+    label: "Bundle Admissions Comps"
+    sql:  ${TABLE}.bundle_admission_comp_volume ;;
 
     filters: {
       field: orderadmission_sale_action
@@ -184,41 +227,15 @@ view: unlimited_admission_transactions {
     }
   }
 
-  measure: total_single_admission_returned_amount {
+  measure: bundle_admissions_total_sold_comps_returned {
     type: sum
-    label: "Total Single Admission Returned Amount"
-    value_format_name: usd
-    sql:  ${TABLE}.single_admission_sold_amount ;;
+    label: "Bundle Admissions Comps Returned"
+    sql:  ${TABLE}.bundle_admission_comp_volume ;;
 
     filters: {
       field: orderadmission_sale_action
       value: "3"
     }
   }
-
-  measure: total_bundle_admission_sold_amount {
-    type: sum
-    label: "Total Bundle Admission Sold Amount"
-    sql:  ${TABLE}.bundle_admission_sold_amount ;;
-    value_format_name: usd
-
-    filters: {
-      field: orderadmission_sale_action
-      value: "1"
-    }
-  }
-
-  measure: total_bundle_admission_returned_amount {
-    type: sum
-    label: "Total Bundle Admission Returned Amount"
-    value_format_name: usd
-    sql:  ${TABLE}.bundle_admission_sold_amount ;;
-
-    filters: {
-      field: orderadmission_sale_action
-      value: "3"
-    }
-  }
-
 
 }
