@@ -1197,6 +1197,22 @@ explore: sel_orders {
     relationship: one_to_many
     sql_on: ${sel_members.memberid}=${sf_accounts.vam_member_id_c} AND ${sf_accounts.is_deleted}= FALSE ;;
   }
+
+  join: sf_opportunity {
+    view_label: "SF Opportunity"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.id}=${sf_opportunity.account_id}
+      AND ${sf_opportunity.is_deleted} = FALSE;;
+  }
+
+  join: sf_bti {
+    view_label: "Salesforce BTI"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sf_accounts.id}=${sf_bti.account_c} ;;
+  }
+
   join: sf_net_arr_2019 {
     view_label: "Salesforce 2019 NET ARR"
     type: left_outer
