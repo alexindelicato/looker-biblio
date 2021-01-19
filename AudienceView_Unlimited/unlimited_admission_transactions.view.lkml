@@ -12,6 +12,7 @@ view: unlimited_admission_transactions {
       quarter,
       userrole_name,
       userrole_group,
+      'Single Admissions' AS transaction_type,
       single_admission_net_sold_amount,
       bundle_admission_net_sold_amount,
       single_admission_charge_amount,
@@ -28,13 +29,111 @@ view: unlimited_admission_transactions {
       orderadmission_record_state_description
 
     FROM audienceview.unlimited_admission_transactions as admissions
---    INNER JOIN audienceview.unlimited_client_facts as facts on facts.client_name = admissions.client_name
+    WHERE single_admission_sold_volume <> 0 OR single_admission_gross_sold_amount <> 0
+
+UNION ALL
+
+    SELECT
+      UUID,
+      client_name,
+      sf_account_name,
+      sf_account_id,
+      audit_time,
+      cast(audit_time as TIMESTAMP) as audit_date_time,
+      YEAR,
+      quarter,
+      userrole_name,
+      userrole_group,
+      'Bundle Admissions' AS transaction_type,
+      single_admission_net_sold_amount,
+      bundle_admission_net_sold_amount,
+      single_admission_charge_amount,
+      bundle_admission_charge_amount,
+      single_admission_gross_sold_amount,
+      bundle_admission_gross_sold_amount,
+      single_admission_sold_volume,
+      bundle_admission_sold_volume,
+      single_admission_comp_volume,
+      bundle_admission_comp_volume,
+      orderadmission_sale_action,
+      orderadmission_record_state,
+      orderadmission_sale_action_description,
+      orderadmission_record_state_description
+
+    FROM audienceview.unlimited_admission_transactions as admissions
+    WHERE bundle_admission_sold_volume <> 0 OR bundle_admission_gross_sold_amount <> 0
+
+
+UNION ALL
+
+    SELECT
+      UUID,
+      client_name,
+      sf_account_name,
+      sf_account_id,
+      audit_time,
+      cast(audit_time as TIMESTAMP) as audit_date_time,
+      YEAR,
+      quarter,
+      userrole_name,
+      userrole_group,
+      'Single Admission Comps' AS transaction_type,
+      single_admission_net_sold_amount,
+      bundle_admission_net_sold_amount,
+      single_admission_charge_amount,
+      bundle_admission_charge_amount,
+      single_admission_gross_sold_amount,
+      bundle_admission_gross_sold_amount,
+      single_admission_sold_volume,
+      bundle_admission_sold_volume,
+      single_admission_comp_volume,
+      bundle_admission_comp_volume,
+      orderadmission_sale_action,
+      orderadmission_record_state,
+      orderadmission_sale_action_description,
+      orderadmission_record_state_description
+
+    FROM audienceview.unlimited_admission_transactions as admissions
+    WHERE single_admission_comp_volume <> 0
+
+UNION ALL
+
+    SELECT
+      UUID,
+      client_name,
+      sf_account_name,
+      sf_account_id,
+      audit_time,
+      cast(audit_time as TIMESTAMP) as audit_date_time,
+      YEAR,
+      quarter,
+      userrole_name,
+      userrole_group,
+      'Bundle Admission Comps' AS transaction_type,
+      single_admission_net_sold_amount,
+      bundle_admission_net_sold_amount,
+      single_admission_charge_amount,
+      bundle_admission_charge_amount,
+      single_admission_gross_sold_amount,
+      bundle_admission_gross_sold_amount,
+      single_admission_sold_volume,
+      bundle_admission_sold_volume,
+      single_admission_comp_volume,
+      bundle_admission_comp_volume,
+      orderadmission_sale_action,
+      orderadmission_record_state,
+      orderadmission_sale_action_description,
+      orderadmission_record_state_description
+
+    FROM audienceview.unlimited_admission_transactions as admissions
+    WHERE bundle_admission_comp_volume <> 0
 
       ;;
 
       sql_trigger_value: select max(audit_time) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_admission_transactions`;;
     }
 
+    dimension:  transaction_type { type: string sql: ${TABLE}.transaction_type ;; }
 
     dimension:  UUID  { type: string sql: ${TABLE}.UUID ;; }
     dimension:  client_name { type: string sql: ${TABLE}.client_name ;; }
@@ -144,7 +243,6 @@ view: unlimited_admission_transactions {
       value: "3"
     }
   }
-
 
   measure: bundle_admissions_total_sold {
     type: sum
