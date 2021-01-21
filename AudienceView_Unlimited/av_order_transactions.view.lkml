@@ -268,12 +268,12 @@ view: av_order_transactions {
                   WHEN gift_certificate_transaction_type = 'PURCHASE'
                     THEN gift_certificate_purchase_amount
                     ELSE 0
-                END)/ 100.00 as sold_amount,
+                END) / 100.00 as sold_amount,
                 SUM( CASE
                   WHEN gift_certificate_transaction_type = 'REDEMPTION'
                     THEN gift_certificate_redeemed_amount
                     ELSE 0
-                END)/ 100.00 as returned_amount,
+                END) / 100.00 as returned_amount,
 
                 SUM(gift_certificate_amount) / 100.00 as net_sold_amount,
 
