@@ -1,6 +1,5 @@
 view: sel_orders_misclineitems {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.orders_misclineitems`
-    ;;
+  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.orders_misclineitems`;;
   drill_fields: [id]
 
   dimension: id {
@@ -388,6 +387,24 @@ view: sel_orders_misclineitems {
     value_format_name: usd
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
     drill_fields: [sel_members.organizationname,orderid,date_date,total]
+  }
+
+  measure: sum_total_usd {
+    label: "Total Misc Items Amount (USD)"
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)*0.72
+          when ${sel_members.currency} = "USD" then round(safe_cast(${TABLE}.total as FLOAT64), 2)*1
+                else 0 end ;;
+    drill_fields: [sel_members.organizationname,orderid,date_date,total]
+  }
+
+  measure: sum_total_earned {
+    label: "Total Misc Items Amount Earned"
+    type: sum_distinct
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
+    filters: [refunded: "-Y"]
   }
 
   measure: total_tipjar {

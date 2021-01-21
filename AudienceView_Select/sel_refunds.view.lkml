@@ -51,6 +51,14 @@ view: sel_refunds {
     drill_fields: [sel_members.organizationname,orderid,sel_performances.startime_date,date_date]
   }
 
+
+  measure:: total_refund_amount_usd {
+    type: sum_distinct
+    value_format_name: usd
+    sql: case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)* 0.72
+      else round(safe_cast(${TABLE}.amount as FLOAT64), 2)*1 End ;;
+  }
+
 #   measure: partial_refund {
 #     type: yesno
 #     sql: ${total_refund_amount} <> ${sel_orders.sum_totalcost} and  ${total_refund_amount} > 0  ;;

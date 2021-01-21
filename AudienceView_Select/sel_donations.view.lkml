@@ -52,12 +52,49 @@ view: sel_donations {
     sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
   }
 
+  measure: sum_donation_amount_net {
+    label: "Total Donation Amount Earned"
+    type: sum
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+
+    filters: {
+      field: refundid
+      value: "NULL"
+    }
+  }
+
+  measure: sum_donation_amount_refunds {
+    label: "Total Donation Refund Amount"
+    type: sum
+    value_format_name: usd
+    sql: round(safe_cast(${TABLE}.amount as FLOAT64), 2) ;;
+
+    filters: {
+      field: refundid
+      value: "NOT NULL"
+    }
+  }
+
   measure: sum_donation_amount_usd {
     label: "Total Donation Amount (USD)"
     type: sum
     value_format_name: usd
     sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)* 0.72
-         else round(safe_cast(${TABLE}.amount as FLOAT64), 2) *1 END ;;
+      else round(safe_cast(${TABLE}.amount as FLOAT64), 2) *1 END ;;
+  }
+
+  measure: sum_donation_amount_usd_Earned {
+    label: "Total Donation Amount Earned (USD)"
+    type: sum
+    value_format_name: usd
+    sql:  case when ${sel_members.currency} = "CAD" then round(safe_cast(${TABLE}.amount as FLOAT64), 2)* 0.72
+      else round(safe_cast(${TABLE}.amount as FLOAT64), 2) *1 END ;;
+
+    filters: {
+      field: refundid
+      value: "NULL"
+    }
   }
 
   measure: 2019_sum_donation_amount {
