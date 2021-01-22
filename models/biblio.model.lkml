@@ -695,25 +695,28 @@ explore: ot_client {
 #------------------------
 
 # AudienceView QBR-------
-explore: av_qbr {
-  label: "AV Unlimited"
-  group_label: "Project Biblio"
-  view_label: "AV Unlimited"
 
-  join: sf_accounts {
-    view_label: "SF Accounts"
-    type: left_outer
-    relationship: one_to_one
-    sql_on: ${av_qbr.sf_client_id}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
-  }
-  join: sf_net_arr_2019 {
-    view_label: "Salesforce 2019 NET ARR"
-    type: left_outer
-    relationship: one_to_many
-    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
-  }
-  }
-  #--------------------------
+# QBR is depricated - not to be used.
+
+#explore: av_qbr {
+#  label: "AV Unlimited"
+#  group_label: "Project Biblio"
+#  view_label: "AV Unlimited"
+
+#  join: sf_accounts {
+#    view_label: "SF Accounts"
+#    type: left_outer
+#    relationship: one_to_one
+#    sql_on: ${av_qbr.sf_client_id}=${sf_accounts.id} AND ${sf_accounts.is_deleted}= FALSE ;;
+#  }
+#  join: sf_net_arr_2019 {
+#    view_label: "Salesforce 2019 NET ARR"
+#    type: left_outer
+#    relationship: one_to_many
+#    sql_on: ${sf_accounts.id}=${sf_net_arr_2019.id} ;;
+#  }
+#  }
+#--------------------------
 
   # AudienceView Select-------
 explore: sel_members {
