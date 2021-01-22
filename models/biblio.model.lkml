@@ -1255,6 +1255,13 @@ explore: sel_orders {
     sql_on: ${sel_orders_misclineitems.orderid}=${sel_orders.id} ;;
   }
 
+  join: set_refunds_misclineitems {
+    view_label: "AV Select Order Misc Items Refunds"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${set_refunds_misclineitems.orderid}=${sel_orders.id} ;;
+  }
+
   join: sel_donations {
     view_label: "AV Select Donations"
     type: left_outer
