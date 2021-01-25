@@ -1,4 +1,4 @@
-view: av_order_transactions {
+view: unlimited_order_transactions {
   derived_table: {
     sql:
 
@@ -7,6 +7,7 @@ view: av_order_transactions {
       client_name,
       sf_account_name,
       sf_account_id,
+      salesforce.netsuite_id_c as netsuite_id,
       audit_time,
       cast(audit_time as TIMESTAMP) as audit_date_time,
       YEAR,
@@ -351,36 +352,82 @@ view: av_order_transactions {
                 YEAR,
                 quarter,
                 transaction_type
-
-
-
-
     ) as t1
+
+    LEFT JOIN fivetran-ovation-tix-warehouse.new_salesforce.account as salesforce on looker_join_id_c = sf_account_id
+      AND is_deleted = FALSE
 
     GROUP BY
       UUID,
       client_name,
       sf_account_name,
       sf_account_id,
+      salesforce.netsuite_id_c,
       audit_time,
       YEAR,
       quarter,
       transaction_type
 
-                ;;
+      ;;
 
       sql_trigger_value: select max(audit_time) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_admission_transactions`;;
     }
+
+  # filter: contract_range {
+  #   type: date
+  #   default_value: ""
+  #   sql:
+  #     ${audit_date_time_date} >= (
+  #     select  contract_start_date
+  #     FROM `fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts` as client_facts
+  #     where client_facts.client_name = ${client_name}
+  #     )
+  #     AND
+  #     ${audit_date_time_date} < (
+  #     select  DATE_ADD(CAST(contract_start_date AS DATE), INTERVAL 1 YEAR)
+  #     FROM `fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts` as client_facts
+  #     where client_facts.client_name = ${client_name}
+  #     )
+  #     ;;
+  #   }
+
+
+  # dimension: contract_start_date {
+  #   type:  date
+  #   sql:  select contract_start_date
+  #   FROM `fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts` as client_facts
+  #   WHERE client_facts.client_name = ${client_name}
+  #   ;;
+  # }
+
+  # dimension: contract_end_date {
+  #   type:  date
+  #   sql:  select DATE_ADD(CAST(contract_start_date AS DATE), INTERVAL 1 YEAR)
+  #       FROM `fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts` as client_facts
+  #       WHERE client_facts.client_name = ${client_name}
+  #       ;;
+  # }
+
+  # dimension: contract_start_date{
+  #   type: date
+  #   sql: case when ${performance_date_month}=${order_create_date_month} Then 'Current'
+  #             when ${performance_date_month}<${order_create_date_month} Then 'Before'
+  #             else 'Future'
+  #         end;;
+  # }
 
     dimension:  transaction_type { type: string sql: ${TABLE}.transaction_type ;; }
 
     dimension:  UUID  { type: string sql: ${TABLE}.UUID ;; }
     dimension:  client_name { type: string sql: ${TABLE}.client_name ;; }
+    dimension:  sf_account_name { type: string sql: ${TABLE}.sf_account_name ;; }
+    dimension:  netsuite_id { type: string sql: ${TABLE}.netsuite_id ;; }
     dimension:  audit_time  { type: string sql: ${TABLE}.audit_time ;; }
     dimension_group: audit_date_time { type: time sql: ${TABLE}.audit_date_time ;; }
 
     dimension:  YEAR  { type: string sql: ${TABLE}. YEAR  ;; }
     dimension:  quarter { type: string sql: ${TABLE}. quarter ;; }
+
 #      dimension:  userrole_name { type: string sql: ${TABLE}.userrole_name ;; }
 #      dimension:  userrole_group  { type: string sql: ${TABLE}.userrole_group ;; }
 
@@ -391,39 +438,139 @@ view: av_order_transactions {
 
     measure: total_sold_amount {
       type: sum
-      label: "Total Amount Sold"
+      label: "Term Amount Sold"
       value_format_name: usd
       sql:  ${TABLE}.sold_amount ;;
     }
 
     measure: total_returned_amount {
       type: sum
-      label: "Total Amount Returned"
+      label: "Term Amount Returned"
       value_format_name: usd
       sql:  ${TABLE}.returned_amount ;;
     }
     measure: total_net_sold_amount {
       type: sum
-      label: "Total Amount"
+      label: "Term Amount"
       value_format_name: usd
       sql:  ${TABLE}.net_sold_amount ;;
     }
     measure: total_sold {
       type: sum
-      label: "Total Quantity Sold"
+      label: "Term Quantity Sold"
       sql:  ${TABLE}.sold_volume;;
     }
 
     measure: total_returned {
       type: sum
-      label: "Total Quantity Returned"
+      label: "Term Quantity Returned"
       sql:  ${TABLE}.returned_volume ;;
     }
 
     measure: total_volume {
       type: sum
-      label: "Total Quantity"
+      label: "Term Quantity"
       sql:  ${TABLE}.net_volume ;;
     }
+
+  parameter: transaction_start_date {
+    type: date
+  }
+
+  parameter: transaction_end_date {
+    type: date
+  }
+
+  # Use this as the monthly measure
+  measure: transaction_sold_amount {
+    type: sum
+    label: "Transaction Amount Sold"
+    value_format_name: usd
+    sql:
+      CASE
+        WHEN ${audit_date_time_date} >= CAST({% parameter transaction_start_date %} AS DATE)
+        AND ${audit_date_time_date} < CAST({% parameter transaction_end_date %} AS DATE)
+        THEN ${TABLE}.sold_amount
+      END ;;
+  }
+
+  measure: transaction_returned_amount {
+    type: sum
+    label: "Transaction Amount Returned"
+    value_format_name: usd
+    sql:
+      CASE
+        WHEN ${audit_date_time_date} >= CAST({% parameter transaction_start_date %} AS DATE)
+        AND ${audit_date_time_date} < CAST({% parameter transaction_end_date %} AS DATE)
+        THEN ${TABLE}.returned_amount
+      END ;;
+  }
+  measure: transaction_net_sold_amount {
+    type: sum
+    label: "Transaction Amount"
+    value_format_name: usd
+    sql:
+      CASE
+        WHEN ${audit_date_time_date} >= CAST({% parameter transaction_start_date %} AS DATE)
+        AND ${audit_date_time_date} < CAST({% parameter transaction_end_date %} AS DATE)
+        THEN ${TABLE}.net_sold_amount
+      END ;;
+  }
+  measure: transaction_sold {
+    type: sum
+    label: "Transaction Quantity Sold"
+    sql:
+      CASE
+        WHEN ${audit_date_time_date} >= CAST({% parameter transaction_start_date %} AS DATE)
+        AND ${audit_date_time_date} < CAST({% parameter transaction_end_date %} AS DATE)
+        THEN ${TABLE}.sold_volume
+      END ;;
+  }
+
+  measure: transaction_returned {
+    type: sum
+    label: "Transaction Quantity Returned"
+    sql:
+      CASE
+        WHEN ${audit_date_time_date} >= CAST({% parameter transaction_start_date %} AS DATE)
+        AND ${audit_date_time_date} < CAST({% parameter transaction_end_date %} AS DATE)
+        THEN ${TABLE}.returned_volume
+      END ;;
+  }
+
+  measure: transaction_volume {
+    type: sum
+    label: "Transaction Quantity"
+    sql:
+      CASE
+        WHEN ${audit_date_time_date} >= CAST({% parameter transaction_start_date %} AS DATE)
+        AND ${audit_date_time_date} < CAST({% parameter transaction_end_date %} AS DATE)
+        THEN ${TABLE}.net_volume
+      END ;;
+  }
+
+  # # Use this as the monthly measure
+  # measure: ytd_sold_amount {
+  #   type: sum
+  #   label: "YTD Total Amount Sold"
+  #   value_format_name: usd
+  #   sql:
+  #     CASE
+  #       WHEN ${audit_date_time_date} >= CAST({% parameter transaction_start_date %} AS DATE)
+  #       AND ${audit_date_time_date} < DATE_ADD(CAST({% parameter transaction_start_date %} AS DATE), INTERVAL 1 YEAR)
+  #       THEN ${TABLE}.sold_amount
+  #     END ;;
+  # }
+
+  #measure: ytd_total_sold_amount {
+  #  type: sum
+  #  label: "YTD Total Amount Sold"
+  #  sql:
+  #    CASE
+  #      WHEN EXTRACT(MONTH FROM CAST({% parameter contract_start_date %} AS DATE)) = EXTRACT(MONTH FROM ${audit_date_time_date})
+  #      AND EXTRACT(DAY FROM CAST({% parameter contract_start_date %} AS DATE)) = EXTRACT(DAY FROM ${audit_date_time_date})
+  #      THEN ${TABLE}.sold_amount
+  #    END ;;
+  #}
 
   }
