@@ -478,6 +478,12 @@ explore: ot_orders {
     relationship: one_to_many
     sql_on: ${sf_accounts.salesforce_account_id_c} = ${ot_report_crm.crm_id} AND ${sf_accounts.is_deleted}= FALSE;;
   }
+  join: sf_billing_info {
+    view_label: "SF Billing Info"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_billing_info.account_id};;
+  }
   join: sf_net_arr_2019 {
     view_label: "Salesforce 2019 NET ARR"
     type: left_outer
