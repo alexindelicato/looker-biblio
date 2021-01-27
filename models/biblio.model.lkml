@@ -922,6 +922,13 @@ explore: sel_members {
     sql_on: ${sel_orders.id}=${sel_transactions.orderid} ;;
   }
 
+  join: sel_transactions_refunds {
+    view_label: "AV Select Transaction Refunds"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${sel_transactions.transactionid}=${sel_transactions_refunds.transactionid}  ;;
+  }
+
   join: sel_refunds {
     view_label: "AV Select Refunds"
     type: left_outer
@@ -1374,6 +1381,14 @@ explore: sel_orders {
       relationship: one_to_one
       sql_on: ${sel_members.memberid}=${sel_transactions.memberid};;
     }
+
+    join: sel_transactions_refunds {
+      view_label: "AV Select Transaction Refunds"
+      type: left_outer
+      relationship: many_to_one
+      sql_on: ${sel_transactions.transactionid}=${sel_transactions_refunds.transactionid}  ;;
+    }
+
     join: sel_memberships_sales {
       view_label: "AV Select Membership Sales"
       type: left_outer
