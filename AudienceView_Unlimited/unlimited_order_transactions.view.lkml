@@ -62,7 +62,8 @@ view: unlimited_order_transactions {
                 SUM( single_admission_sold_volume - single_admission_comp_volume ) as net_volume,
 
               FROM audienceview.unlimited_admission_transactions
-              WHERE ( single_admission_sold_volume <> 0 OR single_admission_gross_sold_amount <> 0 )
+              WHERE 1 = 1
+              AND ( single_admission_sold_volume <> 0 OR single_admission_gross_sold_amount <> 0 )
 
               GROUP BY
                 UUID,
@@ -496,8 +497,8 @@ view: unlimited_order_transactions {
     value_format_name: usd
     sql:
       CASE
-        WHEN ${audit_date_time_date} >= DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY)
-        AND ${audit_date_time_date} < DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
+        WHEN ${audit_time} >= CAST(CONCAT( DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY), ' 00:00:00') as DATETIME)
+        AND ${audit_time} < CAST(CONCAT(DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY), ' 23:59:00' ) as DATETIME)
         THEN ${TABLE}.sold_amount
       END ;;
   }
@@ -508,8 +509,8 @@ view: unlimited_order_transactions {
     value_format_name: usd
     sql:
       CASE
-        WHEN ${audit_date_time_date} >= DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY)
-        AND ${audit_date_time_date} < DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
+        WHEN ${audit_time} >= CAST(CONCAT( DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY), ' 00:00:00') as DATETIME)
+        AND ${audit_time} < CAST(CONCAT(DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY), ' 23:59:00' ) as DATETIME)
         THEN ${TABLE}.returned_amount
       END ;;
   }
@@ -519,8 +520,8 @@ view: unlimited_order_transactions {
     value_format_name: usd
     sql:
       CASE
-        WHEN ${audit_date_time_date} >= DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY)
-        AND ${audit_date_time_date} < DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
+        WHEN ${audit_time} >= CAST(CONCAT( DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY), ' 00:00:00') as DATETIME)
+        AND ${audit_time} < CAST(CONCAT(DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY), ' 23:59:00' ) as DATETIME)
         THEN ${TABLE}.net_sold_amount
       END ;;
   }
@@ -529,8 +530,8 @@ view: unlimited_order_transactions {
     label: "Monthly Quantity Sold"
     sql:
       CASE
-        WHEN ${audit_date_time_date} >= DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY)
-        AND ${audit_date_time_date} < DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
+        WHEN ${audit_time} >= CAST(CONCAT( DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY), ' 00:00:00') as DATETIME)
+        AND ${audit_time} < CAST(CONCAT(DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY), ' 23:59:00' ) as DATETIME)
         THEN ${TABLE}.sold_volume
       END ;;
   }
@@ -540,8 +541,8 @@ view: unlimited_order_transactions {
     label: "Monthly Quantity Returned"
     sql:
       CASE
-        WHEN ${audit_date_time_date} >= DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY)
-        AND ${audit_date_time_date} < DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
+        WHEN ${audit_time} >= CAST(CONCAT( DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY), ' 00:00:00') as DATETIME)
+        AND ${audit_time} < CAST(CONCAT(DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY), ' 23:59:00' ) as DATETIME)
         THEN ${TABLE}.returned_volume
       END ;;
   }
@@ -551,8 +552,8 @@ view: unlimited_order_transactions {
     label: "Monthly Quantity"
     sql:
       CASE
-        WHEN ${audit_date_time_date} >= DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY)
-        AND ${audit_date_time_date} < DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY)
+        WHEN ${audit_time} >= CAST(CONCAT( DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY), ' 00:00:00') as DATETIME)
+        AND ${audit_time} < CAST(CONCAT(DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY), ' 23:59:00' ) as DATETIME)
         THEN ${TABLE}.net_volume
       END ;;
   }
