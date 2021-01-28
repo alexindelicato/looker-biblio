@@ -482,7 +482,7 @@ explore: ot_orders {
     view_label: "SF Billing Info"
     type: left_outer
     relationship: one_to_many
-    sql_on: ${sf_accounts.id}=${sf_billing_info.account_id};;
+    sql_on: ${sf_accounts.id}=${sf_billing_info.account_id} AND ${sf_billing_info.is_deleted} = FALSE;;
   }
   join: sf_net_arr_2019 {
     view_label: "Salesforce 2019 NET ARR"
