@@ -205,6 +205,92 @@ view: sel_refunds {
     sql: ${TABLE}.refundtype ;;
   }
 
+  dimension: refund_type_description {
+    case: {
+      when: {
+        sql: ${TABLE}.refundtype = 1 ;;
+        label: "Credit card method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 2 ;;
+        label: "Cash payment method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 3 ;;
+        label: "Check payment method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 4 ;;
+        label: "Comp payment method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 5 ;;
+        label: "Voucher payment method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 6 ;;
+        label: "Voucher payment method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 9 ;;
+        label: "Invoice payment method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 30 ;;
+        label: "Gift card payment method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 100 ;;
+        label: "Custom payment method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 0 ;;
+        label: "Exchange Amount 0"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 8 ;;
+        label: "Renewal payment method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 23 ;;
+        label: "Multiple payment method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 10 ;;
+        label: "'in kind' payment method (for donations)"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 11 ;;
+        label: "'stock options' payment method (for donations)"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 12 ;;
+        label: "'volunteer' payment method (for donations)"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 13 ;;
+        label: "'planned giving' payment method (for donations)"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 15 ;;
+        label: "Donation refund payment method"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 16 ;;
+        label: "Misc refund payment type"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 20 ;;
+        label: "Release refund payment type"
+      }
+      when: {
+        sql: ${TABLE}.refundtype = 21 ;;
+        label: "Exchange credit payment type"
+      }
+      else: "unknown"
+    }
+  }
+
   dimension: response_code {
     type: string
     sql: ${TABLE}.response_code ;;
