@@ -655,8 +655,8 @@ view: sel_transactions {
     sql: ${TABLE}.quantity ;;
 
     filters: {
-      field: sel_refunds.refundid
-      value: "NOT NULL"
+      field: sel_transactions_refunds.transactionid
+      value: "-NULL"
     }
   }
 
@@ -666,8 +666,8 @@ view: sel_transactions {
     sql: ${TABLE}.quantity ;;
 
     filters: {
-      field: sel_refunds.refundid
-      value: "NOT NULL"
+      field: sel_transactions_refunds.transactionid
+      value: "-NULL"
     }
 
     filters: {
@@ -683,8 +683,8 @@ view: sel_transactions {
     sql: ${TABLE}.quantity ;;
 
     filters: {
-      field: sel_refunds.refundid
-      value: "NOT NULL"
+      field: sel_transactions_refunds.transactionid
+      value: "-NULL"
     }
 
     filters: {
@@ -1006,7 +1006,7 @@ view: sel_transactions {
       value: "NOT 4"
     }
     filters: {
-      field: sel_refunds.refundid
+      field: sel_transactions_refunds.transactionid
       value: "NULL"
     }
   }
@@ -1088,8 +1088,8 @@ view: sel_transactions {
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
 
     filters: {
-      field: sel_refunds.refundid
-      value: "NOT NULL"
+      field: sel_transactions_refunds.transactionid
+      value: "-NULL"
     }
   }
 
@@ -1100,8 +1100,8 @@ view: sel_transactions {
     sql: round(safe_cast(${TABLE}.total as FLOAT64), 2) ;;
 
     filters: {
-      field: sel_refunds.refundid
-      value: "NOT NULL"
+      field: sel_transactions_refunds.transactionid
+      value: "-NULL"
     }
     filters: {
       field: date_year
