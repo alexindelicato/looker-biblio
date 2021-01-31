@@ -7,12 +7,13 @@ include: "/*/*.view"
    group_label: "Project Biblio"
    view_label:  "Unlimited Order Transactions"
 
-  # join: unlimited_client_facts {
-  #   view_label: "Unlimited Client Facts"
-  #   type: left_outer
-  #   relationship: many_to_one
-  #   sql_on: ${unlimited_client_facts.client_name}=${unlimited_order_transactions.client_name} ;;
-  # }
+  join: unlimited_expiring_client_facts {
+     view_label: "Expiring Client List"
+     type: inner
+     relationship: many_to_one
+     sql_on: ${unlimited_expiring_client_facts.expiring_client_name}=${unlimited_order_transactions.client_name}
+     ;;
+  }
 
   # join: sf_accounts {
   #   view_label: "SF Accounts"
@@ -26,5 +27,13 @@ explore: unlimited_order_transactions_params {
   label: "Unlimited Order Transactions (Params)"
   group_label: "Project Biblio"
   view_label:  "Unlimited Order Transactions (Params)"
+
+  # join: unlimited_expiring_client_facts {
+  #   view_label: "Expiring Client List"
+  #   type: inner
+  #   relationship: many_to_one
+  #   sql_on: ${unlimited_expiring_client_facts.expiring_client_name}=${unlimited_order_transactions_params.client_name}
+  #   ;;
+  # }
 
 }

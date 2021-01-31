@@ -14,8 +14,12 @@ view: unlimited_order_transactions {
       quarter,
       transaction_type,
 --      contract_start_date,
-      cast(transaction_range_start_date as TIMESTAMP) as contract_range_start_date,
-      cast(transaction_range_end_date as TIMESTAMP) as contract_range_end_date,
+--      CAST(transaction_range_start_date as TIMESTAMP) as contract_range_start_date,
+--      CAST(DATE_ADD( CAST( transaction_range_end_date as DATE), INTERVAL 1 DAY) as TIMESTAMP) as contract_range_end_date,
+
+  DATE_ADD( DATE_ADD( CAST(transaction_range_end_date AS DATE), INTERVAL -1 YEAR ), INTERVAL -1 DAY ) as contract_range_start_date,
+  DATE_ADD( CAST( transaction_range_end_date as DATE), INTERVAL 1 DAY) as contract_range_end_date,
+
       CAST(CONCAT( DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY), ' 00:00:00') as DATETIME) as monthly_start_date,
       CAST(CONCAT(DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY), ' 23:59:00' ) as DATETIME) as monthly_end_date,
       SUM( sold_amount ) AS sold_amount,
@@ -361,8 +365,12 @@ view: unlimited_order_transactions {
     ) as t1
 
    LEFT JOIN fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts as facts on facts.sf_account_id = t1.sf_account_id
-    WHERE audit_time >= transaction_range_start_date
-    and audit_time < transaction_range_end_date
+
+  WHERE audit_time >= DATE_ADD( DATE_ADD( CAST(transaction_range_end_date AS DATE), INTERVAL -1 YEAR ), INTERVAL -1 DAY )
+  AND audit_time < DATE_ADD( CAST( transaction_range_end_date as DATE), INTERVAL 1 DAY)
+
+--  WHERE audit_time >= transaction_range_start_date
+--  and audit_time <  DATE_ADD( CAST( transaction_range_end_date as DATE), INTERVAL 1 DAY)
 
     GROUP BY
       UUID,

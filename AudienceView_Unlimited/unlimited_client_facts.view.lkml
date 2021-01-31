@@ -13,7 +13,8 @@ SELECT
   sf_billing_state,
   sf_billing_country,
   sf_billing_postal_code,
-  '2020-06-01' as contract_start_date
+  cast(transaction_range_start_date as TIMESTAMP) as transaction_range_start_date,
+  cast(transaction_range_end_date as TIMESTAMP) as transaction_range_end_date
 FROM `fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts`
            ;;
     }
