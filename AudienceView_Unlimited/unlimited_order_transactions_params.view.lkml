@@ -294,7 +294,7 @@ view: unlimited_order_transactions_params {
                     THEN gift_certificate_redeemed_volume
                     ELSE 0
                 END) * -1 as returned_volume,
-                SUM( gift_certificate_purchase_volume + gift_certificate_redeemed_volume ) as net_volume,
+                SUM( gift_certificate_purchase_volume - gift_certificate_redeemed_volume ) as net_volume,
 
               FROM audienceview.unlimited_certificate_transactions
               WHERE ( gift_certificate_amount <> 0 )

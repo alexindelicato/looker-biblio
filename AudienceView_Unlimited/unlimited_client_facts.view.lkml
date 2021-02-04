@@ -17,6 +17,8 @@ SELECT
   cast(transaction_range_end_date as TIMESTAMP) as transaction_range_end_date
 FROM `fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts`
            ;;
+    sql_trigger_value: select max(audit_time) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_admission_transactions`;;
+
     }
 
 # DECLARE dateFrom DATETIME;
