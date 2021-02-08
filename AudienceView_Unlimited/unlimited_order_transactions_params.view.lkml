@@ -373,8 +373,7 @@ view: unlimited_order_transactions_params {
       YEAR,
       quarter,
       transaction_type,
-      transaction_range_start_date,
-      transaction_range_end_date
+      contract_start_date
 
       ;;
 
