@@ -13,15 +13,14 @@ view: unlimited_order_transactions {
       YEAR,
       quarter,
       transaction_type,
---      contract_start_date,
---      CAST(transaction_range_start_date as TIMESTAMP) as contract_range_start_date,
---      CAST(DATE_ADD( CAST( transaction_range_end_date as DATE), INTERVAL 1 DAY) as TIMESTAMP) as contract_range_end_date,
+      contract_start_date as contract_expiry_date,
 
-  DATE_ADD( DATE_ADD( CAST(transaction_range_end_date AS DATE), INTERVAL -1 YEAR ), INTERVAL -1 DAY ) as contract_range_start_date,
-  DATE_ADD( CAST( transaction_range_end_date as DATE), INTERVAL 1 DAY) as contract_range_end_date,
+      DATE_ADD( DATE_ADD( CAST(transaction_range_end_date AS DATE), INTERVAL -1 YEAR ), INTERVAL 1 DAY ) as report_start_date,
+      DATE_ADD( CAST(transaction_range_end_date as DATE), INTERVAL 1 DAY) as report_end_date,
 
-      CAST(CONCAT( DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY), ' 00:00:00') as DATETIME) as monthly_start_date,
-      CAST(CONCAT(DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY), ' 23:59:00' ) as DATETIME) as monthly_end_date,
+--      CAST(CONCAT( DATE_ADD(DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH), INTERVAL -1 DAY), ' 00:00:00') as DATETIME) as monthly_start_date,
+--      CAST(CONCAT(DATE_ADD(CURRENT_DATE(), INTERVAL -1 DAY), ' 23:59:00' ) as DATETIME) as monthly_end_date,
+
       SUM( sold_amount ) AS sold_amount,
       SUM( returned_amount ) AS returned_amount,
       SUM( net_sold_amount ) AS net_sold_amount,
@@ -368,11 +367,8 @@ view: unlimited_order_transactions {
 
    LEFT JOIN fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts as facts on facts.sf_account_id = t1.sf_account_id
 
-  WHERE audit_time >= DATE_ADD( DATE_ADD( CAST(transaction_range_end_date AS DATE), INTERVAL -1 YEAR ), INTERVAL -1 DAY )
-  AND audit_time < DATE_ADD( CAST( transaction_range_end_date as DATE), INTERVAL 1 DAY)
-
---  WHERE audit_time >= transaction_range_start_date
---  and audit_time <  DATE_ADD( CAST( transaction_range_end_date as DATE), INTERVAL 1 DAY)
+    WHERE audit_time >= DATE_ADD( DATE_ADD( CAST(transaction_range_end_date AS DATE), INTERVAL -1 YEAR ), INTERVAL 1 DAY )
+    AND audit_time < CAST( transaction_range_end_date as DATE)
 
     GROUP BY
       UUID,
@@ -384,55 +380,13 @@ view: unlimited_order_transactions {
       YEAR,
       quarter,
       transaction_type,
+      contract_start_date,
       transaction_range_start_date,
       transaction_range_end_date
       ;;
 
       sql_trigger_value: select max(audit_time) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_admission_transactions`;;
     }
-
-  # filter: contract_range {
-  #   type: date
-  #   default_value: ""
-  #   sql:
-  #     ${audit_date_time_date} >= (
-  #     select  contract_start_date
-  #     FROM `fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts` as client_facts
-  #     where client_facts.client_name = ${client_name}
-  #     )
-  #     AND
-  #     ${audit_date_time_date} < (
-  #     select  DATE_ADD(CAST(contract_start_date AS DATE), INTERVAL 1 YEAR)
-  #     FROM `fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts` as client_facts
-  #     where client_facts.client_name = ${client_name}
-  #     )
-  #     ;;
-  #   }
-
-
-  # dimension: contract_start_date {
-  #   type:  date
-  #   sql:  select contract_start_date
-  #   FROM `fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts` as client_facts
-  #   WHERE client_facts.client_name = ${client_name}
-  #   ;;
-  # }
-
-  # dimension: contract_end_date {
-  #   type:  date
-  #   sql:  select DATE_ADD(CAST(contract_start_date AS DATE), INTERVAL 1 YEAR)
-  #       FROM `fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts` as client_facts
-  #       WHERE client_facts.client_name = ${client_name}
-  #       ;;
-  # }
-
-  # dimension: contract_start_date{
-  #   type: date
-  #   sql: case when ${performance_date_month}=${order_create_date_month} Then 'Current'
-  #             when ${performance_date_month}<${order_create_date_month} Then 'Before'
-  #             else 'Future'
-  #         end;;
-  # }
 
     dimension:  transaction_type { type: string sql: ${TABLE}.transaction_type ;; }
     dimension:  UUID  { type: string sql: ${TABLE}.UUID ;; }
@@ -445,65 +399,54 @@ view: unlimited_order_transactions {
     dimension:  YEAR  { type: string sql: ${TABLE}. YEAR  ;; }
     dimension:  quarter { type: string sql: ${TABLE}. quarter ;; }
 
-#      dimension:  userrole_name { type: string sql: ${TABLE}.userrole_name ;; }
-#      dimension:  userrole_group  { type: string sql: ${TABLE}.userrole_group ;; }
-
     dimension:  sold_amount  { type: number sql: ${TABLE}.sold_amount ;; }
     dimension:  returned_amount { type: string sql: ${TABLE}.returned_amount ;; }
     dimension:  sold_volume  { type: string sql: ${TABLE}.orderadmission_sale_action_description ;; }
     dimension:  returned_volume { type: string sql: ${TABLE}.orderadmission_record_state_description ;; }
 
+    dimension: contract_expiry_date  { type: date sql: ${TABLE}.contract_expiry_date ;; }
+    dimension: report_start_date { type: date sql: ${TABLE}.report_start_date ;; }
+    dimension: report_end_date { type: date sql: ${TABLE}.report_end_date ;; }
+
+    # dimension:  monthly_start_date  { type: date_raw  sql: ${TABLE}.monthly_start_date ;; }
+    # dimension:  monthly_end_date  { type: date_raw  sql: ${TABLE}.monthly_end_date ;; }
+
     measure: total_sold_amount {
       type: sum
-      label: "Term Amount Sold"
+      label: "Amount Sold"
       value_format_name: usd
       sql:  ${TABLE}.sold_amount ;;
     }
 
     measure: total_returned_amount {
       type: sum
-      label: "Term Amount Returned"
+      label: "Amount Returned"
       value_format_name: usd
       sql:  ${TABLE}.returned_amount ;;
     }
     measure: total_net_sold_amount {
       type: sum
-      label: "Term Amount"
+      label: "Amount"
       value_format_name: usd
       sql:  ${TABLE}.net_sold_amount ;;
     }
     measure: total_sold {
       type: sum
-      label: "Term Quantity Sold"
+      label: "Quantity Sold"
       sql:  ${TABLE}.sold_volume;;
     }
 
     measure: total_returned {
       type: sum
-      label: "Term Quantity Returned"
+      label: "Quantity Returned"
       sql:  ${TABLE}.returned_volume ;;
     }
 
     measure: total_volume {
       type: sum
-      label: "Term Quantity"
+      label: "Quantity"
       sql:  ${TABLE}.net_volume ;;
     }
-
-  dimension:  contract_range_start_date  { type: date sql: ${TABLE}.contract_range_start_date ;; }
-  dimension:  contact_range_end_date  { type: date sql: ${TABLE}.contract_range_end_date ;; }
-
-  dimension:  monthly_start_date  { type: date_raw  sql: ${TABLE}.monthly_start_date ;; }
-  dimension:  monthly_end_date  { type: date_raw  sql: ${TABLE}.monthly_end_date ;; }
-
-  # parameter: transaction_start_date {
-  #   type: date
-  #   default_value: "transaction_range_start_date_date"
-  # }
-
-  # parameter: transaction_end_date {
-  #   type: date
-  # }
 
   # Use this as the monthly measure
   measure: transaction_sold_amount {
