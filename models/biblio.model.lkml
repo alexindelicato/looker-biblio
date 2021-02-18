@@ -698,6 +698,15 @@ explore: ot_client {
   }
   }
 
+#AV Professional Client Facts
+explore: ot_client_All {
+  from: ot_client
+  label: "AV Pro Client Fact - All Clients"
+  group_label: "Project Biblio"
+  view_label: "AV Pro Client - All Clients"
+
+}
+
 #------------------------
 
 # AudienceView QBR-------
