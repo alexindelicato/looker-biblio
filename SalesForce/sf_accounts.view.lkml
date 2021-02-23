@@ -27,6 +27,11 @@ view: sf_accounts {
     sql: ${TABLE}.looker_join_id_c ;;
   }
 
+  dimension: professional_id_c {
+    label: "professional Id"
+    type: string
+  }
+
   dimension: platform {
     label: "Platform"
     type: string

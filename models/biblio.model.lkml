@@ -707,6 +707,127 @@ explore: ot_client_All {
 
 }
 
+#--OVATIONTIX JOINS--
+# OvationTix Orders as primary table
+explore: ot_orders_NewSF_Join{
+  view_name: ot_orders
+  label: "AV Pro Orders - New Salesforce Join"
+  group_label: "Project Biblio"
+  view_label: "AV Pro Orders"
+  fields: [ALL_FIELDS*]
+  sql_always_where: ${ot_client.demo}=0 and ${ot_client.testing_mode}=0 and ${ot_client.client_id} NOT IN (35200,34918) and  ${ot_client.active} = 1 and ${imported}=0 and ${is_test_mode}=0 and ${status_id} != 11;;
+
+  join: pro_Accting {
+    view_label: "AV Pro Accting"
+    type:left_outer
+    relationship: many_to_many
+    sql_on: 1=1 ;;
+  }
+
+  join: ot_client {
+    view_label: "AV Pro Client"
+    type:left_outer
+    relationship: many_to_one
+    sql_on: ${ot_orders.client_id}=${ot_client.client_id} ;;
+  }
+
+  join: ot_client_account {
+    view_label: "AV Pro Client Account"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_client.client_id}=${ot_client_account.client_id};;
+  }
+
+  join: ot_order_detail {
+    view_label: "AV Pro Orders Detail"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ot_orders.order_id}=${ot_order_detail.order_id} ;;
+  }
+
+  join: ot_performance {
+    view_label: "AV Pro Performance"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ot_performance.id}=${ot_order_detail.performance_id} ;;
+  }
+
+  join: pro_production_genre {
+    view_label: "AV Pro Production Genre"
+    type:  left_outer
+    relationship: one_to_one
+    sql_on: ${pro_production_genre.production_id}=${ot_production.production_id} ;;
+  }
+
+  join: pro_genres {
+    view_label: "AV Pro Genre"
+    type:  left_outer
+    relationship: one_to_one
+    sql_on: ${pro_production_genre.genre_id}=${pro_genres.genre_id} ;;
+  }
+
+  join: ot_production {
+    view_label: "AV Pro Production"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${ot_production.production_id}=${ot_performance.production_id} ;;
+  }
+
+  join: ot_performance_stats_total {
+    view_label: "AV Pro Performance Seat Manifest"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_performance.id}=${ot_performance_stats_total.performance_id} AND ${ot_performance_stats_total._fivetran_deleted} = false ;;
+  }
+
+  join: ot_performance_stats_consumed {
+    view_label: "AV Pro Performance Sold Seat Manifest"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ot_performance.id}=${ot_performance_stats_consumed.performance_id} AND ${ot_performance_stats_consumed._fivetran_deleted} = false ;;
+  }
+
+
+  join: ot_client_account_sale_refund {
+    view_label: "AV Pro Client Sale & Refund"
+    type: inner
+    relationship: many_to_many
+    sql_on: ${ot_order_detail.orderdetail_id}=${ot_client_account_sale_refund.orderdetail_id} ;;
+  }
+
+  join: ot_accounting_client_daily_sales {
+    view_label: "AV Pro Client Accounting Daily Sales"
+    type: inner
+    relationship: many_to_many
+    sql_on: ${ot_accounting_client_daily_sales.orderdetail_id}=${ot_client_account_sale_refund.orderdetail_id} ;;
+  }
+
+  join: sf_accounts {
+    view_label: "SF Account"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.professional_id_c} = cast(${ot_client.client_id} as String) AND ${sf_accounts.is_deleted}= FALSE;;
+  }
+
+  join: sf_billing_info {
+    view_label: "SF Billing Info"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sf_accounts.id}=${sf_billing_info.account_id} AND ${sf_billing_info.is_deleted} = FALSE;;
+  }
+
+  join: ganalytics_ot {
+    view_label: "GA Orders"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${ganalytics_ot.ot_transaction_id}=${ot_orders.order_id};;
+  }
+
+
+}
+
+
+
 #------------------------
 
 # AudienceView QBR-------
