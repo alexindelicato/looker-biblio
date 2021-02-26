@@ -14,7 +14,8 @@ SELECT
   sf_billing_country,
   sf_billing_postal_code,
   cast(transaction_range_start_date as TIMESTAMP) as transaction_range_start_date,
-  cast(transaction_range_end_date as TIMESTAMP) as transaction_range_end_date
+  cast(transaction_range_end_date as TIMESTAMP) as transaction_range_end_date,
+  finance_customer_code
 FROM `fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts`
            ;;
     sql_trigger_value: select max(audit_time) from `fivetran-ovation-tix-warehouse.audienceview.unlimited_admission_transactions`;;

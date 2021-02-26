@@ -8,6 +8,7 @@ view: unlimited_order_transactions_params {
       facts.sf_account_name as sf_account_name,
       facts.sf_account_id as sf_account_id,
       facts.netsuite_id as netsuite_id,
+      finance_customer_code,
       audit_time,
       cast(audit_time as TIMESTAMP) as audit_date_time,
       YEAR,
@@ -369,6 +370,7 @@ view: unlimited_order_transactions_params {
       sf_account_name,
       sf_account_id,
       netsuite_id,
+      finance_customer_code,
       audit_time,
       YEAR,
       quarter,
@@ -385,6 +387,8 @@ view: unlimited_order_transactions_params {
     dimension:  client_name { type: string sql: ${TABLE}.client_name ;; }
     dimension:  sf_account_name { type: string sql: ${TABLE}.sf_account_name ;; }
     dimension:  netsuite_id { type: string sql: ${TABLE}.netsuite_id ;; }
+    dimension:  finance_customer_code { type: string sql: ${TABLE}.finance_customer_code ;; }
+
     dimension:  audit_time  { type: string sql: ${TABLE}.audit_time ;; }
     dimension_group: transaction { type: time sql: ${TABLE}.audit_date_time ;; }
 
