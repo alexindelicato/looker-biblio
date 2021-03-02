@@ -399,6 +399,12 @@ view: sel_transactions {
     sql: timestamp_seconds(${TABLE}.date) ;;
   }
 
+  measure: Earliest_Transaction_date {
+    label: "Earliest Transaction Date"
+    type: date
+    sql: MIN(${date_date}) ;;
+  }
+
   dimension: dateconsigneeinvoiced {
     type: number
     sql: ${TABLE}.dateconsigneeinvoiced ;;
