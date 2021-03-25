@@ -3,7 +3,7 @@ view: sf_billing_info {
 
   dimension: account_id {sql: ${TABLE}.account_c ;;}
 
-  dimension: id {sql: ${TABLE}.account_c ;;}
+  dimension: id {sql: ${TABLE}.id ;;}
 
   dimension: is_deleted {}
 
