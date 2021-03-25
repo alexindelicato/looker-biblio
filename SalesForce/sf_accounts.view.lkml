@@ -446,6 +446,11 @@ view: sf_accounts {
     sql: ${TABLE}.bi_formulas_c ;;
   }
 
+  dimension: billing_info_c {
+    type: string
+    sql: ${TABLE}.billing_info_c ;;
+  }
+
   dimension: billing_city {
     type: string
     sql: ${TABLE}.billing_city ;;
