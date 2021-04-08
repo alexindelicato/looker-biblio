@@ -13,12 +13,3 @@ explore: sel_members_Test {
 
 
 }
-
-explore: DB_TestModel{
-  from: sel_members
-  label: "AV Select Client - Test"
-  group_label: "MA Test Model"
-  view_label: "AV Select Client"
-
-
-}
