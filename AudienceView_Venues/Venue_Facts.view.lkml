@@ -111,18 +111,18 @@ UNION ALL
       0 as scanned_count
       FROM (
           SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold, (held) as in_event_held, (notforsale) as in_event_notforsale, 'F'
-          FROM mysql_service.genbysec_inventory
+          FROM SelectAWS_service.genbysec_inventory
           UNION ALL
           SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold, 0, (notforsale) as in_event_notforsale, 'G'
-          FROM mysql_service.general_inventory
+          FROM SelectAWS_service.general_inventory
           UNION ALL
           SELECT performanceid as inv_event, (inventory) as in_event_inventory, (sold) as in_event_sold, (held) as in_event_held, 0,  'R'
-          FROM mysql_service.reserved_inventory
+          FROM SelectAWS_service.reserved_inventory
       ) t
-      INNER JOIN mysql_service.performances as performance_event on performance_event.performanceid = inv_event
-      INNER JOIN mysql_service.events on events.eventid = performance_event.eventid
-      INNER JOIN mysql_service.venues on venues.venueid = events.venueid
-      INNER JOIN mysql_service.members on members.memberid = events.memberid
+      INNER JOIN SelectAWS_service.performances as performance_event on performance_event.performanceid = inv_event
+      INNER JOIN SelectAWS_service.events on events.eventid = performance_event.eventid
+      INNER JOIN SelectAWS_service.venues on venues.venueid = events.venueid
+      INNER JOIN SelectAWS_service.members on members.memberid = events.memberid
       WHERE 1 = 1
       and DATETIME( TIMESTAMP_MICROS(performance_event.starttime*1000000) ) > '2016-01-01T00:00:00'
       group by

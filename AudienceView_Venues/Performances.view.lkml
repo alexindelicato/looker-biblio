@@ -20,13 +20,13 @@ WITH Unlimited AS (
     ,sum( in_event_inventory + in_event_sold + in_event_held )
   FROM (
           SELECT performanceid, (inventory) as in_event_inventory, (sold) as in_event_sold, (held) as in_event_held, (notforsale) as in_event_notforsale, 'F'
-          FROM mysql_service.genbysec_inventory
+          FROM SelectAWS_service.genbysec_inventory
           UNION ALL
           SELECT performanceid , (inventory) as in_event_inventory, (sold) as in_event_sold, 0, (notforsale) as in_event_notforsale, 'G'
-          FROM mysql_service.general_inventory
+          FROM SelectAWS_service.general_inventory
           UNION ALL
           SELECT performanceid, (inventory) as in_event_inventory, (sold) as in_event_sold, (held) as in_event_held, 0,  'R'
-          FROM mysql_service.reserved_inventory
+          FROM SelectAWS_service.reserved_inventory
       ) t
   GROUP BY performanceid
 ), Combined_records as (

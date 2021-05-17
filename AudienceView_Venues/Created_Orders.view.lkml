@@ -154,14 +154,14 @@ SELECT
       'USD' as default_currency,
       SUM( SAFE_CAST( sel_transactions.total as FLOAT64 )) as admissions_sold_amount_usd
 
-FROM `fivetran-ovation-tix-warehouse.mysql_service.orders` AS sel_orders
-LEFT JOIN `fivetran-ovation-tix-warehouse.mysql_service.transactions` AS sel_transactions
+FROM `fivetran-ovation-tix-warehouse.SelectAWS_service.orders` AS sel_orders
+LEFT JOIN `fivetran-ovation-tix-warehouse.SelectAWS_service.transactions` AS sel_transactions
      ON sel_orders.id=sel_transactions.orderid and sel_orders.testmode = "N"
-LEFT JOIN `fivetran-ovation-tix-warehouse.mysql_service.performances`  AS sel_performances
+LEFT JOIN `fivetran-ovation-tix-warehouse.SelectAWS_service.performances`  AS sel_performances
      ON sel_transactions.performanceid=sel_performances.performanceid AND  sel_performances.deleted IS NULL
-LEFT JOIN `fivetran-ovation-tix-warehouse.mysql_service.events`  AS sel_events
+LEFT JOIN `fivetran-ovation-tix-warehouse.SelectAWS_service.events`  AS sel_events
      ON sel_events.eventid = sel_performances.eventid
-LEFT JOIN mysql_service.members  AS sel_members
+LEFT JOIN SelectAWS_service.members  AS sel_members
       ON sel_members.memberid=sel_orders.memberid and  sel_members.testmode="N" and sel_members.active="Y"
 
 WHERE 1 = 1

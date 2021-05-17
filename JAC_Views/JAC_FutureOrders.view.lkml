@@ -8,27 +8,27 @@ view: JAC_FutureOrders {
           , ifnull(tr.refundid, r.refundid) refundId
           , ifnull(te.exchangeid, e.exchangeid) exchangeid
           , count(distinct pay.id) payments
-        from mysql_service.orders o
+        from SelectAWS_service.orders o
 
-        left join mysql_service.transactions t
+        left join SelectAWS_service.transactions t
           on t.orderid = o.id
-        left join mysql_service.payments pay
+        left join SelectAWS_service.payments pay
           on o.id = pay.orderid
-        full join mysql_service.performances p
+        full join SelectAWS_service.performances p
           on t.performanceid = p.performanceid
-        LEFT JOIN mysql_service.events events
+        LEFT JOIN SelectAWS_service.events events
           ON events.eventid = p.eventid
-        left join mysql_service.transactions_refunds tr
+        left join SelectAWS_service.transactions_refunds tr
           on tr.transactionid  = t.transactionid
           and t.voided is not null
-        left join mysql_service.refunds r
+        left join SelectAWS_service.refunds r
           on r.orderid = t.orderId and r.trans_id is null
           and t.voided is not null
-        left join mysql_service.transactions_exchanges te
+        left join SelectAWS_service.transactions_exchanges te
           on te.transactionId = t.transactionId
           and t.voided is not null
 
-        left join mysql_service.exchanges e
+        left join SelectAWS_service.exchanges e
           on e.orderid = t.orderId
           and e.trans_id is null
           and t.voided is not null

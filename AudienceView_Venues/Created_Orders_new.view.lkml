@@ -100,14 +100,14 @@ WITH Unlimited AS (
     SUM( SAFE_CAST( sel_transactions.total as FLOAT64 )) as admissions_sold_amount_usd,
     countif(SAFE_CAST( sel_transactions.total as FLOAT64 ) = 0) as comps
 
-  FROM mysql_service.orders AS sel_orders
-  INNER JOIN mysql_service.transactions AS sel_transactions
+  FROM SelectAWS_service.orders AS sel_orders
+  INNER JOIN SelectAWS_service.transactions AS sel_transactions
     ON sel_orders.id=sel_transactions.orderid and sel_orders.testmode = "N" --and sel_transactions.voided IS NULL
-  INNER JOIN mysql_service.performances  AS sel_performances
+  INNER JOIN SelectAWS_service.performances  AS sel_performances
     ON sel_transactions.performanceid=sel_performances.performanceid --AND  sel_performances.deleted IS NULL
-  INNER JOIN mysql_service.events  AS sel_events
+  INNER JOIN SelectAWS_service.events  AS sel_events
     ON sel_events.eventid = sel_performances.eventid
-  LEFT JOIN mysql_service.members  AS sel_members
+  LEFT JOIN SelectAWS_service.members  AS sel_members
     ON sel_members.memberid=sel_orders.memberid AND sel_members.testmode="N" and sel_members.active="Y"
   LEFT JOIN new_salesforce.account  AS sf_accounts
     ON sel_members.memberid=sf_accounts.vam_member_id_c AND sf_accounts.is_deleted = FALSE
