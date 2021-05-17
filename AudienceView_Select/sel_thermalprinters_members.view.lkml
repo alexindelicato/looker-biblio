@@ -1,5 +1,5 @@
 view: sel_thermalprinters_members {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.thermalprinters_members`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.thermalprinters_members`
     ;;
 
   dimension: _fivetran_deleted {

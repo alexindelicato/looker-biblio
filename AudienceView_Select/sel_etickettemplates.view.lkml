@@ -1,5 +1,5 @@
 view: sel_etickettemplates {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.etickettemplates`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.etickettemplates`
     ;;
 
   dimension: _fivetran_deleted {

@@ -1,5 +1,5 @@
 view: sel_payments {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.payments`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.payments`
     ;;
   drill_fields: [id]
 

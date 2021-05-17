@@ -10,7 +10,7 @@ Purchase_Date,
 SUM(Ticket_Quantity) as Ticket_Quantity,
 SUM(Order_Count) as Order_Count,
 SUM(Total_Sales__) as Total_Sales__
-FROM `fivetran-ovation-tix-warehouse.mysql_service.purchase_stats`
+FROM `fivetran-ovation-tix-warehouse.SelectAWS_service.purchase_stats`
 WHERE 1 = 1
 GROUP BY
 memberid,
@@ -23,7 +23,7 @@ ORDER BY Purchase_Date
 
             ;;
 
-      sql_trigger_value: select max(cast(Purchase_Date as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.mysql_service.purchase_stats`;;
+      sql_trigger_value: select max(cast(Purchase_Date as TIMESTAMP)) from `fivetran-ovation-tix-warehouse.SelectAWS_service.purchase_stats`;;
     }
 
   dimension: memberid {

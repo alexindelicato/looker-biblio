@@ -1,5 +1,5 @@
 view: sel_venue_map_seat_views {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.venue_map_seat_views`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.venue_map_seat_views`
     ;;
 
   dimension: _fivetran_deleted {

@@ -1,5 +1,5 @@
 view: sel_patrons {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.patrons`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.patrons`
     ;;
   drill_fields: [patronid]
 

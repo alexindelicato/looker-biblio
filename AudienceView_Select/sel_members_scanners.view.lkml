@@ -1,5 +1,5 @@
 view: sel_members_scanners {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.members_scanners`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.members_scanners`
     ;;
 
   dimension: _fivetran_deleted {

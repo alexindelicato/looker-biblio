@@ -1,5 +1,5 @@
 view: sel_members {
-  sql_table_name: mysql_service.members ;;
+  sql_table_name: SelectAWS_service.members ;;
   drill_fields: [memberid]
 
   dimension: memberid {

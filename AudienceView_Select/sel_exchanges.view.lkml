@@ -1,5 +1,5 @@
 view: sel_exchanges {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.exchanges`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.exchanges`
     ;;
   drill_fields: [exchangeid]
 

@@ -1,5 +1,5 @@
 view: sel_tags {
-  sql_table_name: mysql_service.tags ;;
+  sql_table_name: SelectAWS_service.tags ;;
   drill_fields: [tagid]
 
   dimension: tagid {

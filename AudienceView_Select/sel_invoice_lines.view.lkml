@@ -1,5 +1,5 @@
 view: sel_invoice_lines {
-  sql_table_name: mysql_service.invoices_lines ;;
+  sql_table_name: SelectAWS_service.invoices_lines ;;
 
   dimension: primary_key {
     primary_key: yes

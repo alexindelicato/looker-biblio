@@ -1,5 +1,5 @@
 view: sel_members_statement_items {
-  sql_table_name: mysql_service.members_statement_items;;
+  sql_table_name: SelectAWS_service.members_statement_items;;
 
   dimension: id{
     primary_key: yes

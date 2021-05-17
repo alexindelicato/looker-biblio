@@ -1,5 +1,5 @@
 view: set_refunds_misclineitems {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.refunds_misclineitems`;;
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.refunds_misclineitems`;;
   drill_fields: [id]
 
   dimension: id {

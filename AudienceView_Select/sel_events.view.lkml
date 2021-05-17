@@ -1,5 +1,5 @@
 view: sel_events {
-  sql_table_name: mysql_service.events ;;
+  sql_table_name: SelectAWS_service.events ;;
   drill_fields: [eventid]
 
   dimension: eventid {

@@ -1,5 +1,5 @@
 view: sel_social_campaign_purchases {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.social_campaign_purchases`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.social_campaign_purchases`
     ;;
   drill_fields: [social_campaign_purchasesid]
 

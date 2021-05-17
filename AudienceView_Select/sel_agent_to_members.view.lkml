@@ -1,5 +1,5 @@
 view: sel_agent_to_members {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.agent_to_members`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.agent_to_members`
     ;;
   drill_fields: [agent_to_membersid]
 

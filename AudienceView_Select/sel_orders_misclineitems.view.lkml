@@ -1,5 +1,5 @@
 view: sel_orders_misclineitems {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.orders_misclineitems`;;
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.orders_misclineitems`;;
   drill_fields: [id]
 
   dimension: id {

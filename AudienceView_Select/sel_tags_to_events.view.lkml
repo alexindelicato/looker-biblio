@@ -1,5 +1,5 @@
 view: sel_tags_to_events {
-  sql_table_name: mysql_service.tags_to_events ;;
+  sql_table_name: SelectAWS_service.tags_to_events ;;
   drill_fields: [tags_to_eventsid]
 
   dimension: tags_to_eventsid {

@@ -1,5 +1,5 @@
 view: sel_arr {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.arr`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.arr`
     ;;
 
   dimension: gross_arr_2019 {

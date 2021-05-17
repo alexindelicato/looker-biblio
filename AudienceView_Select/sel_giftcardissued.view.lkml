@@ -1,5 +1,5 @@
 view: sel_giftcardissued {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.giftcardissued`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.giftcardissued`
     ;;
   drill_fields: [id]
 

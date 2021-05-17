@@ -1,5 +1,5 @@
 view: sel_select_audit {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.select_audit`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.select_audit`
     ;;
 
   dimension_group: _fivetran_synced {

@@ -1,5 +1,5 @@
 view: sel_tickettiers_quantityrules {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.tickettiers_quantityrules`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.tickettiers_quantityrules`
     ;;
 
   dimension: _fivetran_deleted {

@@ -1,5 +1,5 @@
 view: sel_patrons_memberships {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.patrons_memberships`;;
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.patrons_memberships`;;
 
   dimension: patronmembershipid{
     primary_key: yes

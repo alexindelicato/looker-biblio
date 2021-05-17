@@ -1,5 +1,5 @@
 view: sel_emailcampaigns {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.emailcampaigns`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.emailcampaigns`
     ;;
 
   dimension: _fivetran_deleted {

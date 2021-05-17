@@ -1,5 +1,5 @@
 view: sel_purchase_finance_view {
-      sql_table_name:`fivetran-ovation-tix-warehouse.mysql_service.purchase_stats`
+      sql_table_name:`fivetran-ovation-tix-warehouse.SelectAWS_service.purchase_stats`
         ;;
 
 

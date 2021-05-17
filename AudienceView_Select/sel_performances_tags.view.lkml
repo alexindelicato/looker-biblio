@@ -1,5 +1,5 @@
 view: sel_performances_tags {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.performances_tags`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.performances_tags`
     ;;
 
   dimension: _fivetran_deleted {

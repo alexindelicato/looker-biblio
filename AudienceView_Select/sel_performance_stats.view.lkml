@@ -1,6 +1,6 @@
 ## for the settlement processs/issue
 view: sel_performance_stats {
-  sql_table_name: fivetran-ovation-tix-warehouse.mysql_service.performance_stats ;;
+  sql_table_name: fivetran-ovation-tix-warehouse.SelectAWS_service.performance_stats ;;
 
   dimension: admission {
     type: string

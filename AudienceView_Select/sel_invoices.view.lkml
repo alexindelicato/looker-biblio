@@ -1,5 +1,5 @@
 view: sel_invoices {
-  sql_table_name: mysql_service.invoices ;;
+  sql_table_name: SelectAWS_service.invoices ;;
 
   dimension: invoiceid {
     label: "Invoice ID"

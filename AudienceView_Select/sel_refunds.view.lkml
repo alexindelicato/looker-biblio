@@ -1,5 +1,5 @@
 view: sel_refunds {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.refunds`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.refunds`
     ;;
   drill_fields: [refundid]
 

@@ -1,5 +1,5 @@
 view: sel_tickettypes {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.tickettypes`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.tickettypes`
     ;;
   drill_fields: [tickettypeid]
 

@@ -11,10 +11,10 @@ view: sel_nps_scores {
       SELECT
         client_name AS sel_nps_scores_client_name,
         MAX( nps_date ) as max_nps_date
-      FROM `fivetran-ovation-tix-warehouse.mysql_service.nps_scores`
+      FROM `fivetran-ovation-tix-warehouse.SelectAWS_service.nps_scores`
       GROUP BY 1
       ) as t1
-      INNER JOIN `fivetran-ovation-tix-warehouse.mysql_service.nps_scores` on client_name = t1.sel_nps_scores_client_name
+      INNER JOIN `fivetran-ovation-tix-warehouse.SelectAWS_service.nps_scores` on client_name = t1.sel_nps_scores_client_name
       and nps_date = t1.max_nps_date
       ;;}
 

@@ -1,5 +1,5 @@
 view: sel_ticket_templates {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.ticket_templates`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.ticket_templates`
     ;;
   drill_fields: [ticket_templatesid]
 

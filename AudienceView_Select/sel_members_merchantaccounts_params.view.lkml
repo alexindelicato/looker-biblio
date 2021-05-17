@@ -1,5 +1,5 @@
 view: sel_members_merchantaccounts_params {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.members_merchantaccounts_params`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.members_merchantaccounts_params`
     ;;
 
   dimension: _fivetran_deleted {

@@ -23,18 +23,18 @@ view: sel_performance_inventory {
             sum(in_event_sold) as sold_count,
             FROM (
                 SELECT performanceid as ID, (inventory) as in_event_inventory, (sold) as in_event_sold, (held) as in_event_held, (notforsale) as in_event_notforsale, 'F'
-                FROM mysql_service.genbysec_inventory
+                FROM SelectAWS_service.genbysec_inventory
                 UNION ALL
                 SELECT performanceid as ID, (inventory) as in_event_inventory, (sold) as in_event_sold, 0, (notforsale) as in_event_notforsale, 'G'
-                FROM mysql_service.general_inventory
+                FROM SelectAWS_service.general_inventory
                 UNION ALL
                 SELECT performanceid as ID, (inventory) as in_event_inventory, (sold) as in_event_sold, (held) as in_event_held, 0,  'R'
-                FROM mysql_service.reserved_inventory
+                FROM SelectAWS_service.reserved_inventory
             ) t
-            INNER JOIN mysql_service.performances as performance_event on performance_event.performanceid = ID
-            INNER JOIN mysql_service.events on events.eventid = performance_event.eventid
-            INNER JOIN mysql_service.venues on venues.venueid = events.venueid
-            INNER JOIN mysql_service.members on members.memberid = events.memberid
+            INNER JOIN SelectAWS_service.performances as performance_event on performance_event.performanceid = ID
+            INNER JOIN SelectAWS_service.events on events.eventid = performance_event.eventid
+            INNER JOIN SelectAWS_service.venues on venues.venueid = events.venueid
+            INNER JOIN SelectAWS_service.members on members.memberid = events.memberid
             WHERE 1 = 1
             group by
             ID,

@@ -1,5 +1,5 @@
 view: sel_donationcampaigns {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.donationcampaigns`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.donationcampaigns`
     ;;
   drill_fields: [donationcampaignid]
 

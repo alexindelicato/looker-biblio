@@ -1,5 +1,5 @@
 view: sel_thermalprinters {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.thermalprinters`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.thermalprinters`
     ;;
   drill_fields: [id]
 

@@ -1,5 +1,5 @@
 view: sel_performances {
-  sql_table_name: mysql_service.performances ;;
+  sql_table_name: SelectAWS_service.performances ;;
   drill_fields: [performanceid]
 
   dimension: performanceid {

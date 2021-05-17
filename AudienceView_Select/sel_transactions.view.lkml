@@ -1,5 +1,5 @@
 view: sel_transactions {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.transactions`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.transactions`
     ;;
   drill_fields: [transactionid]
 

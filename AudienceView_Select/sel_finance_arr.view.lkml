@@ -1,5 +1,5 @@
 view: sel_finance_arr {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.finance_arr`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.finance_arr`
     ;;
 
   dimension_group: _fivetran_synced {

@@ -1,5 +1,5 @@
 view: sel_venues {
-  sql_table_name: mysql_service.venues ;;
+  sql_table_name: SelectAWS_service.venues ;;
   drill_fields: [venueid]
 
   dimension: venueid {

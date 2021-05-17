@@ -1,5 +1,5 @@
 view: sel_tags_to_performances {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.tags_to_performances`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.tags_to_performances`
     ;;
   drill_fields: [tags_to_performancesid]
 

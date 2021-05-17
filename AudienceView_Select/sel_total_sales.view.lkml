@@ -5,9 +5,9 @@ SELECT
   sel_members.memberid  AS memberid,
   sel_members.currency as currency,
   COALESCE(SUM(CASE WHEN (((sel_purchase_stats.Purchase_Date ) >= ((DATE(TIMESTAMP_TRUNC(CAST(TIMESTAMP('2020-01-01 00:00:00') AS TIMESTAMP), DAY)))) AND (sel_purchase_stats.Purchase_Date ) < ((DATE(TIMESTAMP_TRUNC(CAST(TIMESTAMP(CONCAT(CAST(DATE_ADD(CAST(TIMESTAMP('2020-01-01 00:00:00') AS DATE), INTERVAL 1 YEAR) AS STRING), ' ', CAST(TIME(CAST(TIMESTAMP('2020-01-01 00:00:00') AS TIMESTAMP)) AS STRING))) AS TIMESTAMP), DAY)))))) THEN round(safe_cast(sel_purchase_stats.Total_Sales__ as FLOAT64),2)  ELSE NULL END), 0) AS total_sales
-FROM `fivetran-ovation-tix-warehouse.mysql_service.purchase_stats`
+FROM `fivetran-ovation-tix-warehouse.SelectAWS_service.purchase_stats`
      AS sel_purchase_stats
-LEFT JOIN mysql_service.members  AS sel_members ON sel_members.memberid=sel_purchase_stats.memberid
+LEFT JOIN SelectAWS_service.members  AS sel_members ON sel_members.memberid=sel_purchase_stats.memberid
 
 GROUP BY 1,2 ;;
     }

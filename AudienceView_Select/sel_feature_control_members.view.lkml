@@ -1,5 +1,5 @@
 view: sel_feature_control_members {
-  sql_table_name: `fivetran-ovation-tix-warehouse.mysql_service.feature_control_members`
+  sql_table_name: `fivetran-ovation-tix-warehouse.SelectAWS_service.feature_control_members`
     ;;
 
   dimension: _fivetran_deleted {
