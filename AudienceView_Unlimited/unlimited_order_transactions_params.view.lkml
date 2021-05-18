@@ -362,7 +362,9 @@ view: unlimited_order_transactions_params {
                 transaction_type
     ) as t1
 
-    LEFT JOIN fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts as facts on facts.sf_account_id = t1.sf_account_id
+    LEFT JOIN fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts as facts
+    on facts.sf_account_id = t1.sf_account_id
+    and facts.client_name = t1.client_name
 
     GROUP BY
       UUID,

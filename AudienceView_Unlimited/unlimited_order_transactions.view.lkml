@@ -366,7 +366,9 @@ view: unlimited_order_transactions {
                 transaction_type
     ) as t1
 
-   LEFT JOIN fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts as facts on facts.sf_account_id = t1.sf_account_id
+   LEFT JOIN fivetran-ovation-tix-warehouse.audienceview.unlimited_client_facts as facts
+  on facts.sf_account_id = t1.sf_account_id
+  and facts.client_name = t1.client_name
 
     WHERE audit_time >= DATE_ADD( DATE_ADD( CAST(transaction_range_end_date AS DATE), INTERVAL -1 YEAR ), INTERVAL 1 DAY )
     AND audit_time < CAST( transaction_range_end_date as DATE)
