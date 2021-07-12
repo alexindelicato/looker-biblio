@@ -4,9 +4,9 @@ view: unlimited_order_transactions {
 
     SELECT
       t1.UUID as UUID,
-      facts.client_name as client_name,
-      facts.sf_account_name as sf_account_name,
-      facts.sf_account_id as sf_account_id,
+      t1.client_name as client_name,
+      t1.sf_account_name as sf_account_name,
+      t1.sf_account_id as sf_account_id,
       netsuite_id as netsuite_id,
       finance_customer_code,
       audit_time,
