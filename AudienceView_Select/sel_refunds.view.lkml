@@ -153,6 +153,11 @@ view: sel_refunds {
     sql: timestamp_seconds(${TABLE}.date) ;;
   }
 
+  dimension: dateint {
+    type: number
+    sql: ${TABLE}.date;;
+  }
+
   dimension: description {
     type: string
     sql: ${TABLE}.description ;;

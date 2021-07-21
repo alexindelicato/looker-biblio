@@ -110,8 +110,8 @@ view: sel_payments_donations {
   }
 
   dimension: settled {
-    type: number
-    sql: ${TABLE}.settled ;;
+    type: date
+    sql: timestamp_seconds(${TABLE}.settled) ;;
   }
 
   dimension: settledaily {

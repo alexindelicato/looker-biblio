@@ -2153,3 +2153,78 @@ explore: client_fact_sheet {
 }
 
   #-----------------------
+#Select Donation Report
+explore: sel_all_donations {
+  view_name: sel_orders
+  label: "AV Select All Donations - DLB"
+  group_label: "Project Biblio - DLB"
+  view_label: "AV Select Orders"
+  fields: [ALL_FIELDS*, -sel_transactions.2019_arr, -sel_transactions.2019_net_arr, -sel_transactions.2019_arr_junetodec,
+    -sel_transactions.junetodec_net_arr, -sel_transactions.junetodec_total_cc_processing_fee, -sel_transactions.2019_total_conveniencefee_usd,
+    -sel_transactions.total_arr_local, -sel_transactions.total_arr, -sel_transactions.rolling_arr, -sel_transactions.2018_arr,
+    -sel_transactions.2019_net_arr_junetodec, -sel_events.count_GA_events_types, -sel_events.count_mixed_events_types, -sel_events.count_reserved_events_types]
+
+  join: sel_members {
+    view_label: "AV Select Members"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_orders.memberid}=${sel_members.memberid} ;;
+  }
+
+  join: sel_donations {
+    view_label: "AV Select Donations"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_orders.id}=${sel_donations.orderid} ;;
+  }
+
+  join: sel_payments_donations {
+    view_label: "AV Select Payments Donations"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_payments_donations.donationid} = ${sel_donations.donationid};;
+  }
+
+  join: sel_orders_misclineitems {
+    view_label: "AV Select Order Misc Items"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_orders_misclineitems.orderid}=${sel_orders.id} ;;
+    sql_where:${sel_orders_misclineitems.donation} = 'Y' ;;
+  }
+
+  join: sel_performances {
+    view_label: "AV Select Performances"
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${sel_orders_misclineitems.performanceid}=${sel_performances.performanceid}  ;;
+  }
+
+  join: sel_events {
+    view_label: "AV Select Series"
+    type: inner
+    relationship: one_to_many
+    sql_on: ${sel_performances.eventid}=${sel_events.eventid} ;;
+  }
+
+  join: sel_refunds {
+    view_label: "AV Select Refunds"
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${sel_orders_misclineitems.id}=${sel_refunds.orderid} AND  ${sel_orders_misclineitems.dateint}=${sel_refunds.dateint};;
+  }
+
+  join: sel_transactions_refunds {
+    view_label: "AV Select Transaction Refunds"
+    type: inner
+    relationship: many_to_one
+    sql_on: ${sel_refunds.refundid}=${sel_transactions_refunds.refundid}  ;;
+  }
+
+  join: sel_transactions {
+    view_label: "AV Select Transactions"
+    type: inner
+    relationship: many_to_one
+    sql_on: ${sel_transactions_refunds.transactionid}=${sel_transactions.transactionid};;
+  }
+}

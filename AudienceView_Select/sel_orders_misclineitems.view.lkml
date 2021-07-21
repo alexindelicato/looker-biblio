@@ -99,6 +99,11 @@ view: sel_orders_misclineitems {
     sql: timestamp_seconds(${TABLE}.date) ;;
   }
 
+  dimension: dateint {
+    type: number
+    sql: ${TABLE}.date;;
+  }
+
   dimension: donation {
     type: string
     sql: ${TABLE}.donation ;;
