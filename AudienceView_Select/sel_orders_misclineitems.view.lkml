@@ -370,9 +370,9 @@ view: sel_orders_misclineitems {
   }
 
 
-  dimension: settled {
-    type: number
-    sql: ${TABLE}.settled ;;
+  dimension_group: settled {
+    type: time
+    sql: timestamp_seconds(${TABLE}.settled) ;;
   }
 
   dimension: total {

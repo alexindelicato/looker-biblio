@@ -37,3 +37,19 @@ explore: unlimited_order_transactions_params {
   # }
 
 }
+
+explore: unlimited_order_transactions_params_with_performances {
+  view_name: unlimited_order_transactions_params
+  label: "DLB - Unlimited Order Transactions (Params)"
+  group_label: "Project Biblio"
+  view_label:  "Unlimited Order Transactions (Params)"
+
+  join: unlim_venue_facts {
+     view_label: "Performance List"
+     type: left_outer
+     relationship: many_to_one
+     sql_on: ${unlim_venue_facts.UUID}=${unlimited_order_transactions_params.UUID}
+     ;;
+  }
+
+}

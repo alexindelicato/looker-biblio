@@ -306,9 +306,9 @@ view: sel_refunds {
     sql: ${TABLE}.response_subcode ;;
   }
 
-  dimension: settled {
-    type: number
-    sql: ${TABLE}.settled ;;
+  dimension_group: settled {
+    type: time
+    sql: timestamp_seconds(${TABLE}.settled) ;;
   }
 
   dimension: settledaily {
