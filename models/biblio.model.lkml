@@ -2211,7 +2211,7 @@ explore: sel_all_donations {
     view_label: "AV Select Refunds"
     type: left_outer
     relationship: one_to_one
-    sql_on: ${sel_orders_misclineitems.id}=${sel_refunds.orderid} AND  ${sel_orders_misclineitems.dateint}=${sel_refunds.dateint};;
+    sql_on: ${sel_orders_misclineitems.orderid}=${sel_refunds.orderid} AND  ${sel_orders_misclineitems.dateint}=${sel_refunds.dateint};;
   }
 
   join: sel_transactions_refunds {
